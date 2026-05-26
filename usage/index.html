@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CP Usage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #1a1410;
+      color: #e8dcc8;
+      font-family: 'EB Garamond', Georgia, serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    a.back {
+      align-self: flex-start;
+      color: #5a5048;
+      font-size: 0.85rem;
+      font-style: italic;
+      text-decoration: none;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    a.back:hover { color: #c9a96e; }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    header h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 6vw, 3rem);
+      letter-spacing: 0.12em;
+      color: #c9a96e;
+    }
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      font-style: italic;
+      color: #9e8c75;
+    }
+    .divider { width: 60px; height: 1px; background: #c9a96e; opacity: 0.4; margin: 1.25rem auto 0; }
+
+    .wrap { width: 100%; max-width: 740px; }
+
+    /* ── Summary tiles ── */
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .tile {
+      background: #221d17;
+      border: 1px solid #3a3028;
+      border-radius: 4px;
+      padding: 1.25rem 1.5rem;
+    }
+    .tile-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #7a6a55;
+      margin-bottom: 0.4rem;
+    }
+    .tile-value {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.9rem;
+      font-weight: 300;
+      color: #c9a96e;
+      line-height: 1;
+    }
+    .tile-sub {
+      font-size: 0.8rem;
+      color: #5a5048;
+      margin-top: 0.25rem;
+      font-style: italic;
+    }
+
+    /* ── Chart ── */
+    .chart-wrap {
+      background: #221d17;
+      border: 1px solid #3a3028;
+      border-radius: 4px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #7a6a55;
+      margin-bottom: 1rem;
+    }
+    #cost-chart { width: 100%; display: block; overflow: visible; }
+
+    /* ── Log table ── */
+    .log-wrap {
+      background: #221d17;
+      border: 1px solid #3a3028;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+    .log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #3a3028;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #7a6a55;
+      padding: 0.75rem 1.5rem;
+      text-align: left;
+      font-weight: 400;
+    }
+    td {
+      padding: 0.65rem 1.5rem;
+      font-size: 0.95rem;
+      color: #c8b898;
+      border-top: 1px solid #2a2318;
+    }
+    tr:hover td { background: #261f17; }
+    td.cost { color: #c9a96e; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; }
+    td.model { font-size: 0.82rem; color: #7a6a55; font-style: italic; }
+    .del-btn {
+      background: none;
+      border: none;
+      color: #3a3028;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0 0.25rem;
+      transition: color 0.2s;
+    }
+    .del-btn:hover { color: #c97a6e; }
+    .empty-state {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      color: #5a5048;
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+    /* ── Add session form ── */
+    .form-card {
+      background: #221d17;
+      border: 1px solid #3a3028;
+      border-radius: 4px;
+      padding: 1.5rem;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 480px) { .form-grid { grid-template-columns: 1fr; } }
+    .field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .field label {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #7a6a55;
+    }
+    .field input, .field select {
+      background: #1a1410;
+      border: 1px solid #3a3028;
+      border-radius: 3px;
+      color: #e8dcc8;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1rem;
+      padding: 0.55rem 0.75rem;
+      transition: border-color 0.2s;
+      width: 100%;
+      appearance: none;
+    }
+    .field input:focus, .field select:focus {
+      outline: none;
+      border-color: #c9a96e;
+    }
+    .field input::placeholder { color: #4a4038; }
+    .form-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .cost-preview {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.3rem;
+      color: #c9a96e;
+      flex: 1;
+      text-align: right;
+      font-style: italic;
+    }
+    .add-btn {
+      background: #c9a96e;
+      color: #1a1410;
+      border: none;
+      border-radius: 3px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      padding: 0.65rem 1.75rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .add-btn:hover { background: #d4b87a; }
+    .clear-btn {
+      background: transparent;
+      border: 1px solid #3a3028;
+      border-radius: 3px;
+      color: #7a6a55;
+      font-family: 'EB Garamond', serif;
+      font-size: 0.85rem;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .clear-btn:hover { border-color: #c97a6e; color: #c97a6e; }
+  </style>
+</head>
+<body>
+
+<a class="back" href="/">← darrahdata</a>
+
+<header>
+  <h1>CP Usage</h1>
+  <p>Claude Code token &amp; cost tracker</p>
+  <div class="divider"></div>
+</header>
+
+<div class="wrap">
+
+  <!-- Summary tiles -->
+  <div class="tiles">
+    <div class="tile">
+      <div class="tile-label">Total cost</div>
+      <div class="tile-value" id="stat-cost">$0.00</div>
+      <div class="tile-sub" id="stat-period">no sessions yet</div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Sessions</div>
+      <div class="tile-value" id="stat-sessions">0</div>
+      <div class="tile-sub" id="stat-avg">avg —</div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Input tokens</div>
+      <div class="tile-value" id="stat-input">0</div>
+      <div class="tile-sub">total</div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Output tokens</div>
+      <div class="tile-value" id="stat-output">0</div>
+      <div class="tile-sub">total</div>
+    </div>
+  </div>
+
+  <!-- Cost chart -->
+  <div class="chart-wrap">
+    <div class="section-label">Daily cost — last 30 days</div>
+    <svg id="cost-chart" viewBox="0 0 680 140"></svg>
+  </div>
+
+  <!-- Session log -->
+  <div class="log-wrap">
+    <div class="log-header">
+      <div class="section-label" style="margin:0">Session log</div>
+      <button class="clear-btn" onclick="clearAll()">Clear all</button>
+    </div>
+    <div id="log-body"></div>
+  </div>
+
+  <!-- Add session form -->
+  <div class="form-card">
+    <div class="section-label" style="margin-bottom:1rem">Add session</div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="f-date" />
+      </div>
+      <div class="field">
+        <label>Model</label>
+        <select id="f-model">
+          <option value="sonnet">Sonnet 4.6</option>
+          <option value="opus">Opus 4.7</option>
+          <option value="haiku">Haiku 4.5</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Input tokens</label>
+        <input type="number" id="f-input" placeholder="e.g. 45000" min="0" oninput="updatePreview()" />
+      </div>
+      <div class="field">
+        <label>Output tokens</label>
+        <input type="number" id="f-output" placeholder="e.g. 8000" min="0" oninput="updatePreview()" />
+      </div>
+    </div>
+    <div class="form-row">
+      <span class="cost-preview" id="cost-preview">—</span>
+      <button class="add-btn" onclick="addSession()">Add session</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PRICING = {
+  sonnet: { label: 'Sonnet 4.6', input: 3.00,  output: 15.00 },
+  opus:   { label: 'Opus 4.7',   input: 15.00, output: 75.00 },
+  haiku:  { label: 'Haiku 4.5',  input: 0.80,  output: 4.00  },
+};
+
+function calcCost(model, input, output) {
+  const p = PRICING[model];
+  return (input / 1e6) * p.input + (output / 1e6) * p.output;
+}
+
+function fmtCost(c) {
+  if (c >= 1) return '$' + c.toFixed(2);
+  if (c >= 0.01) return '$' + c.toFixed(3);
+  return '$' + c.toFixed(4);
+}
+
+function fmtTokens(n) {
+  if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+  return String(n);
+}
+
+function load() {
+  try { return JSON.parse(localStorage.getItem('cp-usage') || '[]'); } catch { return []; }
+}
+
+function save(sessions) {
+  localStorage.setItem('cp-usage', JSON.stringify(sessions));
+}
+
+function updatePreview() {
+  const model = document.getElementById('f-model').value;
+  const inp = parseInt(document.getElementById('f-input').value) || 0;
+  const out = parseInt(document.getElementById('f-output').value) || 0;
+  const cost = calcCost(model, inp, out);
+  document.getElementById('cost-preview').textContent = (inp || out) ? fmtCost(cost) : '—';
+}
+
+function addSession() {
+  const date  = document.getElementById('f-date').value;
+  const model = document.getElementById('f-model').value;
+  const inp   = parseInt(document.getElementById('f-input').value)  || 0;
+  const out   = parseInt(document.getElementById('f-output').value) || 0;
+  if (!date || (!inp && !out)) return;
+
+  const sessions = load();
+  sessions.unshift({ id: Date.now(), date, model, input: inp, output: out, cost: calcCost(model, inp, out) });
+  save(sessions);
+  document.getElementById('f-input').value  = '';
+  document.getElementById('f-output').value = '';
+  document.getElementById('cost-preview').textContent = '—';
+  render();
+}
+
+function deleteSession(id) {
+  save(load().filter(s => s.id !== id));
+  render();
+}
+
+function clearAll() {
+  if (confirm('Delete all sessions?')) { save([]); render(); }
+}
+
+function render() {
+  const sessions = load();
+  renderTiles(sessions);
+  renderChart(sessions);
+  renderLog(sessions);
+}
+
+function renderTiles(sessions) {
+  const total  = sessions.reduce((a, s) => a + s.cost, 0);
+  const totIn  = sessions.reduce((a, s) => a + s.input, 0);
+  const totOut = sessions.reduce((a, s) => a + s.output, 0);
+  const n      = sessions.length;
+
+  document.getElementById('stat-cost').textContent     = fmtCost(total);
+  document.getElementById('stat-sessions').textContent  = n;
+  document.getElementById('stat-input').textContent     = fmtTokens(totIn);
+  document.getElementById('stat-output').textContent    = fmtTokens(totOut);
+  document.getElementById('stat-avg').textContent       = n ? 'avg ' + fmtCost(total / n) : 'avg —';
+
+  if (n) {
+    const dates = sessions.map(s => s.date).sort();
+    document.getElementById('stat-period').textContent =
+      dates[0] === dates[dates.length - 1] ? dates[0] : dates[0] + ' – ' + dates[dates.length - 1];
+  } else {
+    document.getElementById('stat-period').textContent = 'no sessions yet';
+  }
+}
+
+function renderChart(sessions) {
+  const svg = document.getElementById('cost-chart');
+  svg.innerHTML = '';
+
+  // Bucket by day, last 30 days
+  const today = new Date();
+  const days = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    days.push(d.toISOString().slice(0, 10));
+  }
+  const byDay = {};
+  for (const s of sessions) {
+    if (days.includes(s.date)) byDay[s.date] = (byDay[s.date] || 0) + s.cost;
+  }
+  const vals = days.map(d => byDay[d] || 0);
+  const maxVal = Math.max(...vals, 0.001);
+
+  const W = 680, H = 140, pad = { l: 40, r: 8, t: 8, b: 28 };
+  const chartW = W - pad.l - pad.r;
+  const chartH = H - pad.t - pad.b;
+  const barW = Math.floor(chartW / 30) - 2;
+
+  const ns = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs) {
+    const e = document.createElementNS(ns, tag);
+    for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+    return e;
+  }
+
+  // Grid lines
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + chartH - (i / 4) * chartH;
+    svg.appendChild(el('line', { x1: pad.l, y1: y, x2: W - pad.r, y2: y, stroke: '#2a2318', 'stroke-width': 1 }));
+    if (i > 0) {
+      const t = document.createElementNS(ns, 'text');
+      t.setAttribute('x', pad.l - 6); t.setAttribute('y', y + 4);
+      t.setAttribute('text-anchor', 'end');
+      t.setAttribute('fill', '#5a5048');
+      t.setAttribute('font-size', '10');
+      t.setAttribute('font-family', 'EB Garamond, serif');
+      t.textContent = fmtCost((i / 4) * maxVal);
+      svg.appendChild(t);
+    }
+  }
+
+  // Bars
+  days.forEach((day, i) => {
+    const v = vals[i];
+    const x = pad.l + i * (chartW / 30) + 1;
+    const barH = v > 0 ? Math.max(2, (v / maxVal) * chartH) : 0;
+    const y = pad.t + chartH - barH;
+
+    if (barH > 0) {
+      svg.appendChild(el('rect', {
+        x, y, width: barW, height: barH,
+        fill: '#c9a96e', opacity: '0.7', rx: '1'
+      }));
+    } else {
+      svg.appendChild(el('rect', {
+        x, y: pad.t + chartH - 1, width: barW, height: 1,
+        fill: '#2a2318'
+      }));
+    }
+
+    // Month label on 1st of month or first bar
+    if (day.slice(8) === '01' || i === 0) {
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const m = months[parseInt(day.slice(5, 7)) - 1];
+      const t = document.createElementNS(ns, 'text');
+      t.setAttribute('x', x + barW / 2); t.setAttribute('y', H - 4);
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('fill', '#5a5048');
+      t.setAttribute('font-size', '10');
+      t.setAttribute('font-family', 'EB Garamond, serif');
+      t.textContent = m;
+      svg.appendChild(t);
+    }
+  });
+}
+
+function renderLog(sessions) {
+  const body = document.getElementById('log-body');
+  if (!sessions.length) {
+    body.innerHTML = '<div class="empty-state">No sessions recorded yet — add one below.</div>';
+    return;
+  }
+  const rows = sessions.map(s => `
+    <tr>
+      <td>${s.date}</td>
+      <td class="model">${PRICING[s.model]?.label || s.model}</td>
+      <td>${fmtTokens(s.input)}</td>
+      <td>${fmtTokens(s.output)}</td>
+      <td class="cost">${fmtCost(s.cost)}</td>
+      <td><button class="del-btn" onclick="deleteSession(${s.id})" title="Delete">×</button></td>
+    </tr>`).join('');
+  body.innerHTML = `<table>
+    <thead><tr>
+      <th>Date</th><th>Model</th><th>Input</th><th>Output</th><th>Cost</th><th></th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+// Set default date to today
+document.getElementById('f-date').value = new Date().toISOString().slice(0, 10);
+document.getElementById('f-model').addEventListener('change', updatePreview);
+render();
+</script>
+</body>
+</html>
