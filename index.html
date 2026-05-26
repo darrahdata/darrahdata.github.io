@@ -89,7 +89,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
   }
   .mystery-name {
     font-family: 'Cormorant Garamond', serif;
@@ -103,25 +103,38 @@
     letter-spacing: 0.08em;
   }
 
-  .bead-display {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    margin: 1.5rem 0;
-    flex-wrap: wrap;
+  #rosary-svg {
+    width: 100%;
+    max-width: 340px;
+    margin: 0.25rem auto 0.5rem;
+    display: block;
+    overflow: visible;
   }
-  .bead {
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    background: #2a2018;
-    border: 1px solid #3d3020;
-    transition: all 0.3s;
-    flex-shrink: 0;
+  .rb-chain { fill: none; stroke: #2a2018; stroke-width: 1.5; }
+  .rb-bead { transition: filter 0.5s ease; }
+  .rb-bead circle {
+    fill: #211c13;
+    stroke: #3d3020;
+    stroke-width: 1.5;
+    transition: fill 0.5s ease, stroke 0.5s ease;
   }
-  .bead.done { background: #c9a96e; border-color: #c9a96e; }
-  .bead.current { background: #e8dcc8; border-color: #e8dcc8; box-shadow: 0 0 8px rgba(201,169,110,0.6); }
-  .bead.large { width: 18px; height: 18px; }
+  .rb-bead.done circle { fill: url(#grad-done); stroke: #9a6820; }
+  .rb-bead.current circle { fill: url(#grad-current); stroke: #c9a96e; }
+  .rb-bead.current { animation: bead-pulse 2s ease-in-out infinite; }
+  @keyframes bead-pulse {
+    0%,100% { filter: drop-shadow(0 0 4px rgba(201,169,110,0.5)); }
+    50%      { filter: drop-shadow(0 0 12px rgba(201,169,110,1)); }
+  }
+  .rb-cross { transition: filter 0.5s ease; }
+  .rb-cross line {
+    stroke: #3d3020;
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    transition: stroke 0.5s ease;
+  }
+  .rb-cross.done line { stroke: #9a6820; }
+  .rb-cross.current line { stroke: #f0e8d8; }
+  .rb-cross.current { animation: bead-pulse 2s ease-in-out infinite; }
 
   .prayer-card {
     background: #211c14;
@@ -290,7 +303,7 @@
     <span class="mystery-name" id="mystery-label"></span>
     <span class="progress-text" id="progress-label"></span>
   </div>
-  <div class="bead-display" id="bead-display"></div>
+  <svg id="rosary-svg" viewBox="0 0 340 430" xmlns="http://www.w3.org/2000/svg"></svg>
   <div class="prayer-card">
     <div class="prayer-type" id="prayer-type"></div>
     <div class="prayer-name" id="prayer-name"></div>
@@ -388,6 +401,7 @@ function startRosary() {
   state.sequence = buildSequence(state.mysteryKey);
   state.currentIndex = 0;
   state.listening = false;
+  svgBuilt = false;
   showScreen('screen-prayer');
   renderPrayer();
   if (state.advanceMode === 'voice') setTimeout(() => startListening(), 500);
@@ -423,23 +437,103 @@ function renderPrayer() {
   renderBeads();
 }
 
+// ── SVG Rosary ───────────────────────────────────────────────────────────────
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const R_CX = 170, R_CY = 148, R_RX = 125, R_RY = 102, R_JY = 250;
+
+const PENDANT_POS = [
+  { seq: 5, y: 276, r: 4.5 },
+  { seq: 4, y: 298, r: 4.5 },
+  { seq: 3, y: 318, r: 4.5 },
+  { seq: 2, y: 338, r: 4.5 },
+  { seq: 1, y: 362, r: 7   },
+];
+const OF_CIRCLE = new Set([0, 13, 26, 39, 52]);
+let svgBuilt = false;
+
+function mkEl(tag) { return document.createElementNS(SVG_NS, tag); }
+
+function addBead(svg, seqIdx, x, y, r) {
+  const g = mkEl('g');
+  g.setAttribute('id', 'rb-' + seqIdx);
+  g.setAttribute('class', 'rb-bead');
+  const c = mkEl('circle');
+  c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', r);
+  g.appendChild(c);
+  svg.appendChild(g);
+}
+
+function buildRosarySVG() {
+  const svg = document.getElementById('rosary-svg');
+  svg.innerHTML = '';
+
+  const defs = mkEl('defs');
+  defs.innerHTML = `
+    <radialGradient id="grad-done" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#e8c87a"/>
+      <stop offset="100%" stop-color="#6e3e08"/>
+    </radialGradient>
+    <radialGradient id="grad-current" cx="35%" cy="28%" r="68%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="65%" stop-color="#ede0c8"/>
+      <stop offset="100%" stop-color="#b8a070"/>
+    </radialGradient>`;
+  svg.appendChild(defs);
+
+  const ell = mkEl('ellipse');
+  ell.setAttribute('cx', R_CX); ell.setAttribute('cy', R_CY);
+  ell.setAttribute('rx', R_RX); ell.setAttribute('ry', R_RY);
+  ell.setAttribute('class', 'rb-chain');
+  svg.appendChild(ell);
+
+  const chainYs = [R_JY, ...PENDANT_POS.map(p => p.y), 383];
+  for (let i = 0; i < chainYs.length - 1; i++) {
+    const ln = mkEl('line');
+    ln.setAttribute('x1', R_CX); ln.setAttribute('y1', chainYs[i]);
+    ln.setAttribute('x2', R_CX); ln.setAttribute('y2', chainYs[i + 1]);
+    ln.setAttribute('class', 'rb-chain');
+    svg.appendChild(ln);
+  }
+
+  const crossG = mkEl('g');
+  crossG.setAttribute('id', 'rb-0');
+  crossG.setAttribute('class', 'rb-cross');
+  const vBar = mkEl('line');
+  vBar.setAttribute('x1', R_CX); vBar.setAttribute('y1', 383);
+  vBar.setAttribute('x2', R_CX); vBar.setAttribute('y2', 414);
+  const hBar = mkEl('line');
+  hBar.setAttribute('x1', R_CX - 12); hBar.setAttribute('y1', 390);
+  hBar.setAttribute('x2', R_CX + 12); hBar.setAttribute('y2', 390);
+  crossG.appendChild(vBar); crossG.appendChild(hBar);
+  svg.appendChild(crossG);
+
+  addBead(svg, 71, R_CX, R_JY, 9);
+  for (const p of PENDANT_POS) addBead(svg, p.seq, R_CX, p.y, p.r);
+
+  const step = (2 * Math.PI) / 66;
+  for (let i = 0; i < 65; i++) {
+    const angle = Math.PI / 2 + (i + 1) * step;
+    addBead(svg, 6 + i,
+      R_CX + R_RX * Math.cos(angle),
+      R_CY + R_RY * Math.sin(angle),
+      OF_CIRCLE.has(i) ? 7 : 4.5);
+  }
+
+  svgBuilt = true;
+}
+
 function renderBeads() {
-  const display = document.getElementById('bead-display');
-  display.innerHTML = '';
+  if (!svgBuilt) buildRosarySVG();
   const idx = state.currentIndex;
-  const seq = state.sequence;
-  const windowSize = 15;
-  const half = Math.floor(windowSize / 2);
-  let start = Math.max(0, idx - half);
-  let end = Math.min(seq.length - 1, start + windowSize - 1);
-  if (end - start < windowSize - 1) start = Math.max(0, end - windowSize + 1);
-  for (let i = start; i <= end; i++) {
-    const b = document.createElement('div');
-    b.className = 'bead';
-    if (seq[i].bead === 'large' || seq[i].bead === 'cross') b.classList.add('large');
-    if (i < idx) b.classList.add('done');
-    if (i === idx) b.classList.add('current');
-    display.appendChild(b);
+
+  const cross = document.getElementById('rb-0');
+  if (cross) cross.setAttribute('class',
+    'rb-cross' + (idx === 0 ? ' current' : idx > 0 ? ' done' : ''));
+
+  for (let s = 1; s <= 71; s++) {
+    const b = document.getElementById('rb-' + s);
+    if (b) b.setAttribute('class',
+      'rb-bead' + (s === idx ? ' current' : s < idx ? ' done' : ''));
   }
 }
 
