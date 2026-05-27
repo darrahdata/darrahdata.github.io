@@ -48,6 +48,14 @@
     margin-bottom: 0.75rem;
   }
   .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .decade-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .decade-grid .option-btn {
+    min-height: 64px;
+    padding: 0.65rem 0.35rem;
+    text-align: center;
+    font-size: 0.88rem;
+  }
+  .decade-grid .option-btn small { font-size: 0.7rem; }
   .option-btn {
     background: #2a2018;
     border: 1px solid #3d3020;
@@ -173,6 +181,7 @@
   }
 
   .controls { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1rem; }
+  .top-controls { margin-bottom: 1.25rem; }
   .ctrl-btn {
     flex: 1;
     padding: 0.75rem;
@@ -214,6 +223,10 @@
   .status-bar.active { color: #c9a96e; }
 
   .back-btn {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 10;
     background: transparent;
     border: none;
     color: #6a5c48;
@@ -221,7 +234,6 @@
     font-size: 0.85rem;
     cursor: pointer;
     letter-spacing: 0.08em;
-    margin-bottom: 1rem;
     padding: 0;
   }
   .back-btn:hover { color: #c8b898; }
@@ -283,13 +295,50 @@
     </div>
   </div>
   <div class="setup-section">
-    <div class="setup-label">Advance beads by</div>
+    <div class="setup-label">Choose rosary</div>
+    <div class="option-grid">
+      <button class="option-btn selected" data-rosary="dominican" onclick="selectOption(this,'rosary')">
+        Dominican <small>Traditional form</small>
+      </button>
+      <button class="option-btn" data-rosary="scriptural" onclick="selectOption(this,'rosary')">
+        Scriptural <small>With meditations</small>
+      </button>
+      <button class="option-btn" data-rosary="sevenSorrows" onclick="selectOption(this,'rosary')">
+        Seven Sorrows <small>Seven dolors</small>
+      </button>
+      <button class="option-btn" data-rosary="franciscanCrown" onclick="selectOption(this,'rosary')">
+        Franciscan Crown <small>Seven joys</small>
+      </button>
+    </div>
+  </div>
+  <div class="setup-section">
+    <div class="setup-label">Choose decades</div>
+    <div class="option-grid decade-grid">
+      <button class="option-btn" data-decades="1" onclick="selectOption(this,'decades')">
+        One Decade <small>3 beads + 1 decade</small>
+      </button>
+      <button class="option-btn" data-decades="2" onclick="selectOption(this,'decades')">
+        Two Decades <small>Opening + 2 decades</small>
+      </button>
+      <button class="option-btn" data-decades="3" onclick="selectOption(this,'decades')">
+        Three Decades <small>Opening + 3 decades</small>
+      </button>
+      <button class="option-btn" data-decades="4" onclick="selectOption(this,'decades')">
+        Four Decades <small>Opening + 4 decades</small>
+      </button>
+      <button class="option-btn selected" data-decades="5" onclick="selectOption(this,'decades')">
+        Five Decades <small>Full rosary</small>
+      </button>
+    </div>
+  </div>
+  <div class="setup-section">
+    <div class="setup-label">Prayer mode</div>
     <div class="option-grid">
       <button class="option-btn selected" data-advance="tap" onclick="selectOption(this,'advance')">
-        Tap / click <small>Manual advance</small>
+        Tap / click <small>Buttons and arrows</small>
       </button>
       <button class="option-btn" data-advance="voice" onclick="selectOption(this,'advance')">
-        Voice <small>Auto-advance as you pray</small>
+        Voice <small>Dictation only</small>
       </button>
     </div>
   </div>
@@ -298,6 +347,13 @@
 
 <!-- Prayer Screen -->
 <div class="screen" id="screen-prayer">
+  <div class="controls top-controls">
+    <button class="ctrl-btn btn-prev" onclick="prevBead()">← prev</button>
+    <button class="mic-btn" id="mic-btn" onclick="toggleMic()" title="Toggle voice">
+      <i class="ti ti-microphone"></i>
+    </button>
+    <button class="ctrl-btn btn-next" onclick="nextBead()">next →</button>
+  </div>
   <button class="back-btn" onclick="showSetup()">← back</button>
   <div class="prayer-header">
     <span class="mystery-name" id="mystery-label"></span>
@@ -310,14 +366,7 @@
     <div class="prayer-text" id="prayer-text"></div>
     <div class="mystery-text" id="mystery-text" style="display:none"></div>
   </div>
-  <div class="controls">
-    <button class="ctrl-btn btn-prev" onclick="prevBead()">← prev</button>
-    <button class="mic-btn" id="mic-btn" onclick="toggleMic()" title="Toggle voice">
-      <i class="ti ti-microphone"></i>
-    </button>
-    <button class="ctrl-btn btn-next" onclick="nextBead()">next →</button>
-  </div>
-  <div class="status-bar" id="status-bar">Tap "next" or use voice to advance</div>
+  <div class="status-bar" id="status-bar">Use next, prev, or the arrow keys to move beads</div>
 </div>
 
 <!-- Complete Screen -->
@@ -350,6 +399,13 @@ const MYSTERIES = {
   }
 };
 
+const ROSARY_TYPES = {
+  dominican: { name: 'Dominican Rosary' },
+  scriptural: { name: 'Scriptural Rosary' },
+  sevenSorrows: { name: 'Seven Sorrows Rosary' },
+  franciscanCrown: { name: 'Franciscan Crown' }
+};
+
 const PRAYERS = {
   apostlesCreed: { type: 'Opening prayer', name: "Apostle's Creed", text: "I believe in God, the Father almighty, Creator of heaven and earth, and in Jesus Christ, His only Son, our Lord, who was conceived by the Holy Spirit, born of the Virgin Mary, suffered under Pontius Pilate, was crucified, died and was buried; He descended into hell; on the third day He rose again from the dead; He ascended into heaven, and is seated at the right hand of God the Father almighty; from there He will come to judge the living and the dead. I believe in the Holy Spirit, the holy catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen." },
   ourFather: { type: 'Our Father bead', name: 'Our Father', text: "Our Father, who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen." },
@@ -359,8 +415,9 @@ const PRAYERS = {
   hailHolyQueen: { type: 'Closing prayer', name: 'Hail, Holy Queen', text: "Hail, Holy Queen, Mother of Mercy! Our life, our sweetness, and our hope! To thee do we cry, poor banished children of Eve; to thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious Advocate, thine eyes of mercy toward us; and after this our exile show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Pray for us, O holy Mother of God, that we may be made worthy of the promises of Christ. Amen." }
 };
 
-function buildSequence(mysteryKey) {
+function buildSequence(mysteryKey, decadeCount) {
   const mysteries = MYSTERIES[mysteryKey].list;
+  const decades = Math.max(1, Math.min(5, Number(decadeCount) || 5));
   let seq = [];
   seq.push({ ...PRAYERS.apostlesCreed, bead: 'cross' });
   seq.push({ ...PRAYERS.ourFather, bead: 'large' });
@@ -368,7 +425,7 @@ function buildSequence(mysteryKey) {
   seq.push({ ...PRAYERS.hailMary, bead: 'small', sub: 'For an increase in Hope' });
   seq.push({ ...PRAYERS.hailMary, bead: 'small', sub: 'For an increase in Charity' });
   seq.push({ ...PRAYERS.gloryBe, bead: 'chain' });
-  for (let d = 0; d < 5; d++) {
+  for (let d = 0; d < decades; d++) {
     seq.push({ ...PRAYERS.ourFather, bead: 'large', mystery: mysteries[d], decade: d + 1 });
     for (let h = 0; h < 10; h++) {
       seq.push({ ...PRAYERS.hailMary, bead: 'small', mystery: mysteries[d] });
@@ -380,8 +437,8 @@ function buildSequence(mysteryKey) {
   return seq;
 }
 
-let state = { mysteryKey: null, advanceMode: 'tap', sequence: [], currentIndex: 0, listening: false };
-let selections = { mystery: null, advance: 'tap' };
+let state = { mysteryKey: null, rosaryKey: 'dominican', decadeCount: 5, advanceMode: 'tap', sequence: [], currentIndex: 0, listening: false };
+let selections = { mystery: null, rosary: 'dominican', decades: '5', advance: 'tap' };
 let recog = null;
 
 function selectOption(btn, group) {
@@ -397,8 +454,10 @@ function updateStartBtn() {
 
 function startRosary() {
   state.mysteryKey = selections.mystery;
+  state.rosaryKey = selections.rosary;
+  state.decadeCount = Number(selections.decades);
   state.advanceMode = selections.advance;
-  state.sequence = buildSequence(state.mysteryKey);
+  state.sequence = buildSequence(state.mysteryKey, state.decadeCount);
   state.currentIndex = 0;
   state.listening = false;
   svgBuilt = false;
@@ -419,7 +478,8 @@ function showScreen(id) {
 
 function renderPrayer() {
   const step = state.sequence[state.currentIndex];
-  document.getElementById('mystery-label').textContent = MYSTERIES[state.mysteryKey].name;
+  const decadeLabel = state.decadeCount === 1 ? '1 Decade' : state.decadeCount + ' Decades';
+  document.getElementById('mystery-label').textContent = ROSARY_TYPES[state.rosaryKey].name + ' · ' + MYSTERIES[state.mysteryKey].name + ' · ' + decadeLabel;
   document.getElementById('progress-label').textContent = (state.currentIndex + 1) + ' / ' + state.sequence.length;
   document.getElementById('prayer-type').textContent = step.type || '';
   document.getElementById('prayer-name').textContent = step.name || '';
@@ -512,7 +572,7 @@ function buildRosarySVG() {
 
   const step = (2 * Math.PI) / 66;
   for (let i = 0; i < 65; i++) {
-    const angle = Math.PI / 2 + (i + 1) * step;
+    const angle = Math.PI / 2 - (i + 1) * step;
     addBead(svg, 6 + i,
       R_CX + R_RX * Math.cos(angle),
       R_CY + R_RY * Math.sin(angle),
@@ -556,7 +616,7 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 function toggleMic() {
   if (state.listening) {
     stopListening();
-    updateStatus('Voice paused — tap next or enable voice again', false);
+    updateStatus('Voice paused — use next, prev, or arrow keys to move', false);
   } else {
     startListening();
   }
@@ -572,11 +632,13 @@ function startListening() {
   recog.onstart = () => {
     state.listening = true;
     document.getElementById('mic-btn').classList.add('listening');
-    updateStatus('Listening… pray aloud to advance', true);
+    updateStatus('Listening... use buttons or arrow keys to move beads', true);
   };
   recog.onresult = (e) => {
     const last = e.results[e.results.length - 1];
-    if (last.isFinal && last[0].transcript.trim().length > 8) nextBead();
+    if (last.isFinal && last[0].transcript.trim().length > 8) {
+      updateStatus('Voice heard — use buttons or arrow keys to move beads', true);
+    }
   };
   recog.onerror = (e) => {
     if (e.error !== 'no-speech') {
@@ -604,6 +666,17 @@ function updateStatus(msg, active) {
   el.textContent = msg;
   el.className = 'status-bar' + (active ? ' active' : '');
 }
+
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('screen-prayer').classList.contains('active')) return;
+  if (e.key === 'ArrowRight') {
+    e.preventDefault();
+    nextBead();
+  } else if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    prevBead();
+  }
+});
 
 // Pre-select today's mystery
 const dayMystery = {0:'glorious',1:'joyful',2:'sorrowful',3:'glorious',4:'luminous',5:'sorrowful',6:'joyful'}[new Date().getDay()];
