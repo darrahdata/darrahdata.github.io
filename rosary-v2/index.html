@@ -60,6 +60,26 @@
   .screen { display: none; width: 100%; max-width: 560px; }
   .screen.active { display: block; }
 
+  .timer-pill {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+    min-width: 72px;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(36, 35, 33, 0.92);
+    color: var(--accent);
+    font-size: 0.82rem;
+    line-height: 1;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    display: none;
+  }
+  .timer-pill.active { display: block; }
+
   .setup-section { margin-bottom: 1.5rem; }
   .setup-label {
     font-size: 0.75rem;
@@ -139,6 +159,40 @@
     display: block;
     overflow: visible;
   }
+  .rosary-stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 112px;
+    gap: 0.75rem;
+    align-items: center;
+    margin: 0.25rem 0 0.5rem;
+  }
+  .rosary-stage #rosary-svg { margin: 0 auto; }
+  .accuracy-panel {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    padding: 0.75rem;
+    text-align: center;
+  }
+  .accuracy-label {
+    color: var(--muted);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .accuracy-value {
+    color: var(--accent);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    line-height: 1.1;
+    margin-top: 0.2rem;
+  }
+  .accuracy-detail {
+    color: var(--muted-2);
+    font-size: 0.68rem;
+    font-style: italic;
+    margin-top: 0.2rem;
+  }
   .rb-chain { fill: none; stroke: var(--chain); stroke-width: 1.5; }
   .rb-bead { transition: filter 0.5s ease; }
   .rb-bead circle {
@@ -191,6 +245,19 @@
     font-size: 1rem;
     line-height: 1.7;
     color: var(--text-soft);
+  }
+  .prayer-word {
+    border-radius: 3px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .prayer-word.heard {
+    background: rgba(197, 164, 100, 0.28);
+    color: var(--text);
+    box-shadow: 0 0 0 1px rgba(197, 164, 100, 0.18);
+  }
+  .prayer-word.next-word {
+    color: var(--accent);
+    box-shadow: 0 1px 0 var(--accent);
   }
   .mystery-text {
     font-size: 0.9rem;
@@ -289,9 +356,24 @@
   .restart-btn:hover { background: var(--accent); color: var(--accent-contrast); }
 
   hr.divider { border: none; border-top: 1px solid var(--divider); margin: 1rem 0; }
+
+  @media (max-width: 520px) {
+    .rosary-stage { grid-template-columns: 1fr; }
+    .accuracy-panel {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.5rem;
+      align-items: center;
+      text-align: left;
+    }
+    .accuracy-value { margin-top: 0; text-align: center; }
+    .accuracy-detail { margin-top: 0; text-align: right; }
+  }
 </style>
 </head>
 <body>
+
+<div class="timer-pill" id="timer-pill">00:00</div>
 
 <h1>✦ The Rosary</h1>
 <p class="subtitle">A contemplative companion for prayer</p>
@@ -369,7 +451,14 @@
     <span class="mystery-name" id="mystery-label"></span>
     <span class="progress-text" id="progress-label"></span>
   </div>
-  <svg id="rosary-svg" viewBox="0 0 340 430" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="rosary-stage">
+    <svg id="rosary-svg" viewBox="0 0 340 430" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="accuracy-panel" id="accuracy-panel">
+      <div class="accuracy-label">Accuracy</div>
+      <div class="accuracy-value" id="accuracy-value">0%</div>
+      <div class="accuracy-detail" id="accuracy-detail">0 / 0 words</div>
+    </div>
+  </div>
   <div class="prayer-card">
     <div class="prayer-type" id="prayer-type"></div>
     <div class="prayer-name" id="prayer-name"></div>
@@ -447,9 +536,22 @@ function buildSequence(mysteryKey, decadeCount) {
   return seq;
 }
 
-let state = { mysteryKey: null, rosaryKey: 'dominican', decadeCount: 5, sequence: [], currentIndex: 0, listening: false };
+let state = {
+  mysteryKey: null,
+  rosaryKey: 'dominican',
+  decadeCount: 5,
+  sequence: [],
+  currentIndex: 0,
+  listening: false,
+  prayerWords: [],
+  heardWords: [],
+  matchedWordIndexes: new Set(),
+  nextWordIndex: 0,
+  startedAt: null
+};
 let selections = { mystery: null, rosary: 'dominican', decades: '5' };
 let recog = null;
+let timerInterval = null;
 
 function selectOption(btn, group) {
   document.querySelectorAll('[data-' + group + ']').forEach(b => b.classList.remove('selected'));
@@ -469,13 +571,16 @@ function startRosary() {
   state.sequence = buildSequence(state.mysteryKey, state.decadeCount);
   state.currentIndex = 0;
   state.listening = false;
+  state.startedAt = Date.now();
   svgBuilt = false;
   showScreen('screen-prayer');
+  startTimer();
   renderPrayer();
 }
 
 function showSetup() {
   stopListening();
+  stopTimer();
   showScreen('screen-setup');
 }
 
@@ -491,7 +596,8 @@ function renderPrayer() {
   document.getElementById('progress-label').textContent = (state.currentIndex + 1) + ' / ' + state.sequence.length;
   document.getElementById('prayer-type').textContent = step.type || '';
   document.getElementById('prayer-name').textContent = step.name || '';
-  document.getElementById('prayer-text').textContent = step.text || '';
+  renderPrayerText(step.text || '');
+  resetVoiceTracking();
   const mysteryEl = document.getElementById('mystery-text');
   if (step.mystery) {
     mysteryEl.style.display = 'block';
@@ -503,6 +609,101 @@ function renderPrayer() {
     mysteryEl.style.display = 'none';
   }
   renderBeads();
+}
+
+function renderPrayerText(text) {
+  const prayerText = document.getElementById('prayer-text');
+  prayerText.innerHTML = '';
+  state.prayerWords = [];
+  const pieces = text.match(/\S+|\s+/g) || [];
+  for (const piece of pieces) {
+    if (/^\s+$/.test(piece)) {
+      prayerText.appendChild(document.createTextNode(piece));
+      continue;
+    }
+    const word = document.createElement('span');
+    word.className = 'prayer-word';
+    word.dataset.wordIndex = state.prayerWords.length;
+    word.textContent = piece;
+    state.prayerWords.push(normalizeWord(piece));
+    prayerText.appendChild(word);
+  }
+}
+
+function resetVoiceTracking() {
+  state.heardWords = [];
+  state.matchedWordIndexes = new Set();
+  state.nextWordIndex = 0;
+  updateWordHighlights();
+  updateAccuracyPanel();
+}
+
+function normalizeWord(word) {
+  return word.toLowerCase().replace(/[^a-z0-9']/g, '').replace(/^'+|'+$/g, '');
+}
+
+function transcriptWords(text) {
+  return text
+    .split(/\s+/)
+    .map(normalizeWord)
+    .filter(Boolean);
+}
+
+function scoreTranscript(transcript) {
+  const incomingWords = transcriptWords(transcript);
+  if (!incomingWords.length) return;
+  state.heardWords.push(...incomingWords);
+
+  let searchIndex = state.nextWordIndex;
+  for (const heard of incomingWords) {
+    for (let i = searchIndex; i < state.prayerWords.length; i++) {
+      if (state.prayerWords[i] === heard) {
+        state.matchedWordIndexes.add(i);
+        searchIndex = i + 1;
+        break;
+      }
+    }
+  }
+  state.nextWordIndex = searchIndex;
+  updateWordHighlights();
+  updateAccuracyPanel();
+}
+
+function updateWordHighlights() {
+  document.querySelectorAll('.prayer-word').forEach(el => {
+    const idx = Number(el.dataset.wordIndex);
+    el.classList.toggle('heard', state.matchedWordIndexes.has(idx));
+    el.classList.toggle('next-word', idx === state.nextWordIndex && state.listening);
+  });
+}
+
+function updateAccuracyPanel() {
+  const total = state.prayerWords.filter(Boolean).length;
+  const matched = state.matchedWordIndexes.size;
+  const accuracy = total ? Math.round((matched / total) * 100) : 0;
+  document.getElementById('accuracy-value').textContent = accuracy + '%';
+  document.getElementById('accuracy-detail').textContent = matched + ' / ' + total + ' words';
+}
+
+function startTimer() {
+  stopTimer(false);
+  updateTimer();
+  document.getElementById('timer-pill').classList.add('active');
+  timerInterval = setInterval(updateTimer, 1000);
+}
+
+function stopTimer(hide = true) {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+  if (hide) document.getElementById('timer-pill').classList.remove('active');
+}
+
+function updateTimer() {
+  if (!state.startedAt) return;
+  const elapsed = Math.floor((Date.now() - state.startedAt) / 1000);
+  const minutes = String(Math.floor(elapsed / 60)).padStart(2, '0');
+  const seconds = String(elapsed % 60).padStart(2, '0');
+  document.getElementById('timer-pill').textContent = minutes + ':' + seconds;
 }
 
 // ── SVG Rosary ───────────────────────────────────────────────────────────────
@@ -611,6 +812,7 @@ function nextBead() {
     renderPrayer();
   } else {
     stopListening();
+    stopTimer(false);
     showScreen('screen-complete');
   }
 }
@@ -640,13 +842,15 @@ function startListening() {
   recog.onstart = () => {
     state.listening = true;
     document.getElementById('mic-btn').classList.add('listening');
+    updateWordHighlights();
     updateStatus('Listening... use buttons or arrow keys to move beads', true);
   };
   recog.onresult = (e) => {
-    const last = e.results[e.results.length - 1];
-    if (last.isFinal && last[0].transcript.trim().length > 8) {
-      updateStatus('Voice heard — use buttons or arrow keys to move beads', true);
+    for (let i = e.resultIndex || 0; i < e.results.length; i++) {
+      const result = e.results[i];
+      if (result.isFinal) scoreTranscript(result[0].transcript || '');
     }
+    updateStatus('Voice heard — use buttons or arrow keys to move beads', true);
   };
   recog.onerror = (e) => {
     if (e.error !== 'no-speech') {
@@ -667,6 +871,7 @@ function stopListening() {
   if (recog) { try { recog.stop(); } catch(e){} recog = null; }
   const btn = document.getElementById('mic-btn');
   if (btn) btn.classList.remove('listening');
+  updateWordHighlights();
 }
 
 function updateStatus(msg, active) {
