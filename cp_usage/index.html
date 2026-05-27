@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CP Usage</title>
+  <title>Model Usage</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet" />
@@ -111,7 +111,7 @@
       border: 1px solid #3a3028;
       border-radius: 4px;
       margin-bottom: 2rem;
-      overflow: hidden;
+      overflow-x: auto;
     }
     .log-header {
       display: flex;
@@ -157,7 +157,7 @@
       font-size: 0.95rem;
     }
 
-    /* ── Add session form ── */
+    /* ── Add usage form ── */
     .form-card {
       background: #221d17;
       border: 1px solid #3a3028;
@@ -237,8 +237,8 @@
 <a class="back" href="/">← darrahdata</a>
 
 <header>
-  <h1>CP Usage</h1>
-  <p>Claude Code token &amp; cost tracker</p>
+  <h1>Model Usage</h1>
+  <p>GPT token &amp; cost tracker</p>
   <div class="divider"></div>
 </header>
 
@@ -249,17 +249,17 @@
     <div class="tile">
       <div class="tile-label">Total cost</div>
       <div class="tile-value" id="stat-cost">$0.00</div>
-      <div class="tile-sub" id="stat-period">no sessions yet</div>
+      <div class="tile-sub" id="stat-period">no entries yet</div>
     </div>
     <div class="tile">
-      <div class="tile-label">Sessions</div>
+      <div class="tile-label">Entries</div>
       <div class="tile-value" id="stat-sessions">0</div>
       <div class="tile-sub" id="stat-avg">avg —</div>
     </div>
     <div class="tile">
       <div class="tile-label">Input tokens</div>
       <div class="tile-value" id="stat-input">0</div>
-      <div class="tile-sub">total</div>
+      <div class="tile-sub" id="stat-cached">cached 0</div>
     </div>
     <div class="tile">
       <div class="tile-label">Output tokens</div>
@@ -274,18 +274,18 @@
     <svg id="cost-chart" viewBox="0 0 680 140"></svg>
   </div>
 
-  <!-- Session log -->
+  <!-- Usage log -->
   <div class="log-wrap">
     <div class="log-header">
-      <div class="section-label" style="margin:0">Session log</div>
+      <div class="section-label" style="margin:0">Usage log</div>
       <button class="clear-btn" onclick="clearAll()">Clear all</button>
     </div>
     <div id="log-body"></div>
   </div>
 
-  <!-- Add session form -->
+  <!-- Add usage form -->
   <div class="form-card">
-    <div class="section-label" style="margin-bottom:1rem">Add session</div>
+    <div class="section-label" style="margin-bottom:1rem">Add usage</div>
     <div class="form-grid">
       <div class="field">
         <label>Date</label>
@@ -294,14 +294,21 @@
       <div class="field">
         <label>Model</label>
         <select id="f-model">
-          <option value="sonnet">Sonnet 4.6</option>
-          <option value="opus">Opus 4.7</option>
-          <option value="haiku">Haiku 4.5</option>
+          <option value="gpt55">GPT-5.5</option>
+          <option value="gpt54">GPT-5.4</option>
+          <option value="gpt54_mini">GPT-5.4 mini</option>
+          <option value="gpt54_nano">GPT-5.4 nano</option>
+          <option value="gpt53_codex">GPT-5.3 Codex</option>
+          <option value="chat_latest">ChatGPT chat-latest</option>
         </select>
       </div>
       <div class="field">
         <label>Input tokens</label>
         <input type="number" id="f-input" placeholder="e.g. 45000" min="0" oninput="updatePreview()" />
+      </div>
+      <div class="field">
+        <label>Cached input</label>
+        <input type="number" id="f-cached" placeholder="e.g. 12000" min="0" oninput="updatePreview()" />
       </div>
       <div class="field">
         <label>Output tokens</label>
@@ -310,7 +317,7 @@
     </div>
     <div class="form-row">
       <span class="cost-preview" id="cost-preview">—</span>
-      <button class="add-btn" onclick="addSession()">Add session</button>
+      <button class="add-btn" onclick="addSession()">Add usage</button>
     </div>
   </div>
 
@@ -318,14 +325,17 @@
 
 <script>
 const PRICING = {
-  sonnet: { label: 'Sonnet 4.6', input: 3.00,  output: 15.00 },
-  opus:   { label: 'Opus 4.7',   input: 15.00, output: 75.00 },
-  haiku:  { label: 'Haiku 4.5',  input: 0.80,  output: 4.00  },
+  gpt55:       { label: 'GPT-5.5',            input: 5.00, cached: 0.50,  output: 30.00 },
+  gpt54:       { label: 'GPT-5.4',            input: 2.50, cached: 0.25,  output: 15.00 },
+  gpt54_mini:  { label: 'GPT-5.4 mini',       input: 0.75, cached: 0.075, output: 4.50  },
+  gpt54_nano:  { label: 'GPT-5.4 nano',       input: 0.20, cached: 0.02,  output: 1.25  },
+  gpt53_codex: { label: 'GPT-5.3 Codex',      input: 1.75, cached: 0.175, output: 14.00 },
+  chat_latest: { label: 'ChatGPT chat-latest', input: 5.00, cached: 0.50,  output: 30.00 },
 };
 
-function calcCost(model, input, output) {
+function calcCost(model, input, cached, output) {
   const p = PRICING[model];
-  return (input / 1e6) * p.input + (output / 1e6) * p.output;
+  return (input / 1e6) * p.input + (cached / 1e6) * p.cached + (output / 1e6) * p.output;
 }
 
 function fmtCost(c) {
@@ -341,32 +351,42 @@ function fmtTokens(n) {
 }
 
 function load() {
-  try { return JSON.parse(localStorage.getItem('cp-usage') || '[]'); } catch { return []; }
+  try {
+    const next = JSON.parse(localStorage.getItem('model-usage') || 'null');
+    if (next) return next;
+    return JSON.parse(localStorage.getItem('cp-usage') || '[]').map(s => ({
+      ...s,
+      cached: s.cached || 0,
+    }));
+  } catch { return []; }
 }
 
 function save(sessions) {
-  localStorage.setItem('cp-usage', JSON.stringify(sessions));
+  localStorage.setItem('model-usage', JSON.stringify(sessions));
 }
 
 function updatePreview() {
   const model = document.getElementById('f-model').value;
   const inp = parseInt(document.getElementById('f-input').value) || 0;
+  const cached = parseInt(document.getElementById('f-cached').value) || 0;
   const out = parseInt(document.getElementById('f-output').value) || 0;
-  const cost = calcCost(model, inp, out);
-  document.getElementById('cost-preview').textContent = (inp || out) ? fmtCost(cost) : '—';
+  const cost = calcCost(model, inp, cached, out);
+  document.getElementById('cost-preview').textContent = (inp || cached || out) ? fmtCost(cost) : '—';
 }
 
 function addSession() {
   const date  = document.getElementById('f-date').value;
   const model = document.getElementById('f-model').value;
   const inp   = parseInt(document.getElementById('f-input').value)  || 0;
+  const cached = parseInt(document.getElementById('f-cached').value) || 0;
   const out   = parseInt(document.getElementById('f-output').value) || 0;
-  if (!date || (!inp && !out)) return;
+  if (!date || (!inp && !cached && !out)) return;
 
   const sessions = load();
-  sessions.unshift({ id: Date.now(), date, model, input: inp, output: out, cost: calcCost(model, inp, out) });
+  sessions.unshift({ id: Date.now(), date, model, input: inp, cached, output: out, cost: calcCost(model, inp, cached, out) });
   save(sessions);
   document.getElementById('f-input').value  = '';
+  document.getElementById('f-cached').value = '';
   document.getElementById('f-output').value = '';
   document.getElementById('cost-preview').textContent = '—';
   render();
@@ -378,7 +398,7 @@ function deleteSession(id) {
 }
 
 function clearAll() {
-  if (confirm('Delete all sessions?')) { save([]); render(); }
+  if (confirm('Delete all usage entries?')) { save([]); render(); }
 }
 
 function render() {
@@ -391,12 +411,14 @@ function render() {
 function renderTiles(sessions) {
   const total  = sessions.reduce((a, s) => a + s.cost, 0);
   const totIn  = sessions.reduce((a, s) => a + s.input, 0);
+  const totCached = sessions.reduce((a, s) => a + (s.cached || 0), 0);
   const totOut = sessions.reduce((a, s) => a + s.output, 0);
   const n      = sessions.length;
 
   document.getElementById('stat-cost').textContent     = fmtCost(total);
   document.getElementById('stat-sessions').textContent  = n;
   document.getElementById('stat-input').textContent     = fmtTokens(totIn);
+  document.getElementById('stat-cached').textContent    = 'cached ' + fmtTokens(totCached);
   document.getElementById('stat-output').textContent    = fmtTokens(totOut);
   document.getElementById('stat-avg').textContent       = n ? 'avg ' + fmtCost(total / n) : 'avg —';
 
@@ -405,7 +427,7 @@ function renderTiles(sessions) {
     document.getElementById('stat-period').textContent =
       dates[0] === dates[dates.length - 1] ? dates[0] : dates[0] + ' – ' + dates[dates.length - 1];
   } else {
-    document.getElementById('stat-period').textContent = 'no sessions yet';
+    document.getElementById('stat-period').textContent = 'no entries yet';
   }
 }
 
@@ -494,7 +516,7 @@ function renderChart(sessions) {
 function renderLog(sessions) {
   const body = document.getElementById('log-body');
   if (!sessions.length) {
-    body.innerHTML = '<div class="empty-state">No sessions recorded yet — add one below.</div>';
+    body.innerHTML = '<div class="empty-state">No usage recorded yet — add a run below.</div>';
     return;
   }
   const rows = sessions.map(s => `
@@ -502,13 +524,14 @@ function renderLog(sessions) {
       <td>${s.date}</td>
       <td class="model">${PRICING[s.model]?.label || s.model}</td>
       <td>${fmtTokens(s.input)}</td>
+      <td>${fmtTokens(s.cached || 0)}</td>
       <td>${fmtTokens(s.output)}</td>
       <td class="cost">${fmtCost(s.cost)}</td>
       <td><button class="del-btn" onclick="deleteSession(${s.id})" title="Delete">×</button></td>
     </tr>`).join('');
   body.innerHTML = `<table>
     <thead><tr>
-      <th>Date</th><th>Model</th><th>Input</th><th>Output</th><th>Cost</th><th></th>
+      <th>Date</th><th>Model</th><th>Input</th><th>Cached</th><th>Output</th><th>Cost</th><th></th>
     </tr></thead>
     <tbody>${rows}</tbody>
   </table>`;
