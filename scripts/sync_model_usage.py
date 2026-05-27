@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 LOG_DB = Path.home() / ".codex" / "logs_2.sqlite"
-OUT = ROOT / "cp_usage" / "usage_data.json"
+OUT = ROOT / "model_usage" / "usage_data.json"
 
 PRICING = {
     "gpt-5.5": {"input": 5.00, "cached": 0.50, "output": 30.00},
