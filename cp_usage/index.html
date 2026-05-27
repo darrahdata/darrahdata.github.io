@@ -349,17 +349,37 @@
 
 <script>
 const PRICING = {
-  gpt55:       { label: 'GPT-5.5',            input: 5.00, cached: 0.50,  output: 30.00 },
-  gpt54:       { label: 'GPT-5.4',            input: 2.50, cached: 0.25,  output: 15.00 },
-  gpt54_mini:  { label: 'GPT-5.4 mini',       input: 0.75, cached: 0.075, output: 4.50  },
-  gpt54_nano:  { label: 'GPT-5.4 nano',       input: 0.20, cached: 0.02,  output: 1.25  },
-  gpt53_codex: { label: 'GPT-5.3 Codex',      input: 1.75, cached: 0.175, output: 14.00 },
-  chat_latest: { label: 'ChatGPT chat-latest', input: 5.00, cached: 0.50,  output: 30.00 },
+  gpt55:       { label: 'GPT-5.5',            aliases: ['gpt-5.5'], input: 5.00, cached: 0.50,  output: 30.00 },
+  gpt54:       { label: 'GPT-5.4',            aliases: ['gpt-5.4'], input: 2.50, cached: 0.25,  output: 15.00 },
+  gpt54_mini:  { label: 'GPT-5.4 mini',       aliases: ['gpt-5.4-mini'], input: 0.75, cached: 0.075, output: 4.50  },
+  gpt54_nano:  { label: 'GPT-5.4 nano',       aliases: ['gpt-5.4-nano'], input: 0.20, cached: 0.02,  output: 1.25  },
+  gpt53_codex: { label: 'GPT-5.3 Codex',      aliases: ['gpt-5.3-codex'], input: 1.75, cached: 0.175, output: 14.00 },
+  chat_latest: { label: 'ChatGPT chat-latest', aliases: ['chatgpt-4o-latest'], input: 5.00, cached: 0.50,  output: 30.00 },
 };
 
 function calcCost(model, input, cached, output) {
-  const p = PRICING[model];
-  return (input / 1e6) * p.input + (cached / 1e6) * p.cached + (output / 1e6) * p.output;
+  const p = getPricing(model);
+  const uncached = Math.max(input - cached, 0);
+  return (uncached / 1e6) * p.input + (cached / 1e6) * p.cached + (output / 1e6) * p.output;
+}
+
+function getPricing(model) {
+  const key = normalizeModel(model);
+  return PRICING[key] || PRICING.gpt55;
+}
+
+function normalizeModel(model) {
+  const raw = String(model || 'gpt55').toLowerCase().replace(/_/g, '-');
+  if (PRICING[raw]) return raw;
+  for (const [key, pricing] of Object.entries(PRICING)) {
+    if ((pricing.aliases || []).includes(raw)) return key;
+  }
+  return raw.replace(/\./g, '').replace(/-/g, '_');
+}
+
+function modelLabel(model) {
+  const key = normalizeModel(model);
+  return PRICING[key]?.label || model || 'GPT';
 }
 
 function fmtCost(c) {
@@ -374,15 +394,29 @@ function fmtTokens(n) {
   return String(n);
 }
 
-function load() {
+function loadLocal() {
   try {
     const next = JSON.parse(localStorage.getItem('model-usage') || 'null');
-    if (next) return next;
+    if (next) return next.filter(s => s.source === 'manual');
     return JSON.parse(localStorage.getItem('cp-usage') || '[]').map(s => ({
       ...s,
+      source: 'manual',
       cached: s.cached || 0,
     }));
   } catch { return []; }
+}
+
+async function load() {
+  const local = loadLocal();
+  try {
+    const res = await fetch('usage_data.json', { cache: 'no-store' });
+    if (!res.ok) return local;
+    const data = await res.json();
+    const generated = Array.isArray(data.entries) ? data.entries : [];
+    return [...generated, ...local].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  } catch {
+    return local;
+  }
 }
 
 function save(sessions) {
@@ -406,8 +440,8 @@ function addSession() {
   const out   = parseInt(document.getElementById('f-output').value) || 0;
   if (!date || (!inp && !cached && !out)) return;
 
-  const sessions = load();
-  sessions.unshift({ id: Date.now(), date, model, input: inp, cached, output: out, cost: calcCost(model, inp, cached, out) });
+  const sessions = loadLocal();
+  sessions.unshift({ id: Date.now(), date, source: 'manual', model, input: inp, cached, output: out, cost: calcCost(model, inp, cached, out) });
   save(sessions);
   document.getElementById('f-input').value  = '';
   document.getElementById('f-cached').value = '';
@@ -417,7 +451,7 @@ function addSession() {
 }
 
 function deleteSession(id) {
-  save(load().filter(s => s.id !== id));
+  save(loadLocal().filter(s => s.id !== id));
   render();
 }
 
@@ -425,8 +459,8 @@ function clearAll() {
   if (confirm('Delete all usage entries?')) { save([]); render(); }
 }
 
-function render() {
-  const sessions = load();
+async function render() {
+  const sessions = await load();
   renderTiles(sessions);
   renderChart(sessions);
   renderLog(sessions);
@@ -546,12 +580,12 @@ function renderLog(sessions) {
   const rows = sessions.map(s => `
     <tr>
       <td>${s.date}</td>
-      <td class="model">${PRICING[s.model]?.label || s.model}</td>
+      <td class="model">${modelLabel(s.model)}</td>
       <td>${fmtTokens(s.input)}</td>
       <td>${fmtTokens(s.cached || 0)}</td>
       <td>${fmtTokens(s.output)}</td>
       <td class="cost">${fmtCost(s.cost)}</td>
-      <td><button class="del-btn" onclick="deleteSession(${s.id})" title="Delete">×</button></td>
+      <td>${s.source === 'codex' ? '' : `<button class="del-btn" onclick="deleteSession(${s.id})" title="Delete">×</button>`}</td>
     </tr>`).join('');
   body.innerHTML = `<table>
     <thead><tr>

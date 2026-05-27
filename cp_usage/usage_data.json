@@ -1,0 +1,102 @@
+{
+  "generatedAt": "2026-05-26T21:23:48",
+  "source": "/Users/darrahdata/.codex/logs_2.sqlite",
+  "entries": [
+    {
+      "id": "resp_01a7877c48713055016a1671c793a88195b0c5bc87f3e3fa74",
+      "threadId": "019e6792-c671-7623-8b0a-1787b7915b99",
+      "turnId": "019e67aa-949c-7f81-a866-d7b58a232ceb",
+      "date": "2026-05-26",
+      "source": "codex",
+      "model": "gpt-5.5",
+      "input": 135782,
+      "cached": 134528,
+      "output": 291,
+      "cost": 0.082264
+    },
+    {
+      "id": "resp_076a61b6b9376212016a166c61467c8195861941bcdbfed9aa",
+      "threadId": "019e6797-5651-75c3-9452-efcd2eeb2573",
+      "turnId": "019e6797-5684-7961-88a2-0dbee284571c",
+      "date": "2026-05-26",
+      "source": "codex",
+      "model": "gpt-5.4-mini-2026-03-17",
+      "input": 12714,
+      "cached": 2560,
+      "output": 73,
+      "cost": 0.05424
+    },
+    {
+      "id": "resp_00fbea17dc4ee688016a166b3541c88196ac70b5aeb074229c",
+      "threadId": "019e6792-840d-7d41-8b20-268615b0774c",
+      "turnId": "019e6792-8435-76f3-8c9a-b895567b14d7",
+      "date": "2026-05-26",
+      "source": "codex",
+      "model": "gpt-5.4",
+      "input": 25436,
+      "cached": 23424,
+      "output": 109,
+      "cost": 0.012521
+    },
+    {
+      "id": "resp_00fbea17dc4ee688016a166b3219f48196b41afdd332f601d4",
+      "threadId": "019e6792-840d-7d41-8b20-268615b0774c",
+      "turnId": "019e6792-8435-76f3-8c9a-b895567b14d7",
+      "date": "2026-05-26",
+      "source": "codex",
+      "model": "gpt-5.4",
+      "input": 23520,
+      "cached": 20864,
+      "output": 49,
+      "cost": 0.012591
+    },
+    {
+      "id": "resp_00fbea17dc4ee688016a166b2ecf0c81968e23d1ea0464e5f7",
+      "threadId": "019e6792-840d-7d41-8b20-268615b0774c",
+      "turnId": "019e6792-8435-76f3-8c9a-b895567b14d7",
+      "date": "2026-05-26",
+      "source": "codex",
+      "model": "gpt-5.4",
+      "input": 23395,
+      "cached": 5504,
+      "output": 108,
+      "cost": 0.047724
+    },
+    {
+      "id": "resp_00fbea17dc4ee688016a166b2b0f8c81968466f0dbc44a96cb",
+      "threadId": "019e6792-840d-7d41-8b20-268615b0774c",
+      "turnId": "019e6792-8435-76f3-8c9a-b895567b14d7",
+      "date": "2026-05-26",
+      "source": "codex",
+      "model": "gpt-5.4",
+      "input": 21144,
+      "cached": 18816,
+      "output": 148,
+      "cost": 0.012744
+    },
+    {
+      "id": "resp_00fbea17dc4ee688016a166b28da88819693c2db6186be5e45",
+      "threadId": "019e6792-840d-7d41-8b20-268615b0774c",
+      "turnId": "019e6792-8435-76f3-8c9a-b895567b14d7",
+      "date": "2026-05-26",
+      "source": "codex",
+      "model": "gpt-5.4",
+      "input": 18976,
+      "cached": 16256,
+      "output": 65,
+      "cost": 0.011839
+    },
+    {
+      "id": "resp_00fbea17dc4ee688016a166b264fdc8196893c21510d9f2f2b",
+      "threadId": "019e6792-840d-7d41-8b20-268615b0774c",
+      "turnId": "019e6792-8435-76f3-8c9a-b895567b14d7",
+      "date": "2026-05-26",
+      "source": "codex",
+      "model": "gpt-5.4",
+      "input": 16801,
+      "cached": 5504,
+      "output": 73,
+      "cost": 0.030713
+    }
+  ]
+}
