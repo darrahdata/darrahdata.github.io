@@ -241,11 +241,18 @@
     color: var(--text-soft);
   }
   .mystery-text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
     font-size: 0.9rem;
     color: var(--muted);
-    margin: 0 0 1.25rem;
-    padding-top: 0.9rem;
-    border-top: 1px solid var(--divider);
+    margin: 0;
+    padding: 1.4rem 1rem 1rem;
+    border-top: 1px solid rgba(197, 164, 100, 0.18);
+    background: linear-gradient(180deg, rgba(23, 23, 22, 0), rgba(23, 23, 22, 0.9) 18%, rgba(23, 23, 22, 0.98));
+    max-height: 54%;
+    overflow: auto;
   }
   .mystery-kicker {
     font-size: 0.68rem;
@@ -271,17 +278,19 @@
     line-height: 1.55;
   }
   .mystery-art {
-    margin: 0 0 0.9rem;
+    position: relative;
+    margin: 0 0 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface-2);
+    overflow: hidden;
   }
   .mystery-art img {
     display: block;
     width: 100%;
-    max-height: 280px;
+    max-height: 560px;
     object-fit: contain;
-    border: 1px solid var(--border);
-    border-radius: 6px;
     background: var(--surface-2);
-    padding: 0.35rem;
   }
 
   .common-prayer-section {
@@ -473,8 +482,8 @@
   <div class="prayer-card">
     <div class="mystery-art" id="mystery-art" style="display:none">
       <img id="mystery-image" loading="lazy" decoding="async" alt="">
+      <div class="mystery-text" id="mystery-text" style="display:none"></div>
     </div>
-    <div class="mystery-text" id="mystery-text" style="display:none"></div>
     <div class="prayer-type" id="prayer-type"></div>
     <div class="prayer-name" id="prayer-name"></div>
     <div class="prayer-text" id="prayer-text"></div>
@@ -837,9 +846,8 @@ function renderPrayer() {
     renderMysteryMeditation(mysteryEl, step, details);
   } else if (step.sub) {
     hideMysteryImage();
-    mysteryEl.style.display = 'block';
+    mysteryEl.style.display = 'none';
     mysteryEl.innerHTML = '';
-    mysteryEl.textContent = step.sub;
   } else {
     hideMysteryImage();
     mysteryEl.style.display = 'none';
@@ -864,9 +872,12 @@ function appendMysteryLine(container, className, text) {
 function hideMysteryImage() {
   const wrap = document.getElementById('mystery-art');
   const image = document.getElementById('mystery-image');
+  const text = document.getElementById('mystery-text');
   wrap.style.display = 'none';
   image.removeAttribute('src');
   image.alt = '';
+  text.style.display = 'none';
+  text.innerHTML = '';
 }
 
 function renderMysteryImage(details) {
