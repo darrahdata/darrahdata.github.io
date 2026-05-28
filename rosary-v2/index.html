@@ -282,6 +282,19 @@
     color: var(--muted);
     line-height: 1.55;
   }
+  .mystery-art {
+    margin-top: 1rem;
+  }
+  .mystery-art img {
+    display: block;
+    width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface-2);
+    padding: 0.35rem;
+  }
 
   .controls { display: flex; gap: 0.75rem; align-items: center; margin: 1rem 0 0; }
   .bottom-controls {
@@ -521,6 +534,9 @@
     <div class="prayer-type" id="prayer-type"></div>
     <div class="prayer-name" id="prayer-name"></div>
     <div class="prayer-text" id="prayer-text"></div>
+    <div class="mystery-art" id="mystery-art" style="display:none">
+      <img id="mystery-image" loading="lazy" decoding="async" alt="">
+    </div>
     <div class="mystery-text" id="mystery-text" style="display:none"></div>
   </div>
   <div class="status-bar" id="status-bar">Use next, prev, arrow keys, or tap the left/right side</div>
@@ -548,137 +564,170 @@ const MYSTERIES = {
   joyful: {
     name: 'Joyful Mysteries',
     singular: 'Joyful',
-    list: ['The Annunciation','The Visitation','The Nativity','The Presentation','The Finding in the Temple']
+    list: [
+      {
+        title: 'The Annunciation',
+        desire: 'I desire the love of humility.',
+        meditation: 'Think of Mary’s humility when the Angel Gabriel greeted her and announced that she would become the Mother of God.',
+        image: 'images/annunciation.jpg',
+        alt: 'Sacred art of the Annunciation, with the Angel Gabriel greeting Mary.'
+      },
+      {
+        title: 'The Visitation',
+        desire: 'I desire charity toward my neighbor.',
+        meditation: 'Think of Mary’s loving haste in visiting Elizabeth and remaining with her in service before the birth of John the Baptist.',
+        image: 'images/visitation.jpg',
+        alt: 'Sacred art of Mary visiting Elizabeth.'
+      },
+      {
+        title: 'The Nativity',
+        desire: 'I desire the love of God.',
+        meditation: 'Think of the poverty and tenderness of Bethlehem, where Mary placed the Infant Jesus in a manger.',
+        image: 'images/nativity.jpg',
+        alt: 'Sacred art of the Nativity of Jesus in Bethlehem.'
+      },
+      {
+        title: 'The Presentation',
+        desire: 'I desire a spirit of sacrifice.',
+        meditation: 'Think of Mary and Joseph presenting Jesus in the Temple in obedience to the law of God.',
+        image: 'images/presentation.jpg',
+        alt: 'Sacred art of Mary and Joseph presenting Jesus in the Temple.'
+      },
+      {
+        title: 'The Finding in the Temple',
+        desire: 'I desire zeal for the glory of God.',
+        meditation: 'Think of Mary and Joseph seeking Jesus for three days, and the joy of finding Him in His Father’s house.',
+        image: 'images/finding-in-the-temple.jpg',
+        alt: 'Sacred art of Mary and Joseph finding the child Jesus in the Temple.'
+      }
+    ]
   },
   sorrowful: {
     name: 'Sorrowful Mysteries',
     singular: 'Sorrowful',
-    list: ['The Agony in the Garden','The Scourging at the Pillar','The Crowning with Thorns','The Carrying of the Cross','The Crucifixion']
+    list: [
+      {
+        title: 'The Agony in the Garden',
+        desire: 'I desire true repentance for my sins.',
+        meditation: 'Think of Jesus praying in sorrow in the Garden of Gethsemane, accepting the Father’s will for our salvation.',
+        image: 'images/agony-in-the-garden.jpg',
+        alt: 'Sacred art of Jesus praying in the Garden of Gethsemane.'
+      },
+      {
+        title: 'The Scourging at the Pillar',
+        desire: 'I desire a spirit of mortification.',
+        meditation: 'Think of Jesus bound and scourged, offering His suffering for the sins of the world.',
+        image: 'images/scourging-at-the-pillar.jpg',
+        alt: 'Sacred art of Jesus at the scourging pillar.'
+      },
+      {
+        title: 'The Crowning with Thorns',
+        desire: 'I desire moral courage.',
+        meditation: 'Think of Jesus mocked, crowned with thorns, and clothed in contempt, yet remaining meek and kingly.',
+        image: 'images/crowning-with-thorns.jpg',
+        alt: 'Sacred art of Jesus crowned with thorns.'
+      },
+      {
+        title: 'The Carrying of the Cross',
+        desire: 'I desire the virtue of patience.',
+        meditation: 'Think of Jesus carrying the Cross to Calvary, bearing its weight with love and perseverance.',
+        image: 'images/carrying-of-the-cross.jpg',
+        alt: 'Sacred art of Jesus carrying the Cross to Calvary.'
+      },
+      {
+        title: 'The Crucifixion',
+        desire: 'I desire the grace of final perseverance.',
+        meditation: 'Think of Jesus dying on the Cross, forgiving sinners and giving Himself completely to the Father.',
+        image: 'images/crucifixion.jpg',
+        alt: 'Sacred art of the Crucifixion of Jesus.'
+      }
+    ]
   },
   glorious: {
     name: 'Glorious Mysteries',
     singular: 'Glorious',
-    list: ['The Resurrection','The Ascension','The Descent of the Holy Ghost','The Assumption of Mary','The Coronation of Mary']
+    list: [
+      {
+        title: 'The Resurrection',
+        desire: 'I desire a strong faith.',
+        meditation: 'Think of Jesus rising from the dead in triumph, conquering sin and death.',
+        image: 'images/resurrection.jpg',
+        alt: 'Sacred art of the Resurrection of Jesus.'
+      },
+      {
+        title: 'The Ascension',
+        desire: 'I desire the virtue of hope.',
+        meditation: 'Think of Jesus ascending into Heaven, where He prepares a place for those who follow Him.',
+        image: 'images/ascension.jpg',
+        alt: 'Sacred art of the Ascension of Jesus into Heaven.'
+      },
+      {
+        title: 'The Descent of the Holy Ghost',
+        desire: 'I desire zeal for the glory of God.',
+        meditation: 'Think of the Holy Spirit descending upon Mary and the Apostles, filling them with courage to proclaim Christ.',
+        image: 'images/descent-of-the-holy-ghost.jpg',
+        alt: 'Sacred art of the Holy Spirit descending upon Mary and the Apostles.'
+      },
+      {
+        title: 'The Assumption of Mary',
+        desire: 'I desire the grace of a holy death.',
+        meditation: 'Think of Mary being taken body and soul into Heaven, the first and most perfect disciple of her Son.',
+        image: 'images/assumption-of-mary.jpg',
+        alt: 'Sacred art of the Assumption of Mary into Heaven.'
+      },
+      {
+        title: 'The Coronation of Mary',
+        desire: 'I desire a greater love for the Blessed Virgin Mary.',
+        meditation: 'Think of Mary crowned Queen of Heaven and Earth, interceding for her children with a mother’s love.',
+        image: 'images/coronation-of-mary.jpg',
+        alt: 'Sacred art of the Coronation of Mary as Queen of Heaven and Earth.'
+      }
+    ]
   },
   luminous: {
     name: 'Luminous Mysteries',
     singular: 'Luminous',
-    list: ['The Baptism of the Lord','The Wedding at Cana','The Proclamation of the Kingdom','The Transfiguration','The Institution of the Eucharist']
+    list: [
+      {
+        title: 'The Baptism of the Lord',
+        desire: 'I desire openness to the Holy Spirit.',
+        meditation: 'Think of Jesus baptized in the Jordan, as the Father reveals Him as His beloved Son and the Spirit descends upon Him.',
+        image: 'images/baptism-of-the-lord.jpg',
+        alt: 'Sacred art of the Baptism of Jesus in the Jordan River.'
+      },
+      {
+        title: 'The Wedding at Cana',
+        desire: 'I desire trust in Mary’s intercession.',
+        meditation: 'Think of Mary saying, “Do whatever He tells you,” and Jesus performing His first miracle at her request.',
+        image: 'images/wedding-at-cana.jpg',
+        alt: 'Sacred art of the Wedding at Cana.'
+      },
+      {
+        title: 'The Proclamation of the Kingdom',
+        desire: 'I desire repentance and conversion.',
+        meditation: 'Think of Jesus calling all people to turn from sin, believe the Gospel, and enter the Kingdom of God.',
+        image: 'images/proclamation-of-the-kingdom.jpg',
+        alt: 'Sacred art of Jesus proclaiming the Kingdom of God.'
+      },
+      {
+        title: 'The Transfiguration',
+        desire: 'I desire a desire for holiness.',
+        meditation: 'Think of Jesus shining in glory before Peter, James, and John, revealing the splendor of His divine life.',
+        image: 'images/transfiguration.jpg',
+        alt: 'Sacred art of the Transfiguration of Jesus.'
+      },
+      {
+        title: 'The Institution of the Eucharist',
+        desire: 'I desire love of the Holy Eucharist.',
+        meditation: 'Think of Jesus giving His Body and Blood at the Last Supper, remaining with His Church in the sacrament of love.',
+        image: 'images/institution-of-the-eucharist.jpg',
+        alt: 'Sacred art of the Institution of the Eucharist at the Last Supper.'
+      }
+    ]
   }
 };
 
 const ORDINALS = ['First', 'Second', 'Third', 'Fourth', 'Fifth'];
-
-const MYSTERY_MEDITATIONS = {
-  joyful: [
-    {
-      title: 'The Annunciation',
-      desire: 'I desire the love of humility.',
-      meditation: 'Think of Mary’s humility when the Angel Gabriel greeted her and announced that she would become the Mother of God.'
-    },
-    {
-      title: 'The Visitation',
-      desire: 'I desire charity toward my neighbor.',
-      meditation: 'Think of Mary’s loving haste in visiting Elizabeth and remaining with her in service before the birth of John the Baptist.'
-    },
-    {
-      title: 'The Nativity',
-      desire: 'I desire the love of God.',
-      meditation: 'Think of the poverty and tenderness of Bethlehem, where Mary placed the Infant Jesus in a manger.'
-    },
-    {
-      title: 'The Presentation',
-      desire: 'I desire a spirit of sacrifice.',
-      meditation: 'Think of Mary and Joseph presenting Jesus in the Temple in obedience to the law of God.'
-    },
-    {
-      title: 'The Finding in the Temple',
-      desire: 'I desire zeal for the glory of God.',
-      meditation: 'Think of Mary and Joseph seeking Jesus for three days, and the joy of finding Him in His Father’s house.'
-    }
-  ],
-  sorrowful: [
-    {
-      title: 'The Agony in the Garden',
-      desire: 'I desire true repentance for my sins.',
-      meditation: 'Think of Jesus praying in sorrow in the Garden of Gethsemane, accepting the Father’s will for our salvation.'
-    },
-    {
-      title: 'The Scourging at the Pillar',
-      desire: 'I desire a spirit of mortification.',
-      meditation: 'Think of Jesus bound and scourged, offering His suffering for the sins of the world.'
-    },
-    {
-      title: 'The Crowning with Thorns',
-      desire: 'I desire moral courage.',
-      meditation: 'Think of Jesus mocked, crowned with thorns, and clothed in contempt, yet remaining meek and kingly.'
-    },
-    {
-      title: 'The Carrying of the Cross',
-      desire: 'I desire the virtue of patience.',
-      meditation: 'Think of Jesus carrying the Cross to Calvary, bearing its weight with love and perseverance.'
-    },
-    {
-      title: 'The Crucifixion',
-      desire: 'I desire the grace of final perseverance.',
-      meditation: 'Think of Jesus dying on the Cross, forgiving sinners and giving Himself completely to the Father.'
-    }
-  ],
-  glorious: [
-    {
-      title: 'The Resurrection',
-      desire: 'I desire a strong faith.',
-      meditation: 'Think of Jesus rising from the dead in triumph, conquering sin and death.'
-    },
-    {
-      title: 'The Ascension',
-      desire: 'I desire the virtue of hope.',
-      meditation: 'Think of Jesus ascending into Heaven, where He prepares a place for those who follow Him.'
-    },
-    {
-      title: 'The Descent of the Holy Ghost',
-      desire: 'I desire zeal for the glory of God.',
-      meditation: 'Think of the Holy Spirit descending upon Mary and the Apostles, filling them with courage to proclaim Christ.'
-    },
-    {
-      title: 'The Assumption of Mary',
-      desire: 'I desire the grace of a holy death.',
-      meditation: 'Think of Mary being taken body and soul into Heaven, the first and most perfect disciple of her Son.'
-    },
-    {
-      title: 'The Coronation of Mary',
-      desire: 'I desire a greater love for the Blessed Virgin Mary.',
-      meditation: 'Think of Mary crowned Queen of Heaven and Earth, interceding for her children with a mother’s love.'
-    }
-  ],
-  luminous: [
-    {
-      title: 'The Baptism of the Lord',
-      desire: 'I desire openness to the Holy Spirit.',
-      meditation: 'Think of Jesus baptized in the Jordan, as the Father reveals Him as His beloved Son and the Spirit descends upon Him.'
-    },
-    {
-      title: 'The Wedding at Cana',
-      desire: 'I desire trust in Mary’s intercession.',
-      meditation: 'Think of Mary saying, “Do whatever He tells you,” and Jesus performing His first miracle at her request.'
-    },
-    {
-      title: 'The Proclamation of the Kingdom',
-      desire: 'I desire repentance and conversion.',
-      meditation: 'Think of Jesus calling all people to turn from sin, believe the Gospel, and enter the Kingdom of God.'
-    },
-    {
-      title: 'The Transfiguration',
-      desire: 'I desire a desire for holiness.',
-      meditation: 'Think of Jesus shining in glory before Peter, James, and John, revealing the splendor of His divine life.'
-    },
-    {
-      title: 'The Institution of the Eucharist',
-      desire: 'I desire love of the Holy Eucharist.',
-      meditation: 'Think of Jesus giving His Body and Blood at the Last Supper, remaining with His Church in the sacrament of love.'
-    }
-  ]
-};
 
 const ROSARY_TYPES = {
   dominican: { name: 'Dominican Rosary' },
@@ -855,19 +904,24 @@ function renderPrayer() {
   resetVoiceTracking();
   const mysteryEl = document.getElementById('mystery-text');
   if (step.mystery) {
-    renderMysteryMeditation(mysteryEl, step);
+    const details = getMysteryMeditation(step.mystery);
+    renderMysteryImage(details);
+    renderMysteryMeditation(mysteryEl, step, details);
   } else if (step.sub) {
+    hideMysteryImage();
     mysteryEl.style.display = 'block';
     mysteryEl.innerHTML = '';
     mysteryEl.textContent = step.sub;
   } else {
+    hideMysteryImage();
     mysteryEl.style.display = 'none';
   }
 }
 
-function getMysteryMeditation(mysteryName) {
-  const meditations = MYSTERY_MEDITATIONS[state.mysteryKey] || [];
-  const index = meditations.findIndex(item => item.title === mysteryName);
+function getMysteryMeditation(mystery) {
+  const meditations = MYSTERIES[state.mysteryKey]?.list || [];
+  const title = typeof mystery === 'string' ? mystery : mystery?.title;
+  const index = meditations.findIndex(item => item.title === title);
   if (index === -1) return null;
   return { ...meditations[index], index };
 }
@@ -879,13 +933,39 @@ function appendMysteryLine(container, className, text) {
   container.appendChild(el);
 }
 
-function renderMysteryMeditation(container, step) {
-  const details = getMysteryMeditation(step.mystery);
+function hideMysteryImage() {
+  const wrap = document.getElementById('mystery-art');
+  const image = document.getElementById('mystery-image');
+  wrap.style.display = 'none';
+  image.removeAttribute('src');
+  image.alt = '';
+}
+
+function renderMysteryImage(details) {
+  const wrap = document.getElementById('mystery-art');
+  const image = document.getElementById('mystery-image');
+  if (!details?.image) {
+    hideMysteryImage();
+    return;
+  }
+  image.onerror = () => {
+    wrap.style.display = 'none';
+  };
+  image.onload = () => {
+    wrap.style.display = 'block';
+  };
+  image.alt = details.alt || details.title || '';
+  image.src = details.image;
+  wrap.style.display = 'block';
+}
+
+function renderMysteryMeditation(container, step, details) {
   container.style.display = 'block';
   container.innerHTML = '';
 
   if (!details) {
-    container.textContent = (step.decade ? step.decade + '. ' : '') + step.mystery;
+    const mysteryTitle = typeof step.mystery === 'string' ? step.mystery : step.mystery?.title;
+    container.textContent = (step.decade ? step.decade + '. ' : '') + mysteryTitle;
     return;
   }
 
