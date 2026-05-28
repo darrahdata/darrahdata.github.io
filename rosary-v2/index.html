@@ -254,11 +254,33 @@
   }
   .mystery-text {
     font-size: 0.9rem;
-    font-style: italic;
     color: var(--muted);
     margin-top: 0.75rem;
     padding-top: 0.75rem;
     border-top: 1px solid var(--divider);
+  }
+  .mystery-kicker {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 0.35rem;
+  }
+  .mystery-title {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--accent);
+    font-size: 1.35rem;
+    line-height: 1.1;
+    margin-bottom: 0.45rem;
+  }
+  .mystery-desire {
+    color: var(--text-soft);
+    font-style: italic;
+    margin-bottom: 0.35rem;
+  }
+  .mystery-meditation {
+    color: var(--muted);
+    line-height: 1.55;
   }
 
   .controls { display: flex; gap: 0.75rem; align-items: center; margin: 1rem 0 0; }
@@ -523,20 +545,137 @@
 const MYSTERIES = {
   joyful: {
     name: 'Joyful Mysteries',
+    singular: 'Joyful',
     list: ['The Annunciation','The Visitation','The Nativity','The Presentation','The Finding in the Temple']
   },
   sorrowful: {
     name: 'Sorrowful Mysteries',
+    singular: 'Sorrowful',
     list: ['The Agony in the Garden','The Scourging at the Pillar','The Crowning with Thorns','The Carrying of the Cross','The Crucifixion']
   },
   glorious: {
     name: 'Glorious Mysteries',
-    list: ['The Resurrection','The Ascension','The Descent of the Holy Spirit','The Assumption of Mary','The Coronation of Mary']
+    singular: 'Glorious',
+    list: ['The Resurrection','The Ascension','The Descent of the Holy Ghost','The Assumption of Mary','The Coronation of Mary']
   },
   luminous: {
     name: 'Luminous Mysteries',
+    singular: 'Luminous',
     list: ['The Baptism of the Lord','The Wedding at Cana','The Proclamation of the Kingdom','The Transfiguration','The Institution of the Eucharist']
   }
+};
+
+const ORDINALS = ['First', 'Second', 'Third', 'Fourth', 'Fifth'];
+
+const MYSTERY_MEDITATIONS = {
+  joyful: [
+    {
+      title: 'The Annunciation',
+      desire: 'I desire the love of humility.',
+      meditation: 'Think of Mary’s humility when the Angel Gabriel greeted her and announced that she would become the Mother of God.'
+    },
+    {
+      title: 'The Visitation',
+      desire: 'I desire charity toward my neighbor.',
+      meditation: 'Think of Mary’s loving haste in visiting Elizabeth and remaining with her in service before the birth of John the Baptist.'
+    },
+    {
+      title: 'The Nativity',
+      desire: 'I desire the love of God.',
+      meditation: 'Think of the poverty and tenderness of Bethlehem, where Mary placed the Infant Jesus in a manger.'
+    },
+    {
+      title: 'The Presentation',
+      desire: 'I desire a spirit of sacrifice.',
+      meditation: 'Think of Mary and Joseph presenting Jesus in the Temple in obedience to the law of God.'
+    },
+    {
+      title: 'The Finding in the Temple',
+      desire: 'I desire zeal for the glory of God.',
+      meditation: 'Think of Mary and Joseph seeking Jesus for three days, and the joy of finding Him in His Father’s house.'
+    }
+  ],
+  sorrowful: [
+    {
+      title: 'The Agony in the Garden',
+      desire: 'I desire true repentance for my sins.',
+      meditation: 'Think of Jesus praying in sorrow in the Garden of Gethsemane, accepting the Father’s will for our salvation.'
+    },
+    {
+      title: 'The Scourging at the Pillar',
+      desire: 'I desire a spirit of mortification.',
+      meditation: 'Think of Jesus bound and scourged, offering His suffering for the sins of the world.'
+    },
+    {
+      title: 'The Crowning with Thorns',
+      desire: 'I desire moral courage.',
+      meditation: 'Think of Jesus mocked, crowned with thorns, and clothed in contempt, yet remaining meek and kingly.'
+    },
+    {
+      title: 'The Carrying of the Cross',
+      desire: 'I desire the virtue of patience.',
+      meditation: 'Think of Jesus carrying the Cross to Calvary, bearing its weight with love and perseverance.'
+    },
+    {
+      title: 'The Crucifixion',
+      desire: 'I desire the grace of final perseverance.',
+      meditation: 'Think of Jesus dying on the Cross, forgiving sinners and giving Himself completely to the Father.'
+    }
+  ],
+  glorious: [
+    {
+      title: 'The Resurrection',
+      desire: 'I desire a strong faith.',
+      meditation: 'Think of Jesus rising from the dead in triumph, conquering sin and death.'
+    },
+    {
+      title: 'The Ascension',
+      desire: 'I desire the virtue of hope.',
+      meditation: 'Think of Jesus ascending into Heaven, where He prepares a place for those who follow Him.'
+    },
+    {
+      title: 'The Descent of the Holy Ghost',
+      desire: 'I desire zeal for the glory of God.',
+      meditation: 'Think of the Holy Spirit descending upon Mary and the Apostles, filling them with courage to proclaim Christ.'
+    },
+    {
+      title: 'The Assumption of Mary',
+      desire: 'I desire the grace of a holy death.',
+      meditation: 'Think of Mary being taken body and soul into Heaven, the first and most perfect disciple of her Son.'
+    },
+    {
+      title: 'The Coronation of Mary',
+      desire: 'I desire a greater love for the Blessed Virgin Mary.',
+      meditation: 'Think of Mary crowned Queen of Heaven and Earth, interceding for her children with a mother’s love.'
+    }
+  ],
+  luminous: [
+    {
+      title: 'The Baptism of the Lord',
+      desire: 'I desire openness to the Holy Spirit.',
+      meditation: 'Think of Jesus baptized in the Jordan, as the Father reveals Him as His beloved Son and the Spirit descends upon Him.'
+    },
+    {
+      title: 'The Wedding at Cana',
+      desire: 'I desire trust in Mary’s intercession.',
+      meditation: 'Think of Mary saying, “Do whatever He tells you,” and Jesus performing His first miracle at her request.'
+    },
+    {
+      title: 'The Proclamation of the Kingdom',
+      desire: 'I desire repentance and conversion.',
+      meditation: 'Think of Jesus calling all people to turn from sin, believe the Gospel, and enter the Kingdom of God.'
+    },
+    {
+      title: 'The Transfiguration',
+      desire: 'I desire a desire for holiness.',
+      meditation: 'Think of Jesus shining in glory before Peter, James, and John, revealing the splendor of His divine life.'
+    },
+    {
+      title: 'The Institution of the Eucharist',
+      desire: 'I desire love of the Holy Eucharist.',
+      meditation: 'Think of Jesus giving His Body and Blood at the Last Supper, remaining with His Church in the sacrament of love.'
+    }
+  ]
 };
 
 const ROSARY_TYPES = {
@@ -704,14 +843,46 @@ function renderPrayer() {
   resetVoiceTracking();
   const mysteryEl = document.getElementById('mystery-text');
   if (step.mystery) {
-    mysteryEl.style.display = 'block';
-    mysteryEl.textContent = (step.decade ? step.decade + '. ' : '') + step.mystery;
+    renderMysteryMeditation(mysteryEl, step);
   } else if (step.sub) {
     mysteryEl.style.display = 'block';
+    mysteryEl.innerHTML = '';
     mysteryEl.textContent = step.sub;
   } else {
     mysteryEl.style.display = 'none';
   }
+}
+
+function getMysteryMeditation(mysteryName) {
+  const meditations = MYSTERY_MEDITATIONS[state.mysteryKey] || [];
+  const index = meditations.findIndex(item => item.title === mysteryName);
+  if (index === -1) return null;
+  return { ...meditations[index], index };
+}
+
+function appendMysteryLine(container, className, text) {
+  const el = document.createElement('div');
+  el.className = className;
+  el.textContent = text;
+  container.appendChild(el);
+}
+
+function renderMysteryMeditation(container, step) {
+  const details = getMysteryMeditation(step.mystery);
+  container.style.display = 'block';
+  container.innerHTML = '';
+
+  if (!details) {
+    container.textContent = (step.decade ? step.decade + '. ' : '') + step.mystery;
+    return;
+  }
+
+  const setName = MYSTERIES[state.mysteryKey].singular;
+  const ordinal = ORDINALS[details.index] || String(details.index + 1);
+  appendMysteryLine(container, 'mystery-kicker', 'The ' + ordinal + ' ' + setName + ' Mystery');
+  appendMysteryLine(container, 'mystery-title', details.title);
+  appendMysteryLine(container, 'mystery-desire', details.desire);
+  appendMysteryLine(container, 'mystery-meditation', details.meditation);
 }
 
 function renderPrayerText(text) {
