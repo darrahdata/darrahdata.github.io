@@ -448,14 +448,15 @@
     <div class="setup-label">Common prayers</div>
     <div class="common-prayer-row">
       <select class="common-prayer-select" id="common-prayer-select" aria-label="Choose a common prayer">
+        <option value="comeHolySpirit">Come, Holy Spirit</option>
+        <option value="divineMercy">Divine Mercy Chaplet</option>
+        <option value="jesusITrust">Jesus, I Trust in You</option>
         <option value="actOfContrition">Act of Contrition</option>
         <option value="graceBeforeMeals">Grace Before Meals</option>
         <option value="guardianAngel">Guardian Angel Prayer</option>
         <option value="stMichael">Prayer to St. Michael</option>
-        <option value="comeHolySpirit">Come, Holy Spirit</option>
         <option value="memorare">Memorare</option>
         <option value="angelus">The Angelus</option>
-        <option value="divineMercy">Divine Mercy Chaplet</option>
         <option value="prayerForTheSick">Prayer for the Sick</option>
         <option value="stPeregrine">Prayer to St. Peregrine</option>
       </select>
@@ -716,6 +717,11 @@ const COMMON_PRAYERS = {
     type: 'Invocation',
     name: 'Come, Holy Spirit',
     text: "Come, Holy Spirit, fill the hearts of Thy faithful and kindle in them the fire of Thy love. Send forth Thy Spirit, and they shall be created, and Thou shalt renew the face of the earth. O God, who by the light of the Holy Spirit didst instruct the hearts of the faithful, grant that by the same Holy Spirit we may be truly wise and ever rejoice in His consolation, through Christ our Lord. Amen."
+  },
+  jesusITrust: {
+    type: 'Trust prayer',
+    name: 'Jesus, I Trust in You',
+    text: "Lord Jesus, You who pour out mercy upon the world, teach me holy discipline. Help me choose what leads me closer to You over what satisfies me in the moment. Strengthen me to keep my word, to master distraction, to overcome overthinking and delay. Order my time, my energy, and my focus so that my work glorifies You and my habits reflect Your grace. Shape me into who You created me to be. Let every small act of self-control be an offering of love. Jesus, I trust in You."
   },
   prayerForTheSick: {
     type: 'Healing prayer',
