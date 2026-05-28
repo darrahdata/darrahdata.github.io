@@ -292,6 +292,14 @@
     object-fit: contain;
     background: var(--surface-2);
   }
+  .prayer-card.image-only .mystery-art {
+    margin-bottom: 0;
+  }
+  .prayer-card.image-only .prayer-type,
+  .prayer-card.image-only .prayer-name,
+  .prayer-card.image-only .prayer-text {
+    display: none;
+  }
 
   .common-prayer-section {
     margin-top: 1.5rem;
@@ -691,31 +699,43 @@ const COMMON_PRAYERS = {
   divineMercy: {
     type: 'Chaplet',
     name: 'Divine Mercy Chaplet',
+    image: 'images/prayer-divine-mercy-chaplet.png',
+    alt: 'Prayer card for the Divine Mercy Chaplet with Jesus and rays of mercy.',
     text: "You expired, Jesus, but the source of life gushed forth for souls, and the ocean of mercy opened up for the whole world. O Fount of Life, unfathomable Divine Mercy, envelop the whole world and empty Yourself out upon us. O Blood and Water, which gushed forth from the Heart of Jesus as a fountain of mercy for us, I trust in You. Eternal Father, I offer You the Body and Blood, Soul and Divinity of Your dearly beloved Son, our Lord Jesus Christ, in atonement for our sins and those of the whole world. For the sake of His sorrowful Passion, have mercy on us and on the whole world. Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world."
   },
   memorare: {
     type: 'Marian prayer',
     name: 'Memorare',
+    image: 'images/prayer-memorare.png',
+    alt: 'Prayer card for the Memorare with the Blessed Virgin Mary.',
     text: "Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thy intercession was left unaided. Inspired by this confidence, I fly unto thee, O Virgin of virgins, my Mother. To thee do I come, before thee I stand, sinful and sorrowful. O Mother of the Word Incarnate, despise not my petitions, but in thy mercy hear and answer me. Amen."
   },
   stMichael: {
     type: 'Protection prayer',
     name: 'Prayer to St. Michael',
+    image: 'images/prayer-st-michael.png',
+    alt: 'Prayer card for the Prayer to St. Michael the Archangel.',
     text: "St. Michael the Archangel, defend us in battle. Be our protection against the wickedness and snares of the devil. May God rebuke him, we humbly pray, and do thou, O Prince of the heavenly host, by the power of God, cast into hell Satan and all the evil spirits who prowl about the world seeking the ruin of souls. Amen."
   },
   angelus: {
     type: 'Devotional prayer',
     name: 'The Angelus',
+    image: 'images/prayer-angelus.png',
+    alt: 'Prayer card for The Angelus with the Annunciation.',
     text: "The Angel of the Lord declared unto Mary, and she conceived of the Holy Spirit. Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen. Behold the handmaid of the Lord. Be it done unto me according to thy word. And the Word was made flesh, and dwelt among us. Pray for us, O holy Mother of God, that we may be made worthy of the promises of Christ. Amen."
   },
   actOfContrition: {
     type: 'Penitential prayer',
     name: 'Act of Contrition',
+    image: 'images/prayer-act-of-contrition.png',
+    alt: 'Prayer card for the Act of Contrition.',
     text: "O my God, I am heartily sorry for having offended Thee, and I detest all my sins because I dread the loss of heaven and the pains of hell, but most of all because they offend Thee, my God, who art all good and deserving of all my love. I firmly resolve, with the help of Thy grace, to confess my sins, to do penance, and to amend my life. Amen."
   },
   comeHolySpirit: {
     type: 'Invocation',
     name: 'Come, Holy Spirit',
+    image: 'images/prayer-come-holy-spirit.png',
+    alt: 'Prayer card for Come, Holy Spirit with the Holy Spirit descending at Pentecost.',
     text: "Come, Holy Spirit, fill the hearts of Thy faithful and kindle in them the fire of Thy love. Send forth Thy Spirit, and they shall be created, and Thou shalt renew the face of the earth. O God, who by the light of the Holy Spirit didst instruct the hearts of the faithful, grant that by the same Holy Spirit we may be truly wise and ever rejoice in His consolation, through Christ our Lord. Amen."
   },
   jesusITrust: {
@@ -726,21 +746,29 @@ const COMMON_PRAYERS = {
   prayerForTheSick: {
     type: 'Healing prayer',
     name: 'Prayer for the Sick',
+    image: 'images/prayer-for-the-sick.png',
+    alt: 'Prayer card for the Prayer for the Sick.',
     text: "Heavenly Father, giver of life and health, comfort and relieve your sick servant, and give your power of healing to those who minister to their needs. May they be strengthened in weakness, confident in your loving care, and restored to health according to your holy will, through Christ our Lord. Amen."
   },
   stPeregrine: {
     type: 'Healing prayer',
     name: 'Prayer to St. Peregrine',
+    image: 'images/prayer-st-peregrine.png',
+    alt: 'Prayer card for the Prayer to St. Peregrine.',
     text: "O great St. Peregrine, you have been called “the Mighty” and “the Wonder Worker” because of the many miracles obtained through your intercession. For so many years you bore in your own flesh a painful illness, and you turned to God with faith and trust. Please intercede for all who suffer from cancer and serious disease. Ask the Lord to grant them healing, strength, courage, and peace. Help them unite their suffering to Christ, and never lose hope in God’s mercy. St. Peregrine, pray for us. Amen."
   },
   guardianAngel: {
     type: 'Daily prayer',
     name: 'Guardian Angel Prayer',
+    image: 'images/prayer-guardian-angel.png',
+    alt: 'Prayer card for the Guardian Angel Prayer.',
     text: "Angel of God, my guardian dear, to whom God's love commits me here, ever this day be at my side, to light and guard, to rule and guide. Amen."
   },
   graceBeforeMeals: {
     type: 'Meal blessing',
     name: 'Grace Before Meals',
+    image: 'images/prayer-grace-before-meals.png',
+    alt: 'Prayer card for Grace Before Meals.',
     text: "Bless us, O Lord, and these Thy gifts, which we are about to receive from Thy bounty, through Christ our Lord. Amen."
   }
 };
@@ -845,11 +873,16 @@ function renderPrayer() {
   document.getElementById('prayer-type').textContent = step.type || '';
   document.getElementById('prayer-name').textContent = step.name || '';
   renderPrayerText(step.text || '');
+  document.querySelector('.prayer-card').classList.toggle('image-only', Boolean(state.commonPrayerKey && step.image));
   const mysteryEl = document.getElementById('mystery-text');
   if (step.mystery) {
     const details = getMysteryMeditation(step.mystery);
     renderMysteryImage(details);
     renderMysteryMeditation(mysteryEl, step, details);
+  } else if (step.image) {
+    renderMysteryImage(step);
+    mysteryEl.style.display = 'none';
+    mysteryEl.innerHTML = '';
   } else if (step.sub) {
     hideMysteryImage();
     mysteryEl.style.display = 'none';
