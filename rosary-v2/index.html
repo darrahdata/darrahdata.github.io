@@ -99,6 +99,11 @@
     transition: all 0.2s;
   }
   .home-btn:hover { border-color: var(--accent); color: var(--text); }
+  body.prayer-active h1,
+  body.prayer-active .subtitle,
+  body.prayer-active .home-btn {
+    display: none;
+  }
 
   .setup-section { margin-bottom: 1.5rem; }
   .setup-label {
@@ -889,6 +894,7 @@ function showSetup() {
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  document.body.classList.toggle('prayer-active', id === 'screen-prayer');
 }
 
 function renderPrayer() {
