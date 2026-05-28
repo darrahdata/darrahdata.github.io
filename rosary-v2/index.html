@@ -80,6 +80,26 @@
   }
   .timer-pill.active { display: block; }
 
+  .home-btn {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 10;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: rgba(36, 35, 33, 0.92);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.05rem;
+    transition: all 0.2s;
+  }
+  .home-btn:hover { border-color: var(--accent); color: var(--text); }
+
   .setup-section { margin-bottom: 1.5rem; }
   .setup-label {
     font-size: 0.75rem;
@@ -151,73 +171,43 @@
     color: var(--muted-2);
     letter-spacing: 0.08em;
   }
-
-  #rosary-svg {
-    width: 100%;
-    max-width: 340px;
-    margin: 0.25rem auto 0.5rem;
-    display: block;
-    overflow: visible;
-  }
-  .rosary-stage {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 112px;
-    gap: 0.75rem;
-    align-items: center;
-    margin: 0.25rem 0 0.5rem;
-  }
-  .rosary-stage #rosary-svg { margin: 0 auto; }
-  .accuracy-panel {
+  .progress-wrap {
+    margin: 0.7rem 0 1rem;
+    padding: 0.85rem;
     border: 1px solid var(--border);
     border-radius: 6px;
     background: var(--surface);
-    padding: 0.75rem;
-    text-align: center;
   }
-  .accuracy-label {
-    color: var(--muted);
-    font-size: 0.62rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+  .progress-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0.65rem;
   }
-  .accuracy-value {
+  .progress-title {
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+  .progress-count {
     color: var(--accent);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
-    line-height: 1.1;
-    margin-top: 0.2rem;
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
-  .accuracy-detail {
-    color: var(--muted-2);
-    font-size: 0.68rem;
-    font-style: italic;
-    margin-top: 0.2rem;
+  .progress-track {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    overflow: hidden;
   }
-  .rb-chain { fill: none; stroke: var(--chain); stroke-width: 1.5; }
-  .rb-bead { transition: filter 0.5s ease; }
-  .rb-bead circle {
-    fill: var(--bead-fill);
-    stroke: var(--border);
-    stroke-width: 1.5;
-    transition: fill 0.5s ease, stroke 0.5s ease;
+  .progress-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--accent);
+    transition: width 0.25s ease;
   }
-  .rb-bead.done circle { fill: url(#grad-done); stroke: var(--done-stroke); }
-  .rb-bead.current circle { fill: url(#grad-current); stroke: var(--accent); }
-  .rb-bead.current { animation: bead-pulse 2s ease-in-out infinite; }
-  @keyframes bead-pulse {
-    0%,100% { filter: drop-shadow(0 0 4px rgba(201,169,110,0.5)); }
-    50%      { filter: drop-shadow(0 0 12px rgba(201,169,110,1)); }
-  }
-  .rb-cross { transition: filter 0.5s ease; }
-  .rb-cross line {
-    stroke: var(--border);
-    stroke-width: 3.5;
-    stroke-linecap: round;
-    transition: stroke 0.5s ease;
-  }
-  .rb-cross.done line { stroke: var(--done-stroke); }
-  .rb-cross.current line { stroke: var(--cross-current); }
-  .rb-cross.current { animation: bead-pulse 2s ease-in-out infinite; }
 
   .prayer-card {
     background: var(--surface);
@@ -259,6 +249,9 @@
     color: var(--accent);
     box-shadow: 0 1px 0 var(--accent);
   }
+  .prayer-word.near-word {
+    background: rgba(197, 164, 100, 0.12);
+  }
   .mystery-text {
     font-size: 0.9rem;
     font-style: italic;
@@ -268,8 +261,14 @@
     border-top: 1px solid var(--divider);
   }
 
-  .controls { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1rem; }
-  .top-controls { margin-bottom: 1.25rem; }
+  .controls { display: flex; gap: 0.75rem; align-items: center; margin: 1rem 0 0; }
+  .bottom-controls {
+    position: sticky;
+    bottom: 0.75rem;
+    z-index: 8;
+    padding: 0.6rem 0;
+    background: linear-gradient(180deg, rgba(23,23,22,0), var(--bg) 28%);
+  }
   .ctrl-btn {
     flex: 1;
     padding: 0.75rem;
@@ -310,10 +309,42 @@
   }
   .status-bar.active { color: var(--accent); }
 
+  .common-prayer-section {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--divider);
+    padding-top: 1rem;
+  }
+  .common-prayer-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem;
+  }
+  .common-prayer-select {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface-2);
+    color: var(--text-soft);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 0.95rem;
+    padding: 0 0.7rem;
+  }
+  .common-prayer-btn {
+    min-height: 46px;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-family: 'Lora', Georgia, serif;
+    padding: 0 0.9rem;
+    cursor: pointer;
+  }
+
   .back-btn {
     position: fixed;
     top: 1rem;
-    left: 1rem;
+    left: 3.75rem;
     z-index: 10;
     background: transparent;
     border: none;
@@ -358,22 +389,17 @@
   hr.divider { border: none; border-top: 1px solid var(--divider); margin: 1rem 0; }
 
   @media (max-width: 520px) {
-    .rosary-stage { grid-template-columns: 1fr; }
-    .accuracy-panel {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 0.5rem;
-      align-items: center;
-      text-align: left;
-    }
-    .accuracy-value { margin-top: 0; text-align: center; }
-    .accuracy-detail { margin-top: 0; text-align: right; }
+    .common-prayer-row { grid-template-columns: 1fr; }
+    .bottom-controls { bottom: 0; }
   }
 </style>
 </head>
 <body>
 
 <div class="timer-pill" id="timer-pill">00:00</div>
+<a class="home-btn" href="/" aria-label="Home" title="Home">
+  <i class="ti ti-home"></i>
+</a>
 
 <h1>✦ The Rosary</h1>
 <p class="subtitle">A contemplative companion for prayer</p>
@@ -435,28 +461,36 @@
     </div>
   </div>
   <button class="start-btn" id="start-btn" onclick="startRosary()" disabled>Begin</button>
+  <div class="common-prayer-section">
+    <div class="setup-label">Common prayers</div>
+    <div class="common-prayer-row">
+      <select class="common-prayer-select" id="common-prayer-select" aria-label="Choose a common prayer">
+        <option value="divineMercy">Divine Mercy Chaplet</option>
+        <option value="memorare">Memorare</option>
+        <option value="stMichael">Prayer to St. Michael</option>
+        <option value="angelus">The Angelus</option>
+        <option value="actOfContrition">Act of Contrition</option>
+        <option value="guardianAngel">Guardian Angel Prayer</option>
+        <option value="graceBeforeMeals">Grace Before Meals</option>
+      </select>
+      <button class="common-prayer-btn" onclick="startCommonPrayer()">Open</button>
+    </div>
+  </div>
 </div>
 
 <!-- Prayer Screen -->
 <div class="screen" id="screen-prayer">
-  <div class="controls top-controls">
-    <button class="ctrl-btn btn-prev" onclick="prevBead()">← prev</button>
-    <button class="mic-btn" id="mic-btn" onclick="toggleMic()" title="Toggle voice">
-      <i class="ti ti-microphone"></i>
-    </button>
-    <button class="ctrl-btn btn-next" onclick="nextBead()">next →</button>
-  </div>
   <button class="back-btn" onclick="showSetup()">← back</button>
   <div class="prayer-header">
     <span class="mystery-name" id="mystery-label"></span>
-    <span class="progress-text" id="progress-label"></span>
   </div>
-  <div class="rosary-stage">
-    <svg id="rosary-svg" viewBox="0 0 340 430" xmlns="http://www.w3.org/2000/svg"></svg>
-    <div class="accuracy-panel" id="accuracy-panel">
-      <div class="accuracy-label">Accuracy</div>
-      <div class="accuracy-value" id="accuracy-value">0%</div>
-      <div class="accuracy-detail" id="accuracy-detail">0 / 0 words</div>
+  <div class="progress-wrap" aria-live="polite">
+    <div class="progress-row">
+      <div class="progress-title" id="progress-title">Prayer progress</div>
+      <div class="progress-count" id="progress-label"></div>
+    </div>
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-fill" id="progress-fill"></div>
     </div>
   </div>
   <div class="prayer-card">
@@ -465,13 +499,20 @@
     <div class="prayer-text" id="prayer-text"></div>
     <div class="mystery-text" id="mystery-text" style="display:none"></div>
   </div>
-  <div class="status-bar" id="status-bar">Use next, prev, or the arrow keys to move beads</div>
+  <div class="status-bar" id="status-bar">Use next, prev, arrow keys, or tap the left/right side</div>
+  <div class="controls bottom-controls">
+    <button class="ctrl-btn btn-prev" onclick="prevBead()">← prev</button>
+    <button class="mic-btn" id="mic-btn" onclick="toggleMic()" title="Toggle voice">
+      <i class="ti ti-microphone"></i>
+    </button>
+    <button class="ctrl-btn btn-next" onclick="nextBead()">next →</button>
+  </div>
 </div>
 
 <!-- Complete Screen -->
 <div class="screen" id="screen-complete">
   <div class="complete-card">
-    <h2>Rosary Complete</h2>
+    <h2 id="complete-title">Prayer Complete</h2>
     <hr class="divider">
     <p>"The Rosary is the weapon for these times."<br><em>— Padre Pio</em></p>
     <button class="restart-btn" onclick="showSetup()">Pray again</button>
@@ -514,6 +555,44 @@ const PRAYERS = {
   hailHolyQueen: { type: 'Closing prayer', name: 'Hail, Holy Queen', text: "Hail, Holy Queen, Mother of Mercy! Our life, our sweetness, and our hope! To thee do we cry, poor banished children of Eve; to thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious Advocate, thine eyes of mercy toward us; and after this our exile show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Pray for us, O holy Mother of God, that we may be made worthy of the promises of Christ. Amen." }
 };
 
+const COMMON_PRAYERS = {
+  divineMercy: {
+    type: 'Chaplet',
+    name: 'Divine Mercy Chaplet',
+    text: "You expired, Jesus, but the source of life gushed forth for souls, and the ocean of mercy opened up for the whole world. O Fount of Life, unfathomable Divine Mercy, envelop the whole world and empty Yourself out upon us. O Blood and Water, which gushed forth from the Heart of Jesus as a fountain of mercy for us, I trust in You. Eternal Father, I offer You the Body and Blood, Soul and Divinity of Your dearly beloved Son, our Lord Jesus Christ, in atonement for our sins and those of the whole world. For the sake of His sorrowful Passion, have mercy on us and on the whole world. Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world."
+  },
+  memorare: {
+    type: 'Marian prayer',
+    name: 'Memorare',
+    text: "Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thy intercession was left unaided. Inspired by this confidence, I fly unto thee, O Virgin of virgins, my Mother. To thee do I come, before thee I stand, sinful and sorrowful. O Mother of the Word Incarnate, despise not my petitions, but in thy mercy hear and answer me. Amen."
+  },
+  stMichael: {
+    type: 'Protection prayer',
+    name: 'Prayer to St. Michael',
+    text: "St. Michael the Archangel, defend us in battle. Be our protection against the wickedness and snares of the devil. May God rebuke him, we humbly pray, and do thou, O Prince of the heavenly host, by the power of God, cast into hell Satan and all the evil spirits who prowl about the world seeking the ruin of souls. Amen."
+  },
+  angelus: {
+    type: 'Devotional prayer',
+    name: 'The Angelus',
+    text: "The Angel of the Lord declared unto Mary, and she conceived of the Holy Spirit. Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen. Behold the handmaid of the Lord. Be it done unto me according to thy word. And the Word was made flesh, and dwelt among us. Pray for us, O holy Mother of God, that we may be made worthy of the promises of Christ. Amen."
+  },
+  actOfContrition: {
+    type: 'Penitential prayer',
+    name: 'Act of Contrition',
+    text: "O my God, I am heartily sorry for having offended Thee, and I detest all my sins because I dread the loss of heaven and the pains of hell, but most of all because they offend Thee, my God, who art all good and deserving of all my love. I firmly resolve, with the help of Thy grace, to confess my sins, to do penance, and to amend my life. Amen."
+  },
+  guardianAngel: {
+    type: 'Daily prayer',
+    name: 'Guardian Angel Prayer',
+    text: "Angel of God, my guardian dear, to whom God's love commits me here, ever this day be at my side, to light and guard, to rule and guide. Amen."
+  },
+  graceBeforeMeals: {
+    type: 'Meal blessing',
+    name: 'Grace Before Meals',
+    text: "Bless us, O Lord, and these Thy gifts, which we are about to receive from Thy bounty, through Christ our Lord. Amen."
+  }
+};
+
 function buildSequence(mysteryKey, decadeCount) {
   const mysteries = MYSTERIES[mysteryKey].list;
   const decades = Math.max(1, Math.min(5, Number(decadeCount) || 5));
@@ -539,6 +618,7 @@ function buildSequence(mysteryKey, decadeCount) {
 let state = {
   mysteryKey: null,
   rosaryKey: 'dominican',
+  commonPrayerKey: null,
   decadeCount: 5,
   sequence: [],
   currentIndex: 0,
@@ -567,12 +647,28 @@ function updateStartBtn() {
 function startRosary() {
   state.mysteryKey = selections.mystery;
   state.rosaryKey = selections.rosary;
+  state.commonPrayerKey = null;
   state.decadeCount = Number(selections.decades);
   state.sequence = buildSequence(state.mysteryKey, state.decadeCount);
   state.currentIndex = 0;
   state.listening = false;
   state.startedAt = Date.now();
-  svgBuilt = false;
+  showScreen('screen-prayer');
+  startTimer();
+  renderPrayer();
+}
+
+function startCommonPrayer() {
+  const key = document.getElementById('common-prayer-select').value;
+  const prayer = COMMON_PRAYERS[key];
+  if (!prayer) return;
+  state.mysteryKey = null;
+  state.rosaryKey = null;
+  state.commonPrayerKey = key;
+  state.sequence = [{ ...prayer, bead: 'chain' }];
+  state.currentIndex = 0;
+  state.listening = false;
+  state.startedAt = Date.now();
   showScreen('screen-prayer');
   startTimer();
   renderPrayer();
@@ -591,9 +687,17 @@ function showScreen(id) {
 
 function renderPrayer() {
   const step = state.sequence[state.currentIndex];
-  const decadeLabel = state.decadeCount === 1 ? '1 Decade' : state.decadeCount + ' Decades';
-  document.getElementById('mystery-label').textContent = ROSARY_TYPES[state.rosaryKey].name + ' · ' + MYSTERIES[state.mysteryKey].name + ' · ' + decadeLabel;
-  document.getElementById('progress-label').textContent = (state.currentIndex + 1) + ' / ' + state.sequence.length;
+  const total = state.sequence.length || 1;
+  const progress = Math.round(((state.currentIndex + 1) / total) * 100);
+  if (state.commonPrayerKey) {
+    document.getElementById('mystery-label').textContent = step.name;
+  } else {
+    const decadeLabel = state.decadeCount === 1 ? '1 Decade' : state.decadeCount + ' Decades';
+    document.getElementById('mystery-label').textContent = ROSARY_TYPES[state.rosaryKey].name + ' · ' + MYSTERIES[state.mysteryKey].name + ' · ' + decadeLabel;
+  }
+  document.getElementById('progress-title').textContent = step.name || 'Prayer progress';
+  document.getElementById('progress-label').textContent = 'Prayer ' + (state.currentIndex + 1) + ' of ' + total + ' · ' + progress + '%';
+  document.getElementById('progress-fill').style.width = progress + '%';
   document.getElementById('prayer-type').textContent = step.type || '';
   document.getElementById('prayer-name').textContent = step.name || '';
   renderPrayerText(step.text || '');
@@ -608,7 +712,6 @@ function renderPrayer() {
   } else {
     mysteryEl.style.display = 'none';
   }
-  renderBeads();
 }
 
 function renderPrayerText(text) {
@@ -635,7 +738,6 @@ function resetVoiceTracking() {
   state.matchedWordIndexes = new Set();
   state.nextWordIndex = 0;
   updateWordHighlights();
-  updateAccuracyPanel();
 }
 
 function normalizeWord(word) {
@@ -654,19 +756,48 @@ function scoreTranscript(transcript) {
   if (!incomingWords.length) return;
   state.heardWords.push(...incomingWords);
 
-  let searchIndex = state.nextWordIndex;
   for (const heard of incomingWords) {
-    for (let i = searchIndex; i < state.prayerWords.length; i++) {
-      if (state.prayerWords[i] === heard) {
-        state.matchedWordIndexes.add(i);
-        searchIndex = i + 1;
-        break;
-      }
+    const matchIndex = findNextWordMatch(heard, state.nextWordIndex, 8);
+    if (matchIndex === -1) continue;
+    for (let i = state.nextWordIndex; i <= matchIndex; i++) {
+      state.matchedWordIndexes.add(i);
     }
+    state.nextWordIndex = matchIndex + 1;
   }
-  state.nextWordIndex = searchIndex;
   updateWordHighlights();
-  updateAccuracyPanel();
+}
+
+function findNextWordMatch(heard, start, lookahead) {
+  const limit = Math.min(state.prayerWords.length, start + lookahead);
+  for (let i = start; i < limit; i++) {
+    if (wordsMatch(state.prayerWords[i], heard)) return i;
+  }
+  return -1;
+}
+
+function wordsMatch(expected, heard) {
+  if (!expected || !heard) return false;
+  if (expected === heard) return true;
+  if (expected.endsWith('s') && expected.slice(0, -1) === heard) return true;
+  if (heard.endsWith('s') && heard.slice(0, -1) === expected) return true;
+  if (Math.min(expected.length, heard.length) < 5) return false;
+  return levenshteinDistance(expected, heard) <= 1;
+}
+
+function levenshteinDistance(a, b) {
+  const prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const curr = [i];
+    for (let j = 1; j <= b.length; j++) {
+      curr[j] = Math.min(
+        curr[j - 1] + 1,
+        prev[j] + 1,
+        prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+      );
+    }
+    prev.splice(0, prev.length, ...curr);
+  }
+  return prev[b.length];
 }
 
 function updateWordHighlights() {
@@ -674,15 +805,8 @@ function updateWordHighlights() {
     const idx = Number(el.dataset.wordIndex);
     el.classList.toggle('heard', state.matchedWordIndexes.has(idx));
     el.classList.toggle('next-word', idx === state.nextWordIndex && state.listening);
+    el.classList.toggle('near-word', idx > state.nextWordIndex && idx <= state.nextWordIndex + 2 && state.listening);
   });
-}
-
-function updateAccuracyPanel() {
-  const total = state.prayerWords.filter(Boolean).length;
-  const matched = state.matchedWordIndexes.size;
-  const accuracy = total ? Math.round((matched / total) * 100) : 0;
-  document.getElementById('accuracy-value').textContent = accuracy + '%';
-  document.getElementById('accuracy-detail').textContent = matched + ' / ' + total + ' words';
 }
 
 function startTimer() {
@@ -706,106 +830,6 @@ function updateTimer() {
   document.getElementById('timer-pill').textContent = minutes + ':' + seconds;
 }
 
-// ── SVG Rosary ───────────────────────────────────────────────────────────────
-const SVG_NS = 'http://www.w3.org/2000/svg';
-const R_CX = 170, R_CY = 148, R_RX = 125, R_RY = 102, R_JY = 250;
-
-const PENDANT_POS = [
-  { seq: 5, y: 276, r: 4.5 },
-  { seq: 4, y: 298, r: 4.5 },
-  { seq: 3, y: 318, r: 4.5 },
-  { seq: 2, y: 338, r: 4.5 },
-  { seq: 1, y: 362, r: 7   },
-];
-const OF_CIRCLE = new Set([0, 13, 26, 39, 52]);
-let svgBuilt = false;
-
-function mkEl(tag) { return document.createElementNS(SVG_NS, tag); }
-
-function addBead(svg, seqIdx, x, y, r) {
-  const g = mkEl('g');
-  g.setAttribute('id', 'rb-' + seqIdx);
-  g.setAttribute('class', 'rb-bead');
-  const c = mkEl('circle');
-  c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', r);
-  g.appendChild(c);
-  svg.appendChild(g);
-}
-
-function buildRosarySVG() {
-  const svg = document.getElementById('rosary-svg');
-  svg.innerHTML = '';
-
-  const defs = mkEl('defs');
-  defs.innerHTML = `
-    <radialGradient id="grad-done" cx="38%" cy="32%" r="65%">
-      <stop offset="0%" stop-color="#e8c87a"/>
-      <stop offset="100%" stop-color="#6e3e08"/>
-    </radialGradient>
-    <radialGradient id="grad-current" cx="35%" cy="28%" r="68%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="65%" stop-color="#ede0c8"/>
-      <stop offset="100%" stop-color="#b8a070"/>
-    </radialGradient>`;
-  svg.appendChild(defs);
-
-  const ell = mkEl('ellipse');
-  ell.setAttribute('cx', R_CX); ell.setAttribute('cy', R_CY);
-  ell.setAttribute('rx', R_RX); ell.setAttribute('ry', R_RY);
-  ell.setAttribute('class', 'rb-chain');
-  svg.appendChild(ell);
-
-  const chainYs = [R_JY, ...PENDANT_POS.map(p => p.y), 383];
-  for (let i = 0; i < chainYs.length - 1; i++) {
-    const ln = mkEl('line');
-    ln.setAttribute('x1', R_CX); ln.setAttribute('y1', chainYs[i]);
-    ln.setAttribute('x2', R_CX); ln.setAttribute('y2', chainYs[i + 1]);
-    ln.setAttribute('class', 'rb-chain');
-    svg.appendChild(ln);
-  }
-
-  const crossG = mkEl('g');
-  crossG.setAttribute('id', 'rb-0');
-  crossG.setAttribute('class', 'rb-cross');
-  const vBar = mkEl('line');
-  vBar.setAttribute('x1', R_CX); vBar.setAttribute('y1', 383);
-  vBar.setAttribute('x2', R_CX); vBar.setAttribute('y2', 414);
-  const hBar = mkEl('line');
-  hBar.setAttribute('x1', R_CX - 12); hBar.setAttribute('y1', 390);
-  hBar.setAttribute('x2', R_CX + 12); hBar.setAttribute('y2', 390);
-  crossG.appendChild(vBar); crossG.appendChild(hBar);
-  svg.appendChild(crossG);
-
-  addBead(svg, 71, R_CX, R_JY, 9);
-  for (const p of PENDANT_POS) addBead(svg, p.seq, R_CX, p.y, p.r);
-
-  const step = (2 * Math.PI) / 66;
-  for (let i = 0; i < 65; i++) {
-    const angle = Math.PI / 2 - (i + 1) * step;
-    addBead(svg, 6 + i,
-      R_CX + R_RX * Math.cos(angle),
-      R_CY + R_RY * Math.sin(angle),
-      OF_CIRCLE.has(i) ? 7 : 4.5);
-  }
-
-  svgBuilt = true;
-}
-
-function renderBeads() {
-  if (!svgBuilt) buildRosarySVG();
-  const idx = state.currentIndex;
-
-  const cross = document.getElementById('rb-0');
-  if (cross) cross.setAttribute('class',
-    'rb-cross' + (idx === 0 ? ' current' : idx > 0 ? ' done' : ''));
-
-  for (let s = 1; s <= 71; s++) {
-    const b = document.getElementById('rb-' + s);
-    if (b) b.setAttribute('class',
-      'rb-bead' + (s === idx ? ' current' : s < idx ? ' done' : ''));
-  }
-}
-
 function nextBead() {
   if (state.currentIndex < state.sequence.length - 1) {
     state.currentIndex++;
@@ -813,6 +837,7 @@ function nextBead() {
   } else {
     stopListening();
     stopTimer(false);
+    document.getElementById('complete-title').textContent = state.commonPrayerKey ? 'Prayer Complete' : 'Rosary Complete';
     showScreen('screen-complete');
   }
 }
@@ -826,7 +851,7 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 function toggleMic() {
   if (state.listening) {
     stopListening();
-    updateStatus('Voice paused — use next, prev, or arrow keys to move', false);
+    updateStatus('Voice paused — use next, prev, arrow keys, or side taps to move', false);
   } else {
     startListening();
   }
@@ -843,14 +868,14 @@ function startListening() {
     state.listening = true;
     document.getElementById('mic-btn').classList.add('listening');
     updateWordHighlights();
-    updateStatus('Listening... use buttons or arrow keys to move beads', true);
+    updateStatus('Listening... use buttons, arrow keys, or side taps to move', true);
   };
   recog.onresult = (e) => {
     for (let i = e.resultIndex || 0; i < e.results.length; i++) {
       const result = e.results[i];
       if (result.isFinal) scoreTranscript(result[0].transcript || '');
     }
-    updateStatus('Voice heard — use buttons or arrow keys to move beads', true);
+    updateStatus('Voice heard — use buttons, arrow keys, or side taps to move', true);
   };
   recog.onerror = (e) => {
     if (e.error !== 'no-speech') {
@@ -889,6 +914,14 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     prevBead();
   }
+});
+
+document.addEventListener('pointerup', (e) => {
+  if (!document.getElementById('screen-prayer').classList.contains('active')) return;
+  if (e.pointerType !== 'touch') return;
+  if (e.target.closest('button, a, select, input, textarea, label, .bottom-controls')) return;
+  if (e.clientX < window.innerWidth / 2) prevBead();
+  else nextBead();
 });
 
 // Pre-select today's mystery
