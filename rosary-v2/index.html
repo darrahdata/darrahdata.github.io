@@ -26,7 +26,6 @@
     --divider: #37332d;
     --done-stroke: #94723f;
     --cross-current: #f7f1e7;
-    --listening: #e8573a;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -241,22 +240,6 @@
     line-height: 1.7;
     color: var(--text-soft);
   }
-  .prayer-word {
-    border-radius: 3px;
-    transition: background 0.2s, color 0.2s;
-  }
-  .prayer-word.heard {
-    background: rgba(197, 164, 100, 0.28);
-    color: var(--text);
-    box-shadow: 0 0 0 1px rgba(197, 164, 100, 0.18);
-  }
-  .prayer-word.next-word {
-    color: var(--accent);
-    box-shadow: 0 1px 0 var(--accent);
-  }
-  .prayer-word.near-word {
-    background: rgba(197, 164, 100, 0.12);
-  }
   .mystery-text {
     font-size: 0.9rem;
     color: var(--muted);
@@ -300,54 +283,6 @@
     background: var(--surface-2);
     padding: 0.35rem;
   }
-
-  .controls { display: flex; gap: 0.75rem; align-items: center; margin: 1rem 0 0; }
-  .bottom-controls {
-    position: sticky;
-    bottom: 0.75rem;
-    z-index: 8;
-    padding: 0.6rem 0;
-    background: linear-gradient(180deg, rgba(23,23,22,0), var(--bg) 28%);
-  }
-  .ctrl-btn {
-    flex: 1;
-    padding: 0.75rem;
-    border-radius: 4px;
-    font-family: 'Lora', Georgia, serif;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid var(--border);
-  }
-  .btn-prev { background: transparent; color: var(--muted); }
-  .btn-prev:hover { color: var(--text-soft); border-color: var(--border-hover); }
-  .btn-next { background: var(--accent); color: var(--accent-contrast); border-color: var(--accent); }
-  .btn-next:hover { background: var(--accent-hover); }
-
-  .mic-btn {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--surface-2);
-    color: var(--muted);
-    font-size: 1.3rem;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-  .mic-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .mic-btn.listening { border-color: var(--listening); color: var(--listening); animation: pulse 1.5s infinite; }
-  @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(232,87,58,0)} 50%{box-shadow:0 0 0 6px rgba(232,87,58,0.2)} }
-
-  .status-bar {
-    font-size: 0.8rem;
-    color: var(--muted-2);
-    text-align: center;
-    min-height: 1.2em;
-    font-style: italic;
-  }
-  .status-bar.active { color: var(--accent); }
 
   .common-prayer-section {
     margin-top: 1.5rem;
@@ -430,7 +365,6 @@
 
   @media (max-width: 520px) {
     .common-prayer-row { grid-template-columns: 1fr; }
-    .bottom-controls { bottom: 0; }
   }
 </style>
 </head>
@@ -544,14 +478,6 @@
       <img id="mystery-image" loading="lazy" decoding="async" alt="">
     </div>
     <div class="mystery-text" id="mystery-text" style="display:none"></div>
-  </div>
-  <div class="status-bar" id="status-bar">Use next, prev, arrow keys, or tap the left/right side</div>
-  <div class="controls bottom-controls">
-    <button class="ctrl-btn btn-prev" onclick="prevBead()">← prev</button>
-    <button class="mic-btn" id="mic-btn" onclick="toggleMic()" title="Toggle voice">
-      <i class="ti ti-microphone"></i>
-    </button>
-    <button class="ctrl-btn btn-next" onclick="nextBead()">next →</button>
   </div>
 </div>
 
@@ -833,15 +759,9 @@ let state = {
   decadeCount: 5,
   sequence: [],
   currentIndex: 0,
-  listening: false,
-  prayerWords: [],
-  heardWords: [],
-  matchedWordIndexes: new Set(),
-  nextWordIndex: 0,
   startedAt: null
 };
 let selections = { mystery: null, rosary: 'dominican', decades: '5' };
-let recog = null;
 let timerInterval = null;
 
 function selectOption(btn, group) {
@@ -862,7 +782,6 @@ function startRosary() {
   state.decadeCount = Number(selections.decades);
   state.sequence = buildSequence(state.mysteryKey, state.decadeCount);
   state.currentIndex = 0;
-  state.listening = false;
   state.startedAt = Date.now();
   showScreen('screen-prayer');
   startTimer();
@@ -878,7 +797,6 @@ function startCommonPrayer() {
   state.commonPrayerKey = key;
   state.sequence = [{ ...prayer, bead: 'chain' }];
   state.currentIndex = 0;
-  state.listening = false;
   state.startedAt = Date.now();
   showScreen('screen-prayer');
   startTimer();
@@ -886,7 +804,6 @@ function startCommonPrayer() {
 }
 
 function showSetup() {
-  stopListening();
   stopTimer();
   showScreen('screen-setup');
 }
@@ -913,7 +830,6 @@ function renderPrayer() {
   document.getElementById('prayer-type').textContent = step.type || '';
   document.getElementById('prayer-name').textContent = step.name || '';
   renderPrayerText(step.text || '');
-  resetVoiceTracking();
   const mysteryEl = document.getElementById('mystery-text');
   if (step.mystery) {
     const details = getMysteryMeditation(step.mystery);
@@ -991,97 +907,7 @@ function renderMysteryMeditation(container, step, details) {
 
 function renderPrayerText(text) {
   const prayerText = document.getElementById('prayer-text');
-  prayerText.innerHTML = '';
-  state.prayerWords = [];
-  const pieces = text.match(/\S+|\s+/g) || [];
-  for (const piece of pieces) {
-    if (/^\s+$/.test(piece)) {
-      prayerText.appendChild(document.createTextNode(piece));
-      continue;
-    }
-    const word = document.createElement('span');
-    word.className = 'prayer-word';
-    word.dataset.wordIndex = state.prayerWords.length;
-    word.textContent = piece;
-    state.prayerWords.push(normalizeWord(piece));
-    prayerText.appendChild(word);
-  }
-}
-
-function resetVoiceTracking() {
-  state.heardWords = [];
-  state.matchedWordIndexes = new Set();
-  state.nextWordIndex = 0;
-  updateWordHighlights();
-}
-
-function normalizeWord(word) {
-  return word.toLowerCase().replace(/[^a-z0-9']/g, '').replace(/^'+|'+$/g, '');
-}
-
-function transcriptWords(text) {
-  return text
-    .split(/\s+/)
-    .map(normalizeWord)
-    .filter(Boolean);
-}
-
-function scoreTranscript(transcript) {
-  const incomingWords = transcriptWords(transcript);
-  if (!incomingWords.length) return;
-  state.heardWords.push(...incomingWords);
-
-  for (const heard of incomingWords) {
-    const matchIndex = findNextWordMatch(heard, state.nextWordIndex, 8);
-    if (matchIndex === -1) continue;
-    for (let i = state.nextWordIndex; i <= matchIndex; i++) {
-      state.matchedWordIndexes.add(i);
-    }
-    state.nextWordIndex = matchIndex + 1;
-  }
-  updateWordHighlights();
-}
-
-function findNextWordMatch(heard, start, lookahead) {
-  const limit = Math.min(state.prayerWords.length, start + lookahead);
-  for (let i = start; i < limit; i++) {
-    if (wordsMatch(state.prayerWords[i], heard)) return i;
-  }
-  return -1;
-}
-
-function wordsMatch(expected, heard) {
-  if (!expected || !heard) return false;
-  if (expected === heard) return true;
-  if (expected.endsWith('s') && expected.slice(0, -1) === heard) return true;
-  if (heard.endsWith('s') && heard.slice(0, -1) === expected) return true;
-  if (Math.min(expected.length, heard.length) < 5) return false;
-  return levenshteinDistance(expected, heard) <= 1;
-}
-
-function levenshteinDistance(a, b) {
-  const prev = Array.from({ length: b.length + 1 }, (_, i) => i);
-  for (let i = 1; i <= a.length; i++) {
-    const curr = [i];
-    for (let j = 1; j <= b.length; j++) {
-      curr[j] = Math.min(
-        curr[j - 1] + 1,
-        prev[j] + 1,
-        prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
-      );
-    }
-    prev.splice(0, prev.length, ...curr);
-  }
-  return prev[b.length];
-}
-
-function updateWordHighlights() {
-  document.querySelectorAll('.prayer-word').forEach(el => {
-    const idx = Number(el.dataset.wordIndex);
-    el.classList.toggle('heard', state.matchedWordIndexes.has(idx));
-    el.classList.toggle('next-word', idx === state.nextWordIndex && state.listening);
-    el.classList.toggle('near-word', idx > state.nextWordIndex && idx <= state.nextWordIndex + 2 && state.listening);
-  });
+  prayerText.textContent = text;
 }
 
 function startTimer() {
@@ -1110,7 +936,6 @@ function nextBead() {
     state.currentIndex++;
     renderPrayer();
   } else {
-    stopListening();
     stopTimer(false);
     document.getElementById('complete-title').textContent = state.commonPrayerKey ? 'Prayer Complete' : 'Rosary Complete';
     showScreen('screen-complete');
@@ -1119,65 +944,6 @@ function nextBead() {
 
 function prevBead() {
   if (state.currentIndex > 0) { state.currentIndex--; renderPrayer(); }
-}
-
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-function toggleMic() {
-  if (state.listening) {
-    stopListening();
-    updateStatus('Voice paused — use next, prev, arrow keys, or side taps to move', false);
-  } else {
-    startListening();
-  }
-}
-
-function startListening() {
-  if (!SpeechRecognition) { updateStatus('Voice not supported — use Chrome or Safari', false); return; }
-  if (recog) { try { recog.stop(); } catch(e){} }
-  recog = new SpeechRecognition();
-  recog.continuous = true;
-  recog.interimResults = false;
-  recog.lang = 'en-US';
-  recog.onstart = () => {
-    state.listening = true;
-    document.getElementById('mic-btn').classList.add('listening');
-    updateWordHighlights();
-    updateStatus('Listening... use buttons, arrow keys, or side taps to move', true);
-  };
-  recog.onresult = (e) => {
-    for (let i = e.resultIndex || 0; i < e.results.length; i++) {
-      const result = e.results[i];
-      if (result.isFinal) scoreTranscript(result[0].transcript || '');
-    }
-    updateStatus('Voice heard — use buttons, arrow keys, or side taps to move', true);
-  };
-  recog.onerror = (e) => {
-    if (e.error !== 'no-speech') {
-      state.listening = false;
-      document.getElementById('mic-btn').classList.remove('listening');
-      updateStatus('Voice error — tap mic to retry', false);
-    }
-  };
-  recog.onend = () => {
-    if (state.listening) { try { recog.start(); } catch(e){} }
-    else { document.getElementById('mic-btn').classList.remove('listening'); }
-  };
-  try { recog.start(); } catch(e) { updateStatus('Could not start microphone', false); }
-}
-
-function stopListening() {
-  state.listening = false;
-  if (recog) { try { recog.stop(); } catch(e){} recog = null; }
-  const btn = document.getElementById('mic-btn');
-  if (btn) btn.classList.remove('listening');
-  updateWordHighlights();
-}
-
-function updateStatus(msg, active) {
-  const el = document.getElementById('status-bar');
-  el.textContent = msg;
-  el.className = 'status-bar' + (active ? ' active' : '');
 }
 
 document.addEventListener('keydown', (e) => {
@@ -1193,8 +959,7 @@ document.addEventListener('keydown', (e) => {
 
 document.addEventListener('pointerup', (e) => {
   if (!document.getElementById('screen-prayer').classList.contains('active')) return;
-  if (e.pointerType !== 'touch') return;
-  if (e.target.closest('button, a, select, input, textarea, label, .bottom-controls')) return;
+  if (e.target.closest('button, a, select, input, textarea, label')) return;
   if (e.clientX < window.innerWidth / 2) prevBead();
   else nextBead();
 });
