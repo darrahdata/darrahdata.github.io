@@ -176,22 +176,22 @@
     letter-spacing: 0.08em;
   }
   .progress-wrap {
-    margin: 0.7rem 0 1rem;
-    padding: 0.85rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--surface);
+    margin: 0 0 1.1rem;
+    padding: 0 0 0.95rem;
+    border-bottom: 1px solid var(--divider);
   }
   .progress-row {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    align-items: center;
-    margin-bottom: 0.65rem;
+    align-items: flex-start;
+    margin-bottom: 0.55rem;
   }
-  .progress-title {
-    color: var(--text);
-    font-size: 0.9rem;
+  .progress-heading {
+    min-width: 0;
+  }
+  .progress-heading .prayer-name {
+    margin-bottom: 0;
   }
   .progress-count {
     color: var(--accent);
@@ -200,7 +200,7 @@
     white-space: nowrap;
   }
   .progress-track {
-    height: 8px;
+    height: 6px;
     border-radius: 999px;
     background: var(--surface-2);
     overflow: hidden;
@@ -217,7 +217,7 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 1.5rem;
+    padding: 1.25rem;
     margin-bottom: 1.5rem;
     min-height: 120px;
   }
@@ -294,6 +294,9 @@
   }
   .prayer-card.image-only .mystery-art {
     margin-bottom: 0;
+  }
+  .prayer-card.image-only .progress-row {
+    justify-content: flex-end;
   }
   .prayer-card.image-only .prayer-type,
   .prayer-card.image-only .prayer-name,
@@ -479,22 +482,23 @@
   <div class="prayer-header">
     <span class="mystery-name" id="mystery-label"></span>
   </div>
-  <div class="progress-wrap" aria-live="polite">
-    <div class="progress-row">
-      <div class="progress-title" id="progress-title">Prayer progress</div>
-      <div class="progress-count" id="progress-label"></div>
-    </div>
-    <div class="progress-track" aria-hidden="true">
-      <div class="progress-fill" id="progress-fill"></div>
-    </div>
-  </div>
   <div class="prayer-card">
+    <div class="progress-wrap" aria-live="polite">
+      <div class="progress-row">
+        <div class="progress-heading">
+          <div class="prayer-type" id="prayer-type"></div>
+          <div class="prayer-name" id="prayer-name"></div>
+        </div>
+        <div class="progress-count" id="progress-label"></div>
+      </div>
+      <div class="progress-track" aria-hidden="true">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
     <div class="mystery-art" id="mystery-art" style="display:none">
       <img id="mystery-image" loading="lazy" decoding="async" alt="">
       <div class="mystery-text" id="mystery-text" style="display:none"></div>
     </div>
-    <div class="prayer-type" id="prayer-type"></div>
-    <div class="prayer-name" id="prayer-name"></div>
     <div class="prayer-text" id="prayer-text"></div>
   </div>
 </div>
@@ -867,7 +871,6 @@ function renderPrayer() {
     const decadeLabel = state.decadeCount === 1 ? '1 Decade' : state.decadeCount + ' Decades';
     document.getElementById('mystery-label').textContent = ROSARY_TYPES[state.rosaryKey].name + ' · ' + MYSTERIES[state.mysteryKey].name + ' · ' + decadeLabel;
   }
-  document.getElementById('progress-title').textContent = step.name || 'Prayer progress';
   document.getElementById('progress-label').textContent = 'Prayer ' + (state.currentIndex + 1) + ' of ' + total + ' · ' + progress + '%';
   document.getElementById('progress-fill').style.width = progress + '%';
   document.getElementById('prayer-type').textContent = step.type || '';
