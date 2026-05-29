@@ -212,15 +212,6 @@
     align-items: center;
     gap: 0.75rem;
   }
-  .prayer-header {
-    margin-top: 0.45rem;
-  }
-  .mystery-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-style: italic;
-    color: var(--accent);
-  }
   .progress-text {
     font-size: 0.8rem;
     color: var(--muted-2);
@@ -496,9 +487,6 @@
         <span class="status-divider" aria-hidden="true"></span>
         <span class="status-time" id="status-time">00:00</span>
       </div>
-    </div>
-    <div class="prayer-header">
-      <span class="mystery-name" id="mystery-label"></span>
     </div>
   </div>
   <div class="prayer-card">
@@ -874,12 +862,6 @@ function renderPrayer() {
   const step = state.sequence[state.currentIndex];
   const total = state.sequence.length || 1;
   const progress = Math.round(((state.currentIndex + 1) / total) * 100);
-  if (state.commonPrayerKey) {
-    document.getElementById('mystery-label').textContent = step.name;
-  } else {
-    const decadeLabel = state.decadeCount === 1 ? '1 Decade' : state.decadeCount + ' Decades';
-    document.getElementById('mystery-label').textContent = ROSARY_TYPES[state.rosaryKey].name + ' · ' + MYSTERIES[state.mysteryKey].name + ' · ' + decadeLabel;
-  }
   updateStatusPill(step, total, progress);
   document.getElementById('prayer-type').textContent = step.type || '';
   document.getElementById('prayer-name').textContent = step.name || '';
