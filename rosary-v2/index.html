@@ -792,9 +792,9 @@ function buildSequence(mysteryKey, decadeCount) {
   let seq = [];
   seq.push({ ...PRAYERS.apostlesCreed, bead: 'cross' });
   seq.push({ ...PRAYERS.ourFather, bead: 'large' });
-  seq.push({ ...PRAYERS.hailMary, bead: 'small', sub: 'For an increase in Faith' });
-  seq.push({ ...PRAYERS.hailMary, bead: 'small', sub: 'For an increase in Hope' });
-  seq.push({ ...PRAYERS.hailMary, bead: 'small', sub: 'For an increase in Charity' });
+  seq.push({ ...PRAYERS.hailMary, bead: 'small', sub: 'For an increase in Faith', image: 'images/hail-mary-faith.png', alt: 'Hail Mary prayer card for an increase in faith.', imageOnly: true });
+  seq.push({ ...PRAYERS.hailMary, bead: 'small', sub: 'For an increase in Hope', image: 'images/hail-mary-hope.png', alt: 'Hail Mary prayer card for an increase in hope.', imageOnly: true });
+  seq.push({ ...PRAYERS.hailMary, bead: 'small', sub: 'For an increase in Charity', image: 'images/hail-mary-charity.png', alt: 'Hail Mary prayer card for an increase in charity.', imageOnly: true });
   seq.push({ ...PRAYERS.gloryBe, bead: 'chain' });
   for (let d = 0; d < decades; d++) {
     seq.push({ ...PRAYERS.ourFather, bead: 'large', mystery: mysteries[d], decade: d + 1 });
@@ -884,7 +884,7 @@ function renderPrayer() {
   document.getElementById('prayer-type').textContent = step.type || '';
   document.getElementById('prayer-name').textContent = step.name || '';
   renderPrayerText(step.text || '');
-  document.querySelector('.prayer-card').classList.toggle('image-only', Boolean(state.commonPrayerKey && step.image));
+  document.querySelector('.prayer-card').classList.toggle('image-only', Boolean((state.commonPrayerKey || step.imageOnly) && step.image));
   const mysteryEl = document.getElementById('mystery-text');
   if (step.mystery) {
     const details = getMysteryMeditation(step.mystery);
