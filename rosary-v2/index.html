@@ -238,6 +238,18 @@
     border-color: var(--accent);
     color: var(--accent);
   }
+  .voice-status {
+    margin-top: 0.55rem;
+    color: var(--muted-2);
+    font-size: 0.72rem;
+    font-style: italic;
+    line-height: 1.35;
+    min-height: 1rem;
+    text-align: right;
+  }
+  .voice-status.listening {
+    color: var(--accent);
+  }
   .progress-text {
     font-size: 0.8rem;
     color: var(--muted-2);
@@ -270,6 +282,15 @@
     line-height: 1.7;
     color: var(--text-soft);
   }
+  .prayer-line {
+    border-radius: 4px;
+    transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .prayer-line.active {
+    background: rgba(197, 164, 100, 0.14);
+    color: var(--text);
+    box-shadow: 0 0 0 2px rgba(197, 164, 100, 0.07);
+  }
   .session-intention {
     margin-bottom: 1rem;
     padding-bottom: 0.85rem;
@@ -299,6 +320,13 @@
     color: var(--muted);
     line-height: 1.6;
     margin-bottom: 1rem;
+  }
+  .intention-live {
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-style: italic;
+    min-height: 1.1rem;
+    margin-bottom: 0.45rem;
   }
   .intention-input {
     width: 100%;
@@ -409,6 +437,30 @@
   .prayer-card.image-only .prayer-text {
     display: none;
   }
+  .manual-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+  .nav-btn {
+    min-height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--text-soft);
+    font-family: 'Lora', Georgia, serif;
+    cursor: pointer;
+  }
+  .nav-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .nav-btn:disabled {
+    color: var(--muted-2);
+    cursor: default;
+    opacity: 0.5;
+  }
 
   .common-prayer-section {
     margin-top: 1.5rem;
@@ -493,6 +545,7 @@
     .status-divider { height: 0.75rem; }
     .topbar-controls { gap: 0.35rem; }
     .voice-btn { width: 32px; height: 32px; }
+    .voice-status { text-align: left; }
     .intention-actions { flex-direction: column; }
     .intention-btn { width: 100%; }
   }
@@ -606,12 +659,14 @@
         </div>
       </div>
     </div>
+    <div class="voice-status" id="voice-status" aria-live="polite"></div>
   </div>
   <div class="prayer-card">
     <div class="session-intention" id="session-intention" style="display:none"></div>
     <div class="intention-card" id="intention-card" style="display:none">
       <div class="intention-title">What intentions would you like to lift up to Jesus through Mary?</div>
       <div class="intention-copy">You may write an intention, dictate one, or continue quietly.</div>
+      <div class="intention-live" id="intention-live" aria-live="polite"></div>
       <textarea class="intention-input" id="intention-input" placeholder="For..." aria-label="Prayer intention"></textarea>
       <div class="intention-actions">
         <button class="intention-btn" id="intention-dictate-btn" onclick="toggleIntentionDictation()">Dictate</button>
@@ -626,6 +681,10 @@
     <div class="prayer-type" id="prayer-type"></div>
     <div class="prayer-name" id="prayer-name"></div>
     <div class="prayer-text" id="prayer-text"></div>
+    <div class="manual-nav">
+      <button class="nav-btn" id="prev-btn" onclick="prevBead()">← Previous</button>
+      <button class="nav-btn" id="next-btn" onclick="nextBead()">Next →</button>
+    </div>
   </div>
 </div>
 
@@ -964,10 +1023,14 @@ let wakeLockEndsAt = 0;
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let commandRecognition = null;
 let commandListening = false;
+let voiceCommandsEnabled = false;
 let commandRestartTimer = null;
 let lastVoiceAdvanceAt = 0;
 let intentionRecognition = null;
 let intentionListening = false;
+let spokenPrayerText = '';
+let currentPrayerSegments = [];
+let activePrayerSegment = -1;
 
 function selectOption(btn, group) {
   document.querySelectorAll('[data-' + group + ']').forEach(b => b.classList.remove('selected'));
@@ -1027,7 +1090,10 @@ function renderPrayer() {
   const step = state.sequence[state.currentIndex];
   const total = state.sequence.length || 1;
   const progress = Math.round(((state.currentIndex + 1) / total) * 100);
+  spokenPrayerText = '';
+  activePrayerSegment = -1;
   updateStatusPill(step, total, progress);
+  updateManualNav(step);
   renderSessionIntention(step);
   document.getElementById('prayer-type').textContent = step.type || '';
   document.getElementById('prayer-name').textContent = step.name || '';
@@ -1058,6 +1124,11 @@ function renderPrayer() {
   }
 }
 
+function updateManualNav(step) {
+  document.getElementById('prev-btn').disabled = state.currentIndex === 0;
+  document.getElementById('next-btn').textContent = step.intention ? 'Skip →' : 'Next →';
+}
+
 function renderSessionIntention(step) {
   const el = document.getElementById('session-intention');
   const shouldShow = Boolean(state.intention && !state.commonPrayerKey && !step.intention);
@@ -1071,9 +1142,13 @@ function renderIntentionStep() {
   const input = document.getElementById('intention-input');
   card.style.display = 'block';
   input.value = state.intention || input.value;
+  document.getElementById('intention-live').textContent = voiceCommandsEnabled && SpeechRecognition ? 'Listening for your intention...' : '';
   document.getElementById('prayer-type').textContent = '';
   document.getElementById('prayer-name').textContent = '';
   renderPrayerText('');
+  if (voiceCommandsEnabled && !intentionListening) {
+    setTimeout(startIntentionDictation, 150);
+  }
 }
 
 function hideIntentionStep() {
@@ -1087,7 +1162,15 @@ function continueFromIntention(skip) {
   if (!skip && value) state.intention = value;
   if (skip && !state.intention) input.value = '';
   hideIntentionStep();
-  nextBead();
+  advanceAfterIntention();
+  if (voiceCommandsEnabled) setTimeout(startVoiceCommands, 250);
+}
+
+function advanceAfterIntention() {
+  if (state.currentIndex < state.sequence.length - 1) {
+    state.currentIndex++;
+    renderPrayer();
+  }
 }
 
 function escapeHtml(value) {
@@ -1099,41 +1182,67 @@ function getCurrentStep() {
 }
 
 function toggleVoiceCommands() {
-  if (commandListening) stopVoiceCommands();
-  else startVoiceCommands();
+  if (voiceCommandsEnabled || commandListening || intentionListening) {
+    voiceCommandsEnabled = false;
+    stopVoiceCommands();
+    stopIntentionDictation();
+    setVoiceStatus('');
+  } else {
+    voiceCommandsEnabled = true;
+    if (getCurrentStep().intention) startIntentionDictation();
+    else startVoiceCommands();
+  }
 }
 
 function startVoiceCommands() {
   const button = document.getElementById('voice-command-btn');
   if (!SpeechRecognition) {
-    button.title = 'Voice commands are not supported on this browser.';
-    button.setAttribute('aria-label', 'Voice commands are not supported on this browser');
+    setVoiceStatus('Voice commands are not supported on this browser.');
+    updateVoiceButton(false);
     return;
   }
+  if (!document.getElementById('screen-prayer').classList.contains('active')) return;
+  if (getCurrentStep().intention || intentionListening) return;
   clearTimeout(commandRestartTimer);
+  if (commandRecognition) return;
+  voiceCommandsEnabled = true;
   commandListening = true;
-  button.classList.add('listening');
-  button.title = 'Listening for next, amen, or continue';
-  button.setAttribute('aria-label', 'Stop voice commands');
+  updateVoiceButton(true);
+  setVoiceStatus('Listening for amen, next, or continue.', true);
 
   commandRecognition = new SpeechRecognition();
   commandRecognition.lang = 'en-US';
   commandRecognition.continuous = true;
-  commandRecognition.interimResults = false;
+  commandRecognition.interimResults = true;
   commandRecognition.onresult = event => {
-    let transcript = '';
+    let interim = '';
+    let final = '';
+    let confidence = 0;
     for (let i = event.resultIndex; i < event.results.length; i++) {
-      transcript += ' ' + event.results[i][0].transcript;
+      const result = event.results[i];
+      const transcript = result[0].transcript;
+      if (result.isFinal) {
+        final += ' ' + transcript;
+        confidence = Math.max(confidence, result[0].confidence || 0);
+      } else {
+        interim += ' ' + transcript;
+      }
     }
-    handleVoiceCommand(transcript);
+    handleSpeechProgress(final, interim);
+    if (final.trim()) handleVoiceCommand(final, confidence);
   };
   commandRecognition.onerror = event => {
-    if (event.error === 'not-allowed' || event.error === 'service-not-allowed') stopVoiceCommands();
+    if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+      setVoiceStatus('Microphone access is blocked. Use manual controls or enable microphone permissions.');
+      voiceCommandsEnabled = false;
+      stopVoiceCommands();
+    }
   };
   commandRecognition.onend = () => {
     commandRecognition = null;
-    if (commandListening && document.getElementById('screen-prayer').classList.contains('active')) {
-      commandRestartTimer = setTimeout(startVoiceCommands, 500);
+    commandListening = false;
+    if (voiceCommandsEnabled && !intentionListening && document.getElementById('screen-prayer').classList.contains('active')) {
+      commandRestartTimer = setTimeout(startVoiceCommands, 250);
     }
   };
 
@@ -1144,16 +1253,12 @@ function startVoiceCommands() {
   }
 }
 
-function stopVoiceCommands() {
+function stopVoiceCommands(keepEnabled = false) {
   commandListening = false;
+  if (!keepEnabled) voiceCommandsEnabled = false;
   clearTimeout(commandRestartTimer);
   commandRestartTimer = null;
-  const button = document.getElementById('voice-command-btn');
-  if (button) {
-    button.classList.remove('listening');
-    button.title = 'Voice commands';
-    button.setAttribute('aria-label', 'Start voice commands');
-  }
+  updateVoiceButton(false);
   if (commandRecognition) {
     const recognition = commandRecognition;
     commandRecognition = null;
@@ -1163,12 +1268,33 @@ function stopVoiceCommands() {
   }
 }
 
-function handleVoiceCommand(transcript) {
+function updateVoiceButton(listening) {
+  const button = document.getElementById('voice-command-btn');
+  if (!button) return;
+  button.classList.toggle('listening', listening || intentionListening);
+  button.title = listening || intentionListening ? 'Listening' : 'Voice commands';
+  button.setAttribute('aria-label', listening || intentionListening ? 'Stop voice commands' : 'Start voice commands');
+}
+
+function setVoiceStatus(message, listening = false) {
+  const status = document.getElementById('voice-status');
+  if (!status) return;
+  status.textContent = message;
+  status.classList.toggle('listening', Boolean(listening));
+}
+
+function handleSpeechProgress(finalTranscript, interimTranscript) {
+  if (finalTranscript.trim()) spokenPrayerText = [spokenPrayerText, finalTranscript.trim()].filter(Boolean).join(' ');
+  updatePrayerHighlight([spokenPrayerText, interimTranscript.trim()].filter(Boolean).join(' '));
+}
+
+function handleVoiceCommand(transcript, confidence = 0) {
   if (getCurrentStep().intention || intentionListening) return;
   const heard = transcript.toLowerCase();
   const now = Date.now();
   if (now - lastVoiceAdvanceAt < 1500) return;
-  if (/\b(next|amen|continue)\b/.test(heard)) {
+  if (confidence && confidence < 0.45) return;
+  if (/\b(next prayer|next|amen|continue)\b[\s.!?]*$/.test(heard.trim())) {
     lastVoiceAdvanceAt = now;
     nextBead();
   } else if (/\b(previous|prev|go back)\b/.test(heard)) {
@@ -1184,28 +1310,61 @@ function toggleIntentionDictation() {
 
 function startIntentionDictation() {
   const button = document.getElementById('intention-dictate-btn');
+  if (intentionRecognition) return;
   if (!SpeechRecognition) {
     button.textContent = 'Dictation unavailable';
     button.disabled = true;
+    setVoiceStatus('Speech recognition is not supported on this browser.');
     return;
   }
-  stopVoiceCommands();
+  const hadCommandRecognition = Boolean(commandRecognition);
   intentionListening = true;
+  stopVoiceCommands(true);
   button.classList.add('listening');
   button.textContent = 'Listening...';
+  updateVoiceButton(true);
+  setVoiceStatus('Listening for your intention.', true);
+  document.getElementById('intention-live').textContent = 'Listening for your intention...';
+  setTimeout(beginIntentionRecognition, hadCommandRecognition ? 250 : 0);
+}
 
+function beginIntentionRecognition() {
+  if (!intentionListening || intentionRecognition || !SpeechRecognition) return;
   intentionRecognition = new SpeechRecognition();
   intentionRecognition.lang = 'en-US';
-  intentionRecognition.continuous = false;
-  intentionRecognition.interimResults = false;
+  intentionRecognition.continuous = true;
+  intentionRecognition.interimResults = true;
   intentionRecognition.onresult = event => {
-    const spoken = Array.from(event.results).map(result => result[0].transcript).join(' ').trim();
+    let final = '';
+    let interim = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const result = event.results[i];
+      if (result.isFinal) final += ' ' + result[0].transcript;
+      else interim += ' ' + result[0].transcript;
+    }
     const input = document.getElementById('intention-input');
-    input.value = [input.value.trim(), spoken].filter(Boolean).join(' ');
-    state.intention = input.value.trim();
+    if (final.trim()) {
+      input.value = [input.value.trim(), final.trim()].filter(Boolean).join(' ');
+      state.intention = input.value.trim();
+    }
+    document.getElementById('intention-live').textContent = interim.trim() ? 'Hearing: ' + interim.trim() : 'Listening for your intention...';
   };
-  intentionRecognition.onend = stopIntentionDictation;
-  intentionRecognition.onerror = stopIntentionDictation;
+  intentionRecognition.onend = () => {
+    intentionRecognition = null;
+    intentionListening = false;
+    if (voiceCommandsEnabled && getCurrentStep().intention && document.getElementById('screen-prayer').classList.contains('active')) {
+      setTimeout(startIntentionDictation, 350);
+    } else {
+      stopIntentionDictation();
+    }
+  };
+  intentionRecognition.onerror = event => {
+    if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+      setVoiceStatus('Microphone access is blocked. You can type your intention manually.');
+      voiceCommandsEnabled = false;
+    }
+    stopIntentionDictation();
+  };
 
   try {
     intentionRecognition.start();
@@ -1222,6 +1381,10 @@ function stopIntentionDictation() {
     button.textContent = SpeechRecognition ? 'Dictate' : 'Dictation unavailable';
     button.disabled = !SpeechRecognition;
   }
+  if (!voiceCommandsEnabled) updateVoiceButton(false);
+  if (!voiceCommandsEnabled) setVoiceStatus('');
+  const live = document.getElementById('intention-live');
+  if (live && !voiceCommandsEnabled) live.textContent = '';
   if (intentionRecognition) {
     const recognition = intentionRecognition;
     intentionRecognition = null;
@@ -1229,6 +1392,68 @@ function stopIntentionDictation() {
       recognition.stop();
     } catch (error) {}
   }
+}
+
+function normalizeSpeech(value) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s']/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function splitPrayerIntoSegments(text) {
+  const segments = [];
+  let current = '';
+  for (const char of text) {
+    current += char;
+    const trimmed = current.trim();
+    const shouldBreak = /[.!?;]/.test(char) || (char === ',' && trimmed.length > 48) || trimmed.length > 120;
+    if (shouldBreak && trimmed) {
+      segments.push(trimmed);
+      current = '';
+    }
+  }
+  if (current.trim()) segments.push(current.trim());
+  return segments;
+}
+
+function updatePrayerHighlight(spoken) {
+  if (!currentPrayerSegments.length) return;
+  const normalized = normalizeSpeech(spoken);
+  if (!normalized) return;
+  const heardTokens = normalized.split(' ').slice(-36);
+  const heardSet = new Set(heardTokens);
+  let bestIndex = activePrayerSegment;
+  let bestScore = 0;
+
+  currentPrayerSegments.forEach((segment, index) => {
+    const tokens = segment.normalized.split(' ').filter(Boolean);
+    if (!tokens.length) return;
+    let score = 0;
+    tokens.forEach(token => {
+      if (heardSet.has(token)) score += 1;
+    });
+    const phraseStart = tokens.slice(0, Math.min(4, tokens.length)).join(' ');
+    if (phraseStart && normalized.includes(phraseStart)) score += 2;
+    if (index < activePrayerSegment) score -= 1;
+    if (score > bestScore) {
+      bestScore = score;
+      bestIndex = index;
+    }
+  });
+
+  const segmentLength = bestIndex >= 0 ? currentPrayerSegments[bestIndex].normalized.split(' ').length : 0;
+  const threshold = Math.max(2, Math.min(5, Math.ceil(segmentLength * 0.28)));
+  if (bestIndex >= 0 && bestScore >= threshold) setActivePrayerSegment(bestIndex);
+}
+
+function setActivePrayerSegment(index) {
+  if (index === activePrayerSegment) return;
+  activePrayerSegment = index;
+  document.querySelectorAll('.prayer-line').forEach((line, lineIndex) => {
+    line.classList.toggle('active', lineIndex === index);
+  });
 }
 
 function getMysteryMeditation(mystery) {
@@ -1295,7 +1520,19 @@ function renderMysteryMeditation(container, step, details) {
 
 function renderPrayerText(text) {
   const prayerText = document.getElementById('prayer-text');
-  prayerText.textContent = text;
+  prayerText.innerHTML = '';
+  currentPrayerSegments = [];
+  activePrayerSegment = -1;
+  if (!text) return;
+  const segments = splitPrayerIntoSegments(text);
+  segments.forEach((segment, index) => {
+    const span = document.createElement('span');
+    span.className = 'prayer-line';
+    span.textContent = segment;
+    prayerText.appendChild(span);
+    if (index < segments.length - 1) prayerText.appendChild(document.createTextNode(' '));
+    currentPrayerSegments.push({ text: segment, normalized: normalizeSpeech(segment) });
+  });
 }
 
 function startTimer() {
@@ -1376,6 +1613,10 @@ async function releaseWakeLock(clearWindow = true) {
 }
 
 function nextBead() {
+  if (getCurrentStep().intention) {
+    continueFromIntention(false);
+    return;
+  }
   if (state.currentIndex < state.sequence.length - 1) {
     state.currentIndex++;
     renderPrayer();
