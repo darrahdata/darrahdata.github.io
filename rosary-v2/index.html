@@ -212,6 +212,32 @@
     align-items: center;
     gap: 0.75rem;
   }
+  .topbar-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+  .voice-btn {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 auto;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: rgba(23, 23, 22, 0.5);
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  .voice-btn:hover,
+  .voice-btn.listening {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
   .progress-text {
     font-size: 0.8rem;
     color: var(--muted-2);
@@ -243,6 +269,85 @@
     font-size: 1rem;
     line-height: 1.7;
     color: var(--text-soft);
+  }
+  .session-intention {
+    margin-bottom: 1rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--divider);
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .session-intention strong {
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 400;
+  }
+  .intention-card {
+    text-align: left;
+  }
+  .intention-title {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--accent);
+    font-size: 1.65rem;
+    font-style: italic;
+    line-height: 1.15;
+    margin-bottom: 0.85rem;
+  }
+  .intention-copy {
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .intention-input {
+    width: 100%;
+    min-height: 130px;
+    resize: vertical;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface-2);
+    color: var(--text-soft);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.55;
+    padding: 0.85rem;
+  }
+  .intention-input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .intention-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+  }
+  .intention-btn {
+    min-height: 42px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-soft);
+    font-family: 'Lora', Georgia, serif;
+    padding: 0 0.8rem;
+    cursor: pointer;
+  }
+  .intention-btn.primary {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--accent-contrast);
+  }
+  .intention-btn.listening {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .prayer-card.intention-active .mystery-art,
+  .prayer-card.intention-active .session-intention,
+  .prayer-card.intention-active .prayer-type,
+  .prayer-card.intention-active .prayer-name,
+  .prayer-card.intention-active .prayer-text {
+    display: none;
   }
   .mystery-text {
     position: absolute;
@@ -386,6 +491,10 @@
     .prayer-topbar { padding: 0.7rem; }
     .timer-pill { gap: 0.34rem; font-size: 0.7rem; padding: 0.42rem 0.5rem; }
     .status-divider { height: 0.75rem; }
+    .topbar-controls { gap: 0.35rem; }
+    .voice-btn { width: 32px; height: 32px; }
+    .intention-actions { flex-direction: column; }
+    .intention-btn { width: 100%; }
   }
 </style>
 </head>
@@ -485,15 +594,31 @@
   <div class="prayer-topbar">
     <div class="prayer-topbar-row">
       <button class="back-btn" onclick="showSetup()">← Back</button>
-      <div class="timer-pill" id="timer-pill" aria-live="polite">
-        <span class="status-bead" id="status-bead" aria-hidden="true"></span>
-        <span class="status-progress" id="status-progress">Prayer 1 of 1 · 100%</span>
-        <span class="status-divider" aria-hidden="true"></span>
-        <span class="status-time" id="status-time">00:00</span>
+      <div class="topbar-controls">
+        <button class="voice-btn" id="voice-command-btn" onclick="toggleVoiceCommands()" aria-label="Start voice commands" title="Voice commands">
+          <i class="ti ti-microphone"></i>
+        </button>
+        <div class="timer-pill" id="timer-pill" aria-live="polite">
+          <span class="status-bead" id="status-bead" aria-hidden="true"></span>
+          <span class="status-progress" id="status-progress">Prayer 1 of 1 · 100%</span>
+          <span class="status-divider" aria-hidden="true"></span>
+          <span class="status-time" id="status-time">00:00</span>
+        </div>
       </div>
     </div>
   </div>
   <div class="prayer-card">
+    <div class="session-intention" id="session-intention" style="display:none"></div>
+    <div class="intention-card" id="intention-card" style="display:none">
+      <div class="intention-title">What intentions would you like to lift up to Jesus through Mary?</div>
+      <div class="intention-copy">You may write an intention, dictate one, or continue quietly.</div>
+      <textarea class="intention-input" id="intention-input" placeholder="For..." aria-label="Prayer intention"></textarea>
+      <div class="intention-actions">
+        <button class="intention-btn" id="intention-dictate-btn" onclick="toggleIntentionDictation()">Dictate</button>
+        <button class="intention-btn primary" onclick="continueFromIntention(false)">Continue</button>
+        <button class="intention-btn" onclick="continueFromIntention(true)">Skip</button>
+      </div>
+    </div>
     <div class="mystery-art" id="mystery-art" style="display:none">
       <img id="mystery-image" loading="lazy" decoding="async" alt="">
       <div class="mystery-text" id="mystery-text" style="display:none"></div>
@@ -808,6 +933,7 @@ function buildSequence(mysteryKey, decadeCount) {
   seq.push({ ...PRAYERS.hailMary, bead: 'small', sub: 'For an increase in Hope', image: 'images/hail-mary-hope.png', alt: 'Hail Mary prayer card for an increase in hope.', imageOnly: true });
   seq.push({ ...PRAYERS.hailMary, bead: 'small', sub: 'For an increase in Charity', image: 'images/hail-mary-charity.png', alt: 'Hail Mary prayer card for an increase in charity.', imageOnly: true });
   seq.push({ ...PRAYERS.gloryBe, bead: 'chain' });
+  seq.push({ type: 'Intention', name: 'Prayer Intention', bead: 'chain', intention: true });
   for (let d = 0; d < decades; d++) {
     seq.push({ ...PRAYERS.ourFather, bead: 'large', mystery: mysteries[d], decade: d + 1 });
     for (let h = 0; h < 10; h++) {
@@ -827,13 +953,21 @@ let state = {
   decadeCount: 5,
   sequence: [],
   currentIndex: 0,
-  startedAt: null
+  startedAt: null,
+  intention: ''
 };
 let selections = { mystery: null, rosary: 'dominican', decades: '5' };
 let timerInterval = null;
 let wakeLock = null;
 let wakeLockTimeout = null;
 let wakeLockEndsAt = 0;
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let commandRecognition = null;
+let commandListening = false;
+let commandRestartTimer = null;
+let lastVoiceAdvanceAt = 0;
+let intentionRecognition = null;
+let intentionListening = false;
 
 function selectOption(btn, group) {
   document.querySelectorAll('[data-' + group + ']').forEach(b => b.classList.remove('selected'));
@@ -854,6 +988,7 @@ function startRosary() {
   state.sequence = buildSequence(state.mysteryKey, state.decadeCount);
   state.currentIndex = 0;
   state.startedAt = Date.now();
+  state.intention = '';
   showScreen('screen-prayer');
   startTimer();
   renderPrayer();
@@ -869,6 +1004,7 @@ function startCommonPrayer() {
   state.sequence = [{ ...prayer, bead: 'chain' }];
   state.currentIndex = 0;
   state.startedAt = Date.now();
+  state.intention = '';
   showScreen('screen-prayer');
   startTimer();
   renderPrayer();
@@ -876,6 +1012,8 @@ function startCommonPrayer() {
 
 function showSetup() {
   stopTimer();
+  stopVoiceCommands();
+  stopIntentionDictation();
   showScreen('screen-setup');
 }
 
@@ -890,12 +1028,18 @@ function renderPrayer() {
   const total = state.sequence.length || 1;
   const progress = Math.round(((state.currentIndex + 1) / total) * 100);
   updateStatusPill(step, total, progress);
+  renderSessionIntention(step);
   document.getElementById('prayer-type').textContent = step.type || '';
   document.getElementById('prayer-name').textContent = step.name || '';
   renderPrayerText(step.text || '');
-  document.querySelector('.prayer-card').classList.toggle('image-only', Boolean((state.commonPrayerKey || step.imageOnly) && step.image));
+  const prayerCard = document.querySelector('.prayer-card');
+  prayerCard.classList.toggle('image-only', Boolean((state.commonPrayerKey || step.imageOnly) && step.image));
+  prayerCard.classList.toggle('intention-active', Boolean(step.intention));
   const mysteryEl = document.getElementById('mystery-text');
-  if (step.mystery) {
+  if (!step.intention) hideIntentionStep();
+  if (step.intention) {
+    renderIntentionStep();
+  } else if (step.mystery) {
     const details = getMysteryMeditation(step.mystery);
     renderMysteryImage(details);
     renderMysteryMeditation(mysteryEl, step, details);
@@ -908,8 +1052,182 @@ function renderPrayer() {
     mysteryEl.style.display = 'none';
     mysteryEl.innerHTML = '';
   } else {
+    hideIntentionStep();
     hideMysteryImage();
     mysteryEl.style.display = 'none';
+  }
+}
+
+function renderSessionIntention(step) {
+  const el = document.getElementById('session-intention');
+  const shouldShow = Boolean(state.intention && !state.commonPrayerKey && !step.intention);
+  el.style.display = shouldShow ? 'block' : 'none';
+  el.innerHTML = shouldShow ? '<strong>Intention:</strong> ' + escapeHtml(state.intention) : '';
+}
+
+function renderIntentionStep() {
+  hideMysteryImage();
+  const card = document.getElementById('intention-card');
+  const input = document.getElementById('intention-input');
+  card.style.display = 'block';
+  input.value = state.intention || input.value;
+  document.getElementById('prayer-type').textContent = '';
+  document.getElementById('prayer-name').textContent = '';
+  renderPrayerText('');
+}
+
+function hideIntentionStep() {
+  document.getElementById('intention-card').style.display = 'none';
+  stopIntentionDictation();
+}
+
+function continueFromIntention(skip) {
+  const input = document.getElementById('intention-input');
+  const value = input.value.trim();
+  if (!skip && value) state.intention = value;
+  if (skip && !state.intention) input.value = '';
+  hideIntentionStep();
+  nextBead();
+}
+
+function escapeHtml(value) {
+  return value.replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+}
+
+function getCurrentStep() {
+  return state.sequence[state.currentIndex] || {};
+}
+
+function toggleVoiceCommands() {
+  if (commandListening) stopVoiceCommands();
+  else startVoiceCommands();
+}
+
+function startVoiceCommands() {
+  const button = document.getElementById('voice-command-btn');
+  if (!SpeechRecognition) {
+    button.title = 'Voice commands are not supported on this browser.';
+    button.setAttribute('aria-label', 'Voice commands are not supported on this browser');
+    return;
+  }
+  clearTimeout(commandRestartTimer);
+  commandListening = true;
+  button.classList.add('listening');
+  button.title = 'Listening for next, amen, or continue';
+  button.setAttribute('aria-label', 'Stop voice commands');
+
+  commandRecognition = new SpeechRecognition();
+  commandRecognition.lang = 'en-US';
+  commandRecognition.continuous = true;
+  commandRecognition.interimResults = false;
+  commandRecognition.onresult = event => {
+    let transcript = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      transcript += ' ' + event.results[i][0].transcript;
+    }
+    handleVoiceCommand(transcript);
+  };
+  commandRecognition.onerror = event => {
+    if (event.error === 'not-allowed' || event.error === 'service-not-allowed') stopVoiceCommands();
+  };
+  commandRecognition.onend = () => {
+    commandRecognition = null;
+    if (commandListening && document.getElementById('screen-prayer').classList.contains('active')) {
+      commandRestartTimer = setTimeout(startVoiceCommands, 500);
+    }
+  };
+
+  try {
+    commandRecognition.start();
+  } catch (error) {
+    stopVoiceCommands();
+  }
+}
+
+function stopVoiceCommands() {
+  commandListening = false;
+  clearTimeout(commandRestartTimer);
+  commandRestartTimer = null;
+  const button = document.getElementById('voice-command-btn');
+  if (button) {
+    button.classList.remove('listening');
+    button.title = 'Voice commands';
+    button.setAttribute('aria-label', 'Start voice commands');
+  }
+  if (commandRecognition) {
+    const recognition = commandRecognition;
+    commandRecognition = null;
+    try {
+      recognition.stop();
+    } catch (error) {}
+  }
+}
+
+function handleVoiceCommand(transcript) {
+  if (getCurrentStep().intention || intentionListening) return;
+  const heard = transcript.toLowerCase();
+  const now = Date.now();
+  if (now - lastVoiceAdvanceAt < 1500) return;
+  if (/\b(next|amen|continue)\b/.test(heard)) {
+    lastVoiceAdvanceAt = now;
+    nextBead();
+  } else if (/\b(previous|prev|go back)\b/.test(heard)) {
+    lastVoiceAdvanceAt = now;
+    prevBead();
+  }
+}
+
+function toggleIntentionDictation() {
+  if (intentionListening) stopIntentionDictation();
+  else startIntentionDictation();
+}
+
+function startIntentionDictation() {
+  const button = document.getElementById('intention-dictate-btn');
+  if (!SpeechRecognition) {
+    button.textContent = 'Dictation unavailable';
+    button.disabled = true;
+    return;
+  }
+  stopVoiceCommands();
+  intentionListening = true;
+  button.classList.add('listening');
+  button.textContent = 'Listening...';
+
+  intentionRecognition = new SpeechRecognition();
+  intentionRecognition.lang = 'en-US';
+  intentionRecognition.continuous = false;
+  intentionRecognition.interimResults = false;
+  intentionRecognition.onresult = event => {
+    const spoken = Array.from(event.results).map(result => result[0].transcript).join(' ').trim();
+    const input = document.getElementById('intention-input');
+    input.value = [input.value.trim(), spoken].filter(Boolean).join(' ');
+    state.intention = input.value.trim();
+  };
+  intentionRecognition.onend = stopIntentionDictation;
+  intentionRecognition.onerror = stopIntentionDictation;
+
+  try {
+    intentionRecognition.start();
+  } catch (error) {
+    stopIntentionDictation();
+  }
+}
+
+function stopIntentionDictation() {
+  intentionListening = false;
+  const button = document.getElementById('intention-dictate-btn');
+  if (button) {
+    button.classList.remove('listening');
+    button.textContent = SpeechRecognition ? 'Dictate' : 'Dictation unavailable';
+    button.disabled = !SpeechRecognition;
+  }
+  if (intentionRecognition) {
+    const recognition = intentionRecognition;
+    intentionRecognition = null;
+    try {
+      recognition.stop();
+    } catch (error) {}
   }
 }
 
@@ -1063,6 +1381,8 @@ function nextBead() {
     renderPrayer();
   } else {
     stopTimer(false);
+    stopVoiceCommands();
+    stopIntentionDictation();
     document.getElementById('complete-title').textContent = state.commonPrayerKey ? 'Prayer Complete' : 'Rosary Complete';
     showScreen('screen-complete');
   }
@@ -1074,6 +1394,7 @@ function prevBead() {
 
 document.addEventListener('keydown', (e) => {
   if (!document.getElementById('screen-prayer').classList.contains('active')) return;
+  if (e.target.closest('input, textarea, select')) return;
   if (e.key === 'ArrowRight') {
     e.preventDefault();
     nextBead();
