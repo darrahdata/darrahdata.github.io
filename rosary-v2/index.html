@@ -807,6 +807,9 @@ let state = {
 };
 let selections = { mystery: null, rosary: 'dominican', decades: '5' };
 let timerInterval = null;
+let wakeLock = null;
+let wakeLockTimeout = null;
+let wakeLockEndsAt = 0;
 
 function selectOption(btn, group) {
   document.querySelectorAll('[data-' + group + ']').forEach(b => b.classList.remove('selected'));
@@ -958,12 +961,14 @@ function startTimer() {
   updateTimer();
   document.getElementById('timer-pill').classList.add('active');
   timerInterval = setInterval(updateTimer, 1000);
+  requestWakeLockForFiveMinutes();
 }
 
 function stopTimer(hide = true) {
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = null;
   if (hide) document.getElementById('timer-pill').classList.remove('active');
+  releaseWakeLock();
 }
 
 function updateTimer() {
@@ -978,6 +983,54 @@ function updateStatusPill(step, total, progress) {
   const bead = document.getElementById('status-bead');
   bead.className = 'status-bead ' + (step.bead || 'chain');
   document.getElementById('status-progress').textContent = 'Prayer ' + (state.currentIndex + 1) + ' of ' + total + ' · ' + progress + '%';
+}
+
+function updateStatus(message, active) {
+  const pill = document.getElementById('timer-pill');
+  if (pill) {
+    pill.title = message;
+    pill.dataset.wakeLock = active ? 'active' : 'inactive';
+  }
+}
+
+async function requestWakeLockForFiveMinutes(resetWindow = true) {
+  releaseWakeLock(false);
+  if (resetWindow) wakeLockEndsAt = Date.now() + 5 * 60 * 1000;
+  if (!wakeLockEndsAt || Date.now() >= wakeLockEndsAt) return;
+  if (!('wakeLock' in navigator)) {
+    updateStatus('Screen wake lock is not supported on this browser.', false);
+    return;
+  }
+  if (document.visibilityState !== 'visible') return;
+  try {
+    wakeLock = await navigator.wakeLock.request('screen');
+    wakeLock.addEventListener('release', () => {
+      wakeLock = null;
+    });
+    updateStatus('Screen will stay awake for 5 minutes.', true);
+    wakeLockTimeout = setTimeout(() => {
+      releaseWakeLock();
+      updateStatus('Screen wake lock ended after 5 minutes.', false);
+    }, Math.max(0, wakeLockEndsAt - Date.now()));
+  } catch (error) {
+    wakeLock = null;
+    updateStatus('Could not keep screen awake. Check browser or battery settings.', false);
+    console.warn('Wake Lock error:', error);
+  }
+}
+
+async function releaseWakeLock(clearWindow = true) {
+  if (clearWindow) wakeLockEndsAt = 0;
+  if (wakeLockTimeout) clearTimeout(wakeLockTimeout);
+  wakeLockTimeout = null;
+  if (!wakeLock) return;
+  const lock = wakeLock;
+  wakeLock = null;
+  try {
+    await lock.release();
+  } catch (error) {
+    console.warn('Wake Lock release error:', error);
+  }
 }
 
 function nextBead() {
@@ -1011,6 +1064,13 @@ document.addEventListener('pointerup', (e) => {
   if (e.target.closest('button, a, select, input, textarea, label')) return;
   if (e.clientX < window.innerWidth / 2) prevBead();
   else nextBead();
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible') return;
+  if (!document.getElementById('screen-prayer').classList.contains('active')) return;
+  if (wakeLock || !wakeLockEndsAt || Date.now() >= wakeLockEndsAt) return;
+  requestWakeLockForFiveMinutes(false);
 });
 
 // Pre-select today's mystery
