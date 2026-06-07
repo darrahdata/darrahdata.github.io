@@ -9,6 +9,7 @@
 <style>
   :root {
     --bg: #171716;
+    --bg-soft: #1d1c1a;
     --surface: #242321;
     --surface-2: #2d2b28;
     --surface-selected: #343129;
@@ -26,22 +27,60 @@
     --divider: #37332d;
     --done-stroke: #94723f;
     --cross-current: #f7f1e7;
+    --focus: #f1d38b;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { color-scheme: dark; }
   body {
     font-family: 'Lora', Georgia, serif;
     background: var(--bg);
+    background-image:
+      linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0) 42vh),
+      linear-gradient(90deg, rgba(197,164,100,0.035) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(197,164,100,0.03) 1px, transparent 1px);
+    background-size: auto, 72px 72px, 72px 72px;
     color: var(--text);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem 1rem;
+    padding: 1.25rem 1rem 2.5rem;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(23,23,22,0.1), rgba(23,23,22,0.72));
+    z-index: -1;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+  .app-shell {
+    width: 100%;
+    max-width: 720px;
+  }
+  .app-header {
+    text-align: center;
+    margin: 1.5rem 0 1.35rem;
   }
   h1 {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 300;
-    font-size: 2rem;
+    font-size: clamp(2.2rem, 8vw, 3.8rem);
     letter-spacing: 0.15em;
     color: var(--accent);
     text-align: center;
@@ -49,24 +88,25 @@
   }
   .subtitle {
     font-style: italic;
-    font-size: 0.9rem;
+    font-size: clamp(1rem, 3vw, 1.2rem);
     color: var(--muted);
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
     letter-spacing: 0.05em;
   }
 
-  .screen { display: none; width: 100%; max-width: 560px; }
+  .screen { display: none; width: 100%; }
   .screen.active { display: block; }
 
   .timer-pill {
+    min-width: 0;
     max-width: 100%;
     padding: 0.45rem 0.65rem;
     border: 1px solid var(--border);
     border-radius: 999px;
     background: rgba(23, 23, 22, 0.5);
     color: var(--accent);
-    font-size: 0.76rem;
+    font-size: 0.82rem;
     line-height: 1;
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.04em;
@@ -115,14 +155,38 @@
   .status-time {
     white-space: nowrap;
   }
+  .status-progress {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .status-time {
+    flex: 0 0 auto;
+  }
+  .progress-track {
+    margin-top: 0.7rem;
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    overflow: hidden;
+  }
+  .progress-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, rgba(197,164,100,0.52), rgba(241,211,139,0.9));
+    transition: width 0.25s ease;
+  }
 
-  .home-btn {
+  .home-nav {
     position: fixed;
     top: 1rem;
     left: 1rem;
     z-index: 10;
-    width: 36px;
-    height: 36px;
+  }
+  .home-btn {
+    width: 44px;
+    height: 44px;
     border: 1px solid var(--border);
     border-radius: 50%;
     background: rgba(36, 35, 33, 0.92);
@@ -135,19 +199,89 @@
     transition: all 0.2s;
   }
   .home-btn:hover { border-color: var(--accent); color: var(--text); }
-  body.prayer-active h1,
-  body.prayer-active .subtitle,
-  body.prayer-active .home-btn {
+  body.prayer-active .app-header,
+  body.prayer-active .home-nav {
     display: none;
   }
 
-  .setup-section { margin-bottom: 1.5rem; }
+  .setup-hero,
+  .resume-panel,
+  .setup-section,
+  .common-prayer-section {
+    background: rgba(36, 35, 33, 0.82);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .setup-hero {
+    padding: clamp(1.15rem, 4vw, 1.65rem);
+    margin-bottom: 0.9rem;
+  }
+  .today-kicker,
   .setup-label {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: 0.75rem;
+  }
+  .setup-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.65rem, 5vw, 2.25rem);
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1.05;
+    margin-bottom: 0.55rem;
+  }
+  .setup-copy,
+  .resume-copy {
+    color: var(--muted);
+    line-height: 1.6;
+    font-size: 0.98rem;
+  }
+  .setup-summary {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .summary-chip {
+    border: 1px solid rgba(197,164,100,0.32);
+    border-radius: 999px;
+    color: var(--text-soft);
+    background: rgba(23,23,22,0.38);
+    padding: 0.35rem 0.55rem;
+    font-size: 0.82rem;
+  }
+  .resume-panel {
+    display: none;
+    margin-bottom: 0.9rem;
+    padding: 1rem;
+  }
+  .resume-panel.active {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.85rem;
+    align-items: center;
+  }
+  .resume-title {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--accent);
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+  .resume-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .setup-section {
+    margin-bottom: 0.9rem;
+    padding: 1rem;
+    min-width: 0;
+  }
+  fieldset.setup-section {
+    border: 1px solid var(--border);
   }
   .option-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
   .decade-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
@@ -166,16 +300,30 @@
     font-size: 0.95rem;
     padding: 0.75rem 1rem;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 6px;
     text-align: left;
     transition: all 0.2s;
     line-height: 1.3;
+    min-height: 64px;
   }
   .option-btn:hover { border-color: var(--accent); color: var(--text); }
-  .option-btn.selected { border-color: var(--accent); background: var(--surface-selected); color: var(--accent); }
+  .option-btn.selected {
+    border-color: var(--accent);
+    background: var(--surface-selected);
+    color: var(--accent);
+    box-shadow: inset 3px 0 0 var(--accent);
+  }
   .option-btn small { display: block; font-size: 0.78rem; color: var(--muted-2); margin-top: 2px; font-style: italic; }
   .option-btn.selected small { color: var(--muted); }
   .mystery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .today-mark {
+    display: inline-block;
+    color: var(--accent);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-left: 0.25rem;
+  }
 
   .start-btn {
     width: 100%;
@@ -188,27 +336,28 @@
     font-weight: 400;
     letter-spacing: 0.1em;
     cursor: pointer;
-    border-radius: 4px;
-    margin-top: 1.5rem;
+    border-radius: 6px;
+    margin-top: 1.15rem;
     transition: background 0.2s;
+    min-height: 56px;
   }
   .start-btn:hover { background: var(--accent-hover); }
   .start-btn:disabled { background: var(--surface-selected); color: var(--muted-2); cursor: default; }
 
   .prayer-topbar {
     position: sticky;
-    top: 0.75rem;
+    top: 0.5rem;
     z-index: 12;
     margin-bottom: 1rem;
     padding: 0.75rem 0.85rem;
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 10px;
     background: rgba(36, 35, 33, 0.94);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
   }
   .prayer-topbar-row {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
     gap: 0.75rem;
   }
@@ -218,10 +367,11 @@
     justify-content: flex-end;
     gap: 0.45rem;
     min-width: 0;
+    width: 100%;
   }
   .voice-btn {
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     flex: 0 0 auto;
     border: 1px solid var(--border);
     border-radius: 50%;
@@ -241,7 +391,7 @@
   .voice-status {
     margin-top: 0.55rem;
     color: var(--muted-2);
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     font-style: italic;
     line-height: 1.35;
     min-height: 1rem;
@@ -258,13 +408,13 @@
   .prayer-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1.25rem;
+    border-radius: 10px;
+    padding: clamp(1.15rem, 4vw, 1.75rem);
     margin-bottom: 1.5rem;
     min-height: 120px;
   }
   .prayer-type {
-    font-size: 0.7rem;
+    font-size: 0.82rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--muted);
@@ -272,14 +422,14 @@
   }
   .prayer-name {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem;
+    font-size: clamp(1.75rem, 6vw, 2.25rem);
     color: var(--accent);
     margin-bottom: 0.75rem;
     font-style: italic;
   }
   .prayer-text {
-    font-size: 1rem;
-    line-height: 1.7;
+    font-size: clamp(1.08rem, 3.6vw, 1.25rem);
+    line-height: 1.78;
     color: var(--text-soft);
   }
   .prayer-line {
@@ -342,7 +492,6 @@
     padding: 0.85rem;
   }
   .intention-input:focus {
-    outline: none;
     border-color: var(--accent);
   }
   .intention-actions {
@@ -352,9 +501,9 @@
     margin-top: 0.85rem;
   }
   .intention-btn {
-    min-height: 42px;
+    min-height: 44px;
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 6px;
     background: transparent;
     color: var(--text-soft);
     font-family: 'Lora', Georgia, serif;
@@ -382,7 +531,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--muted);
     margin: 0;
     padding: 1.4rem 1rem 1rem;
@@ -418,7 +567,7 @@
     position: relative;
     margin: 0 0 1.25rem;
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 10px;
     background: var(--surface-2);
     overflow: hidden;
   }
@@ -444,9 +593,9 @@
     margin-top: 0.75rem;
   }
   .nav-btn {
-    min-height: 44px;
+    min-height: 52px;
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 6px;
     background: var(--surface);
     color: var(--text-soft);
     font-family: 'Lora', Georgia, serif;
@@ -464,9 +613,17 @@
 
   .common-prayer-section {
     margin-top: 1.5rem;
-    border-top: 1px solid var(--divider);
-    padding-top: 1rem;
+    padding: 1rem;
   }
+  .common-prayer-section summary {
+    cursor: pointer;
+    color: var(--text-soft);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    list-style-position: outside;
+  }
+  .common-prayer-section summary::marker { color: var(--accent); }
+  .common-prayer-body { margin-top: 0.9rem; }
   .common-prayer-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -476,7 +633,7 @@
     width: 100%;
     min-height: 46px;
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 6px;
     background: var(--surface-2);
     color: var(--text-soft);
     font-family: 'Lora', Georgia, serif;
@@ -486,7 +643,7 @@
   .common-prayer-btn {
     min-height: 46px;
     border: 1px solid var(--accent);
-    border-radius: 4px;
+    border-radius: 6px;
     background: var(--accent);
     color: var(--accent-contrast);
     font-family: 'Lora', Georgia, serif;
@@ -503,14 +660,15 @@
     font-size: 0.85rem;
     cursor: pointer;
     letter-spacing: 0.08em;
-    padding: 0;
+    padding: 0.4rem 0.2rem;
+    min-height: 44px;
   }
   .back-btn:hover { color: var(--text-soft); }
 
   .complete-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 10px;
     padding: 2rem;
     text-align: center;
   }
@@ -521,23 +679,36 @@
     font-weight: 300;
     margin-bottom: 0.75rem;
   }
-  .complete-card p { color: var(--muted); font-style: italic; line-height: 1.6; }
+  .complete-card p { color: var(--muted); line-height: 1.6; }
+  .complete-card blockquote {
+    margin-top: 1rem;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .complete-card cite {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--accent);
+    font-style: normal;
+  }
   .complete-actions {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.75rem;
-    max-width: 320px;
+    max-width: 560px;
     margin: 1.5rem auto 0;
   }
   .restart-btn {
-    padding: 0.75rem 2rem;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
     background: transparent;
     border: 1px solid var(--accent);
     color: var(--accent);
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.1rem;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: all 0.2s;
   }
   .restart-btn:hover { background: var(--accent); color: var(--accent-contrast); }
@@ -545,88 +716,132 @@
   hr.divider { border: none; border-top: 1px solid var(--divider); margin: 1rem 0; }
 
   @media (max-width: 520px) {
+    body { padding: 0.85rem 0.75rem 2rem; }
+    .app-header { margin-top: 1.25rem; }
+    .resume-panel.active,
     .common-prayer-row { grid-template-columns: 1fr; }
+    .option-grid,
+    .mystery-grid { grid-template-columns: 1fr; }
+    .decade-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .prayer-topbar { padding: 0.7rem; }
-    .timer-pill { gap: 0.34rem; font-size: 0.7rem; padding: 0.42rem 0.5rem; }
+    .timer-pill { gap: 0.34rem; font-size: 0.72rem; padding: 0.42rem 0.5rem; }
     .status-divider { height: 0.75rem; }
     .topbar-controls { gap: 0.35rem; }
-    .voice-btn { width: 32px; height: 32px; }
     .voice-status { text-align: left; }
     .intention-actions { flex-direction: column; }
     .intention-btn { width: 100%; }
     .complete-actions { grid-template-columns: 1fr; }
   }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
 </style>
 </head>
 <body>
 
-<a class="home-btn" href="/" aria-label="Home" title="Home">
-  <i class="ti ti-home"></i>
-</a>
+<nav class="home-nav" aria-label="Site">
+  <a class="home-btn" href="/" aria-label="Home" title="Home">
+    <i class="ti ti-home" aria-hidden="true"></i>
+  </a>
+</nav>
 
-<h1>✦ The Rosary</h1>
-<p class="subtitle">A contemplative companion for prayer</p>
+<main class="app-shell" id="app-main">
+<header class="app-header">
+  <h1>✦ The Rosary</h1>
+  <p class="subtitle">A contemplative companion for prayer</p>
+</header>
 
 <!-- Setup Screen -->
-<div class="screen active" id="screen-setup">
-  <div class="setup-section">
-    <div class="setup-label">Choose mysteries</div>
-    <div class="mystery-grid">
-      <button class="option-btn" data-mystery="joyful" onclick="selectOption(this,'mystery')">
+<section class="screen active" id="screen-setup" aria-labelledby="setup-title" tabindex="-1" aria-hidden="false">
+  <div class="setup-hero">
+    <div class="today-kicker" id="today-kicker">Today’s mysteries</div>
+    <h2 class="setup-title" id="setup-title">Begin in prayer</h2>
+    <p class="setup-copy" id="setup-copy">Choose a mystery set, then begin when you are ready.</p>
+    <div class="setup-summary" aria-live="polite">
+      <span class="summary-chip" id="summary-mystery">Mystery not selected</span>
+      <span class="summary-chip" id="summary-rosary">Dominican Rosary</span>
+      <span class="summary-chip" id="summary-decades">5 decades</span>
+    </div>
+    <button class="start-btn" id="start-btn" onclick="startRosary()" disabled>Begin</button>
+  </div>
+
+  <div class="resume-panel" id="resume-panel" aria-live="polite">
+    <div>
+      <div class="resume-title">Resume your prayer</div>
+      <p class="resume-copy" id="resume-copy">Return to your last place in the Rosary.</p>
+    </div>
+    <div class="resume-actions">
+      <button class="intention-btn primary" type="button" onclick="resumeSavedSession()">Resume</button>
+      <button class="intention-btn" type="button" onclick="dismissSavedSession()">Dismiss</button>
+    </div>
+  </div>
+
+  <fieldset class="setup-section">
+    <legend class="setup-label">Choose mysteries</legend>
+    <div class="mystery-grid" role="radiogroup" aria-label="Mystery selection">
+      <button class="option-btn" type="button" role="radio" aria-checked="false" data-mystery="joyful" onclick="selectOption(this,'mystery')">
         Joyful <small>Monday &amp; Saturday</small>
       </button>
-      <button class="option-btn" data-mystery="sorrowful" onclick="selectOption(this,'mystery')">
+      <button class="option-btn" type="button" role="radio" aria-checked="false" data-mystery="sorrowful" onclick="selectOption(this,'mystery')">
         Sorrowful <small>Tuesday &amp; Friday</small>
       </button>
-      <button class="option-btn" data-mystery="glorious" onclick="selectOption(this,'mystery')">
+      <button class="option-btn" type="button" role="radio" aria-checked="false" data-mystery="glorious" onclick="selectOption(this,'mystery')">
         Glorious <small>Wednesday &amp; Sunday</small>
       </button>
-      <button class="option-btn" data-mystery="luminous" onclick="selectOption(this,'mystery')">
+      <button class="option-btn" type="button" role="radio" aria-checked="false" data-mystery="luminous" onclick="selectOption(this,'mystery')">
         Luminous <small>Thursday</small>
       </button>
     </div>
-  </div>
-  <div class="setup-section">
-    <div class="setup-label">Choose rosary</div>
-    <div class="option-grid">
-      <button class="option-btn selected" data-rosary="dominican" onclick="selectOption(this,'rosary')">
+  </fieldset>
+  <fieldset class="setup-section">
+    <legend class="setup-label">Choose rosary</legend>
+    <div class="option-grid" role="radiogroup" aria-label="Rosary type selection">
+      <button class="option-btn selected" type="button" role="radio" aria-checked="true" data-rosary="dominican" onclick="selectOption(this,'rosary')">
         Dominican <small>Traditional form</small>
       </button>
-      <button class="option-btn" data-rosary="scriptural" onclick="selectOption(this,'rosary')">
+      <button class="option-btn" type="button" role="radio" aria-checked="false" data-rosary="scriptural" onclick="selectOption(this,'rosary')">
         Scriptural <small>With meditations</small>
       </button>
-      <button class="option-btn" data-rosary="sevenSorrows" onclick="selectOption(this,'rosary')">
+      <button class="option-btn" type="button" role="radio" aria-checked="false" data-rosary="sevenSorrows" onclick="selectOption(this,'rosary')">
         Seven Sorrows <small>Seven dolors</small>
       </button>
-      <button class="option-btn" data-rosary="franciscanCrown" onclick="selectOption(this,'rosary')">
+      <button class="option-btn" type="button" role="radio" aria-checked="false" data-rosary="franciscanCrown" onclick="selectOption(this,'rosary')">
         Franciscan Crown <small>Seven joys</small>
       </button>
     </div>
-  </div>
-  <div class="setup-section">
-    <div class="setup-label">Choose decades</div>
-    <div class="option-grid decade-grid">
-      <button class="option-btn" data-decades="1" onclick="selectOption(this,'decades')">
+  </fieldset>
+  <fieldset class="setup-section">
+    <legend class="setup-label">Choose decades</legend>
+    <div class="option-grid decade-grid" role="radiogroup" aria-label="Decade count selection">
+      <button class="option-btn" type="button" role="radio" aria-checked="false" data-decades="1" onclick="selectOption(this,'decades')">
         One Decade <small>All 5 mysteries</small>
       </button>
-      <button class="option-btn" data-decades="2" onclick="selectOption(this,'decades')">
+      <button class="option-btn" type="button" role="radio" aria-checked="false" data-decades="2" onclick="selectOption(this,'decades')">
         Two Decades <small>Opening + 2 decades</small>
       </button>
-      <button class="option-btn" data-decades="3" onclick="selectOption(this,'decades')">
+      <button class="option-btn" type="button" role="radio" aria-checked="false" data-decades="3" onclick="selectOption(this,'decades')">
         Three Decades <small>Opening + 3 decades</small>
       </button>
-      <button class="option-btn" data-decades="4" onclick="selectOption(this,'decades')">
+      <button class="option-btn" type="button" role="radio" aria-checked="false" data-decades="4" onclick="selectOption(this,'decades')">
         Four Decades <small>Opening + 4 decades</small>
       </button>
-      <button class="option-btn selected" data-decades="5" onclick="selectOption(this,'decades')">
+      <button class="option-btn selected" type="button" role="radio" aria-checked="true" data-decades="5" onclick="selectOption(this,'decades')">
         Five Decades <small>Full rosary</small>
       </button>
     </div>
-  </div>
-  <button class="start-btn" id="start-btn" onclick="startRosary()" disabled>Begin</button>
-  <div class="common-prayer-section">
-    <div class="setup-label">Common prayers</div>
-    <div class="common-prayer-row">
+  </fieldset>
+  <details class="common-prayer-section">
+    <summary>Common prayers</summary>
+    <div class="common-prayer-body">
+      <div class="setup-label">Choose a prayer</div>
+      <div class="common-prayer-row">
       <select class="common-prayer-select" id="common-prayer-select" aria-label="Choose a common prayer">
         <option value="comeHolySpirit">Come, Holy Spirit</option>
         <option value="divineMercy">Divine Mercy Chaplet</option>
@@ -644,41 +859,43 @@
         <option value="prayerForTheSick">Prayer for the Sick</option>
         <option value="stPeregrine">Prayer to St. Peregrine</option>
       </select>
-      <button class="common-prayer-btn" onclick="startCommonPrayer()">Open</button>
+        <button class="common-prayer-btn" type="button" onclick="startCommonPrayer()">Open prayer</button>
+      </div>
     </div>
-  </div>
-</div>
+  </details>
+</section>
 
 <!-- Prayer Screen -->
-<div class="screen" id="screen-prayer">
+<section class="screen" id="screen-prayer" aria-labelledby="prayer-name" tabindex="-1" hidden aria-hidden="true">
   <div class="prayer-topbar">
     <div class="prayer-topbar-row">
-      <button class="back-btn" onclick="showSetup()">← Back</button>
+      <button class="back-btn" type="button" onclick="showSetup()">← Back</button>
       <div class="topbar-controls">
-        <button class="voice-btn" id="voice-command-btn" onclick="toggleVoiceCommands()" aria-label="Start voice commands" title="Voice commands">
-          <i class="ti ti-microphone"></i>
+        <button class="voice-btn" id="voice-command-btn" type="button" onclick="toggleVoiceCommands()" aria-label="Start voice commands" aria-pressed="false" aria-describedby="voice-status" title="Voice commands">
+          <i class="ti ti-microphone" aria-hidden="true"></i>
         </button>
-        <div class="timer-pill" id="timer-pill" aria-live="polite">
+        <div class="timer-pill" id="timer-pill" role="group" aria-label="Prayer session status">
           <span class="status-bead" id="status-bead" aria-hidden="true"></span>
-          <span class="status-progress" id="status-progress">Prayer 1 of 1 · 100%</span>
+          <span class="status-progress" id="status-progress" role="status" aria-live="polite">Prayer 1 of 1 · 100%</span>
           <span class="status-divider" aria-hidden="true"></span>
-          <span class="status-time" id="status-time">00:00</span>
+          <span class="status-time" id="status-time" aria-label="Elapsed time">00:00</span>
         </div>
       </div>
     </div>
+    <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="status-fill"></div></div>
     <div class="voice-status" id="voice-status" aria-live="polite"></div>
   </div>
-  <div class="prayer-card">
+  <article class="prayer-card" id="prayer-card" tabindex="-1" aria-live="polite" aria-atomic="false">
     <div class="session-intention" id="session-intention" style="display:none"></div>
     <div class="intention-card" id="intention-card" style="display:none">
-      <div class="intention-title">What intentions would you like to lift up to Jesus through Mary?</div>
+      <h2 class="intention-title" id="intention-title">What intentions would you like to lift up to Jesus through Mary?</h2>
       <div class="intention-copy">You may write an intention, dictate one, or continue quietly.</div>
       <div class="intention-live" id="intention-live" aria-live="polite"></div>
       <textarea class="intention-input" id="intention-input" placeholder="For..." aria-label="Prayer intention"></textarea>
       <div class="intention-actions">
-        <button class="intention-btn" id="intention-dictate-btn" onclick="toggleIntentionDictation()">Dictate</button>
-        <button class="intention-btn primary" onclick="continueFromIntention(false)">Continue</button>
-        <button class="intention-btn" onclick="continueFromIntention(true)">Skip</button>
+        <button class="intention-btn" id="intention-dictate-btn" type="button" onclick="toggleIntentionDictation()">Dictate</button>
+        <button class="intention-btn primary" type="button" onclick="continueFromIntention(false)">Continue</button>
+        <button class="intention-btn" type="button" onclick="continueFromIntention(true)">Skip</button>
       </div>
     </div>
     <div class="mystery-art" id="mystery-art" style="display:none">
@@ -689,24 +906,30 @@
     <div class="prayer-name" id="prayer-name"></div>
     <div class="prayer-text" id="prayer-text"></div>
     <div class="manual-nav">
-      <button class="nav-btn" id="prev-btn" onclick="prevBead()">← Previous</button>
-      <button class="nav-btn" id="next-btn" onclick="nextBead()">Next →</button>
+      <button class="nav-btn" id="prev-btn" type="button" onclick="prevBead()" aria-label="Previous prayer">← Previous</button>
+      <button class="nav-btn" id="next-btn" type="button" onclick="nextBead()" aria-label="Next prayer">Next →</button>
     </div>
-  </div>
-</div>
+  </article>
+</section>
 
 <!-- Complete Screen -->
-<div class="screen" id="screen-complete">
+<section class="screen" id="screen-complete" aria-labelledby="complete-title" tabindex="-1" hidden aria-hidden="true">
   <div class="complete-card">
     <h2 id="complete-title">Prayer Complete</h2>
     <hr class="divider">
-    <p>"The Rosary is the weapon for these times."<br><em>— Padre Pio</em></p>
+    <p class="resume-copy" id="complete-summary"></p>
+    <blockquote>
+      <p>"The Rosary is the weapon for these times."</p>
+      <cite>Padre Pio</cite>
+    </blockquote>
     <div class="complete-actions">
-      <button class="restart-btn" onclick="backFromComplete()">← Back</button>
-      <button class="restart-btn" onclick="showSetup()">Pray again</button>
+      <button class="restart-btn" type="button" onclick="backFromComplete()">← Back</button>
+      <button class="restart-btn" type="button" onclick="restartCurrentSession()">Pray again</button>
+      <button class="restart-btn" type="button" onclick="showSetup()">Choose another</button>
     </div>
   </div>
-</div>
+</section>
+</main>
 
 <script>
 const MYSTERIES = {
@@ -1052,16 +1275,54 @@ let intentionListening = false;
 let spokenPrayerText = '';
 let currentPrayerSegments = [];
 let activePrayerSegment = -1;
+const SESSION_KEY = 'rosaryV2Session';
+const MYSTERY_DAY_LABELS = {
+  joyful: 'Monday & Saturday',
+  sorrowful: 'Tuesday & Friday',
+  glorious: 'Wednesday & Sunday',
+  luminous: 'Thursday'
+};
+const ROSARY_LABELS = {
+  dominican: 'Dominican Rosary',
+  scriptural: 'Scriptural Rosary',
+  sevenSorrows: 'Seven Sorrows',
+  franciscanCrown: 'Franciscan Crown'
+};
 
 function selectOption(btn, group) {
-  document.querySelectorAll('[data-' + group + ']').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('[data-' + group + ']').forEach(b => {
+    b.classList.remove('selected');
+    b.setAttribute('aria-checked', 'false');
+  });
   btn.classList.add('selected');
+  btn.setAttribute('aria-checked', 'true');
   selections[group] = btn.dataset[group];
   updateStartBtn();
+  updateSetupSummary();
 }
 
 function updateStartBtn() {
   document.getElementById('start-btn').disabled = !selections.mystery;
+}
+
+function updateSetupSummary() {
+  const mysteryName = selections.mystery ? MYSTERIES[selections.mystery].name : 'Mystery not selected';
+  const rosaryName = ROSARY_LABELS[selections.rosary] || 'Dominican Rosary';
+  const decadeText = selections.decades === '1' ? '1 decade · all mysteries' : selections.decades + ' decades';
+  document.getElementById('summary-mystery').textContent = mysteryName;
+  document.getElementById('summary-rosary').textContent = rosaryName;
+  document.getElementById('summary-decades').textContent = decadeText;
+  const start = document.getElementById('start-btn');
+  start.textContent = selections.mystery ? 'Begin ' + MYSTERIES[selections.mystery].singular + ' Mysteries' : 'Begin';
+  const title = document.getElementById('setup-title');
+  const copy = document.getElementById('setup-copy');
+  if (selections.mystery) {
+    title.textContent = 'Begin the ' + MYSTERIES[selections.mystery].name;
+    copy.textContent = 'Today’s recommendation is ready. Adjust the rosary or decade count below, or begin when you are ready.';
+  } else {
+    title.textContent = 'Begin in prayer';
+    copy.textContent = 'Choose a mystery set, then begin when you are ready.';
+  }
 }
 
 function startRosary() {
@@ -1076,6 +1337,7 @@ function startRosary() {
   showScreen('screen-prayer');
   startTimer();
   renderPrayer();
+  saveSession();
 }
 
 function startCommonPrayer() {
@@ -1092,6 +1354,7 @@ function startCommonPrayer() {
   showScreen('screen-prayer');
   startTimer();
   renderPrayer();
+  saveSession();
 }
 
 function showSetup() {
@@ -1099,12 +1362,19 @@ function showSetup() {
   stopVoiceCommands();
   stopIntentionDictation();
   showScreen('screen-setup');
+  renderResumePanel();
 }
 
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.screen').forEach(s => {
+    const active = s.id === id;
+    s.classList.toggle('active', active);
+    s.hidden = !active;
+    s.setAttribute('aria-hidden', active ? 'false' : 'true');
+  });
+  const screen = document.getElementById(id);
   document.body.classList.toggle('prayer-active', id === 'screen-prayer');
+  setTimeout(() => screen.focus({ preventScroll: true }), 0);
 }
 
 function renderPrayer() {
@@ -1143,11 +1413,14 @@ function renderPrayer() {
     hideMysteryImage();
     mysteryEl.style.display = 'none';
   }
+  saveSession();
 }
 
 function updateManualNav(step) {
   document.getElementById('prev-btn').disabled = state.currentIndex === 0;
-  document.getElementById('next-btn').textContent = step.intention ? 'Skip →' : 'Next →';
+  const next = document.getElementById('next-btn');
+  next.textContent = step.intention ? 'Skip →' : 'Next →';
+  next.setAttribute('aria-label', step.intention ? 'Skip intention' : 'Next prayer');
 }
 
 function formatPrayerType(step) {
@@ -1155,6 +1428,16 @@ function formatPrayerType(step) {
     return (step.type || 'Hail Mary Bead') + ' ' + step.beadNumber + ' of ' + step.beadTotal;
   }
   return step.type || '';
+}
+
+function getProgressLabel(step, total, progress) {
+  if (step.beadNumber && step.beadTotal) {
+    return 'Decade ' + (step.decade || 1) + ' · Hail Mary ' + step.beadNumber + ' of ' + step.beadTotal + ' · ' + progress + '%';
+  }
+  if (step.mystery && step.decade) {
+    return 'Decade ' + step.decade + ' · Prayer ' + (state.currentIndex + 1) + ' of ' + total + ' · ' + progress + '%';
+  }
+  return 'Prayer ' + (state.currentIndex + 1) + ' of ' + total + ' · ' + progress + '%';
 }
 
 function renderSessionIntention(step) {
@@ -1302,6 +1585,7 @@ function updateVoiceButton(listening) {
   button.classList.toggle('listening', listening || intentionListening);
   button.title = listening || intentionListening ? 'Listening' : 'Voice commands';
   button.setAttribute('aria-label', listening || intentionListening ? 'Stop voice commands' : 'Start voice commands');
+  button.setAttribute('aria-pressed', listening || intentionListening ? 'true' : 'false');
 }
 
 function setVoiceStatus(message, listening = false) {
@@ -1589,7 +1873,11 @@ function updateTimer() {
 function updateStatusPill(step, total, progress) {
   const bead = document.getElementById('status-bead');
   bead.className = 'status-bead ' + (step.bead || 'chain');
-  document.getElementById('status-progress').textContent = 'Prayer ' + (state.currentIndex + 1) + ' of ' + total + ' · ' + progress + '%';
+  const label = getProgressLabel(step, total, progress);
+  const progressEl = document.getElementById('status-progress');
+  progressEl.textContent = label;
+  progressEl.setAttribute('aria-label', 'Progress: ' + label.replace('·', ','));
+  document.getElementById('status-fill').style.width = progress + '%';
 }
 
 function updateStatus(message, active) {
@@ -1598,6 +1886,94 @@ function updateStatus(message, active) {
     pill.title = message;
     pill.dataset.wakeLock = active ? 'active' : 'inactive';
   }
+}
+
+function serializeSession() {
+  if (!state.sequence.length) return null;
+  return {
+    mysteryKey: state.mysteryKey,
+    rosaryKey: state.rosaryKey,
+    commonPrayerKey: state.commonPrayerKey,
+    decadeCount: state.decadeCount,
+    currentIndex: state.currentIndex,
+    startedAt: state.startedAt,
+    intention: state.intention,
+    savedAt: Date.now()
+  };
+}
+
+function saveSession() {
+  if (!document.getElementById('screen-prayer')?.classList.contains('active')) return;
+  const session = serializeSession();
+  if (!session) return;
+  try {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  } catch (error) {}
+}
+
+function getSavedSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    const session = JSON.parse(raw);
+    if (!session || typeof session.currentIndex !== 'number') return null;
+    return session;
+  } catch (error) {
+    return null;
+  }
+}
+
+function clearSavedSession() {
+  try {
+    localStorage.removeItem(SESSION_KEY);
+  } catch (error) {}
+}
+
+function renderResumePanel() {
+  const panel = document.getElementById('resume-panel');
+  const copy = document.getElementById('resume-copy');
+  const session = getSavedSession();
+  const canResume = Boolean(session && (session.commonPrayerKey || session.mysteryKey) && session.currentIndex >= 0);
+  panel.classList.toggle('active', canResume);
+  if (!canResume) return;
+  if (session.commonPrayerKey) {
+    const prayer = COMMON_PRAYERS[session.commonPrayerKey];
+    copy.textContent = 'Continue ' + (prayer?.name || 'your prayer') + ' where you left off.';
+  } else {
+    const mysteryName = MYSTERIES[session.mysteryKey]?.name || 'the Rosary';
+    copy.textContent = 'Continue the ' + mysteryName + ' at prayer ' + (session.currentIndex + 1) + '.';
+  }
+}
+
+function resumeSavedSession() {
+  const session = getSavedSession();
+  if (!session) return;
+  state.mysteryKey = session.mysteryKey;
+  state.rosaryKey = session.rosaryKey;
+  state.commonPrayerKey = session.commonPrayerKey;
+  state.decadeCount = Number(session.decadeCount) || 5;
+  state.intention = session.intention || '';
+  state.startedAt = session.startedAt || Date.now();
+  if (state.commonPrayerKey) {
+    const prayer = COMMON_PRAYERS[state.commonPrayerKey];
+    state.sequence = prayer ? [{ ...prayer, bead: 'chain' }] : [];
+  } else {
+    state.sequence = buildSequence(state.mysteryKey, state.decadeCount);
+  }
+  if (!state.sequence.length) {
+    clearSavedSession();
+    renderResumePanel();
+    return;
+  }
+  state.currentIndex = Math.max(0, Math.min(session.currentIndex, state.sequence.length - 1));
+  showScreen('screen-prayer');
+  startTimer();
+  renderPrayer();
+}
+
+function dismissSavedSession() {
+  clearSavedSession();
+  renderResumePanel();
 }
 
 async function requestWakeLockForFiveMinutes(resetWindow = true) {
@@ -1653,6 +2029,8 @@ function nextBead() {
     stopVoiceCommands();
     stopIntentionDictation();
     document.getElementById('complete-title').textContent = state.commonPrayerKey ? 'Prayer Complete' : 'Rosary Complete';
+    document.getElementById('complete-summary').textContent = getCompletionSummary();
+    clearSavedSession();
     showScreen('screen-complete');
   }
 }
@@ -1665,6 +2043,34 @@ function backFromComplete() {
   showScreen('screen-prayer');
   startTimer();
   renderPrayer();
+}
+
+function restartCurrentSession() {
+  if (state.commonPrayerKey) {
+    const prayer = COMMON_PRAYERS[state.commonPrayerKey];
+    state.sequence = prayer ? [{ ...prayer, bead: 'chain' }] : [];
+  } else if (state.mysteryKey) {
+    state.sequence = buildSequence(state.mysteryKey, state.decadeCount);
+  }
+  state.currentIndex = 0;
+  state.startedAt = Date.now();
+  showScreen('screen-prayer');
+  startTimer();
+  renderPrayer();
+}
+
+function getCompletionSummary() {
+  const elapsed = state.startedAt ? Math.max(0, Math.floor((Date.now() - state.startedAt) / 1000)) : 0;
+  const minutes = Math.floor(elapsed / 60);
+  const seconds = elapsed % 60;
+  const duration = minutes ? minutes + ' min ' + String(seconds).padStart(2, '0') + ' sec' : seconds + ' sec';
+  if (state.commonPrayerKey) {
+    const name = COMMON_PRAYERS[state.commonPrayerKey]?.name || 'Prayer';
+    return name + ' completed in ' + duration + '.';
+  }
+  const mysteryName = MYSTERIES[state.mysteryKey]?.name || 'Rosary';
+  const decades = state.decadeCount === 1 ? '1 decade' : state.decadeCount + ' decades';
+  return mysteryName + ' · ' + decades + ' · ' + duration + '.';
 }
 
 document.addEventListener('keydown', (e) => {
@@ -1693,10 +2099,25 @@ document.addEventListener('visibilitychange', () => {
   requestWakeLockForFiveMinutes(false);
 });
 
-// Pre-select today's mystery
-const dayMystery = {0:'glorious',1:'joyful',2:'sorrowful',3:'glorious',4:'luminous',5:'sorrowful',6:'joyful'}[new Date().getDay()];
-const todayBtn = document.querySelector('[data-mystery="' + dayMystery + '"]');
-if (todayBtn) { todayBtn.classList.add('selected'); selections.mystery = dayMystery; updateStartBtn(); }
+function initializeSetup() {
+  const dayMystery = {0:'glorious',1:'joyful',2:'sorrowful',3:'glorious',4:'luminous',5:'sorrowful',6:'joyful'}[new Date().getDay()];
+  const todayBtn = document.querySelector('[data-mystery="' + dayMystery + '"]');
+  const todayName = new Date().toLocaleDateString(undefined, { weekday: 'long' });
+  document.getElementById('today-kicker').textContent = todayName + ' recommendation';
+  if (todayBtn) {
+    const mark = document.createElement('span');
+    mark.className = 'today-mark';
+    mark.textContent = 'Today';
+    todayBtn.appendChild(mark);
+    selectOption(todayBtn, 'mystery');
+  } else {
+    updateSetupSummary();
+  }
+  renderResumePanel();
+}
+
+window.addEventListener('beforeunload', saveSession);
+initializeSetup();
 </script>
 </body>
 </html>
