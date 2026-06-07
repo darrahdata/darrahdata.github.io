@@ -522,8 +522,14 @@
     margin-bottom: 0.75rem;
   }
   .complete-card p { color: var(--muted); font-style: italic; line-height: 1.6; }
+  .complete-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    max-width: 320px;
+    margin: 1.5rem auto 0;
+  }
   .restart-btn {
-    margin-top: 1.5rem;
     padding: 0.75rem 2rem;
     background: transparent;
     border: 1px solid var(--accent);
@@ -548,6 +554,7 @@
     .voice-status { text-align: left; }
     .intention-actions { flex-direction: column; }
     .intention-btn { width: 100%; }
+    .complete-actions { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -600,7 +607,7 @@
     <div class="setup-label">Choose decades</div>
     <div class="option-grid decade-grid">
       <button class="option-btn" data-decades="1" onclick="selectOption(this,'decades')">
-        One Decade <small>3 beads + 1 decade</small>
+        One Decade <small>All 5 mysteries</small>
       </button>
       <button class="option-btn" data-decades="2" onclick="selectOption(this,'decades')">
         Two Decades <small>Opening + 2 decades</small>
@@ -694,7 +701,10 @@
     <h2 id="complete-title">Prayer Complete</h2>
     <hr class="divider">
     <p>"The Rosary is the weapon for these times."<br><em>— Padre Pio</em></p>
-    <button class="restart-btn" onclick="showSetup()">Pray again</button>
+    <div class="complete-actions">
+      <button class="restart-btn" onclick="backFromComplete()">← Back</button>
+      <button class="restart-btn" onclick="showSetup()">Pray again</button>
+    </div>
   </div>
 </div>
 
@@ -993,10 +1003,21 @@ function buildSequence(mysteryKey, decadeCount) {
   seq.push({ ...PRAYERS.hailMary, bead: 'small', sub: 'For an increase in Charity', image: 'images/hail-mary-charity.png', alt: 'Hail Mary prayer card for an increase in charity.', imageOnly: true });
   seq.push({ ...PRAYERS.gloryBe, bead: 'chain' });
   seq.push({ type: 'Intention', name: 'Prayer Intention', bead: 'chain', intention: true });
+  if (decades === 1) {
+    seq.push({ ...PRAYERS.ourFather, bead: 'large', mystery: mysteries[0], decade: 1 });
+    for (let h = 0; h < 10; h++) {
+      const mystery = mysteries[Math.min(mysteries.length - 1, Math.floor(h / 2))];
+      seq.push({ ...PRAYERS.hailMary, bead: 'small', mystery, decade: 1, beadNumber: h + 1, beadTotal: 10 });
+    }
+    seq.push({ ...PRAYERS.gloryBe, bead: 'chain', mystery: mysteries[4], decade: 1 });
+    seq.push({ ...PRAYERS.fatima, bead: 'chain', mystery: mysteries[4], decade: 1 });
+    seq.push({ ...PRAYERS.hailHolyQueen, bead: 'chain' });
+    return seq;
+  }
   for (let d = 0; d < decades; d++) {
     seq.push({ ...PRAYERS.ourFather, bead: 'large', mystery: mysteries[d], decade: d + 1 });
     for (let h = 0; h < 10; h++) {
-      seq.push({ ...PRAYERS.hailMary, bead: 'small', mystery: mysteries[d] });
+      seq.push({ ...PRAYERS.hailMary, bead: 'small', mystery: mysteries[d], decade: d + 1, beadNumber: h + 1, beadTotal: 10 });
     }
     seq.push({ ...PRAYERS.gloryBe, bead: 'chain', mystery: mysteries[d] });
     seq.push({ ...PRAYERS.fatima, bead: 'chain', mystery: mysteries[d] });
@@ -1095,7 +1116,7 @@ function renderPrayer() {
   updateStatusPill(step, total, progress);
   updateManualNav(step);
   renderSessionIntention(step);
-  document.getElementById('prayer-type').textContent = step.type || '';
+  document.getElementById('prayer-type').textContent = formatPrayerType(step);
   document.getElementById('prayer-name').textContent = step.name || '';
   renderPrayerText(step.text || '');
   const prayerCard = document.querySelector('.prayer-card');
@@ -1127,6 +1148,13 @@ function renderPrayer() {
 function updateManualNav(step) {
   document.getElementById('prev-btn').disabled = state.currentIndex === 0;
   document.getElementById('next-btn').textContent = step.intention ? 'Skip →' : 'Next →';
+}
+
+function formatPrayerType(step) {
+  if (step.beadNumber && step.beadTotal) {
+    return (step.type || 'Hail Mary Bead') + ' ' + step.beadNumber + ' of ' + step.beadTotal;
+  }
+  return step.type || '';
 }
 
 function renderSessionIntention(step) {
@@ -1631,6 +1659,12 @@ function nextBead() {
 
 function prevBead() {
   if (state.currentIndex > 0) { state.currentIndex--; renderPrayer(); }
+}
+
+function backFromComplete() {
+  showScreen('screen-prayer');
+  startTimer();
+  renderPrayer();
 }
 
 document.addEventListener('keydown', (e) => {
