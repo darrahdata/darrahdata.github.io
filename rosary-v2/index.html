@@ -68,16 +68,6 @@ body{
 /* Shared eyebrow / label */
 .eyebrow{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2)}
 
-/* ---------- Resume panel ---------- */
-.resume-panel{display:none}
-.resume-panel.active{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
-  border:1px solid var(--line);border-left:2px solid rgba(var(--gold-rgb),.5);border-radius:var(--radius);
-  background:linear-gradient(180deg,rgba(var(--gold-rgb),.05),transparent),var(--surface);
-  padding:.95rem 1.1rem;margin-bottom:1.1rem;box-shadow:var(--shadow-soft)}
-.resume-panel .resume-eyebrow{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.8}
-.resume-panel .resume-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--text);margin-top:.1rem}
-.resume-actions{display:flex;gap:.5rem;flex:0 0 auto}
-
 /* ---------- Today hero ---------- */
 .hero{position:relative;text-align:center;border:1px solid var(--line);border-radius:var(--radius-lg);
   background:linear-gradient(180deg,rgba(var(--gold-rgb),.05),rgba(255,255,255,.012) 40%,transparent),var(--surface);
@@ -253,17 +243,12 @@ body.read-on .read-voice-settings.available{display:flex}
 <header class="app-header"><div class="mark" aria-hidden="true">✦</div><h1>The Rosary</h1><p class="subtitle">A companion for contemplative prayer</p></header>
 
 <section class="screen active" id="screen-setup" aria-labelledby="hero-mystery" tabindex="-1" aria-hidden="false">
-  <div class="resume-panel" id="resume-panel">
-    <div><div class="resume-eyebrow">Continue praying</div><div class="resume-title" id="resume-detail">Resume your Rosary</div></div>
-    <div class="resume-actions"><button class="btn ghost" type="button" onclick="dismissResume()">Start fresh</button><button class="btn gold" type="button" onclick="resumeSavedSession()">Resume</button></div>
-  </div>
-
   <div class="hero">
     <div class="hero-eyebrow" id="today-kicker">Today</div>
     <h2 class="hero-title" id="hero-mystery">Choose your mysteries</h2>
     <p class="hero-days" id="hero-days">Select a set below</p>
     <button class="btn solid begin-btn" id="start-btn" type="button" onclick="startRosary()" disabled>Begin praying</button>
-    <p class="hero-meta" id="hero-meta">Dominican · One decade</p>
+    <p class="hero-meta" id="hero-meta">Scriptural · One decade</p>
   </div>
 
   <div class="choices">
@@ -276,22 +261,13 @@ body.read-on .read-voice-settings.available{display:flex}
         <button class="option-btn" type="button" role="radio" aria-checked="false" data-mystery="luminous" onclick="selectOption(this,'mystery')">Luminous <small>Thursday</small></button>
       </div>
     </fieldset>
-    <div class="choice-cols">
-      <fieldset style="border:0;margin:0;padding:0">
-        <legend class="choice-label">Form</legend>
-        <div class="seg two" role="radiogroup" aria-label="Choose the form of the Rosary">
-          <button class="option-btn selected" type="button" role="radio" aria-checked="true" data-rosary="dominican" onclick="selectOption(this,'rosary')">Dominican <small>Traditional form</small></button>
-          <button class="option-btn" type="button" role="radio" aria-checked="false" data-rosary="scriptural" onclick="selectOption(this,'rosary')">Scriptural <small>With meditations</small></button>
-        </div>
-      </fieldset>
-      <fieldset style="border:0;margin:0;padding:0">
-        <legend class="choice-label">Length</legend>
-        <div class="seg two" role="radiogroup" aria-label="Choose the length">
-          <button class="option-btn selected" type="button" role="radio" aria-checked="true" data-decades="1" onclick="selectOption(this,'decades')">One decade <small>A shorter prayer</small></button>
-          <button class="option-btn" type="button" role="radio" aria-checked="false" data-decades="5" onclick="selectOption(this,'decades')">Five decades <small>The full Rosary</small></button>
-        </div>
-      </fieldset>
-    </div>
+    <fieldset style="border:0;margin:0;padding:0">
+      <legend class="choice-label">Length</legend>
+      <div class="seg two" role="radiogroup" aria-label="Choose the length">
+        <button class="option-btn selected" type="button" role="radio" aria-checked="true" data-decades="1" onclick="selectOption(this,'decades')">One decade <small>A shorter prayer</small></button>
+        <button class="option-btn" type="button" role="radio" aria-checked="false" data-decades="5" onclick="selectOption(this,'decades')">Five decades <small>The full Rosary</small></button>
+      </div>
+    </fieldset>
   </div>
 
   <details class="drawer" aria-label="Common prayers">
@@ -370,9 +346,9 @@ body.read-on .read-voice-settings.available{display:flex}
 <script>
 const PRAYERS={apostlesCreed:{name:"Apostles' Creed",type:"Opening Prayer",text:"I believe in God, the Father almighty, Creator of heaven and earth, and in Jesus Christ, His only Son, our Lord, who was conceived by the Holy Spirit, born of the Virgin Mary, suffered under Pontius Pilate, was crucified, died and was buried; He descended into hell; on the third day He rose again from the dead; He ascended into heaven, and is seated at the right hand of God the Father almighty; from there He will come to judge the living and the dead. I believe in the Holy Spirit, the holy Catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen."},ourFather:{name:"Our Father",type:"Prayer",text:"Our Father, who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen."},hailMary:{name:"Hail Mary",type:"Prayer",text:"Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen."},gloryBe:{name:"Glory Be",type:"Prayer",text:"Glory be to the Father, and to the Son, and to the Holy Spirit, as it was in the beginning, is now, and ever shall be, world without end. Amen."},fatima:{name:"Fatima Prayer",type:"Prayer",text:"O my Jesus, forgive us our sins, save us from the fires of hell; lead all souls to Heaven, especially those in most need of Thy mercy. Amen."},hailHolyQueen:{name:"Hail, Holy Queen",type:"Closing Prayer",text:"Hail, Holy Queen, Mother of Mercy, our life, our sweetness and our hope. To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious advocate, thine eyes of mercy toward us. And after this our exile, show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Pray for us, O Holy Mother of God, that we may be made worthy of the promises of Christ. Amen."},comeHolySpirit:{name:"Come, Holy Spirit",type:"Common Prayer",text:"Come, Holy Spirit, fill the hearts of Thy faithful and kindle in them the fire of Thy love. Send forth Thy Spirit and they shall be created, and Thou shalt renew the face of the earth. Amen."},gloria:{name:"Gloria",type:"Common Prayer",text:"Glory to God in the highest, and on earth peace to people of good will."},niceneCreed:{name:"Nicene Creed",type:"Common Prayer",text:"I believe in one God, the Father almighty, maker of heaven and earth, of all things visible and invisible. I believe in one Lord Jesus Christ, the Only Begotten Son of God. Amen."},jesusITrust:{name:"Jesus, I Trust in You",type:"Common Prayer",text:"Jesus, I trust in You."},actOfContrition:{name:"Act of Contrition",type:"Common Prayer",text:"O my God, I am heartily sorry for having offended Thee, and I detest all my sins because I dread the loss of heaven and the pains of hell, but most of all because they offend Thee, my God, who art all good and deserving of all my love. I firmly resolve, with the help of Thy grace, to confess my sins, to do penance, and to amend my life. Amen."},graceBeforeMeals:{name:"Grace Before Meals",type:"Common Prayer",text:"Bless us, O Lord, and these Thy gifts, which we are about to receive from Thy bounty, through Christ our Lord. Amen."},guardianAngel:{name:"Guardian Angel Prayer",type:"Common Prayer",text:"Angel of God, my guardian dear, to whom God's love commits me here, ever this day be at my side, to light and guard, to rule and guide. Amen."},stMichael:{name:"Prayer to St. Michael",type:"Common Prayer",text:"Saint Michael the Archangel, defend us in battle. Be our protection against the wickedness and snares of the devil. May God rebuke him, we humbly pray; and do thou, O Prince of the heavenly host, by the power of God, cast into hell Satan, and all the evil spirits, who prowl about the world seeking the ruin of souls. Amen."},memorare:{name:"Memorare",type:"Common Prayer",text:"Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thine intercession was left unaided. Inspired by this confidence, I fly unto thee, O Virgin of virgins, my Mother. Amen."},angelus:{name:"The Angelus",type:"Common Prayer",text:"The Angel of the Lord declared unto Mary, and she conceived of the Holy Spirit. Hail Mary, full of grace, the Lord is with thee. Amen."}};
 const MYSTERIES={joyful:{name:'Joyful Mysteries',singular:'Joyful',days:'Monday & Saturday',list:[['The Annunciation','I desire the love of humility.','Think of Mary’s humility when the Angel Gabriel greeted her and announced that she would become the Mother of God.','images/annunciation.jpg'],['The Visitation','I desire charity toward my neighbor.','Think of Mary’s loving haste in visiting Elizabeth and remaining with her in service before the birth of John the Baptist.','images/visitation.jpg'],['The Nativity','I desire the love of God.','Think of the poverty and tenderness of Bethlehem, where Mary placed the Infant Jesus in a manger.','images/nativity.jpg'],['The Presentation','I desire a spirit of sacrifice.','Think of Mary and Joseph presenting Jesus in the Temple in obedience to the law of God.','images/presentation.jpg'],['The Finding in the Temple','I desire zeal for the glory of God.','Think of Mary and Joseph seeking Jesus for three days, and the joy of finding Him in His Father’s house.','images/finding-in-the-temple.jpg']]},sorrowful:{name:'Sorrowful Mysteries',singular:'Sorrowful',days:'Tuesday & Friday',list:[['The Agony in the Garden','I desire true repentance for my sins.','Think of Jesus praying in sorrow in the Garden of Gethsemane, accepting the Father’s will for our salvation.','images/agony-in-the-garden.jpg'],['The Scourging at the Pillar','I desire a spirit of mortification.','Think of Jesus bound and scourged, offering His suffering for the sins of the world.','images/scourging-at-the-pillar.jpg'],['The Crowning with Thorns','I desire moral courage.','Think of Jesus mocked, crowned with thorns, and clothed in contempt, yet remaining meek and kingly.','images/crowning-with-thorns.jpg'],['The Carrying of the Cross','I desire patience.','Think of Jesus carrying the Cross to Calvary for love of us.','images/carrying-of-the-cross.jpg'],['The Crucifixion','I desire final perseverance.','Think of Jesus dying on the Cross, with Mary standing faithfully beneath Him.','images/crucifixion.jpg']]},glorious:{name:'Glorious Mysteries',singular:'Glorious',days:'Wednesday & Sunday',list:[['The Resurrection','I desire faith.','Think of Jesus rising from the dead in glory.','images/resurrection.jpg'],['The Ascension','I desire hope.','Think of Jesus ascending into heaven.','images/ascension.jpg'],['The Descent of the Holy Spirit','I desire the love of God.','Think of the Holy Spirit descending upon Mary and the Apostles.','images/descent-of-the-holy-ghost.jpg'],['The Assumption','I desire devotion to Mary.','Think of Mary taken body and soul into heaven.','images/assumption-of-mary.jpg'],['The Coronation','I desire eternal happiness.','Think of Mary crowned Queen of Heaven and earth.','images/coronation-of-mary.jpg']]},luminous:{name:'Luminous Mysteries',singular:'Luminous',days:'Thursday',list:[['The Baptism in the Jordan','I desire openness to the Holy Spirit.','Think of Jesus baptized in the Jordan as the Father’s voice is heard.','images/baptism-of-the-lord.jpg'],['The Wedding at Cana','I desire trust in Mary’s intercession.','Think of Mary telling the servants, Do whatever He tells you.','images/wedding-at-cana.jpg'],['The Proclamation of the Kingdom','I desire repentance and conversion.','Think of Jesus proclaiming the Kingdom of God.','images/proclamation-of-the-kingdom.jpg'],['The Transfiguration','I desire holiness.','Think of Jesus transfigured in glory before Peter, James, and John.','images/transfiguration.jpg'],['The Institution of the Eucharist','I desire love for the Eucharist.','Think of Jesus giving Himself to us in the Eucharist.','images/institution-of-the-eucharist.jpg']]}};
-const state={mystery:null,rosary:'dominican',decades:1,beads:[],index:0,intention:'',showingIntention:false,startedAt:0,timer:null,voiceMode:false,recognizer:null,recognizing:false,ignoreVoiceUntil:0,intentionRecognition:null,intentionListening:false,wakeLock:null,commonPrayer:false,lineCount:0,readMode:false,currentUtterance:null,readVoices:[],selectedVoiceURI:''};
+const state={mystery:null,rosary:'scriptural',decades:1,beads:[],index:0,intention:'',showingIntention:false,startedAt:0,timer:null,voiceMode:false,recognizer:null,recognizing:false,ignoreVoiceUntil:0,intentionRecognition:null,intentionListening:false,wakeLock:null,commonPrayer:false,lineCount:0,readMode:false,currentUtterance:null,readVoices:[],selectedVoiceURI:''};
 const $=id=>document.getElementById(id);
-function init(){selectToday();restoreSession();loadReadVoices();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&state.voiceMode)startVoiceListening();if(document.visibilityState==='visible'&&screenIs('prayer'))requestWakeLock();});document.addEventListener('keydown',e=>{if(!screenIs('prayer'))return;const tag=document.activeElement&&document.activeElement.tagName;if(tag==='TEXTAREA'||tag==='INPUT'||tag==='SELECT')return;if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();nextBead();}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();prevBead();}});const pc=$('prayer-card');if(pc)pc.addEventListener('click',e=>{if(state.showingIntention)return;if(e.target.closest('button,a,select,textarea,input,label'))return;if(window.getSelection&&String(window.getSelection()).length)return;nextBead();});if(supportsReadAloud()&&'onvoiceschanged' in speechSynthesis){speechSynthesis.onvoiceschanged=loadReadVoices;}}
+function init(){selectToday();loadReadVoices();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&state.voiceMode)startVoiceListening();if(document.visibilityState==='visible'&&screenIs('prayer'))requestWakeLock();});document.addEventListener('keydown',e=>{if(!screenIs('prayer'))return;const tag=document.activeElement&&document.activeElement.tagName;if(tag==='TEXTAREA'||tag==='INPUT'||tag==='SELECT')return;if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();nextBead();}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();prevBead();}});const pc=$('prayer-card');if(pc)pc.addEventListener('click',e=>{if(state.showingIntention)return;if(e.target.closest('button,a,select,textarea,input,label'))return;if(window.getSelection&&String(window.getSelection()).length)return;nextBead();});if(supportsReadAloud()&&'onvoiceschanged' in speechSynthesis){speechSynthesis.onvoiceschanged=loadReadVoices;}}
 function selectToday(){const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];const d=new Date().getDay();const m=[null,'joyful','sorrowful','glorious','luminous','sorrowful','joyful'][d]||'glorious';const btn=document.querySelector(`[data-mystery="${m}"]`);if(btn)selectOption(btn,'mystery');$('today-kicker').textContent=`${days[d]} · Today`;}
 function selectOption(btn,type){document.querySelectorAll(`[data-${type}]`).forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-checked','false')});btn.classList.add('selected');btn.setAttribute('aria-checked','true');state[type]=type==='decades'?Number(btn.dataset.decades):btn.dataset[type];updateSummary();}
 function updateSummary(){const m=state.mystery?MYSTERIES[state.mystery]:null;$('hero-mystery').textContent=m?m.name:'Choose your mysteries';$('hero-days').textContent=m?m.days:'Select a set below';const form=state.rosary==='scriptural'?'Scriptural':'Dominican';const len=state.decades===1?'One decade':'Five decades';$('hero-meta').textContent=`${form} · ${len}`;$('start-btn').disabled=!state.mystery;}
@@ -395,7 +371,7 @@ function startTimer(){clearInterval(state.timer);const tick=()=>{const s=Math.fl
 function completeRosary(){clearInterval(state.timer);stopVoiceListening();stopReadAloud();releaseWakeLock();const elapsed=state.startedAt?Math.floor((Date.now()-state.startedAt)/1000):0;localStorage.removeItem('rosary-v2-session');const m=!state.commonPrayer&&state.mystery?MYSTERIES[state.mystery]:null;$('complete-summary').textContent=m?`You have prayed the ${m.singular} Mysteries.`:'You have completed this prayer.';const t=$('complete-time');if(t)t.textContent=elapsed?`Time in prayer · ${Math.floor(elapsed/60)}:${String(elapsed%60).padStart(2,'0')}`:'';showScreen('complete');}
 function backToPrayer(){if(!state.beads.length){showSetup();return;}showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function restartCurrentSession(){if(state.commonPrayer)startCommonPrayer();else startRosary()}
-function showSetup(){clearInterval(state.timer);showScreen('setup');restoreSession();}
+function showSetup(){clearInterval(state.timer);showScreen('setup');}
 
 function updatePrayerFollowing(){const active=!!(state.voiceMode||state.readMode);document.body.classList.toggle('prayer-following',active);document.body.classList.toggle('read-on',!!state.readMode);if(!active){document.querySelectorAll('.prayer-line.active').forEach(el=>el.classList.remove('active'));}}
 function supportsReadAloud(){return 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window}
@@ -412,7 +388,7 @@ function loadReadVoices(){
   let stored=null;try{stored=localStorage.getItem('rosary-v2-read-voice');}catch(e){}
   const previous=state.selectedVoiceURI||(stored!=null?stored:'');
   const voices=window.speechSynthesis.getVoices().filter(v=>/^en(-|_|$)/i.test(v.lang||'')||!(v.lang));
-  const rank=v=>{const n=(v.name||'').toLowerCase();if(/\bava\b/.test(n))return 0;if(/\bsamantha\b/.test(n))return 1;return 2;};
+  const rank=v=>{const n=(v.name||'').toLowerCase();if(/\bava\b/.test(n))return 0;if(/\bsamantha\b/.test(n))return 1;if(/google uk english male/.test(n))return 2;return 3;};
   voices.sort((a,b)=>rank(a)-rank(b)||(a.name||'').localeCompare(b.name||''));
   state.readVoices=voices;
   select.innerHTML='<option value="">Default voice</option>';
@@ -438,18 +414,20 @@ function loadReadVoices(){
   if(voices.length<=1)select.title='Your browser currently exposes only one Read to Me voice.';
 }
 function pickPreferredVoice(voices){
-  const order=['ava','samantha'];
-  for(const name of order){
-    const v=voices.find(v=>new RegExp('\\b'+name+'\\b','i').test(v.name||'')&&/^en/i.test(v.lang||''));
+  const prefs=[/\bava\b/i,/\bsamantha\b/i,/google uk english male/i];
+  for(const re of prefs){
+    const v=voices.find(v=>re.test(v.name||'')&&/^en/i.test(v.lang||''));
     if(v)return v;
   }
   return null;
 }
 function voiceLabel(v){
+  const isSimon=/google uk english male/i.test(v.name||'');
+  const name=isSimon?'Simon':v.name;
   const apple=/com\.apple/i.test(v.voiceURI||'')||/\b(samantha|ava)\b/i.test(v.name||'');
   const lang=v.lang?` · ${v.lang}`:'';
-  const tag=apple?' · Apple':(v.localService?'':' · online');
-  return `${v.name}${lang}${tag}`;
+  const tag=apple?' · Apple':(isSimon?'':(v.localService?'':' · online'));
+  return `${name}${lang}${tag}`;
 }
 function selectReadVoice(uri){
   state.selectedVoiceURI=uri||'';
@@ -484,10 +462,6 @@ function stopIntentionDictation(){if(state.intentionRecognition){try{state.inten
 async function requestWakeLock(){if(!('wakeLock'in navigator)||!screenIs('prayer'))return;try{state.wakeLock=await navigator.wakeLock.request('screen');}catch(e){}}
 function releaseWakeLock(){if(state.wakeLock){state.wakeLock.release().catch(()=>{});state.wakeLock=null}}
 function persistSession(){if(!state.beads.length||!state.startedAt)return;try{localStorage.setItem('rosary-v2-session',JSON.stringify({mystery:state.mystery,rosary:state.rosary,decades:state.decades,index:state.index,intention:state.intention,startedAt:state.startedAt,commonPrayer:state.commonPrayer,commonKey:state.commonPrayer?$('common-prayer-select').value:null}))}catch(e){}}
-function restoreSession(){let saved=null;try{saved=JSON.parse(localStorage.getItem('rosary-v2-session')||'null');}catch(e){}const panel=$('resume-panel');if(!panel)return;if(saved&&!saved.commonPrayer&&saved.mystery&&MYSTERIES[saved.mystery]&&Number(saved.index)>0){const m=MYSTERIES[saved.mystery];const len=Number(saved.decades)===5?'Five decades':'One decade';$('resume-detail').textContent=`${m.name} · ${len}`;panel.classList.add('active');}else{panel.classList.remove('active');}}
-function resumeSavedSession(){const saved=JSON.parse(localStorage.getItem('rosary-v2-session')||'null');if(!saved)return;state.mystery=saved.mystery;state.rosary=saved.rosary||'dominican';state.decades=[1,5].includes(Number(saved.decades))?Number(saved.decades):1;state.index=saved.index||0;state.intention=saved.intention||'';state.commonPrayer=!!saved.commonPrayer;state.startedAt=saved.startedAt||Date.now();state.beads=state.commonPrayer?[PRAYERS[saved.commonKey]||PRAYERS.comeHolySpirit]:buildBeads();showScreen('prayer');startTimer();requestWakeLock();renderBead(true)}
-function dismissSavedSession(){try{localStorage.removeItem('rosary-v2-session')}catch(e){}}
-function dismissResume(){dismissSavedSession();const p=$('resume-panel');if(p)p.classList.remove('active');}
 function escapeHtml(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 init();
 </script>
