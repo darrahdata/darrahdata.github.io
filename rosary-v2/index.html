@@ -360,6 +360,7 @@ body.read-on .read-voice-settings.available{display:flex}
     <p class="complete-time" id="complete-time"></p>
     <blockquote><p>“The Rosary is the weapon for these times.”</p><cite>Padre Pio</cite></blockquote>
     <div class="complete-actions">
+      <button class="btn ghost" type="button" onclick="backToPrayer()" aria-label="Back to prayer">‹ Back</button>
       <button class="btn solid" type="button" onclick="restartCurrentSession()">Pray again</button>
       <button class="btn ghost" type="button" onclick="showSetup()">Choose another</button>
     </div>
@@ -392,7 +393,7 @@ function updateProgress(){const total=state.beads.length;const pct=total?Math.ro
 function renderBeadRail(total){const rail=$('bead-rail');if(!rail||!total)return;const maxDots=Math.min(total,18);const current=Math.min(maxDots-1,Math.floor((state.index/Math.max(1,total-1))*maxDots));let html='';for(let i=0;i<maxDots;i++){const cls=i<current?' passed':i===current?' current':'';html+=`<span class="bead-dot${cls}"></span>`;}rail.innerHTML=html;}
 function startTimer(){clearInterval(state.timer);const tick=()=>{const s=Math.floor((Date.now()-state.startedAt)/1000);$('status-time').textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`};tick();state.timer=setInterval(tick,1000)}
 function completeRosary(){clearInterval(state.timer);stopVoiceListening();stopReadAloud();releaseWakeLock();const elapsed=state.startedAt?Math.floor((Date.now()-state.startedAt)/1000):0;localStorage.removeItem('rosary-v2-session');const m=!state.commonPrayer&&state.mystery?MYSTERIES[state.mystery]:null;$('complete-summary').textContent=m?`You have prayed the ${m.singular} Mysteries.`:'You have completed this prayer.';const t=$('complete-time');if(t)t.textContent=elapsed?`Time in prayer · ${Math.floor(elapsed/60)}:${String(elapsed%60).padStart(2,'0')}`:'';showScreen('complete');}
-function backFromComplete(){showSetup()}
+function backToPrayer(){if(!state.beads.length){showSetup();return;}showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function restartCurrentSession(){if(state.commonPrayer)startCommonPrayer();else startRosary()}
 function showSetup(){clearInterval(state.timer);showScreen('setup');restoreSession();}
 
