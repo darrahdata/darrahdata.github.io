@@ -306,15 +306,9 @@ body.read-on .read-voice-settings.available{display:flex}
   <article class="prayer-card" id="prayer-card" tabindex="-1" aria-live="polite" aria-atomic="false">
     <div class="session-intention" id="session-intention"></div>
     <div class="intention-card" id="intention-card" hidden>
-      <h2 class="intention-title" id="intention-title">What would you like to lift up to Jesus through Mary?</h2>
-      <div class="intention-copy">You may write an intention, dictate one, or simply continue in quiet.</div>
-      <div class="intention-live" id="intention-live" aria-live="polite"></div>
-      <textarea class="intention-input" id="intention-input" placeholder="For…" aria-label="Prayer intention"></textarea>
-      <div class="intention-actions">
-        <button class="btn ghost" id="intention-dictate-btn" type="button" onclick="toggleIntentionDictation()" aria-label="Dictate intention">Dictate</button>
-        <button class="btn solid" type="button" onclick="continueFromIntention(false)">Continue</button>
-        <button class="btn ghost" type="button" onclick="continueFromIntention(true)">Skip</button>
-      </div>
+      <div class="intention-kicker">Before the First Mystery</div>
+      <h2 class="intention-title" id="intention-title">Pause for your intentions.</h2>
+      <p class="intention-copy">We lift up these intentions to Jesus through Mary.</p>
     </div>
     <div class="mystery-art" id="mystery-art" hidden><div class="mystery-text" id="mystery-text"></div><img id="mystery-image" loading="lazy" decoding="async" alt=""></div>
     <div class="prayer-type" id="prayer-type"></div>
