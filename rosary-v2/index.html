@@ -172,7 +172,7 @@ body.read-on .read-voice-settings.available{display:flex}
 /* Mystery art — caption sits BELOW the (uncropped) art */
 .mystery-art{margin:0 0 1.4rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface-2);overflow:hidden;box-shadow:var(--shadow-soft)}
 .mystery-art img{display:block;width:100%;height:auto;max-height:74vh;object-fit:contain;background:var(--surface-2)}
-.mystery-text{padding:1.05rem 1.15rem 1.2rem}
+.mystery-text{padding:1.1rem 1.15rem;border-bottom:1px solid var(--line-soft)}
 .mystery-kicker{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
 .mystery-title{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:clamp(1.6rem,6vw,2.1rem);font-weight:400;line-height:1.05;margin:.35rem 0 .5rem}
 .mystery-desire{color:var(--text-soft);font-style:italic;font-size:1.05rem;margin-bottom:.45rem}
@@ -240,7 +240,7 @@ body.read-on .read-voice-settings.available{display:flex}
 <body data-theme="monastery_green" aria-label="The Rosary, a contemplative prayer companion">
 <nav class="home-nav" aria-label="Site"><a class="home-btn" href="/" aria-label="Home">✦</a></nav>
 <main class="app-shell" id="app-main">
-<header class="app-header"><div class="mark" aria-hidden="true">✦</div><h1>The Rosary</h1><p class="subtitle">A companion for contemplative prayer</p></header>
+<header class="app-header" id="app-header"><div class="mark" aria-hidden="true">✦</div><h1>The Rosary</h1><p class="subtitle">A companion for contemplative prayer</p></header>
 
 <section class="screen active" id="screen-setup" aria-labelledby="hero-mystery" tabindex="-1" aria-hidden="false">
   <div class="hero">
@@ -263,10 +263,10 @@ body.read-on .read-voice-settings.available{display:flex}
     </fieldset>
     <fieldset style="border:0;margin:0;padding:0">
       <legend class="choice-label">Length</legend>
-      <div class="seg two" role="radiogroup" aria-label="Choose the length">
-        <button class="option-btn selected" type="button" role="radio" aria-checked="true" data-decades="1" onclick="selectOption(this,'decades')">One decade <small>A shorter prayer</small></button>
-        <button class="option-btn" type="button" role="radio" aria-checked="false" data-decades="5" onclick="selectOption(this,'decades')">Five decades <small>The full Rosary</small></button>
-      </div>
+      <select class="select" id="length-select" aria-label="Choose the length" onchange="selectLength(this.value)">
+        <option value="1">One decade · a shorter prayer</option>
+        <option value="5">Five decades · the full Rosary</option>
+      </select>
     </fieldset>
   </div>
 
@@ -316,7 +316,7 @@ body.read-on .read-voice-settings.available{display:flex}
         <button class="btn ghost" type="button" onclick="continueFromIntention(true)">Skip</button>
       </div>
     </div>
-    <div class="mystery-art" id="mystery-art" hidden><img id="mystery-image" loading="lazy" decoding="async" alt=""><div class="mystery-text" id="mystery-text"></div></div>
+    <div class="mystery-art" id="mystery-art" hidden><div class="mystery-text" id="mystery-text"></div><img id="mystery-image" loading="lazy" decoding="async" alt=""></div>
     <div class="prayer-type" id="prayer-type"></div>
     <div class="prayer-name" id="prayer-name"></div>
     <div class="prayer-contemplation" id="prayer-contemplation" hidden></div>
@@ -351,12 +351,12 @@ const $=id=>document.getElementById(id);
 function init(){selectToday();loadReadVoices();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&state.voiceMode)startVoiceListening();if(document.visibilityState==='visible'&&screenIs('prayer'))requestWakeLock();});document.addEventListener('keydown',e=>{if(!screenIs('prayer'))return;const tag=document.activeElement&&document.activeElement.tagName;if(tag==='TEXTAREA'||tag==='INPUT'||tag==='SELECT')return;if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();nextBead();}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();prevBead();}});const pc=$('prayer-card');if(pc){let ts=null;pc.addEventListener('pointerdown',e=>{ts={x:e.clientX,y:e.clientY,t:Date.now()};});pc.addEventListener('pointercancel',()=>{ts=null;});pc.addEventListener('pointerup',e=>{const s=ts;ts=null;if(!s)return;if(Math.abs(e.clientX-s.x)>10||Math.abs(e.clientY-s.y)>10||Date.now()-s.t>800)return;if(state.showingIntention)return;if(e.target.closest('button,a,select,textarea,input,label'))return;if(window.getSelection&&String(window.getSelection()).length)return;nextBead();});}if(supportsReadAloud()&&'onvoiceschanged' in speechSynthesis){speechSynthesis.onvoiceschanged=loadReadVoices;}}
 function selectToday(){const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];const d=new Date().getDay();const m=[null,'joyful','sorrowful','glorious','luminous','sorrowful','joyful'][d]||'glorious';selectMystery(m);$('today-kicker').textContent=`${days[d]} · Today`;}
 function selectMystery(val){state.mystery=val;const sel=$('mystery-select');if(sel)sel.value=val;updateSummary();}
-function selectOption(btn,type){document.querySelectorAll(`[data-${type}]`).forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-checked','false')});btn.classList.add('selected');btn.setAttribute('aria-checked','true');state[type]=type==='decades'?Number(btn.dataset.decades):btn.dataset[type];updateSummary();}
+function selectLength(val){state.decades=Number(val)===5?5:1;const sel=$('length-select');if(sel)sel.value=String(state.decades);updateSummary();}
 function updateSummary(){const m=state.mystery?MYSTERIES[state.mystery]:null;$('hero-mystery').textContent=m?m.name:'Choose your mysteries';$('hero-days').textContent=m?m.days:'Select a set below';const form=state.rosary==='scriptural'?'Scriptural':'Dominican';const len=state.decades===1?'One decade':'Five decades';$('hero-meta').textContent=`${form} · ${len}`;$('start-btn').disabled=!state.mystery;}
 function buildBeads(){const b=[];b.push({...PRAYERS.apostlesCreed});b.push({...PRAYERS.ourFather,type:'Opening Prayer'});for(let i=0;i<3;i++)b.push({...PRAYERS.hailMary,type:['For faith','For hope','For charity'][i]});b.push({...PRAYERS.gloryBe,type:'Opening Prayer'});b.push({kind:'intention'});const set=MYSTERIES[state.mystery];const mysteries=set.list;const scriptural=state.rosary==='scriptural';if(state.decades===1){let hm=0;b.push({...PRAYERS.ourFather,type:mysteries[0][0]});mysteries.forEach((m,mi)=>{b.push({kind:'mystery',name:m[0],type:`${set.singular} Mystery ${mi+1}`,desire:m[1],meditation:m[2],image:m[3]});for(let i=0;i<2;i++){hm++;b.push({...PRAYERS.hailMary,type:`${m[0]} · Hail Mary ${hm} of 10`,contemplation:scriptural?m[2]:''});}});b.push({...PRAYERS.gloryBe,type:mysteries[4][0]});b.push({...PRAYERS.fatima,type:mysteries[4][0]});}else{mysteries.forEach((m,mi)=>{b.push({kind:'mystery',name:m[0],type:`${set.singular} Mystery ${mi+1}`,desire:m[1],meditation:m[2],image:m[3]});b.push({...PRAYERS.ourFather,type:m[0]});for(let i=0;i<10;i++)b.push({...PRAYERS.hailMary,type:`${m[0]} · Hail Mary ${i+1} of 10`,contemplation:scriptural?m[2]:''});b.push({...PRAYERS.gloryBe,type:m[0]});b.push({...PRAYERS.fatima,type:m[0]});});}b.push({...PRAYERS.hailHolyQueen});return b;}
 function startRosary(){state.commonPrayer=false;state.beads=buildBeads();state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function startCommonPrayer(){const key=$('common-prayer-select').value;state.commonPrayer=true;state.beads=[PRAYERS[key]];state.index=0;state.intention='';state.startedAt=Date.now();showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
-function showScreen(name){['setup','prayer','complete'].forEach(s=>{const el=$('screen-'+s);const active=s===name;el.classList.toggle('active',active);el.hidden=!active;el.setAttribute('aria-hidden',String(!active));});$('screen-'+name).focus({preventScroll:true});if(name!=='prayer'){stopVoiceListening();stopIntentionDictation();stopReadAloud();releaseWakeLock();updatePrayerFollowing();}}
+function showScreen(name){['setup','prayer','complete'].forEach(s=>{const el=$('screen-'+s);const active=s===name;el.classList.toggle('active',active);el.hidden=!active;el.setAttribute('aria-hidden',String(!active));});const hdr=$('app-header');if(hdr)hdr.hidden=name!=='setup';$('screen-'+name).focus({preventScroll:true});if(name!=='prayer'){stopVoiceListening();stopIntentionDictation();stopReadAloud();releaseWakeLock();updatePrayerFollowing();}}
 function screenIs(name){return $('screen-'+name).classList.contains('active')}
 function renderBead(focus=false){const bead=state.beads[state.index];state.showingIntention=bead&&bead.kind==='intention';const pcard=$('prayer-card');pcard.classList.toggle('intention-active',state.showingIntention);$('intention-card').hidden=!state.showingIntention;$('mystery-art').hidden=true;$('prayer-type').hidden=false;$('prayer-name').hidden=false;$('prayer-text').hidden=false;$('prayer-contemplation').hidden=true;if(state.showingIntention){$('prayer-type').textContent='';$('prayer-name').textContent='';$('prayer-text').innerHTML='';$('intention-input').value=state.intention||'';$('intention-live').textContent=state.voiceMode?'Listening for your intention…':'';setTimeout(()=>$('intention-input').focus(),60);if(state.voiceMode)startIntentionDictation(true);}else{stopIntentionDictation();if(bead.kind==='mystery'){renderMystery(bead)}else{renderPrayer(bead)}if(state.voiceMode)startVoiceListening();}renderIntention();updatePrayerFollowing();updateProgress();persistSession();if(state.readMode)readCurrentBead();if(focus)pcard.focus({preventScroll:true});pcard.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}
 function renderMystery(bead){$('mystery-art').hidden=false;$('mystery-image').src=bead.image;$('mystery-image').alt=`Sacred art depicting ${bead.name}`;$('mystery-text').innerHTML=`<div class="mystery-kicker">${escapeHtml(bead.type)}</div><div class="mystery-title">${escapeHtml(bead.name)}</div><div class="mystery-desire">${escapeHtml(bead.desire)}</div><div class="mystery-meditation">${escapeHtml(bead.meditation)}</div>`;$('prayer-type').hidden=true;$('prayer-type').textContent='';$('prayer-name').hidden=true;$('prayer-name').textContent='';$('prayer-text').innerHTML='';}
