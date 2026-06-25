@@ -33,9 +33,11 @@
   --radius:16px;
   --radius-lg:22px;
   --maxw:680px;
+  --mobile-dock-height:76px;
   --z-content:1;
   --z-tap-feedback:12;
   --z-nav:20;
+  --z-dock:34;
   --z-modal:40;
   --z-toast:50;
 }
@@ -92,7 +94,7 @@ body{
 /* ---------- Buttons ---------- */
 .btn{appearance:none;font-family:Lora,Georgia,serif;font-size:1rem;cursor:pointer;border-radius:999px;
   min-height:50px;padding:0 1.4rem;border:1px solid transparent;transition:filter .18s ease,background .18s ease,border-color .18s ease,transform .18s ease;display:inline-flex;align-items:center;justify-content:center;gap:.4rem}
-.btn:active,.nav-btn:active,.icon-btn:active,.option-btn:active{transform:scale(.985)}
+.btn:active,.nav-btn:active,.icon-btn:active,.option-btn:active,.dock-btn:active,.sheet-action:active{transform:scale(.985)}
 .btn.solid{background:var(--sage);color:var(--on-accent);border-color:var(--sage);font-size:1.08rem;letter-spacing:.01em;box-shadow:0 10px 26px rgba(var(--sage-rgb),.16)}
 .btn.solid:not(:disabled):hover{filter:brightness(1.05)}
 .btn.solid:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
@@ -201,6 +203,24 @@ body.read-on .read-voice-settings.available{display:flex}
 .nav-btn:disabled{opacity:.4;cursor:not-allowed}
 .nav-btn.exit{font-size:.96rem}
 
+/* ---------- Mobile dock + prayer menu ---------- */
+.mobile-prayer-dock{display:none}
+.mobile-menu-backdrop,.mobile-menu-sheet{display:none}
+.mobile-menu-backdrop[hidden],.mobile-menu-sheet[hidden]{display:none!important}
+.sheet-close{width:44px;height:44px;border-radius:999px;border:1px solid var(--line-soft);background:rgba(255,255,255,.03);color:var(--text-soft);font-size:1.35rem;display:grid;place-items:center}
+.sheet-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--text);margin:0}
+.sheet-subtitle{margin:.12rem 0 0;color:var(--muted);font-size:.82rem}
+.sheet-actions{display:grid;gap:.62rem;margin-top:1rem}
+.sheet-action{min-height:48px;border-radius:14px;border:1px solid var(--line-soft);background:rgba(255,255,255,.025);color:var(--text-soft);font-family:Lora,Georgia,serif;font-size:1rem;text-align:left;padding:.78rem .95rem;display:flex;align-items:center;justify-content:space-between;gap:.7rem;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease}
+.sheet-action:hover,.sheet-action:focus-visible{border-color:rgba(var(--gold-rgb),.35);color:var(--text);background:rgba(var(--gold-rgb),.055)}
+.sheet-action.primary{border-color:rgba(var(--sage-rgb),.4);background:rgba(var(--sage-rgb),.08)}
+.sheet-action[disabled]{opacity:.44;cursor:not-allowed}
+.sheet-group{display:grid;gap:.55rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line-soft)}
+.sheet-label{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+.sheet-common-row,.sheet-voice-row{display:grid;gap:.55rem}
+.sheet-common-row .btn,.sheet-voice-row .select{width:100%}
+.sheet-danger{color:var(--danger)}
+
 /* ---------- Touch page-turn affordance ---------- */
 .tap-hint{margin:-.25rem .15rem .8rem;color:var(--muted-2);font-size:.8rem;text-align:center;font-style:italic;opacity:0;transform:translateY(-4px);transition:opacity .35s ease,transform .35s ease}
 .tap-hint.show{opacity:1;transform:none}
@@ -235,10 +255,12 @@ body.read-on .read-voice-settings.available{display:flex}
   body{padding:
     calc(.85rem + env(safe-area-inset-top))
     max(.8rem,env(safe-area-inset-right))
-    calc(2.25rem + env(safe-area-inset-bottom))
+    calc(var(--mobile-dock-height) + 2.25rem + env(safe-area-inset-bottom))
     max(.8rem,env(safe-area-inset-left))}
+  body.prayer-active{padding-bottom:calc(var(--mobile-dock-height) + 2.25rem + env(safe-area-inset-bottom))}
   .app-header{margin-top:2rem}
   .home-btn{width:38px;height:38px}
+  #screen-prayer{padding-bottom:calc(var(--mobile-dock-height) + env(safe-area-inset-bottom) + 2rem)}
   .progress-head{font-size:.76rem;align-items:flex-start}
   .rosary-beads{justify-content:flex-start;gap:.24rem;max-height:4.7rem}
   .rosary-dot{width:.38rem;height:.38rem}
@@ -248,22 +270,43 @@ body.read-on .read-voice-settings.available{display:flex}
   .choice-cols{grid-template-columns:1fr;gap:1.2rem}
   .seg.mysteries{grid-template-columns:1fr}
   .prayer-card{padding:1.15rem 1rem 1.25rem}
-  .manual-nav{grid-template-columns:1fr;gap:.55rem;margin:1.35rem 0 0}
+  .card-controls{display:none}
+  .prayer-card:has(.card-controls) .prayer-type{padding-right:0}
+  .manual-nav{display:none}
   .nav-btn{min-height:56px;width:100%}
   .common-row{grid-template-columns:1fr}
   .common-row .btn{width:100%}
   .read-voice-settings label{align-items:stretch;flex-direction:column}
   .read-voice-select{max-width:100%;width:100%}
+  .tap-hint{position:fixed;left:1.4rem;right:1.4rem;bottom:calc(var(--mobile-dock-height) + env(safe-area-inset-bottom) + .75rem);z-index:var(--z-dock);margin:0;padding:.45rem .7rem;border:1px solid rgba(var(--gold-rgb),.12);border-radius:999px;background:rgba(9,12,10,.62);backdrop-filter:blur(10px);font-size:.76rem;pointer-events:none}
+  .mobile-prayer-dock{position:fixed;left:max(.75rem,env(safe-area-inset-left));right:max(.75rem,env(safe-area-inset-right));bottom:calc(.65rem + env(safe-area-inset-bottom));z-index:var(--z-dock);display:none;grid-template-columns:minmax(4.2rem,1fr) auto minmax(4.2rem,1fr);align-items:center;gap:.55rem;min-height:64px;padding:.6rem .7rem;border:1px solid rgba(var(--gold-rgb),.14);border-radius:999px;background:rgba(13,17,14,.82);backdrop-filter:blur(18px);box-shadow:0 16px 42px rgba(0,0,0,.34)}
+  body.prayer-active .mobile-prayer-dock{display:grid}
+  .dock-btn{min-height:44px;border:1px solid transparent;border-radius:999px;background:transparent;color:var(--text-soft);font-family:Lora,Georgia,serif;font-size:.96rem;padding:0 .7rem;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease}
+  .dock-btn:hover,.dock-btn:focus-visible{border-color:rgba(var(--gold-rgb),.26);background:rgba(var(--gold-rgb),.06);color:var(--text)}
+  .dock-btn.exit{justify-self:start}
+  .dock-btn.menu{justify-self:end}
+  .dock-progress{min-width:0;color:var(--gold);font-size:.82rem;line-height:1.2;text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .mobile-menu-backdrop{position:fixed;inset:0;z-index:var(--z-modal);background:rgba(0,0,0,.36);backdrop-filter:blur(1px)}
+  .mobile-menu-backdrop:not([hidden]){display:block}
+  .mobile-menu-sheet{position:fixed;left:max(.65rem,env(safe-area-inset-left));right:max(.65rem,env(safe-area-inset-right));bottom:calc(.65rem + env(safe-area-inset-bottom));z-index:calc(var(--z-modal) + 1);display:block;max-height:min(78dvh,610px);overflow:auto;padding:1rem 1rem calc(1rem + env(safe-area-inset-bottom));border:1px solid rgba(var(--gold-rgb),.16);border-radius:24px;background:rgba(16,21,17,.96);backdrop-filter:blur(18px);box-shadow:0 22px 60px rgba(0,0,0,.52);transform:translateY(112%);transition:transform .24s cubic-bezier(.22,.61,.36,1)}
+  .mobile-menu-sheet:not([hidden]){transform:translateY(0)}
+  .sheet-header{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+  .sheet-actions{grid-template-columns:1fr 1fr}
+  .sheet-action.full{grid-column:1/-1}
+  .sheet-common-row{grid-template-columns:1fr}
   .complete-actions{flex-direction:column}
   .complete-actions .btn{width:100%}
 }
 @media(max-width:360px){
   .hero-title{font-size:clamp(1.8rem,12vw,2.35rem)}
-  .prayer-name{font-size:clamp(1.7rem,11vw,2.15rem);padding-right:2.7rem}
-  .card-controls{top:.75rem;right:.75rem}
-  .prayer-card:has(.card-controls) .prayer-type{padding-right:2.8rem}
+  .prayer-name{font-size:clamp(1.7rem,11vw,2.15rem)}
   .prayer-text{font-size:1.06rem;line-height:1.78}
   .mystery-title{font-size:1.45rem}
+  .mobile-prayer-dock{left:.5rem;right:.5rem;gap:.35rem;padding:.55rem}
+  .dock-btn{font-size:.9rem;padding:0 .55rem}
+  .dock-progress{font-size:.76rem}
+  .sheet-actions{grid-template-columns:1fr}
+  .sheet-action.full{grid-column:auto}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
@@ -327,7 +370,7 @@ body.read-on .read-voice-settings.available{display:flex}
     <div class="rosary-map-line"><span class="rosary-map-fill" id="rosary-map-fill"></span></div>
     <div class="rosary-beads" id="rosary-beads" aria-hidden="true"></div>
   </div>
-  <div class="tap-hint" id="tap-hint" role="note">Tap right side for next. Tap left side for back.</div>
+  <div class="tap-hint" id="tap-hint" role="note">Tap right to continue. Tap left to go back.</div>
   <article class="prayer-card" id="prayer-card" tabindex="-1" aria-live="polite" aria-atomic="false">
     <div class="card-controls">
       <button class="icon-btn card-sound-btn" id="read-aloud-btn" type="button" onclick="toggleReadAloud()" aria-label="Start Read to Me" aria-pressed="false" aria-describedby="voice-status" title="Read to me">🔊</button>
@@ -353,6 +396,12 @@ body.read-on .read-voice-settings.available{display:flex}
   </article>
 </section>
 
+<div class="mobile-prayer-dock" id="mobile-prayer-dock" data-interactive aria-label="Prayer controls">
+  <button class="dock-btn exit" type="button" onclick="showSetup()" aria-label="Exit prayer">Exit</button>
+  <div class="dock-progress" id="dock-progress" aria-live="polite">Prayer 1 of 1</div>
+  <button class="dock-btn menu" id="mobile-menu-btn" type="button" onclick="openMobileMenu()" aria-haspopup="dialog" aria-controls="mobile-menu-sheet" aria-expanded="false">Menu</button>
+</div>
+
 <section class="screen" id="screen-complete" aria-labelledby="complete-title" tabindex="-1" hidden aria-hidden="true">
   <div class="complete-card">
     <div class="complete-mark" aria-hidden="true">✦</div>
@@ -367,16 +416,59 @@ body.read-on .read-voice-settings.available{display:flex}
   </div>
 </section>
 </main>
+<div class="mobile-menu-backdrop" id="mobile-menu-backdrop" hidden data-interactive onclick="closeMobileMenu()"></div>
+<section class="mobile-menu-sheet" id="mobile-menu-sheet" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title" hidden data-interactive>
+  <div class="sheet-header">
+    <div>
+      <h2 class="sheet-title" id="mobile-menu-title">Prayer menu</h2>
+      <p class="sheet-subtitle" id="mobile-menu-progress">Prayer 1 of 1</p>
+    </div>
+    <button class="sheet-close" type="button" data-menu-close onclick="closeMobileMenu()" aria-label="Close menu">×</button>
+  </div>
+  <div class="sheet-actions">
+    <button class="sheet-action" id="menu-prev-btn" type="button" onclick="menuPrevious()">‹ Previous</button>
+    <button class="sheet-action primary" id="menu-next-btn" type="button" onclick="menuNext()">Next ›</button>
+    <button class="sheet-action full" id="menu-read-btn" type="button" onclick="menuToggleReadAloud()">Read aloud</button>
+  </div>
+  <div class="sheet-group sheet-voice-row" id="mobile-voice-row" hidden>
+    <label class="sheet-label" for="mobile-read-voice-select">Change voice</label>
+    <select class="select read-voice-select" id="mobile-read-voice-select" aria-label="Choose Read to Me voice" onchange="selectReadVoice(this.value)">
+      <option value="">Default voice</option>
+    </select>
+  </div>
+  <div class="sheet-group">
+    <div class="sheet-label">Change prayer setup</div>
+    <div class="sheet-actions">
+      <button class="sheet-action" type="button" onclick="menuChooseSetup('mystery-select')">Choose mysteries</button>
+      <button class="sheet-action" type="button" onclick="menuChooseSetup('length-select')">Choose decades</button>
+    </div>
+  </div>
+  <div class="sheet-group">
+    <label class="sheet-label" for="mobile-common-prayer-select">Common prayers</label>
+    <div class="sheet-common-row">
+      <select class="select" id="mobile-common-prayer-select" aria-label="Choose a common prayer">
+        <option value="comeHolySpirit">Come, Holy Spirit</option><option value="gloria">Gloria</option><option value="apostlesCreed">Apostles' Creed</option><option value="niceneCreed">Nicene Creed</option><option value="jesusITrust">Jesus, I Trust in You</option><option value="actOfContrition">Act of Contrition</option><option value="graceBeforeMeals">Grace Before Meals</option><option value="guardianAngel">Guardian Angel Prayer</option><option value="stMichael">Prayer to St. Michael</option><option value="stJude">Prayer to St. Jude</option><option value="memorare">Memorare</option><option value="hailHolyQueen">Hail, Holy Queen</option><option value="angelus">The Angelus</option>
+      </select>
+      <button class="sheet-action full primary" type="button" onclick="menuStartCommonPrayer()">Open selected prayer</button>
+    </div>
+  </div>
+  <div class="sheet-group">
+    <div class="sheet-actions">
+      <button class="sheet-action" type="button" onclick="menuRestart()">Restart</button>
+      <button class="sheet-action sheet-danger" type="button" onclick="menuExit()">Exit</button>
+    </div>
+  </div>
+</section>
 <div class="tap-flash left" id="tap-flash-left" aria-hidden="true">‹</div>
 <div class="tap-flash right" id="tap-flash-right" aria-hidden="true">›</div>
 <script>
 const PRAYERS={apostlesCreed:{name:"Apostles' Creed",type:"Opening Prayer",text:"I believe in God, the Father almighty, Creator of heaven and earth, and in Jesus Christ, His only Son, our Lord, who was conceived by the Holy Spirit, born of the Virgin Mary, suffered under Pontius Pilate, was crucified, died and was buried; He descended into hell; on the third day He rose again from the dead; He ascended into heaven, and is seated at the right hand of God the Father almighty; from there He will come to judge the living and the dead. I believe in the Holy Spirit, the holy Catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen."},ourFather:{name:"Our Father",type:"Prayer",text:"Our Father, who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen."},hailMary:{name:"Hail Mary",type:"Prayer",text:"Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen."},gloryBe:{name:"Glory Be",type:"Prayer",text:"Glory be to the Father, and to the Son, and to the Holy Spirit, as it was in the beginning, is now, and ever shall be, world without end. Amen."},fatima:{name:"Fatima Prayer",type:"Prayer",text:"O my Jesus, forgive us our sins, save us from the fires of hell; lead all souls to Heaven, especially those in most need of Thy mercy. Amen."},hailHolyQueen:{name:"Hail, Holy Queen",type:"Closing Prayer",text:"Hail, holy Queen, Mother of mercy, our life, our sweetness, and our hope. To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious Advocate, thine eyes of mercy toward us. And after this, our exile, show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. V. Pray for us, O holy Mother of God. R. That we may be made worthy of the promises of Christ. Let us pray. O God, whose only-begotten Son, by His life, death, and resurrection, has purchased for us the rewards of eternal life, grant, we beseech Thee, that by meditating upon these mysteries of the most holy Rosary of the Blessed Virgin Mary, we may imitate what they contain and obtain what they promise, through the same Christ our Lord. Amen. V. May the Divine Assistance remain always with us. R. And may the souls of the faithful departed rest in peace. Amen."},comeHolySpirit:{name:"Come, Holy Spirit",type:"Common Prayer",text:"Come, Holy Spirit, fill the hearts of Thy faithful and kindle in them the fire of Thy love. Send forth Thy Spirit and they shall be created, and Thou shalt renew the face of the earth. Amen."},gloria:{name:"Gloria",type:"Common Prayer",text:"Glory to God in the highest, and on earth peace to people of good will."},niceneCreed:{name:"Nicene Creed",type:"Common Prayer",text:"I believe in one God, the Father almighty, maker of heaven and earth, of all things visible and invisible. I believe in one Lord Jesus Christ, the Only Begotten Son of God. Amen."},jesusITrust:{name:"Jesus, I Trust in You",type:"Common Prayer",text:"Jesus, I trust in You."},actOfContrition:{name:"Act of Contrition",type:"Common Prayer",text:"O my God, I am heartily sorry for having offended Thee, and I detest all my sins because I dread the loss of heaven and the pains of hell, but most of all because they offend Thee, my God, who art all good and deserving of all my love. I firmly resolve, with the help of Thy grace, to confess my sins, to do penance, and to amend my life. Amen."},graceBeforeMeals:{name:"Grace Before Meals",type:"Common Prayer",text:"Bless us, O Lord, and these Thy gifts, which we are about to receive from Thy bounty, through Christ our Lord. Amen."},guardianAngel:{name:"Guardian Angel Prayer",type:"Common Prayer",text:"Angel of God, my guardian dear, to whom God's love commits me here, ever this day be at my side, to light and guard, to rule and guide. Amen."},stMichael:{name:"Prayer to St. Michael",type:"Common Prayer",text:"Saint Michael the Archangel, defend us in battle. Be our protection against the wickedness and snares of the devil. May God rebuke him, we humbly pray; and do thou, O Prince of the heavenly host, by the power of God, cast into hell Satan, and all the evil spirits, who prowl about the world seeking the ruin of souls. Amen."},stJude:{name:"Prayer to St. Jude",type:"Common Prayer",text:"Most holy St. Jude, faithful servant and friend of Jesus, the Church honors and invokes you as the patron of difficult and seemingly hopeless cases. Pray for me. I am in need of God's help. Please bring my petition before the Lord, and intercede for me that I may receive the strength, hope, and grace I need. Help me to trust in God's mercy and providence, even when the way forward is unclear. May I always remember to praise God and to encourage devotion to you with gratitude. St. Jude, pray for us and for all who invoke your aid. Amen."},memorare:{name:"Memorare",type:"Common Prayer",text:"Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thine intercession was left unaided. Inspired by this confidence, I fly unto thee, O Virgin of virgins, my Mother. Amen."},angelus:{name:"The Angelus",type:"Common Prayer",text:"The Angel of the Lord declared unto Mary, and she conceived of the Holy Spirit. Hail Mary, full of grace, the Lord is with thee. Amen."}};
 const MYSTERIES={joyful:{name:'Joyful Mysteries',singular:'Joyful',days:'Monday & Saturday',list:[['The Annunciation','I desire the love of humility.','Think of Mary’s humility when the Angel Gabriel greeted her and announced that she would become the Mother of God.','images/annunciation.jpg'],['The Visitation','I desire charity toward my neighbor.','Think of Mary’s loving haste in visiting Elizabeth and remaining with her in service before the birth of John the Baptist.','images/visitation.jpg'],['The Nativity','I desire the love of God.','Think of the poverty and tenderness of Bethlehem, where Mary placed the Infant Jesus in a manger.','images/nativity.jpg'],['The Presentation','I desire a spirit of sacrifice.','Think of Mary and Joseph presenting Jesus in the Temple in obedience to the law of God.','images/presentation.jpg'],['The Finding in the Temple','I desire zeal for the glory of God.','Think of Mary and Joseph seeking Jesus for three days, and the joy of finding Him in His Father’s house.','images/finding-in-the-temple.jpg']]},sorrowful:{name:'Sorrowful Mysteries',singular:'Sorrowful',days:'Tuesday & Friday',list:[['The Agony in the Garden','I desire true repentance for my sins.','Think of Jesus praying in sorrow in the Garden of Gethsemane, accepting the Father’s will for our salvation.','images/agony-in-the-garden.jpg'],['The Scourging at the Pillar','I desire a spirit of mortification.','Think of Jesus bound and scourged, offering His suffering for the sins of the world.','images/scourging-at-the-pillar.jpg'],['The Crowning with Thorns','I desire moral courage.','Think of Jesus mocked, crowned with thorns, and clothed in contempt, yet remaining meek and kingly.','images/crowning-with-thorns.jpg'],['The Carrying of the Cross','I desire patience.','Think of Jesus carrying the Cross to Calvary for love of us.','images/carrying-of-the-cross.jpg'],['The Crucifixion','I desire final perseverance.','Think of Jesus dying on the Cross, with Mary standing faithfully beneath Him.','images/crucifixion.jpg']]},glorious:{name:'Glorious Mysteries',singular:'Glorious',days:'Wednesday & Sunday',list:[['The Resurrection','I desire faith.','Think of Jesus rising from the dead in glory.','images/resurrection.jpg'],['The Ascension','I desire hope.','Think of Jesus ascending into heaven.','images/ascension.jpg'],['The Descent of the Holy Spirit','I desire the love of God.','Think of the Holy Spirit descending upon Mary and the Apostles.','images/descent-of-the-holy-ghost.jpg'],['The Assumption','I desire devotion to Mary.','Think of Mary taken body and soul into heaven.','images/assumption-of-mary.jpg'],['The Coronation','I desire eternal happiness.','Think of Mary crowned Queen of Heaven and earth.','images/coronation-of-mary.jpg']]},luminous:{name:'Luminous Mysteries',singular:'Luminous',days:'Thursday',list:[['The Baptism in the Jordan','I desire openness to the Holy Spirit.','Think of Jesus baptized in the Jordan as the Father’s voice is heard.','images/baptism-of-the-lord.jpg'],['The Wedding at Cana','I desire trust in Mary’s intercession.','Think of Mary telling the servants, Do whatever He tells you.','images/wedding-at-cana.jpg'],['The Proclamation of the Kingdom','I desire repentance and conversion.','Think of Jesus proclaiming the Kingdom of God.','images/proclamation-of-the-kingdom.jpg'],['The Transfiguration','I desire holiness.','Think of Jesus transfigured in glory before Peter, James, and John.','images/transfiguration.jpg'],['The Institution of the Eucharist','I desire love for the Eucharist.','Think of Jesus giving Himself to us in the Eucharist.','images/institution-of-the-eucharist.jpg']]}};
-const state={mystery:null,rosary:'scriptural',decades:10,beads:[],index:0,intention:'',showingIntention:false,startedAt:0,timer:null,wakeLock:null,commonPrayer:false,lineCount:0,readMode:false,currentUtterance:null,readVoices:[],selectedVoiceURI:'',tapStart:null,hintShown:false,hintTimer:null,flashTimer:null};
+const state={mystery:null,rosary:'scriptural',decades:10,beads:[],index:0,intention:'',showingIntention:false,startedAt:0,timer:null,wakeLock:null,commonPrayer:false,commonKey:null,lineCount:0,readMode:false,currentUtterance:null,readVoices:[],selectedVoiceURI:'',tapStart:null,hintShown:false,hintTimer:null,flashTimer:null,menuReturnFocus:null};
 const $=id=>document.getElementById(id);
-function init(){selectToday();loadReadVoices();setupPageTurns();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&screenIs('prayer'))requestWakeLock();});document.addEventListener('keydown',e=>{if(!screenIs('prayer'))return;const active=document.activeElement;const tag=active&&active.tagName;if(tag==='TEXTAREA'||tag==='INPUT'||tag==='SELECT'||active?.isContentEditable)return;if((e.key===' '||e.key==='Spacebar')&&!(active&&active.closest&&active.closest('button,a,label,summary'))){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();flashPageTurn('left');prevBead();}});if(supportsReadAloud()&&'onvoiceschanged' in speechSynthesis){speechSynthesis.onvoiceschanged=loadReadVoices;}}
-function setupPageTurns(){document.addEventListener('pointerdown',e=>{if(!screenIs('prayer')||e.pointerType==='mouse'&&e.button!==0||isInteractiveTap(e.target))return;state.tapStart={x:e.clientX,y:e.clientY,t:Date.now(),id:e.pointerId};},{passive:true});document.addEventListener('pointercancel',()=>{state.tapStart=null;},{passive:true});document.addEventListener('pointerup',e=>{const s=state.tapStart;state.tapStart=null;if(!screenIs('prayer')||!s||isInteractiveTap(e.target))return;if(e.pointerId!==undefined&&s.id!==undefined&&e.pointerId!==s.id)return;if(Math.abs(e.clientX-s.x)>12||Math.abs(e.clientY-s.y)>12||Date.now()-s.t>700)return;if(window.getSelection&&String(window.getSelection()).length)return;const w=window.innerWidth||document.documentElement.clientWidth;const x=e.clientX;if(x<=w*.35){e.preventDefault();flashPageTurn('left');prevBead();}else if(x>=w*.65){e.preventDefault();flashPageTurn('right');nextBead();}},{passive:false});}
-function isInteractiveTap(target){return !!(target&&target.closest&&target.closest('button,a,input,select,textarea,label,summary,details,[contenteditable="true"],[data-interactive],.manual-nav,.card-controls,.read-voice-settings,.drawer'))}
+function init(){selectToday();loadReadVoices();setupPageTurns();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&screenIs('prayer'))requestWakeLock();});document.addEventListener('keydown',e=>{if(isMobileMenuOpen()){if(e.key==='Escape'){e.preventDefault();closeMobileMenu();}return;}if(!screenIs('prayer'))return;const active=document.activeElement;const tag=active&&active.tagName;if(tag==='TEXTAREA'||tag==='INPUT'||tag==='SELECT'||active?.isContentEditable)return;if((e.key===' '||e.key==='Spacebar')&&!(active&&active.closest&&active.closest('button,a,label,summary'))){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();flashPageTurn('left');prevBead();}});if(supportsReadAloud()&&'onvoiceschanged' in speechSynthesis){speechSynthesis.onvoiceschanged=loadReadVoices;}}
+function setupPageTurns(){document.addEventListener('pointerdown',e=>{if(!screenIs('prayer')||isMobileMenuOpen()||e.pointerType==='mouse'&&e.button!==0||isInteractiveTap(e.target))return;state.tapStart={x:e.clientX,y:e.clientY,t:Date.now(),id:e.pointerId};},{passive:true});document.addEventListener('pointercancel',()=>{state.tapStart=null;},{passive:true});document.addEventListener('pointerup',e=>{const s=state.tapStart;state.tapStart=null;if(!screenIs('prayer')||isMobileMenuOpen()||!s||isInteractiveTap(e.target))return;if(e.pointerId!==undefined&&s.id!==undefined&&e.pointerId!==s.id)return;if(Math.abs(e.clientX-s.x)>12||Math.abs(e.clientY-s.y)>12||Date.now()-s.t>700)return;if(window.getSelection&&String(window.getSelection()).length)return;const w=window.innerWidth||document.documentElement.clientWidth;const x=e.clientX;if(x<=w*.35){e.preventDefault();flashPageTurn('left');prevBead();}else if(x>=w*.65){e.preventDefault();flashPageTurn('right');nextBead();}},{passive:false});}
+function isInteractiveTap(target){return !!(target&&target.closest&&target.closest('button,a,input,select,textarea,audio,video,label,summary,details,[role="button"],[contenteditable="true"],[data-interactive],.manual-nav,.card-controls,.read-voice-settings,.drawer,.mobile-prayer-dock,.mobile-menu-sheet,.mobile-menu-backdrop'))}
 function flashPageTurn(side){const el=$(side==='left'?'tap-flash-left':'tap-flash-right');if(!el)return;clearTimeout(state.flashTimer);el.classList.add('show');state.flashTimer=setTimeout(()=>el.classList.remove('show'),180)}
 function showTapHint(){const hint=$('tap-hint');if(!hint||state.hintShown)return;state.hintShown=true;hint.classList.add('show');clearTimeout(state.hintTimer);state.hintTimer=setTimeout(()=>hint.classList.remove('show'),4600)}
 function selectToday(){const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];const d=new Date().getDay();const m=[null,'joyful','sorrowful','glorious','luminous','sorrowful','joyful'][d]||'glorious';selectMystery(m);$('today-kicker').textContent=`${days[d]} · Today`;}
@@ -388,8 +480,8 @@ function markBeads(beads){return beads.map((bead,index)=>({...bead,mapType:bead.
 function mapTypeForBead(bead){if(bead.kind==='intention')return 'chain';if(bead.name==="Apostles' Creed")return 'cross';if(bead.name==='Our Father'||bead.kind==='mystery')return 'large';if(bead.name==='Hail Mary')return 'small';return 'chain';}
 function buildBeads(){const b=[];b.push({...PRAYERS.apostlesCreed,group:'opening'});b.push({...PRAYERS.ourFather,type:'Opening Prayer',group:'opening'});for(let i=0;i<3;i++)b.push({...PRAYERS.hailMary,type:['For faith','For hope','For charity'][i],group:'opening'});b.push({...PRAYERS.gloryBe,type:'Opening Prayer',group:'opening'});b.push({kind:'intention',group:'intention'});const set=MYSTERIES[state.mystery];const mysteries=set.list;const scriptural=state.rosary==='scriptural';if(state.decades===1){let hm=0;b.push({...PRAYERS.ourFather,type:mysteries[0][0],group:'decade-1'});mysteries.forEach((m,mi)=>{b.push({kind:'mystery',name:m[0],type:mysteryLabel(set,mi),desire:m[1],meditation:m[2],image:m[3],group:`mystery-${mi+1}`});for(let i=0;i<2;i++){hm++;b.push({...PRAYERS.hailMary,type:`${m[0]} · Hail Mary ${hm} of 10`,contemplation:scriptural?m[2]:'',group:`mystery-${mi+1}`});}});b.push({...PRAYERS.gloryBe,type:mysteries[4][0],group:'closing-decade'});b.push({...PRAYERS.fatima,type:mysteries[4][0],group:'closing-decade'});}else if(state.decades===10){mysteries.forEach((m,mi)=>{const group=`mystery-${mi+1}`;b.push({kind:'mystery',name:m[0],type:mysteryLabel(set,mi),desire:m[1],meditation:m[2],image:m[3],group});for(let i=0;i<4;i++)b.push({...PRAYERS.hailMary,type:`${m[0]} · Hail Mary ${i+1} of 4`,contemplation:scriptural?m[2]:'',group});});b.push({...PRAYERS.gloryBe,type:'Closing Prayer',group:'closing-decade'});b.push({...PRAYERS.fatima,type:'Closing Prayer',group:'closing-decade'});}else{mysteries.forEach((m,mi)=>{const group=`decade-${mi+1}`;b.push({kind:'mystery',name:m[0],type:mysteryLabel(set,mi),desire:m[1],meditation:m[2],image:m[3],group});b.push({...PRAYERS.ourFather,type:m[0],group});for(let i=0;i<10;i++)b.push({...PRAYERS.hailMary,type:`${m[0]} · Hail Mary ${i+1} of 10`,contemplation:scriptural?m[2]:'',group});b.push({...PRAYERS.gloryBe,type:m[0],group});b.push({...PRAYERS.fatima,type:m[0],group});});}b.push({...PRAYERS.hailHolyQueen,group:'closing'});return markBeads(b);}
 function startRosary(){state.commonPrayer=false;state.beads=buildBeads();state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
-function startCommonPrayer(){const key=$('common-prayer-select').value;state.commonPrayer=true;state.beads=[PRAYERS[key]];state.index=0;state.intention='';state.startedAt=Date.now();showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
-function showScreen(name){['setup','prayer','complete'].forEach(s=>{const el=$('screen-'+s);const active=s===name;el.classList.toggle('active',active);el.hidden=!active;el.setAttribute('aria-hidden',String(!active));});const hdr=$('app-header');if(hdr)hdr.hidden=name!=='setup';$('screen-'+name).focus({preventScroll:true});if(name!=='prayer'){stopReadAloud();releaseWakeLock();updatePrayerFollowing();}}
+function startCommonPrayer(source='common-prayer-select'){const el=$(source);const key=el?el.value:source;state.commonPrayer=true;state.commonKey=key;state.beads=[PRAYERS[key]||PRAYERS.comeHolySpirit];state.index=0;state.intention='';state.startedAt=Date.now();showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
+function showScreen(name){if(name!=='prayer')closeMobileMenu(false);document.body.classList.toggle('prayer-active',name==='prayer');['setup','prayer','complete'].forEach(s=>{const el=$('screen-'+s);const active=s===name;el.classList.toggle('active',active);el.hidden=!active;el.setAttribute('aria-hidden',String(!active));});const hdr=$('app-header');if(hdr)hdr.hidden=name!=='setup';$('screen-'+name).focus({preventScroll:true});if(name!=='prayer'){stopReadAloud();releaseWakeLock();updatePrayerFollowing();}}
 function screenIs(name){return $('screen-'+name).classList.contains('active')}
 function renderBead(focus=false){const bead=state.beads[state.index];state.showingIntention=bead&&bead.kind==='intention';const pcard=$('prayer-card');pcard.classList.toggle('intention-active',state.showingIntention);$('intention-card').hidden=!state.showingIntention;$('mystery-art').hidden=true;$('prayer-type').hidden=false;$('prayer-name').hidden=false;$('prayer-text').hidden=false;$('prayer-contemplation').hidden=true;if(state.showingIntention){$('prayer-type').textContent='';$('prayer-name').textContent='';$('prayer-text').innerHTML='';}else{if(bead.kind==='mystery'){renderMystery(bead)}else{renderPrayer(bead)}}renderIntention();updatePrayerFollowing();updateProgress();showTapHint();persistSession();if(state.readMode)readCurrentBead();if(focus)pcard.focus({preventScroll:true});pcard.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});}
 function renderMystery(bead){$('mystery-art').hidden=false;$('mystery-image').src=bead.image;$('mystery-image').alt=`Sacred art depicting ${bead.name}`;$('mystery-text').innerHTML=`<div class="mystery-kicker">${escapeHtml(bead.type)}</div><div class="mystery-title">${escapeHtml(bead.name)}</div><div class="mystery-desire">${escapeHtml(bead.desire)}</div><div class="mystery-meditation">${escapeHtml(bead.meditation)}</div>`;$('prayer-type').hidden=true;$('prayer-type').textContent='';$('prayer-name').hidden=true;$('prayer-name').textContent='';$('prayer-text').innerHTML='';}
@@ -398,25 +490,38 @@ function splitLines(text){return text.replace(/\s+/g,' ').trim().split(/(?<=[.;?
 function renderIntention(){const el=$('session-intention');if(state.intention&& !state.showingIntention){el.style.display='block';el.innerHTML=`<strong>Intention:</strong> ${escapeHtml(state.intention)}`;}else{el.style.display='none';el.innerHTML='';}}
 function nextBead(){if(state.index<state.beads.length-1){state.index++;renderBead(true);}else completeRosary();}
 function prevBead(){if(state.index>0){state.index--;renderBead(true)}}
-function updateProgress(){const total=state.beads.length;const bead=state.beads[state.index];renderRosaryMap(total);$('progress-title').textContent=progressTitle(bead);$('progress-count').textContent=`Prayer ${state.index+1} of ${total}`;$('prev-btn').disabled=state.index===0;$('next-btn').textContent=state.index===total-1?'Complete':'Next ›';$('next-btn').setAttribute('aria-label',state.index===total-1?'Complete prayer':'Next prayer');}
+function updateProgress(){const total=state.beads.length;const bead=state.beads[state.index];const label=`Prayer ${state.index+1} of ${total}`;renderRosaryMap(total);$('progress-title').textContent=progressTitle(bead);$('progress-count').textContent=label;if($('dock-progress'))$('dock-progress').textContent=label;if($('mobile-menu-progress'))$('mobile-menu-progress').textContent=label;$('prev-btn').disabled=state.index===0;$('next-btn').textContent=state.index===total-1?'Complete':'Next ›';$('next-btn').setAttribute('aria-label',state.index===total-1?'Complete prayer':'Next prayer');updateMobileMenuState();}
 function progressTitle(bead){if(!bead)return 'Prayer';if(bead.kind==='intention')return 'Intentions';if(bead.kind==='mystery')return bead.type;return bead.type&&bead.type!=='Prayer'?bead.type:bead.name;}
 function renderRosaryMap(total){const beads=$('rosary-beads');const fill=$('rosary-map-fill');if(!beads||!fill)return;if(!total){beads.innerHTML='';fill.style.width='0%';return;}const pct=Math.round(((state.index+1)/total)*100);fill.style.width=pct+'%';beads.innerHTML=state.beads.map((bead,index)=>{const classes=['rosary-dot',bead.mapType||'small'];if(bead.groupStart)classes.push('group-start');if(index<state.index)classes.push('passed');if(index===state.index)classes.push('current');return `<span class="${classes.join(' ')}"></span>`;}).join('');}
 function startTimer(){clearInterval(state.timer);state.timer=null}
 function completeRosary(){clearInterval(state.timer);stopReadAloud();releaseWakeLock();localStorage.removeItem('rosary-v2-session');const m=!state.commonPrayer&&state.mystery?MYSTERIES[state.mystery]:null;$('complete-summary').textContent=m?`You have prayed the ${m.singular} Mysteries.`:'You have completed this prayer.';showScreen('complete');}
 function backToPrayer(){if(!state.beads.length){showSetup();return;}showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
-function restartCurrentSession(){if(state.commonPrayer)startCommonPrayer();else startRosary()}
+function restartCurrentSession(){if(state.commonPrayer)startCommonPrayer(state.commonKey||'common-prayer-select');else startRosary()}
 function showSetup(){clearInterval(state.timer);showScreen('setup');}
+
+function isMobileMenuOpen(){return !!($('mobile-menu-sheet')&&!$('mobile-menu-sheet').hidden)}
+function openMobileMenu(){if(!screenIs('prayer'))return;state.menuReturnFocus=document.activeElement;$('mobile-menu-backdrop').hidden=false;$('mobile-menu-sheet').hidden=false;$('mobile-menu-btn')?.setAttribute('aria-expanded','true');updateMobileMenuState();setTimeout(()=>{$('mobile-menu-sheet').querySelector('[data-menu-close]')?.focus({preventScroll:true})},30)}
+function closeMobileMenu(returnFocus=true){const sheet=$('mobile-menu-sheet');const backdrop=$('mobile-menu-backdrop');if(!sheet||sheet.hidden)return;if(backdrop)backdrop.hidden=true;sheet.hidden=true;$('mobile-menu-btn')?.setAttribute('aria-expanded','false');if(returnFocus){const target=state.menuReturnFocus&&document.contains(state.menuReturnFocus)?state.menuReturnFocus:$('mobile-menu-btn');target?.focus({preventScroll:true})}}
+function updateMobileMenuState(){const prev=$('menu-prev-btn');const next=$('menu-next-btn');const read=$('menu-read-btn');if(prev)prev.disabled=state.index===0;if(next){next.textContent=state.index===state.beads.length-1?'Complete':'Next ›';next.setAttribute('aria-label',state.index===state.beads.length-1?'Complete prayer':'Next prayer')}if(read){read.textContent=state.readMode?'Stop read aloud':'Read aloud';read.classList.toggle('primary',!state.readMode)}const voiceRow=$('mobile-voice-row');if(voiceRow)voiceRow.hidden=!supportsReadAloud()||state.readVoices.length===0}
+function menuPrevious(){prevBead();closeMobileMenu()}
+function menuNext(){nextBead();closeMobileMenu()}
+function menuToggleReadAloud(){toggleReadAloud();closeMobileMenu()}
+function menuChooseSetup(focusId){closeMobileMenu(false);showSetup();setTimeout(()=>{$(focusId)?.focus({preventScroll:false})},80)}
+function menuStartCommonPrayer(){const setupSelect=$('common-prayer-select');const mobileSelect=$('mobile-common-prayer-select');if(setupSelect&&mobileSelect)setupSelect.value=mobileSelect.value;closeMobileMenu(false);startCommonPrayer('mobile-common-prayer-select')}
+function menuRestart(){closeMobileMenu(false);restartCurrentSession()}
+function menuExit(){closeMobileMenu(false);showSetup()}
 
 function updatePrayerFollowing(){const active=!!state.readMode;document.body.classList.toggle('prayer-following',active);document.body.classList.toggle('read-on',!!state.readMode);if(!active){document.querySelectorAll('.prayer-line.active').forEach(el=>el.classList.remove('active'));}}
 function supportsReadAloud(){return 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window}
 
 function loadReadVoices(){
   const panel=$('read-voice-settings');
-  const select=$('read-voice-select');
-  if(!panel||!select)return;
+  const selects=[$('read-voice-select'),$('mobile-read-voice-select')].filter(Boolean);
+  if(!panel||!selects.length)return;
   if(!supportsReadAloud()){
     panel.classList.remove('available');
-    select.disabled=true;
+    selects.forEach(select=>select.disabled=true);
+    updateMobileMenuState();
     return;
   }
   let stored=null;try{stored=localStorage.getItem('rosary-v2-read-voice');}catch(e){}
@@ -425,27 +530,26 @@ function loadReadVoices(){
   const rank=v=>{const n=(v.name||'').toLowerCase();if(/\bava\b/.test(n))return 0;if(/\bsamantha\b/.test(n))return 1;if(/google uk english male/.test(n))return 2;return 3;};
   voices.sort((a,b)=>rank(a)-rank(b)||(a.name||'').localeCompare(b.name||''));
   state.readVoices=voices;
-  select.innerHTML='<option value="">Default voice</option>';
-  voices.forEach(v=>{
-    const option=document.createElement('option');
-    option.value=v.voiceURI;
-    option.textContent=voiceLabel(v);
-    select.appendChild(option);
+  selects.forEach(select=>{
+    select.innerHTML='<option value="">Default voice</option>';
+    voices.forEach(v=>{
+      const option=document.createElement('option');
+      option.value=v.voiceURI;
+      option.textContent=voiceLabel(v);
+      select.appendChild(option);
+    });
   });
   if(previous&&voices.some(v=>v.voiceURI===previous)){
     state.selectedVoiceURI=previous;
-    select.value=previous;
   }else if(stored==null){
     const pref=pickPreferredVoice(voices);
     state.selectedVoiceURI=pref?pref.voiceURI:'';
-    select.value=state.selectedVoiceURI;
   }else{
     state.selectedVoiceURI='';
-    select.value='';
   }
+  selects.forEach(select=>{select.value=state.selectedVoiceURI;select.disabled=false;if(voices.length<=1)select.title='Your browser currently exposes only one Read to Me voice.';});
   panel.classList.add('available');
-  select.disabled=false;
-  if(voices.length<=1)select.title='Your browser currently exposes only one Read to Me voice.';
+  updateMobileMenuState();
 }
 function pickPreferredVoice(voices){
   const prefs=[/\bava\b/i,/\bsamantha\b/i,/google uk english male/i];
@@ -466,23 +570,25 @@ function voiceLabel(v){
 function selectReadVoice(uri){
   state.selectedVoiceURI=uri||'';
   try{localStorage.setItem('rosary-v2-read-voice',state.selectedVoiceURI)}catch(e){}
+  [$('read-voice-select'),$('mobile-read-voice-select')].filter(Boolean).forEach(select=>{select.value=state.selectedVoiceURI});
   if(state.readMode){
     setVoiceStatus(state.selectedVoiceURI?'Read voice updated. Restarting this prayer aloud.':'Default Read to Me voice selected. Restarting this prayer aloud.');
     readCurrentBead();
   }
+  updateMobileMenuState();
 }
 function getSelectedReadVoice(){
   if(!state.selectedVoiceURI)return null;
   return state.readVoices.find(v=>v.voiceURI===state.selectedVoiceURI)||null;
 }
 function safeGet(key,fallback){try{return localStorage.getItem(key)||fallback}catch(e){return fallback}}
-function toggleReadAloud(){state.readMode=!state.readMode;updatePrayerFollowing();const btn=$('read-aloud-btn');btn.classList.toggle('active',state.readMode);btn.setAttribute('aria-pressed',String(state.readMode));btn.setAttribute('aria-label',state.readMode?'Stop Read to Me':'Start Read to Me');if(state.readMode){loadReadVoices();if(!supportsReadAloud()){state.readMode=false;updatePrayerFollowing();btn.classList.remove('active');btn.setAttribute('aria-pressed','false');btn.setAttribute('aria-label','Start Read to Me');setVoiceStatus('Read to Me is not available in this browser. Manual prayer still works.',true);return;}setVoiceStatus('Read to Me is on. The app will gently read each prayer aloud.');readCurrentBead();}else{stopReadAloud();updatePrayerFollowing();setVoiceStatus('Read to Me off.');}}
+function toggleReadAloud(){state.readMode=!state.readMode;updatePrayerFollowing();const btn=$('read-aloud-btn');btn.classList.toggle('active',state.readMode);btn.setAttribute('aria-pressed',String(state.readMode));btn.setAttribute('aria-label',state.readMode?'Stop Read to Me':'Start Read to Me');if(state.readMode){loadReadVoices();if(!supportsReadAloud()){state.readMode=false;updatePrayerFollowing();btn.classList.remove('active');btn.setAttribute('aria-pressed','false');btn.setAttribute('aria-label','Start Read to Me');setVoiceStatus('Read to Me is not available in this browser. Manual prayer still works.',true);updateMobileMenuState();return;}setVoiceStatus('Read to Me is on. The app will gently read each prayer aloud.');readCurrentBead();}else{stopReadAloud();updatePrayerFollowing();setVoiceStatus('Read to Me off.');}updateMobileMenuState();}
 function readCurrentBead(){if(!state.readMode||!supportsReadAloud()||!screenIs('prayer'))return;const bead=state.beads[state.index];let text='';if(!bead)return;if(bead.kind==='intention'){text='Before the first mystery. Pause for your intentions. We lift up these intentions to Jesus through Mary.';}else if(bead.kind==='mystery'){text=`${bead.type}. ${bead.name}. ${bead.desire}. ${bead.meditation}`;}else{text=`${bead.name}. ${bead.text}`;}stopReadAloud(false);try{const u=new SpeechSynthesisUtterance(text);const chosen=getSelectedReadVoice();if(chosen){u.voice=chosen;u.lang=chosen.lang||'en-US';}else{u.lang='en-US';}u.rate=.88;u.pitch=.98;u.volume=.9;u.onstart=()=>{setVoiceStatus(chosen?`Reading aloud with ${chosen.name}…`:'Reading aloud…');const first=document.querySelector('.prayer-line');if(first){document.querySelectorAll('.prayer-line.active').forEach(el=>el.classList.remove('active'));first.classList.add('active');}};u.onend=()=>{if(state.readMode)setVoiceStatus('Read to Me is on. Use Next when you are ready.');};u.onerror=()=>setVoiceStatus('Read to Me paused. Manual prayer still works.',true);state.currentUtterance=u;window.speechSynthesis.speak(u);}catch(e){setVoiceStatus('Read to Me could not start. Manual prayer still works.',true);}}
-function stopReadAloud(updateButton=true){if(supportsReadAloud()){try{window.speechSynthesis.cancel()}catch(e){}}state.currentUtterance=null;updatePrayerFollowing();if(updateButton&&$('read-aloud-btn')){const btn=$('read-aloud-btn');btn.classList.toggle('active',state.readMode);btn.setAttribute('aria-pressed',String(state.readMode));btn.setAttribute('aria-label',state.readMode?'Stop Read to Me':'Start Read to Me');}}
+function stopReadAloud(updateButton=true){if(supportsReadAloud()){try{window.speechSynthesis.cancel()}catch(e){}}state.currentUtterance=null;updatePrayerFollowing();if(updateButton&&$('read-aloud-btn')){const btn=$('read-aloud-btn');btn.classList.toggle('active',state.readMode);btn.setAttribute('aria-pressed',String(state.readMode));btn.setAttribute('aria-label',state.readMode?'Stop Read to Me':'Start Read to Me');}updateMobileMenuState();}
 function setVoiceStatus(msg,warn=false){const el=$('voice-status');el.textContent=msg;el.classList.toggle('warn',warn)}
 async function requestWakeLock(){if(!('wakeLock'in navigator)||!screenIs('prayer'))return;try{state.wakeLock=await navigator.wakeLock.request('screen');}catch(e){}}
 function releaseWakeLock(){if(state.wakeLock){state.wakeLock.release().catch(()=>{});state.wakeLock=null}}
-function persistSession(){if(!state.beads.length||!state.startedAt)return;try{localStorage.setItem('rosary-v2-session',JSON.stringify({mystery:state.mystery,rosary:state.rosary,decades:state.decades,index:state.index,intention:state.intention,startedAt:state.startedAt,commonPrayer:state.commonPrayer,commonKey:state.commonPrayer?$('common-prayer-select').value:null}))}catch(e){}}
+function persistSession(){if(!state.beads.length||!state.startedAt)return;try{localStorage.setItem('rosary-v2-session',JSON.stringify({mystery:state.mystery,rosary:state.rosary,decades:state.decades,index:state.index,intention:state.intention,startedAt:state.startedAt,commonPrayer:state.commonPrayer,commonKey:state.commonPrayer?state.commonKey:null}))}catch(e){}}
 function escapeHtml(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 init();
 </script>
