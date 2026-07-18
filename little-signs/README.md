@@ -11,9 +11,12 @@ Little Signs is a mobile-first companion app for expecting and new parents who w
 - Onboarding
 - Today screen
 - Learn library
-- Sign detail pages
-- Interactive practice modes
-- Routine lessons
+- Parent-guided sign lessons with hand setup, movement, mistakes, and coaching
+- Animated motion controls with slow, normal, repeat, and step-by-step modes
+- Tappable self-checks and local confidence tracking
+- Optional local-only camera mirror with a no-camera fallback
+- Teach-before-confidence practice sessions
+- Routine lessons with spoken and signed coaching prompts
 - Custom word list
 - Progress dashboard
 - GitHub Actions deployment workflow
@@ -27,8 +30,8 @@ Most sample signs in this MVP are marked `needs video source` or `regional varia
 ## Local setup
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Open the local URL shown by Vite.
@@ -36,8 +39,8 @@ Open the local URL shown by Vite.
 ## Build
 
 ```bash
-npm run build
-npm run preview
+pnpm run build
+pnpm run preview
 ```
 
 The production build is created in the `dist` folder.
