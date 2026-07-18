@@ -343,11 +343,11 @@ body.read-on .read-voice-settings.available{display:flex}
       </select>
     </fieldset>
     <fieldset style="border:0;margin:0;padding:0">
-      <legend class="choice-label">Length</legend>
-      <select class="select" id="length-select" aria-label="Choose the length" onchange="selectLength(this.value)">
+      <legend class="choice-label">Style</legend>
+      <select class="select" id="length-select" aria-label="Choose the style" onchange="selectLength(this.value)">
         <option value="1">One decade · a shorter prayer</option>
         <option value="5">Five decades · the full Rosary</option>
-        <option value="10" selected>Ten-decade custom · 4 Hail Marys after each mystery</option>
+        <option value="10" selected>The Darrah Family Rosary</option>
       </select>
     </fieldset>
   </div>
@@ -461,7 +461,7 @@ body.read-on .read-voice-settings.available{display:flex}
     <div class="sheet-label">Change prayer setup</div>
     <div class="sheet-actions">
       <button class="sheet-action" type="button" onclick="menuChooseSetup('mystery-select')">Choose mysteries</button>
-      <button class="sheet-action" type="button" onclick="menuChooseSetup('length-select')">Choose decades</button>
+      <button class="sheet-action" type="button" onclick="menuChooseSetup('length-select')">Choose style</button>
     </div>
   </div>
   <div class="sheet-group">
@@ -519,6 +519,33 @@ const COMMUNAL_FIRST_SATURDAY_MYSTERIES=[
   {type:'Fourth Joyful Mystery',name:'The Fourth Joyful Mystery: The Presentation of the Child Jesus in the Temple.',scripture:'“Behold this Child is set for the fall, and for the resurrection of many in Israel, and for a sign which shall be contradicted. And thy own soul a sword shall pierce, that, out of many hearts, thoughts may be revealed.”',citation:'(Luke 2:34-35)',image:'images/presentation.jpg'},
   {type:'Fifth Joyful Mystery',name:'The Fifth Joyful Mystery: The Finding of the Child Jesus in the Temple.',scripture:'“And He went down with them, and came to Nazareth, and was subject to them. And His mother kept all these words in her heart.”',citation:'(Luke 2:51)',image:'images/finding-in-the-temple.jpg'}
 ];
+const SORROWFUL_SCRIPTURAL_MYSTERIES=[
+  {type:'First Sorrowful Mystery',name:'The First Sorrowful Mystery: The Agony in the Garden.',scripture:'“Father, if thou wilt, remove this chalice from me: but yet not my will, but thine be done.”',citation:'(Luke 22:42)',image:'images/agony-in-the-garden.jpg'},
+  {type:'Second Sorrowful Mystery',name:'The Second Sorrowful Mystery: The Scourging at the Pillar.',scripture:'“Then he released to them Barabbas, and having scourged Jesus, delivered him unto them to be crucified.”',citation:'(Matthew 27:26)',image:'images/scourging-at-the-pillar.jpg'},
+  {type:'Third Sorrowful Mystery',name:'The Third Sorrowful Mystery: The Crowning with Thorns.',scripture:'“And platting a crown of thorns, they put it upon His head, and a reed in His right hand. And bowing the knee before Him, they mocked Him, saying: Hail, King of the Jews.”',citation:'(Matthew 27:29)',image:'images/crowning-with-thorns.jpg'},
+  {type:'Fourth Sorrowful Mystery',name:'The Fourth Sorrowful Mystery: The Carrying of the Cross.',scripture:'“And bearing His own cross, He went forth to that place which is called Calvary, but in Hebrew Golgotha.”',citation:'(John 19:17)',image:'images/carrying-of-the-cross.jpg'},
+  {type:'Fifth Sorrowful Mystery',name:'The Fifth Sorrowful Mystery: The Crucifixion and Death of Jesus.',scripture:'“Jesus therefore, when He had taken the vinegar, said: It is consummated. And bowing His head, He gave up the ghost.”',citation:'(John 19:30)',image:'images/crucifixion.jpg'}
+];
+const LUMINOUS_SCRIPTURAL_MYSTERIES=[
+  {type:'First Luminous Mystery',name:'The First Luminous Mystery: The Baptism of Jesus in the Jordan.',scripture:'“And Jesus being baptized, forthwith came out of the water: and lo, the heavens were opened to Him: and He saw the Spirit of God descending as a dove, and coming upon Him.”',citation:'(Matthew 3:16)',image:'images/baptism-of-the-lord.jpg'},
+  {type:'Second Luminous Mystery',name:'The Second Luminous Mystery: The Wedding Feast at Cana.',scripture:'“His mother saith to the waiters: Whatsoever He shall say to you, do ye.”',citation:'(John 2:5)',image:'images/wedding-at-cana.jpg'},
+  {type:'Third Luminous Mystery',name:'The Third Luminous Mystery: The Proclamation of the Kingdom of God.',scripture:'“The time is accomplished, and the kingdom of God is at hand: repent, and believe the gospel.”',citation:'(Mark 1:15)',image:'images/proclamation-of-the-kingdom.jpg'},
+  {type:'Fourth Luminous Mystery',name:'The Fourth Luminous Mystery: The Transfiguration.',scripture:'“And He was transfigured before them. And His face did shine as the sun: and His garments became white as snow.”',citation:'(Matthew 17:2)',image:'images/transfiguration.jpg'},
+  {type:'Fifth Luminous Mystery',name:'The Fifth Luminous Mystery: The Institution of the Eucharist.',scripture:'“And whilst they were at supper, Jesus took bread, and blessed, and broke: and gave to His disciples, and said: Take ye, and eat. This is My body.”',citation:'(Matthew 26:26)',image:'images/institution-of-the-eucharist.jpg'}
+];
+const GLORIOUS_SCRIPTURAL_MYSTERIES=[
+  {type:'First Glorious Mystery',name:'The First Glorious Mystery: The Resurrection of Jesus.',scripture:'“He is not here, but is risen.”',citation:'(Luke 24:6)',image:'images/resurrection.jpg'},
+  {type:'Second Glorious Mystery',name:'The Second Glorious Mystery: The Ascension of Jesus into Heaven.',scripture:'“And the Lord Jesus, after He had spoken to them, was taken up into heaven, and sitteth on the right hand of God.”',citation:'(Mark 16:19)',image:'images/ascension.jpg'},
+  {type:'Third Glorious Mystery',name:'The Third Glorious Mystery: The Descent of the Holy Spirit.',scripture:'“And they were all filled with the Holy Ghost, and they began to speak with divers tongues, according as the Holy Ghost gave them to speak.”',citation:'(Acts 2:4)',image:'images/descent-of-the-holy-ghost.jpg'},
+  {type:'Fourth Glorious Mystery',name:'The Fourth Glorious Mystery: The Assumption of Mary into Heaven.',scripture:'“Because He that is mighty hath done great things to me; and holy is His name.”',citation:'(Luke 1:49)',image:'images/assumption-of-mary.jpg'},
+  {type:'Fifth Glorious Mystery',name:'The Fifth Glorious Mystery: The Coronation of Mary as Queen of Heaven and Earth.',scripture:'“And a great sign appeared in heaven: A woman clothed with the sun, and the moon under her feet, and on her head a crown of twelve stars.”',citation:'(Revelation 12:1)',image:'images/coronation-of-mary.jpg'}
+];
+const SCRIPTURAL_MYSTERY_SETS={
+  joyful:COMMUNAL_FIRST_SATURDAY_MYSTERIES,
+  sorrowful:SORROWFUL_SCRIPTURAL_MYSTERIES,
+  glorious:GLORIOUS_SCRIPTURAL_MYSTERIES,
+  luminous:LUMINOUS_SCRIPTURAL_MYSTERIES
+};
 const state={mystery:null,rosary:'scriptural',decades:10,standardDecades:10,beads:[],index:0,intention:'',showingIntention:false,startedAt:0,timer:null,wakeLock:null,commonPrayer:false,commonKey:null,studyingMystery:false,studyMysteryKey:null,lineCount:0,readMode:false,currentUtterance:null,readVoices:[],selectedVoiceURI:'',tapStart:null,hintShown:false,hintTimer:null,flashTimer:null,menuReturnFocus:null};
 const $=id=>document.getElementById(id);
 function init(){selectToday();loadReadVoices();setupPageTurns();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&screenIs('prayer'))requestWakeLock();});document.addEventListener('keydown',e=>{if(isMobileMenuOpen()){if(e.key==='Escape'){e.preventDefault();closeMobileMenu();}return;}if(!screenIs('prayer'))return;const active=document.activeElement;const tag=active&&active.tagName;if(tag==='TEXTAREA'||tag==='INPUT'||tag==='SELECT'||active?.isContentEditable)return;if((e.key===' '||e.key==='Spacebar')&&!(active&&active.closest&&active.closest('button,a,label,summary'))){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();flashPageTurn('left');prevBead();}});if(supportsReadAloud()&&'onvoiceschanged' in speechSynthesis){speechSynthesis.onvoiceschanged=loadReadVoices;}}
@@ -530,17 +557,72 @@ function selectToday(){const days=['Sunday','Monday','Tuesday','Wednesday','Thur
 function isCommunalFirstSaturday(mystery){return mystery===COMMUNAL_FIRST_SATURDAY||mystery===COMMUNAL_FIRST_SATURDAY_DOMINICAN;}
 function selectMystery(val){const wasCommunal=isCommunalFirstSaturday(state.mystery);const isCommunal=isCommunalFirstSaturday(val);if(isCommunal){if(!wasCommunal)state.standardDecades=state.decades;state.mystery=val;state.decades=5;}else{state.mystery=val;if(wasCommunal)state.decades=state.standardDecades;}const sel=$('mystery-select');if(sel)sel.value=val;const length=$('length-select');if(length){length.disabled=isCommunal;length.value=String(state.decades);}updateSummary();}
 function selectLength(val){if(isCommunalFirstSaturday(state.mystery))return;const n=Number(val);state.decades=n===10?10:(n===5?5:1);state.standardDecades=state.decades;const sel=$('length-select');if(sel)sel.value=String(state.decades);updateSummary();}
-function updateSummary(){if(isCommunalFirstSaturday(state.mystery)){const dominican=state.mystery===COMMUNAL_FIRST_SATURDAY_DOMINICAN;$('hero-mystery').textContent=dominican?'Dominican Communal First Saturday':'Communal First Saturday';$('hero-days').textContent='Joyful Mysteries · Five decades';$('hero-meta').textContent='Special opening · Scriptural mysteries · Four-part conclusion';$('start-btn').disabled=false;return;}const m=state.mystery?MYSTERIES[state.mystery]:null;$('hero-mystery').textContent=m?m.name:'Choose your mysteries';$('hero-days').textContent=m?m.days:'Select a set below';const form=state.rosary==='scriptural'?'Scriptural':'Dominican';const len=state.decades===1?'One decade':state.decades===5?'Five decades':'Ten-decade custom · 4 Hail Marys after each mystery';$('hero-meta').textContent=`${form} · ${len}`;$('start-btn').disabled=!state.mystery;}
+function updateSummary(){if(isCommunalFirstSaturday(state.mystery)){const dominican=state.mystery===COMMUNAL_FIRST_SATURDAY_DOMINICAN;$('hero-mystery').textContent=dominican?'Dominican Communal First Saturday':'Communal First Saturday';$('hero-days').textContent='Joyful Mysteries · Five decades';$('hero-meta').textContent='Special opening · Scriptural mysteries · Four-part conclusion';$('start-btn').disabled=false;return;}const m=state.mystery?MYSTERIES[state.mystery]:null;$('hero-mystery').textContent=m?m.name:'Choose your mysteries';$('hero-days').textContent=m?m.days:'Select a set below';const form=state.rosary==='scriptural'?'Scriptural':'Dominican';const style=state.decades===1?'One decade':state.decades===5?'Five decades':'The Darrah Family Rosary';$('hero-meta').textContent=`${form} · ${style}`;$('start-btn').disabled=!state.mystery;}
 function mysteryLabel(set,index){const ord=['First','Second','Third','Fourth','Fifth'][index]||String(index+1);return `The ${ord} ${set.singular} Mystery`;}
+function mysteryCardBead(setKey,set,index,scriptural=true){const exact=scriptural&&SCRIPTURAL_MYSTERY_SETS[setKey]?SCRIPTURAL_MYSTERY_SETS[setKey][index]:null;if(exact)return {kind:'mystery',name:exact.name,type:exact.type,desire:exact.scripture,meditation:exact.citation,image:exact.image,spokenText:`${exact.type}. ${exact.name} ${exact.scripture} ${exact.citation}`};const mystery=set.list[index];return {kind:'mystery',name:mystery[0],type:mysteryLabel(set,index),desire:mystery[1],meditation:mystery[2],image:mystery[3]};}
 function markBeads(beads){return beads.map((bead,index)=>({...bead,mapType:bead.mapType||mapTypeForBead(bead),groupStart:index>0&&bead.group!==beads[index-1].group}));}
 function mapTypeForBead(bead){if(bead.kind==='intention')return 'chain';if(bead.name==="Apostles' Creed")return 'cross';if(bead.name==='Our Father'||bead.kind==='mystery')return 'large';if(bead.name==='Hail Mary')return 'small';return 'chain';}
 function communalResponsePrayer(prayer,reversed=false){if(!reversed)return prayer;return {...prayer,text:prayer.text.replace(/^V:/,'R:').replace(/\nR:/,'\nV:')};}
 function dominicanRolePrayer(prayer,dominican=false){if(!dominican)return prayer;const rename=text=>text.replace(/^V[.:]\s*/gm,'Leader: ').replace(/^R[.:]\s*/gm,'Response: ');return {...prayer,text:rename(prayer.text),spokenText:prayer.spokenText?rename(prayer.spokenText):prayer.spokenText};}
 function buildCommunalFirstSaturdayBeads(dominican=false){const b=[];const prayers=COMMUNAL_FIRST_SATURDAY_PRAYERS;b.push({...dominicanRolePrayer(prayers.opening,dominican),group:'special-opening',mapType:'cross'});if(!dominican){b.push({...PRAYERS.apostlesCreed,group:'opening'});b.push({...prayers.ourFather,type:'Opening Prayer',group:'opening',mapType:'large'});for(let i=0;i<3;i++)b.push({...prayers.hailMary,type:['For faith','For hope','For charity'][i],group:'opening'});b.push({...prayers.gloryBe,type:'Opening Prayer',group:'opening'});}b.push({...dominicanRolePrayer(prayers.invitation,dominican),group:'invitation'});COMMUNAL_FIRST_SATURDAY_MYSTERIES.forEach((m,mi)=>{const group=`decade-${mi+1}`;const reversed=mi===1||mi===3;const ourFather=dominicanRolePrayer(communalResponsePrayer(prayers.ourFather,reversed),dominican);const hailMary=dominicanRolePrayer(communalResponsePrayer(prayers.hailMary,reversed),dominican);const gloryBe=dominicanRolePrayer(communalResponsePrayer(prayers.gloryBe,reversed),dominican);b.push({kind:'mystery',name:m.name,type:m.type,desire:m.scripture,meditation:m.citation,image:m.image,spokenText:`${m.type}. ${m.name} ${m.scripture} ${m.citation}`,group});b.push({...ourFather,type:m.type,group,mapType:'large'});for(let i=0;i<10;i++)b.push({...hailMary,type:`${m.type} · Hail Mary ${i+1} of 10`,group});b.push({...gloryBe,type:m.type,group});b.push({...prayers.fatima,type:m.type,group});});b.push({...dominicanRolePrayer(prayers.hailHolyQueen,dominican),group:'closing'});b.push({...dominicanRolePrayer(prayers.collect,dominican),group:'closing'});return markBeads(b);}
-function buildBeads(){if(isCommunalFirstSaturday(state.mystery))return buildCommunalFirstSaturdayBeads(state.mystery===COMMUNAL_FIRST_SATURDAY_DOMINICAN);const b=[];b.push({...PRAYERS.apostlesCreed,group:'opening'});b.push({...PRAYERS.ourFather,type:'Opening Prayer',group:'opening'});for(let i=0;i<3;i++)b.push({...PRAYERS.hailMary,type:['For faith','For hope','For charity'][i],group:'opening'});b.push({...PRAYERS.gloryBe,type:'Opening Prayer',group:'opening'});b.push({kind:'intention',group:'intention'});const set=MYSTERIES[state.mystery];const mysteries=set.list;const scriptural=state.rosary==='scriptural';if(state.decades===1){let hm=0;b.push({...PRAYERS.ourFather,type:mysteries[0][0],group:'decade-1'});mysteries.forEach((m,mi)=>{b.push({kind:'mystery',name:m[0],type:mysteryLabel(set,mi),desire:m[1],meditation:m[2],image:m[3],group:`mystery-${mi+1}`});for(let i=0;i<2;i++){hm++;b.push({...PRAYERS.hailMary,type:`${m[0]} · Hail Mary ${hm} of 10`,contemplation:scriptural?m[2]:'',group:`mystery-${mi+1}`});}});b.push({...PRAYERS.gloryBe,type:mysteries[4][0],group:'closing-decade'});b.push({...PRAYERS.fatima,type:mysteries[4][0],group:'closing-decade'});}else if(state.decades===10){mysteries.forEach((m,mi)=>{const group=`mystery-${mi+1}`;b.push({kind:'mystery',name:m[0],type:mysteryLabel(set,mi),desire:m[1],meditation:m[2],image:m[3],group});for(let i=0;i<4;i++)b.push({...PRAYERS.hailMary,type:`${m[0]} · Hail Mary ${i+1} of 4`,contemplation:scriptural?m[2]:'',group});});b.push({...PRAYERS.gloryBe,type:'Closing Prayer',group:'closing-decade'});b.push({...PRAYERS.fatima,type:'Closing Prayer',group:'closing-decade'});}else{mysteries.forEach((m,mi)=>{const group=`decade-${mi+1}`;b.push({kind:'mystery',name:m[0],type:mysteryLabel(set,mi),desire:m[1],meditation:m[2],image:m[3],group});b.push({...PRAYERS.ourFather,type:m[0],group});for(let i=0;i<10;i++)b.push({...PRAYERS.hailMary,type:`${m[0]} · Hail Mary ${i+1} of 10`,contemplation:scriptural?m[2]:'',group});b.push({...PRAYERS.gloryBe,type:m[0],group});b.push({...PRAYERS.fatima,type:m[0],group});});}b.push({...PRAYERS.hailHolyQueen,group:'closing'});b.push({...PRAYERS.collect,group:'closing'});return markBeads(b);}
+function buildBeads(){
+  if(isCommunalFirstSaturday(state.mystery))return buildCommunalFirstSaturdayBeads(state.mystery===COMMUNAL_FIRST_SATURDAY_DOMINICAN);
+  const b=[];
+  if(state.decades===10)b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.opening,true),type:'The Darrah Family Rosary',group:'darrah-opening',mapType:'cross'});
+  b.push({...PRAYERS.apostlesCreed,group:'opening'});
+  if(state.decades===10)b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.ourFather,true),type:'Opening Prayer',group:'opening',mapType:'large'});
+  else b.push({...PRAYERS.ourFather,type:'Opening Prayer',group:'opening'});
+  if(state.decades===10)b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.hailMary,true),name:'Hail Mary · 3x',type:'Opening Prayer',group:'opening',mapType:'small'});
+  else for(let i=0;i<3;i++)b.push({...PRAYERS.hailMary,type:['For faith','For hope','For charity'][i],group:'opening'});
+  if(state.decades===10)b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.gloryBe,true),type:'Opening Prayer',group:'opening'});
+  else b.push({...PRAYERS.gloryBe,type:'Opening Prayer',group:'opening'});
+  b.push({kind:'intention',group:'intention'});
+  const set=MYSTERIES[state.mystery];
+  const mysteries=set.list;
+  const scriptural=state.rosary==='scriptural';
+  if(state.decades===1){
+    let hm=0;
+    b.push({...PRAYERS.ourFather,type:mysteries[0][0],group:'decade-1'});
+    mysteries.forEach((m,mi)=>{
+      const group=`mystery-${mi+1}`;
+      b.push({...mysteryCardBead(state.mystery,set,mi,scriptural),group});
+      for(let i=0;i<2;i++){
+        hm++;
+        b.push({...PRAYERS.hailMary,type:`${m[0]} · Hail Mary ${hm} of 10`,contemplation:scriptural?m[2]:'',group});
+      }
+    });
+    b.push({...PRAYERS.gloryBe,type:mysteries[4][0],group:'closing-decade'});
+    b.push({...PRAYERS.fatima,type:mysteries[4][0],group:'closing-decade'});
+  }else if(state.decades===10){
+    mysteries.forEach((m,mi)=>{
+      const group=`mystery-${mi+1}`;
+      b.push({...mysteryCardBead(state.mystery,set,mi,scriptural),group});
+      b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.hailMary,true),type:m[0],group});
+    });
+    b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.gloryBe,true),type:'Closing Prayer',group:'closing-decade'});
+    b.push({...COMMUNAL_FIRST_SATURDAY_PRAYERS.fatima,type:'Closing Prayer',group:'closing-decade'});
+  }else{
+    mysteries.forEach((m,mi)=>{
+      const group=`decade-${mi+1}`;
+      b.push({...mysteryCardBead(state.mystery,set,mi,scriptural),group});
+      b.push({...PRAYERS.ourFather,type:m[0],group});
+      for(let i=0;i<10;i++)b.push({...PRAYERS.hailMary,type:`${m[0]} · Hail Mary ${i+1} of 10`,contemplation:scriptural?m[2]:'',group});
+      b.push({...PRAYERS.gloryBe,type:m[0],group});
+      b.push({...PRAYERS.fatima,type:m[0],group});
+    });
+  }
+  if(state.decades===10){
+    b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.hailHolyQueen,true),group:'closing'});
+    b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.collect,true),group:'closing'});
+  }else{
+    b.push({...PRAYERS.hailHolyQueen,group:'closing'});
+    b.push({...PRAYERS.collect,group:'closing'});
+  }
+  return markBeads(b);
+}
 function startRosary(){state.commonPrayer=false;state.studyingMystery=false;state.studyMysteryKey=null;state.beads=buildBeads();state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function startCommonPrayer(source='common-prayer-select'){const el=$(source);const key=el?el.value:source;state.commonPrayer=true;state.commonKey=key;state.studyingMystery=false;state.studyMysteryKey=null;state.beads=[PRAYERS[key]||PRAYERS.comeHolySpirit];state.index=0;state.intention='';state.startedAt=Date.now();showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
-function mysteryStudyBead(setKey,set,index){if(setKey==='joyful'){const mystery=COMMUNAL_FIRST_SATURDAY_MYSTERIES[index];return {kind:'mystery',name:mystery.name,type:mystery.type,desire:mystery.scripture,meditation:mystery.citation,image:mystery.image,spokenText:`${mystery.type}. ${mystery.name} ${mystery.scripture} ${mystery.citation}`,group:`mystery-study-${index+1}`};}const mystery=set.list[index];return {kind:'mystery',name:mystery[0],type:mysteryLabel(set,index),desire:mystery[1],meditation:mystery[2],image:mystery[3],group:`mystery-study-${index+1}`};}
+function mysteryStudyBead(setKey,set,index){return {...mysteryCardBead(setKey,set,index,true),group:`mystery-study-${index+1}`};}
 function startMysteryStudy(source='mystery-study-select'){const el=$(source);const key=el?el.value:source;const [setKey,indexValue]=String(key).split(':');const set=MYSTERIES[setKey];if(!set)return;const indices=indexValue==='all'?set.list.map((_,index)=>index):[Number(indexValue)];if(indices.some(index=>!Number.isInteger(index)||!set.list[index]))return;state.commonPrayer=false;state.commonKey=null;state.studyingMystery=true;state.studyMysteryKey=key;state.beads=markBeads(indices.map(index=>mysteryStudyBead(setKey,set,index)));state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function showScreen(name){if(name!=='prayer')closeMobileMenu(false);document.body.classList.toggle('prayer-active',name==='prayer');['setup','prayer','complete'].forEach(s=>{const el=$('screen-'+s);const active=s===name;el.classList.toggle('active',active);el.hidden=!active;el.setAttribute('aria-hidden',String(!active));});const hdr=$('app-header');if(hdr)hdr.hidden=name!=='setup';$('screen-'+name).focus({preventScroll:true});if(name!=='prayer'){stopReadAloud();releaseWakeLock();updatePrayerFollowing();}}
 function screenIs(name){return $('screen-'+name).classList.contains('active')}
