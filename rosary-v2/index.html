@@ -338,15 +338,15 @@ body.read-on .read-voice-settings.available{display:flex}
         <option value="sorrowful">Sorrowful · Tuesday &amp; Friday</option>
         <option value="glorious">Glorious · Wednesday &amp; Sunday</option>
         <option value="luminous">Luminous · Thursday</option>
-        <option value="communal-first-saturday-dominican">Dominican Communal First Saturday</option>
       </select>
     </fieldset>
     <fieldset style="border:0;margin:0;padding:0">
       <legend class="choice-label">Style</legend>
-      <select class="select" id="length-select" aria-label="Choose the style" onchange="selectLength(this.value)">
-        <option value="1">One decade · a shorter prayer</option>
-        <option value="5">Five decades · the full Rosary</option>
-        <option value="10" selected>The Darrah Family Rosary</option>
+      <select class="select" id="style-select" aria-label="Choose the style" onchange="selectStyle(this.value)">
+        <option value="one">One decade · a shorter prayer</option>
+        <option value="five">Five decades · the full Rosary</option>
+        <option value="darrah" selected>The Darrah Family Rosary</option>
+        <option value="dominican">Dominican</option>
       </select>
     </fieldset>
   </div>
@@ -360,6 +360,20 @@ body.read-on .read-voice-settings.available{display:flex}
           <option value="comeHolySpirit">Come, Holy Spirit</option><option value="gloria">Gloria</option><option value="apostlesCreed">Apostles' Creed</option><option value="niceneCreed">Nicene Creed</option><option value="jesusITrust">Jesus, I Trust in You</option><option value="actOfContrition">Act of Contrition</option><option value="graceBeforeMeals">Grace Before Meals</option><option value="guardianAngel">Guardian Angel Prayer</option><option value="stMichael">Prayer to St. Michael</option><option value="stJude">Prayer to St. Jude</option><option value="memorare">Memorare</option><option value="hailHolyQueen">Hail, Holy Queen</option><option value="angelus">The Angelus</option>
         </select>
         <button class="btn gold" type="button" onclick="startCommonPrayer()">Open prayer</button>
+      </div>
+    </div>
+  </details>
+
+  <details class="drawer" aria-label="Chaplets">
+    <summary><span>Chaplets</span><span class="hint" aria-hidden="true"></span></summary>
+    <div class="drawer-body">
+      <div class="choice-label">Choose a chaplet</div>
+      <div class="common-row">
+        <select class="select" id="chaplet-select" aria-label="Choose a chaplet">
+          <option value="stCharbel">Chaplet of St. Charbel</option>
+          <option value="divineMercy">Chaplet of Divine Mercy</option>
+        </select>
+        <button class="btn gold" type="button" onclick="startChaplet()">Begin chaplet</button>
       </div>
     </div>
   </details>
@@ -460,7 +474,7 @@ body.read-on .read-voice-settings.available{display:flex}
     <div class="sheet-label">Change prayer setup</div>
     <div class="sheet-actions">
       <button class="sheet-action" type="button" onclick="menuChooseSetup('mystery-select')">Choose mysteries</button>
-      <button class="sheet-action" type="button" onclick="menuChooseSetup('length-select')">Choose style</button>
+      <button class="sheet-action" type="button" onclick="menuChooseSetup('style-select')">Choose style</button>
     </div>
   </div>
   <div class="sheet-group">
@@ -482,12 +496,54 @@ body.read-on .read-voice-settings.available{display:flex}
 <div class="tap-flash left" id="tap-flash-left" aria-hidden="true">‹</div>
 <div class="tap-flash right" id="tap-flash-right" aria-hidden="true">›</div>
 <script>
-const PRAYERS={apostlesCreed:{name:"Apostles' Creed",type:"Opening Prayer",text:"I believe in God, the Father almighty, Creator of heaven and earth, and in Jesus Christ, His only Son, our Lord, who was conceived by the Holy Spirit, born of the Virgin Mary, suffered under Pontius Pilate, was crucified, died and was buried; He descended into hell; on the third day He rose again from the dead; He ascended into heaven, and is seated at the right hand of God the Father almighty; from there He will come to judge the living and the dead. I believe in the Holy Spirit, the holy Catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen."},ourFather:{name:"Our Father",type:"Prayer",text:"Our Father, who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen."},hailMary:{name:"Hail Mary",type:"Prayer",text:"Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen."},gloryBe:{name:"Glory Be",type:"Prayer",text:"Glory be to the Father, and to the Son, and to the Holy Spirit, as it was in the beginning, is now, and ever shall be, world without end. Amen."},fatima:{name:"Fatima Prayer",type:"Prayer",text:"O my Jesus, forgive us our sins, save us from the fires of hell; lead all souls to Heaven, especially those in most need of Thy mercy. Amen."},hailHolyQueen:{name:"Hail, Holy Queen",type:"Closing Prayer",text:"Hail, holy Queen, Mother of mercy, our life, our sweetness, and our hope. To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious Advocate, thine eyes of mercy toward us. And after this, our exile, show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. V. Pray for us, O holy Mother of God. R. That we may be made worthy of the promises of Christ."},collect:{name:"Collect",type:"Closing Prayer",text:"Let us pray. O God, whose only-begotten Son, by His life, death, and resurrection, has purchased for us the rewards of eternal life, grant, we beseech Thee, that by meditating upon these mysteries of the most holy Rosary of the Blessed Virgin Mary, we may imitate what they contain and obtain what they promise, through the same Christ our Lord. Amen. V. May the Divine Assistance remain always with us. R. And may the souls of the faithful departed rest in peace. Amen."},comeHolySpirit:{name:"Come, Holy Spirit",type:"Common Prayer",text:"Come, Holy Spirit, fill the hearts of Thy faithful and kindle in them the fire of Thy love. Send forth Thy Spirit and they shall be created, and Thou shalt renew the face of the earth. Amen."},gloria:{name:"Gloria",type:"Common Prayer",text:"Glory to God in the highest, and on earth peace to people of good will."},niceneCreed:{name:"Nicene Creed",type:"Common Prayer",text:"I believe in one God, the Father almighty, maker of heaven and earth, of all things visible and invisible. I believe in one Lord Jesus Christ, the Only Begotten Son of God. Amen."},jesusITrust:{name:"Jesus, I Trust in You",type:"Common Prayer",text:"Jesus, I trust in You."},actOfContrition:{name:"Act of Contrition",type:"Common Prayer",text:"O my God, I am heartily sorry for having offended Thee, and I detest all my sins because I dread the loss of heaven and the pains of hell, but most of all because they offend Thee, my God, who art all good and deserving of all my love. I firmly resolve, with the help of Thy grace, to confess my sins, to do penance, and to amend my life. Amen."},graceBeforeMeals:{name:"Grace Before Meals",type:"Common Prayer",text:"Bless us, O Lord, and these Thy gifts, which we are about to receive from Thy bounty, through Christ our Lord. Amen."},guardianAngel:{name:"Guardian Angel Prayer",type:"Common Prayer",text:"Angel of God, my guardian dear, to whom God's love commits me here, ever this day be at my side, to light and guard, to rule and guide. Amen."},stMichael:{name:"Prayer to St. Michael",type:"Common Prayer",text:"Saint Michael the Archangel, defend us in battle. Be our protection against the wickedness and snares of the devil. May God rebuke him, we humbly pray; and do thou, O Prince of the heavenly host, by the power of God, cast into hell Satan, and all the evil spirits, who prowl about the world seeking the ruin of souls. Amen."},stJude:{name:"Prayer to St. Jude",type:"Common Prayer",text:"Most holy St. Jude, faithful servant and friend of Jesus, the Church honors and invokes you as the patron of difficult and seemingly hopeless cases. Pray for me. I am in need of God's help. Please bring my petition before the Lord, and intercede for me that I may receive the strength, hope, and grace I need. Help me to trust in God's mercy and providence, even when the way forward is unclear. May I always remember to praise God and to encourage devotion to you with gratitude. St. Jude, pray for us and for all who invoke your aid. Amen."},memorare:{name:"Memorare",type:"Common Prayer",text:"Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thine intercession was left unaided. Inspired by this confidence, I fly unto thee, O Virgin of virgins, my Mother. Amen."},angelus:{name:"The Angelus",type:"Common Prayer",text:"The Angel of the Lord declared unto Mary, and she conceived of the Holy Spirit. Hail Mary, full of grace, the Lord is with thee. Amen."}};
+const PRAYERS={apostlesCreed:{name:"Apostles' Creed",type:"Opening Prayer",text:"I believe in God, the Father almighty, Creator of heaven and earth, and in Jesus Christ, His only Son, our Lord, who was conceived by the Holy Spirit, born of the Virgin Mary, suffered under Pontius Pilate, was crucified, died and was buried; He descended into hell; on the third day He rose again from the dead; He ascended into heaven, and is seated at the right hand of God the Father almighty; from there He will come to judge the living and the dead. I believe in the Holy Spirit, the holy Catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen."},ourFather:{name:"Our Father",type:"Prayer",text:"Our Father, who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen."},hailMary:{name:"Hail Mary",type:"Prayer",text:"Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen."},gloryBe:{name:"Glory Be",type:"Prayer",text:"Glory be to the Father, and to the Son, and to the Holy Spirit, as it was in the beginning, is now, and ever shall be, world without end. Amen."},fatima:{name:"Fatima Prayer",type:"Prayer",text:"O my Jesus, forgive us our sins, save us from the fires of hell; lead all souls to Heaven, especially those in most need of Thy mercy. Amen."},hailHolyQueen:{name:"Hail, Holy Queen",type:"Closing Prayer",text:"Hail, holy Queen, Mother of mercy, our life, our sweetness, and our hope. To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious Advocate, thine eyes of mercy toward us. And after this, our exile, show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. V. Pray for us, O holy Mother of God. R. That we may be made worthy of the promises of Christ."},collect:{name:"Collect",type:"Closing Prayer",text:"Let us pray. O God, whose only-begotten Son, by His life, death, and resurrection, has purchased for us the rewards of eternal life, grant, we beseech Thee, that by meditating upon these mysteries of the most holy Rosary of the Blessed Virgin Mary, we may imitate what they contain and obtain what they promise, through the same Christ our Lord. Amen. V. May the Divine Assistance remain always with us. R. And may the souls of the faithful departed rest in peace. Amen."},comeHolySpirit:{name:"Come, Holy Spirit",type:"Common Prayer",text:"Come, Holy Spirit, fill the hearts of Thy faithful and kindle in them the fire of Thy love. Send forth Thy Spirit and they shall be created, and Thou shalt renew the face of the earth. Amen."},gloria:{name:"Gloria",type:"Common Prayer",preserveLines:true,text:`Glory to God in the highest,
+and on earth peace to people of good will.
+We praise you,
+we bless you,
+we adore you,
+we glorify you,
+we give you thanks for your great glory,
+Lord God, heavenly King,
+O God, almighty Father.
+Lord Jesus Christ, Only Begotten Son,
+Lord God, Lamb of God, Son of the Father,
+you take away the sins of the world,
+have mercy on us;
+you take away the sins of the world,
+receive our prayer;
+you are seated at the right hand of the Father,
+have mercy on us.
+For you alone are the Holy One,
+you alone are the Lord,
+you alone are the Most High,
+Jesus Christ,
+with the Holy Spirit,
+in the glory of God the Father. Amen.`},niceneCreed:{name:"Nicene Creed",type:"Common Prayer",text:"I believe in one God, the Father almighty, maker of heaven and earth, of all things visible and invisible. I believe in one Lord Jesus Christ, the Only Begotten Son of God. Amen."},jesusITrust:{name:"Jesus, I Trust in You",type:"Common Prayer",text:"Jesus, I trust in You."},actOfContrition:{name:"Act of Contrition",type:"Common Prayer",text:"O my God, I am heartily sorry for having offended Thee, and I detest all my sins because I dread the loss of heaven and the pains of hell, but most of all because they offend Thee, my God, who art all good and deserving of all my love. I firmly resolve, with the help of Thy grace, to confess my sins, to do penance, and to amend my life. Amen."},graceBeforeMeals:{name:"Grace Before Meals",type:"Common Prayer",text:"Bless us, O Lord, and these Thy gifts, which we are about to receive from Thy bounty, through Christ our Lord. Amen."},guardianAngel:{name:"Guardian Angel Prayer",type:"Common Prayer",text:"Angel of God, my guardian dear, to whom God's love commits me here, ever this day be at my side, to light and guard, to rule and guide. Amen."},stMichael:{name:"Prayer to St. Michael",type:"Common Prayer",text:"Saint Michael the Archangel, defend us in battle. Be our protection against the wickedness and snares of the devil. May God rebuke him, we humbly pray; and do thou, O Prince of the heavenly host, by the power of God, cast into hell Satan, and all the evil spirits, who prowl about the world seeking the ruin of souls. Amen."},stJude:{name:"Prayer to St. Jude",type:"Common Prayer",text:"Most holy St. Jude, faithful servant and friend of Jesus, the Church honors and invokes you as the patron of difficult and seemingly hopeless cases. Pray for me. I am in need of God's help. Please bring my petition before the Lord, and intercede for me that I may receive the strength, hope, and grace I need. Help me to trust in God's mercy and providence, even when the way forward is unclear. May I always remember to praise God and to encourage devotion to you with gratitude. St. Jude, pray for us and for all who invoke your aid. Amen."},memorare:{name:"Memorare",type:"Common Prayer",text:"Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thine intercession was left unaided. Inspired by this confidence, I fly unto thee, O Virgin of virgins, my Mother. Amen."},angelus:{name:"The Angelus",type:"Common Prayer",text:"The Angel of the Lord declared unto Mary, and she conceived of the Holy Spirit. Hail Mary, full of grace, the Lord is with thee. Amen."}};
+Object.assign(PRAYERS,{
+  niceneCreed:{name:'Nicene Creed',type:'Common Prayer',preserveLines:true,text:`I believe in one God, the Father almighty, maker of heaven and earth, of all things visible and invisible.
+I believe in one Lord Jesus Christ, the Only Begotten Son of God, born of the Father before all ages. God from God, Light from Light, true God from true God, begotten, not made, consubstantial with the Father; through him all things were made.
+For us men and for our salvation he came down from heaven, and by the Holy Spirit was incarnate of the Virgin Mary, and became man.
+For our sake he was crucified under Pontius Pilate, he suffered death and was buried, and rose again on the third day in accordance with the Scriptures.
+He ascended into heaven and is seated at the right hand of the Father. He will come again in glory to judge the living and the dead and his kingdom will have no end.
+I believe in the Holy Spirit, the Lord, the giver of life, who proceeds from the Father and the Son, who with the Father and the Son is adored and glorified, who has spoken through the prophets.
+I believe in one, holy, catholic and apostolic Church. I confess one Baptism for the forgiveness of sins and I look forward to the resurrection of the dead and the life of the world to come. Amen.`},
+  memorare:{name:'Memorare',type:'Common Prayer',text:'Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thine intercession was left unaided. Inspired by this confidence, I fly unto thee, O Virgin of virgins, my Mother. To thee do I come, before thee I stand, sinful and sorrowful. O Mother of the Word Incarnate, despise not my petitions, but in thy mercy hear and answer me. Amen.'},
+  angelus:{name:'The Angelus',type:'Common Prayer',preserveLines:true,text:`V. The Angel of the Lord declared unto Mary.
+R. And she conceived of the Holy Spirit.
+Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.
+V. Behold the handmaid of the Lord.
+R. Be it done unto me according to thy word.
+Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.
+V. And the Word was made flesh.
+R. And dwelt among us.
+Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.
+V. Pray for us, O holy Mother of God.
+R. That we may be made worthy of the promises of Christ.
+Let us pray: Pour forth, we beseech Thee, O Lord, Thy grace into our hearts; that we, to whom the Incarnation of Christ Thy Son was made known by the message of an angel, may by His Passion and Cross be brought to the glory of His Resurrection. Through the same Christ our Lord. Amen.`}
+});
 const MYSTERIES={joyful:{name:'Joyful Mysteries',singular:'Joyful',days:'Monday & Saturday',list:[['The Annunciation','I desire the love of humility.','Think of Mary’s humility when the Angel Gabriel greeted her and announced that she would become the Mother of God.','images/annunciation.jpg'],['The Visitation','I desire charity toward my neighbor.','Think of Mary’s loving haste in visiting Elizabeth and remaining with her in service before the birth of John the Baptist.','images/visitation.jpg'],['The Nativity','I desire the love of God.','Think of the poverty and tenderness of Bethlehem, where Mary placed the Infant Jesus in a manger.','images/nativity.jpg'],['The Presentation','I desire a spirit of sacrifice.','Think of Mary and Joseph presenting Jesus in the Temple in obedience to the law of God.','images/presentation.jpg'],['The Finding in the Temple','I desire zeal for the glory of God.','Think of Mary and Joseph seeking Jesus for three days, and the joy of finding Him in His Father’s house.','images/finding-in-the-temple.jpg']]},sorrowful:{name:'Sorrowful Mysteries',singular:'Sorrowful',days:'Tuesday & Friday',list:[['The Agony in the Garden','I desire true repentance for my sins.','Think of Jesus praying in sorrow in the Garden of Gethsemane, accepting the Father’s will for our salvation.','images/agony-in-the-garden.jpg'],['The Scourging at the Pillar','I desire a spirit of mortification.','Think of Jesus bound and scourged, offering His suffering for the sins of the world.','images/scourging-at-the-pillar.jpg'],['The Crowning with Thorns','I desire moral courage.','Think of Jesus mocked, crowned with thorns, and clothed in contempt, yet remaining meek and kingly.','images/crowning-with-thorns.jpg'],['The Carrying of the Cross','I desire patience.','Think of Jesus carrying the Cross to Calvary for love of us.','images/carrying-of-the-cross.jpg'],['The Crucifixion','I desire final perseverance.','Think of Jesus dying on the Cross, with Mary standing faithfully beneath Him.','images/crucifixion.jpg']]},glorious:{name:'Glorious Mysteries',singular:'Glorious',days:'Wednesday & Sunday',list:[['The Resurrection','I desire faith.','Think of Jesus rising from the dead in glory.','images/resurrection.jpg'],['The Ascension','I desire hope.','Think of Jesus ascending into heaven.','images/ascension.jpg'],['The Descent of the Holy Spirit','I desire the love of God.','Think of the Holy Spirit descending upon Mary and the Apostles.','images/descent-of-the-holy-ghost.jpg'],['The Assumption','I desire devotion to Mary.','Think of Mary taken body and soul into heaven.','images/assumption-of-mary.jpg'],['The Coronation','I desire eternal happiness.','Think of Mary crowned Queen of Heaven and earth.','images/coronation-of-mary.jpg']]},luminous:{name:'Luminous Mysteries',singular:'Luminous',days:'Thursday',list:[['The Baptism in the Jordan','I desire openness to the Holy Spirit.','Think of Jesus baptized in the Jordan as the Father’s voice is heard.','images/baptism-of-the-lord.jpg'],['The Wedding at Cana','I desire trust in Mary’s intercession.','Think of Mary telling the servants, Do whatever He tells you.','images/wedding-at-cana.jpg'],['The Proclamation of the Kingdom','I desire repentance and conversion.','Think of Jesus proclaiming the Kingdom of God.','images/proclamation-of-the-kingdom.jpg'],['The Transfiguration','I desire holiness.','Think of Jesus transfigured in glory before Peter, James, and John.','images/transfiguration.jpg'],['The Institution of the Eucharist','I desire love for the Eucharist.','Think of Jesus giving Himself to us in the Eucharist.','images/institution-of-the-eucharist.jpg']]}};
-const COMMUNAL_FIRST_SATURDAY='communal-first-saturday';
-const COMMUNAL_FIRST_SATURDAY_DOMINICAN='communal-first-saturday-dominican';
-const COMMUNAL_FIRST_SATURDAY_PRAYERS={
-  opening:{name:'Opening Prayer',type:'Communal First Saturday',progressTitle:'Opening Prayer',preserveLines:true,text:`In the name of the Father, and of the Son, and of the Holy Spirit.
+const DOMINICAN_PRAYERS={
+  opening:{name:'Opening Prayer',type:'Dominican',progressTitle:'Opening Prayer',preserveLines:true,text:`In the name of the Father, and of the Son, and of the Holy Spirit.
 V: Hail Mary, full of grace, the Lord is with thee.
 R: Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus
 V. O Lord, open my lips.
@@ -496,7 +552,7 @@ V. O God, come to my assistance.
 R. O Lord, make haste to help me.
 V: Glory to the Father, and to the Son, and to the Holy Spirit.
 R: As it was in the beginning, is now, and will be forever. Amen.`},
-  invitation:{name:'The Joyous Mysteries',type:'Communal First Saturday',progressTitle:'The Joyous Mysteries',spokenText:'V: Let us begin to pray 5 decades of the Rosary, meditating on The Joyous Mysteries.',text:'V: Let us begin to pray 5 decades of the Rosary, meditating on The Joyous Mysteries.'},
+  invitation:{name:'The Joyous Mysteries',type:'Dominican',progressTitle:'The Joyous Mysteries',spokenText:'V: Let us begin to pray 5 decades of the Rosary, meditating on The Joyous Mysteries.',text:'V: Let us begin to pray 5 decades of the Rosary, meditating on The Joyous Mysteries.'},
   ourFather:{name:'Lord’s Prayer (Our Father)',type:'Prayer',preserveLines:true,text:`V: Our Father, who art in heaven; hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven.
 R: Give us this day our daily bread; and forgive us our trespasses as we forgive those who trespass against us, and lead us not into temptation; but deliver us from evil.`},
   hailMary:{name:'Hail Mary',type:'Prayer',preserveLines:true,text:`V: Hail Mary, full of grace, the Lord is with thee. Blessed art thou amongst women, and blessed is the fruit of thy womb, Jesus.
@@ -511,7 +567,22 @@ R. That we may be made worthy of the promises of Christ.`},
 V. May the divine assistance remain always with us.
 R. May the souls of the faithful departed through the mercy of God rest in peace. Amen.`}
 };
-const COMMUNAL_FIRST_SATURDAY_MYSTERIES=[
+const CHAPLET_PRAYERS={
+  signOfCross:{name:'Sign of the Cross',type:'Opening Prayer',text:'In the name of the Father, and of the Son, and of the Holy Spirit. Amen.'},
+  fatherOfTruth:{name:'Father of Truth',type:'First White Bead',text:'Father of Truth, behold Your Son, a sacrifice pleasing to You. Accept this offering of Him who died for me; behold His blood shed on Golgotha for my salvation. It pleads for me. For His sake, accept my offering. Many are my sins, but greater is Your mercy. When placed on a scale, Your mercy prevails over the weight of the mountains known only to You. Consider the sin and consider the atonement; the atonement is greater and exceeds the sin. Your beloved Son sustained the nails and the lance because of my sins so in His sufferings You are satisfied and I live.'},
+  obtainGraces:{name:'Prayer to Obtain Graces',type:'Concluding Prayer',text:"Lord, infinitely holy and glorified in Your saints, You have inspired Charbel, the saint monk, to lead the perfect life of a hermit. We thank You for granting him the blessing and the strength to detach himself from the world so that the heroism of the monastic virtues of poverty, chastity, and obedience might triumph in his hermitage. We beseech You to grant us the grace of loving and serving You, following his example. Almighty God, who have manifested the power of Saint Charbel's intercession through his countless miracles and favors, grant us this grace (here mention your intention) which we request from You through his intercession. Amen."},
+  mercyOpening:{name:'You Expired, Jesus',type:'Optional Opening Prayer',text:'You expired, Jesus, but the source of life gushed forth for souls, and the ocean of mercy opened up for the whole world. O Fount of Life, unfathomable Divine Mercy, envelop the whole world and empty Yourself out upon us.'},
+  bloodAndWater:{name:'O Blood and Water · 3x',type:'Optional Opening Prayer',spokenText:'O Blood and Water, which gushed forth from the Heart of Jesus as a fount of mercy for us, I trust in You! O Blood and Water, which gushed forth from the Heart of Jesus as a fount of mercy for us, I trust in You! O Blood and Water, which gushed forth from the Heart of Jesus as a fount of mercy for us, I trust in You!',text:'O Blood and Water, which gushed forth from the Heart of Jesus as a fount of mercy for us, I trust in You!'},
+  eternalFather:{name:'Eternal Father',type:'Large Bead',text:'Eternal Father, I offer You the Body and Blood, Soul and Divinity of Your Dearly Beloved Son, Our Lord, Jesus Christ, in atonement for our sins and those of the whole world.'},
+  sorrowfulPassion:{name:'For the Sake of His Sorrowful Passion',type:'Small Bead',text:'For the sake of His sorrowful Passion, have mercy on us and on the whole world.'},
+  holyGod:{name:'Holy God · 3x',type:'Concluding Prayer',spokenText:'Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world. Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world. Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world.',text:'Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world.'},
+  eternalGod:{name:'Eternal God',type:'Optional Closing Prayer',text:'Eternal God, in Whom mercy is endless and the treasury of compassion—inexhaustible, look kindly upon us and increase Your mercy in us, that in difficult moments we might not despair nor become despondent, but with great confidence submit ourselves to Your holy will, which is Love and Mercy itself.'}
+};
+const CHAPLETS={
+  stCharbel:{name:'Chaplet of St. Charbel'},
+  divineMercy:{name:'Chaplet of Divine Mercy'}
+};
+const JOYFUL_SCRIPTURAL_MYSTERIES=[
   {type:'First Joyful Mystery',name:'The First Joyful Mystery: The Annunciation of the Lord.',scripture:'“Behold the handmaid of the Lord; be it done to me according to thy word.”',citation:'(Luke 1:38)',image:'images/annunciation.jpg'},
   {type:'Second Joyful Mystery',name:'The Second Joyful Mystery: The Visitation of Mary to Elizabeth.',scripture:'“My soul doth magnify the Lord, and my spirit hath rejoiced in God my Saviour.”',citation:'(Luke 1:46-47)',image:'images/visitation.jpg'},
   {type:'Third Joyful Mystery',name:'The Third Joyful Mystery: The Birth of Jesus.',scripture:'“And she brought forth her firstborn Son, and wrapped Him in swaddling clothes, and laid Him in a manger; because there was no room for them in the inn.”',citation:'(Luke 2:7)',image:'images/nativity.jpg'},
@@ -520,8 +591,8 @@ const COMMUNAL_FIRST_SATURDAY_MYSTERIES=[
 ];
 const SORROWFUL_SCRIPTURAL_MYSTERIES=[
   {type:'First Sorrowful Mystery',name:'The First Sorrowful Mystery: The Agony in the Garden.',scripture:'“Father, if thou wilt, remove this chalice from me: but yet not my will, but thine be done.”',citation:'(Luke 22:42)',image:'images/agony-in-the-garden.jpg'},
-  {type:'Second Sorrowful Mystery',name:'The Second Sorrowful Mystery: The Scourging at the Pillar.',scripture:'“Then he released to them Barabbas, and having scourged Jesus, delivered him unto them to be crucified.”',citation:'(Matthew 27:26)',image:'images/scourging-at-the-pillar.jpg'},
-  {type:'Third Sorrowful Mystery',name:'The Third Sorrowful Mystery: The Crowning with Thorns.',scripture:'“And platting a crown of thorns, they put it upon His head, and a reed in His right hand. And bowing the knee before Him, they mocked Him, saying: Hail, King of the Jews.”',citation:'(Matthew 27:29)',image:'images/crowning-with-thorns.jpg'},
+  {type:'Second Sorrowful Mystery',name:'The Second Sorrowful Mystery: The Scourging at the Pillar.',scripture:'“Then therefore Pilate took Jesus, and scourged Him.”',citation:'(John 19:1)',image:'images/scourging-at-the-pillar.jpg'},
+  {type:'Third Sorrowful Mystery',name:'The Third Sorrowful Mystery: The Crowning with Thorns.',scripture:'“And platting a crown of thorns, they put it upon His head, and a reed in His right hand.”',citation:'(Matthew 27:29)',image:'images/crowning-with-thorns.jpg'},
   {type:'Fourth Sorrowful Mystery',name:'The Fourth Sorrowful Mystery: The Carrying of the Cross.',scripture:'“And bearing His own cross, He went forth to that place which is called Calvary, but in Hebrew Golgotha.”',citation:'(John 19:17)',image:'images/carrying-of-the-cross.jpg'},
   {type:'Fifth Sorrowful Mystery',name:'The Fifth Sorrowful Mystery: The Crucifixion and Death of Jesus.',scripture:'“Jesus therefore, when He had taken the vinegar, said: It is consummated. And bowing His head, He gave up the ghost.”',citation:'(John 19:30)',image:'images/crucifixion.jpg'}
 ];
@@ -540,50 +611,79 @@ const GLORIOUS_SCRIPTURAL_MYSTERIES=[
   {type:'Fifth Glorious Mystery',name:'The Fifth Glorious Mystery: The Coronation of Mary as Queen of Heaven and Earth.',scripture:'“And a great sign appeared in heaven: A woman clothed with the sun, and the moon under her feet, and on her head a crown of twelve stars.”',citation:'(Revelation 12:1)',image:'images/coronation-of-mary.jpg'}
 ];
 const SCRIPTURAL_MYSTERY_SETS={
-  joyful:COMMUNAL_FIRST_SATURDAY_MYSTERIES,
+  joyful:JOYFUL_SCRIPTURAL_MYSTERIES,
   sorrowful:SORROWFUL_SCRIPTURAL_MYSTERIES,
   glorious:GLORIOUS_SCRIPTURAL_MYSTERIES,
   luminous:LUMINOUS_SCRIPTURAL_MYSTERIES
 };
-const state={mystery:null,rosary:'scriptural',decades:10,standardDecades:10,beads:[],index:0,intention:'',showingIntention:false,startedAt:0,timer:null,wakeLock:null,commonPrayer:false,commonKey:null,studyingMystery:false,studyMysteryKey:null,lineCount:0,readMode:false,currentUtterance:null,readVoices:[],selectedVoiceURI:'',tapStart:null,hintShown:false,hintTimer:null,flashTimer:null,menuReturnFocus:null};
+const state={mystery:null,rosary:'scriptural',style:'darrah',beads:[],index:0,intention:'',showingIntention:false,startedAt:0,timer:null,wakeLock:null,commonPrayer:false,commonKey:null,chaplet:false,chapletKey:null,studyingMystery:false,studyMysteryKey:null,lineCount:0,readMode:false,currentUtterance:null,readVoices:[],selectedVoiceURI:'',tapStart:null,hintShown:false,hintTimer:null,flashTimer:null,menuReturnFocus:null};
 const $=id=>document.getElementById(id);
 function init(){selectToday();loadReadVoices();setupPageTurns();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&screenIs('prayer'))requestWakeLock();});document.addEventListener('keydown',e=>{if(isMobileMenuOpen()){if(e.key==='Escape'){e.preventDefault();closeMobileMenu();}return;}if(!screenIs('prayer'))return;const active=document.activeElement;const tag=active&&active.tagName;if(tag==='TEXTAREA'||tag==='INPUT'||tag==='SELECT'||active?.isContentEditable)return;if((e.key===' '||e.key==='Spacebar')&&!(active&&active.closest&&active.closest('button,a,label,summary'))){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();flashPageTurn('left');prevBead();}});if(supportsReadAloud()&&'onvoiceschanged' in speechSynthesis){speechSynthesis.onvoiceschanged=loadReadVoices;}}
 function setupPageTurns(){document.addEventListener('pointerdown',e=>{if(!screenIs('prayer')||isMobileMenuOpen()||e.pointerType==='mouse'&&e.button!==0||isInteractiveTap(e.target))return;state.tapStart={x:e.clientX,y:e.clientY,t:Date.now(),id:e.pointerId};},{passive:true});document.addEventListener('pointercancel',()=>{state.tapStart=null;},{passive:true});document.addEventListener('pointerup',e=>{const s=state.tapStart;state.tapStart=null;if(!screenIs('prayer')||isMobileMenuOpen()||!s||isInteractiveTap(e.target))return;if(e.pointerId!==undefined&&s.id!==undefined&&e.pointerId!==s.id)return;if(Math.abs(e.clientX-s.x)>12||Math.abs(e.clientY-s.y)>12||Date.now()-s.t>700)return;if(window.getSelection&&String(window.getSelection()).length)return;const w=window.innerWidth||document.documentElement.clientWidth;const x=e.clientX;if(x<=w*.35){e.preventDefault();flashPageTurn('left');prevBead();}else if(x>=w*.65){e.preventDefault();flashPageTurn('right');nextBead();}},{passive:false});}
 function isInteractiveTap(target){return !!(target&&target.closest&&target.closest('button,a,input,select,textarea,audio,video,label,summary,details,[role="button"],[contenteditable="true"],[data-interactive],.manual-nav,.card-controls,.read-voice-settings,.drawer,.mobile-prayer-dock,.mobile-menu-sheet,.mobile-menu-backdrop'))}
 function flashPageTurn(side){const el=$(side==='left'?'tap-flash-left':'tap-flash-right');if(!el)return;clearTimeout(state.flashTimer);el.classList.add('show');state.flashTimer=setTimeout(()=>el.classList.remove('show'),180)}
 function showTapHint(){const hint=$('tap-hint');if(!hint||state.hintShown)return;state.hintShown=true;hint.classList.add('show');clearTimeout(state.hintTimer);state.hintTimer=setTimeout(()=>hint.classList.remove('show'),4600)}
-function selectToday(){const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];const d=new Date().getDay();const m=[null,'joyful','sorrowful','glorious','luminous','sorrowful',COMMUNAL_FIRST_SATURDAY_DOMINICAN][d]||'glorious';selectMystery(m);$('today-kicker').textContent=`${days[d]} · Today`;}
-function isCommunalFirstSaturday(mystery){return mystery===COMMUNAL_FIRST_SATURDAY||mystery===COMMUNAL_FIRST_SATURDAY_DOMINICAN;}
-function selectMystery(val){const wasCommunal=isCommunalFirstSaturday(state.mystery);const isCommunal=isCommunalFirstSaturday(val);if(isCommunal){if(!wasCommunal)state.standardDecades=state.decades;state.mystery=val;state.decades=5;}else{state.mystery=val;if(wasCommunal)state.decades=state.standardDecades;}const sel=$('mystery-select');if(sel)sel.value=val;const length=$('length-select');if(length){length.disabled=isCommunal;length.value=String(state.decades);}updateSummary();}
-function selectLength(val){if(isCommunalFirstSaturday(state.mystery))return;const n=Number(val);state.decades=n===10?10:(n===5?5:1);state.standardDecades=state.decades;const sel=$('length-select');if(sel)sel.value=String(state.decades);updateSummary();}
-function updateSummary(){if(isCommunalFirstSaturday(state.mystery)){const dominican=state.mystery===COMMUNAL_FIRST_SATURDAY_DOMINICAN;$('hero-mystery').textContent=dominican?'Dominican Communal First Saturday':'Communal First Saturday';$('hero-days').textContent='Joyful Mysteries · Five decades';$('hero-meta').textContent='Special opening · Scriptural mysteries · Four-part conclusion';$('start-btn').disabled=false;return;}const m=state.mystery?MYSTERIES[state.mystery]:null;$('hero-mystery').textContent=m?m.name:'Choose your mysteries';$('hero-days').textContent=m?m.days:'Select a set below';const form=state.rosary==='scriptural'?'Scriptural':'Dominican';const style=state.decades===1?'One decade':state.decades===5?'Five decades':'The Darrah Family Rosary';$('hero-meta').textContent=`${form} · ${style}`;$('start-btn').disabled=!state.mystery;}
+function selectToday(){const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];const d=new Date().getDay();const m=[null,'joyful','sorrowful','glorious','luminous','sorrowful','joyful'][d]||'glorious';selectMystery(m);selectStyle(d===6?'dominican':'darrah');$('today-kicker').textContent=`${days[d]} · Today`;}
+function selectMystery(val){state.mystery=MYSTERIES[val]?val:'joyful';const sel=$('mystery-select');if(sel)sel.value=state.mystery;updateSummary();}
+function selectStyle(val){state.style=['one','five','darrah','dominican'].includes(val)?val:'darrah';const sel=$('style-select');if(sel)sel.value=state.style;updateSummary();}
+function updateSummary(){const m=state.mystery?MYSTERIES[state.mystery]:null;$('hero-mystery').textContent=m?m.name:'Choose your mysteries';$('hero-days').textContent=m?m.days:'Select a set below';const styles={one:'One decade',five:'Five decades',darrah:'The Darrah Family Rosary',dominican:'Dominican'};$('hero-meta').textContent=`Scriptural · ${styles[state.style]||styles.darrah}`;$('start-btn').disabled=!state.mystery;}
 function mysteryLabel(set,index){const ord=['First','Second','Third','Fourth','Fifth'][index]||String(index+1);return `The ${ord} ${set.singular} Mystery`;}
 function mysteryCardBead(setKey,set,index,scriptural=true){const exact=scriptural&&SCRIPTURAL_MYSTERY_SETS[setKey]?SCRIPTURAL_MYSTERY_SETS[setKey][index]:null;if(exact)return {kind:'mystery',name:exact.name,type:exact.type,desire:exact.scripture,meditation:exact.citation,image:exact.image,spokenText:`${exact.type}. ${exact.name} ${exact.scripture} ${exact.citation}`};const mystery=set.list[index];return {kind:'mystery',name:mystery[0],type:mysteryLabel(set,index),desire:mystery[1],meditation:mystery[2],image:mystery[3]};}
 function markBeads(beads){return beads.map((bead,index)=>({...bead,mapType:bead.mapType||mapTypeForBead(bead),groupStart:index>0&&bead.group!==beads[index-1].group}));}
 function mapTypeForBead(bead){if(bead.kind==='intention')return 'chain';if(bead.name==="Apostles' Creed")return 'cross';if(bead.name==='Our Father'||bead.kind==='mystery')return 'large';if(bead.name==='Hail Mary')return 'small';return 'chain';}
 function communalResponsePrayer(prayer,reversed=false){if(!reversed)return prayer;return {...prayer,text:prayer.text.replace(/^V:/,'R:').replace(/\nR:/,'\nV:')};}
 function dominicanRolePrayer(prayer,dominican=false){if(!dominican)return prayer;const rename=text=>text.replace(/^V[.:]\s*/gm,'Leader: ').replace(/^R[.:]\s*/gm,'Response: ');return {...prayer,text:rename(prayer.text),spokenText:prayer.spokenText?rename(prayer.spokenText):prayer.spokenText};}
-function buildCommunalFirstSaturdayBeads(dominican=false){const b=[];const prayers=COMMUNAL_FIRST_SATURDAY_PRAYERS;const opening=dominicanRolePrayer(prayers.opening,dominican);const preparedOpening=dominican?{...opening,text:`Leader: We will now pray the Rosary with the intention of making reparation to the Immaculate Heart of Mary.
-
-${opening.text}`}:opening;b.push({...preparedOpening,group:'special-opening',mapType:'cross'});if(!dominican){b.push({...PRAYERS.apostlesCreed,group:'opening'});b.push({...prayers.ourFather,type:'Opening Prayer',group:'opening',mapType:'large'});for(let i=0;i<3;i++)b.push({...prayers.hailMary,type:['For faith','For hope','For charity'][i],group:'opening'});b.push({...prayers.gloryBe,type:'Opening Prayer',group:'opening'});}b.push({...dominicanRolePrayer(prayers.invitation,dominican),group:'invitation'});COMMUNAL_FIRST_SATURDAY_MYSTERIES.forEach((m,mi)=>{const group=`decade-${mi+1}`;const reversed=mi===1||mi===3;const ourFather=dominicanRolePrayer(communalResponsePrayer(prayers.ourFather,reversed),dominican);const hailMary=dominicanRolePrayer(communalResponsePrayer(prayers.hailMary,reversed),dominican);const gloryBe=dominicanRolePrayer(communalResponsePrayer(prayers.gloryBe,reversed),dominican);b.push({kind:'mystery',name:m.name,type:m.type,desire:m.scripture,meditation:m.citation,image:m.image,spokenText:`${m.type}. ${m.name} ${m.scripture} ${m.citation}`,group});b.push({...ourFather,type:m.type,group,mapType:'large'});for(let i=0;i<10;i++)b.push({...hailMary,type:`${m.type} · Hail Mary ${i+1} of 10`,group});b.push({...gloryBe,type:m.type,group});b.push({...prayers.fatima,type:m.type,group});});b.push({...dominicanRolePrayer(prayers.hailHolyQueen,dominican),group:'closing'});b.push({...dominicanRolePrayer(prayers.collect,dominican),group:'closing'});if(dominican)b.push({name:'After the Rosary',type:'Communal First Saturday',progressTitle:'After the Rosary',preserveLines:true,paragraphBreaks:true,text:`To fulfill Our Lady's request to meditate for 15 minutes on the mysteries of the Rosary, we will have a 15-minute Adoration immediately following Mass, offered in reparation for sins committed against the Immaculate Heart of Mary.
-
-We also have our Pilgrim Statue—a smaller version of Our Lady's statue here in the church—available for anyone who would like to invite Mary into their home during month of September. She is already visiting a home this August. If you’re interested, please speak with Ashly after Adoration.`,group:'closing'});return markBeads(b);}
-function buildBeads(){
-  if(isCommunalFirstSaturday(state.mystery))return buildCommunalFirstSaturdayBeads(state.mystery===COMMUNAL_FIRST_SATURDAY_DOMINICAN);
+function buildDominicanBeads(setKey,firstSaturday=new Date().getDay()===6){
   const b=[];
-  if(state.decades===10)b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.opening,true),type:'The Darrah Family Rosary',group:'darrah-opening',mapType:'cross'});
+  const prayers=DOMINICAN_PRAYERS;
+  const set=MYSTERIES[setKey];
+  const mysteries=SCRIPTURAL_MYSTERY_SETS[setKey];
+  const adjective=setKey==='joyful'?'Joyous':set.singular;
+  const opening=dominicanRolePrayer(prayers.opening,true);
+  const preparedOpening=firstSaturday?{...opening,text:`Leader: We will now pray the Rosary with the intention of making reparation to the Immaculate Heart of Mary.
+
+${opening.text}`}:opening;
+  b.push({...preparedOpening,group:'special-opening',mapType:'cross'});
+  const invitationText=`Leader: Let us begin to pray 5 decades of the Rosary, meditating on The ${adjective} Mysteries.`;
+  b.push({...prayers.invitation,name:`The ${adjective} Mysteries`,progressTitle:`The ${adjective} Mysteries`,spokenText:invitationText,text:invitationText,group:'invitation'});
+  mysteries.forEach((m,mi)=>{
+    const group=`decade-${mi+1}`;
+    const reversed=mi===1||mi===3;
+    const ourFather=dominicanRolePrayer(communalResponsePrayer(prayers.ourFather,reversed),true);
+    const hailMary=dominicanRolePrayer(communalResponsePrayer(prayers.hailMary,reversed),true);
+    const gloryBe=dominicanRolePrayer(communalResponsePrayer(prayers.gloryBe,reversed),true);
+    b.push({kind:'mystery',name:m.name,type:m.type,desire:m.scripture,meditation:m.citation,image:m.image,spokenText:`${m.type}. ${m.name} ${m.scripture} ${m.citation}`,group});
+    b.push({...ourFather,type:m.type,group,mapType:'large'});
+    for(let i=0;i<10;i++)b.push({...hailMary,type:`${m.type} · Hail Mary ${i+1} of 10`,group});
+    b.push({...gloryBe,type:m.type,group});
+    b.push({...prayers.fatima,type:m.type,group});
+  });
+  b.push({...dominicanRolePrayer(prayers.hailHolyQueen,true),group:'closing'});
+  b.push({...dominicanRolePrayer(prayers.collect,true),group:'closing'});
+  if(firstSaturday)b.push({name:'After the Rosary',type:'Dominican',progressTitle:'After the Rosary',preserveLines:true,paragraphBreaks:true,text:`To fulfill Our Lady's request to meditate for 15 minutes on the mysteries of the Rosary, we will have a 15-minute Adoration immediately following Mass, offered in reparation for sins committed against the Immaculate Heart of Mary.
+
+We also have our Pilgrim Statue—a smaller version of Our Lady's statue here in the church—available for anyone who would like to invite Mary into their home during month of September. She is already visiting a home this August. If you’re interested, please speak with Ashly after Adoration.`,group:'closing'});
+  return markBeads(b);
+}
+function buildStCharbelChaplet(){const b=[{...CHAPLET_PRAYERS.signOfCross,type:'Chaplet of St. Charbel',group:'opening',mapType:'cross'},{...CHAPLET_PRAYERS.fatherOfTruth,group:'first-white-bead',mapType:'large'}];const sets=[{label:'Red Beads · Poverty',contemplation:"In honor of St. Charbel's fidelity to the vow of poverty."},{label:'Red Beads · Chastity',contemplation:"In honor of St. Charbel's fidelity to the vow of chastity."},{label:'Red Beads · Obedience',contemplation:"In honor of St. Charbel's fidelity to the vow of obedience."},{label:'White Beads · Holy Eucharist',contemplation:"In honor of St. Charbel's love for the Holy Eucharist."},{label:'Blue Beads · Blessed Mother',contemplation:"In honor of St. Charbel's devotion to Our Blessed Mother."}];sets.forEach((set,index)=>{const group=`charbel-set-${index+1}`;b.push({...PRAYERS.ourFather,type:`Black Bead · ${index+1} of 5`,group,mapType:'large'});for(let bead=0;bead<3;bead++)b.push({...PRAYERS.hailMary,type:`${set.label} · Bead ${bead+1} of 3`,contemplation:set.contemplation,group,mapType:'small'});});b.push({...CHAPLET_PRAYERS.obtainGraces,group:'closing',mapType:'chain'});return markBeads(b);}
+function buildDivineMercyChaplet(){const b=[{...CHAPLET_PRAYERS.signOfCross,type:'Chaplet of Divine Mercy',group:'opening',mapType:'cross'},{...CHAPLET_PRAYERS.mercyOpening,group:'optional-opening',mapType:'chain'},{...CHAPLET_PRAYERS.bloodAndWater,group:'optional-opening',mapType:'chain'},{...PRAYERS.ourFather,type:'Opening Prayer',group:'opening-prayers',mapType:'large'},{...PRAYERS.hailMary,type:'Opening Prayer',group:'opening-prayers',mapType:'small'},{...PRAYERS.apostlesCreed,type:'Opening Prayer',group:'opening-prayers',mapType:'cross'}];for(let decade=1;decade<=5;decade++){const group=`mercy-decade-${decade}`;b.push({...CHAPLET_PRAYERS.eternalFather,type:`Decade ${decade} · Large Bead`,group,mapType:'large'});for(let bead=1;bead<=10;bead++)b.push({...CHAPLET_PRAYERS.sorrowfulPassion,type:`Decade ${decade} · Bead ${bead} of 10`,group,mapType:'small'});}b.push({...CHAPLET_PRAYERS.holyGod,group:'closing',mapType:'chain'});b.push({...CHAPLET_PRAYERS.eternalGod,group:'closing',mapType:'chain'});return markBeads(b);}
+function buildChaplet(key){return key==='divineMercy'?buildDivineMercyChaplet():buildStCharbelChaplet();}
+function buildBeads(){
+  if(state.style==='dominican')return buildDominicanBeads(state.mystery);
+  const b=[];
+  if(state.style==='darrah')b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.opening,true),type:'The Darrah Family Rosary',group:'darrah-opening',mapType:'cross'});
   b.push({...PRAYERS.apostlesCreed,group:'opening'});
-  if(state.decades===10)b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.ourFather,true),type:'Opening Prayer',group:'opening',mapType:'large'});
+  if(state.style==='darrah')b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.ourFather,true),type:'Opening Prayer',group:'opening',mapType:'large'});
   else b.push({...PRAYERS.ourFather,type:'Opening Prayer',group:'opening'});
-  if(state.decades===10)b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.hailMary,true),name:'Hail Mary · 3x',type:'Opening Prayer',group:'opening',mapType:'small'});
+  if(state.style==='darrah')b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.hailMary,true),name:'Hail Mary · 3x',type:'Opening Prayer',group:'opening',mapType:'small'});
   else for(let i=0;i<3;i++)b.push({...PRAYERS.hailMary,type:['For faith','For hope','For charity'][i],group:'opening'});
-  if(state.decades===10)b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.gloryBe,true),type:'Opening Prayer',group:'opening'});
+  if(state.style==='darrah')b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.gloryBe,true),type:'Opening Prayer',group:'opening'});
   else b.push({...PRAYERS.gloryBe,type:'Opening Prayer',group:'opening'});
   b.push({kind:'intention',group:'intention'});
   const set=MYSTERIES[state.mystery];
   const mysteries=set.list;
   const scriptural=state.rosary==='scriptural';
-  if(state.decades===1){
+  if(state.style==='one'){
     let hm=0;
     b.push({...PRAYERS.ourFather,type:mysteries[0][0],group:'decade-1'});
     mysteries.forEach((m,mi)=>{
@@ -596,14 +696,14 @@ function buildBeads(){
     });
     b.push({...PRAYERS.gloryBe,type:mysteries[4][0],group:'closing-decade'});
     b.push({...PRAYERS.fatima,type:mysteries[4][0],group:'closing-decade'});
-  }else if(state.decades===10){
+  }else if(state.style==='darrah'){
     mysteries.forEach((m,mi)=>{
       const group=`mystery-${mi+1}`;
       b.push({...mysteryCardBead(state.mystery,set,mi,scriptural),group});
-      b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.hailMary,true),type:m[0],group});
+      b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.hailMary,true),type:m[0],group});
     });
-    b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.gloryBe,true),type:'Closing Prayer',group:'closing-decade'});
-    b.push({...COMMUNAL_FIRST_SATURDAY_PRAYERS.fatima,type:'Closing Prayer',group:'closing-decade'});
+    b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.gloryBe,true),type:'Closing Prayer',group:'closing-decade'});
+    b.push({...DOMINICAN_PRAYERS.fatima,type:'Closing Prayer',group:'closing-decade'});
   }else{
     mysteries.forEach((m,mi)=>{
       const group=`decade-${mi+1}`;
@@ -614,19 +714,20 @@ function buildBeads(){
       b.push({...PRAYERS.fatima,type:m[0],group});
     });
   }
-  if(state.decades===10){
-    b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.hailHolyQueen,true),group:'closing'});
-    b.push({...dominicanRolePrayer(COMMUNAL_FIRST_SATURDAY_PRAYERS.collect,true),group:'closing'});
+  if(state.style==='darrah'){
+    b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.hailHolyQueen,true),group:'closing'});
+    b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.collect,true),group:'closing'});
   }else{
     b.push({...PRAYERS.hailHolyQueen,group:'closing'});
     b.push({...PRAYERS.collect,group:'closing'});
   }
   return markBeads(b);
 }
-function startRosary(){state.commonPrayer=false;state.studyingMystery=false;state.studyMysteryKey=null;state.beads=buildBeads();state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
-function startCommonPrayer(source='common-prayer-select'){const el=$(source);const key=el?el.value:source;state.commonPrayer=true;state.commonKey=key;state.studyingMystery=false;state.studyMysteryKey=null;state.beads=[PRAYERS[key]||PRAYERS.comeHolySpirit];state.index=0;state.intention='';state.startedAt=Date.now();showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
+function startRosary(){state.commonPrayer=false;state.chaplet=false;state.chapletKey=null;state.studyingMystery=false;state.studyMysteryKey=null;state.beads=buildBeads();state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
+function startCommonPrayer(source='common-prayer-select'){const el=$(source);const key=el?el.value:source;state.commonPrayer=true;state.commonKey=key;state.chaplet=false;state.chapletKey=null;state.studyingMystery=false;state.studyMysteryKey=null;state.beads=[PRAYERS[key]||PRAYERS.comeHolySpirit];state.index=0;state.intention='';state.startedAt=Date.now();showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
+function startChaplet(source='chaplet-select'){const el=$(source);const key=el?el.value:source;if(!CHAPLETS[key])return;state.commonPrayer=false;state.commonKey=null;state.chaplet=true;state.chapletKey=key;state.studyingMystery=false;state.studyMysteryKey=null;state.beads=buildChaplet(key);state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function mysteryStudyBead(setKey,set,index){return {...mysteryCardBead(setKey,set,index,true),group:`mystery-study-${index+1}`};}
-function startMysteryStudy(source='mystery-study-select'){const el=$(source);const key=el?el.value:source;const [setKey,indexValue]=String(key).split(':');const set=MYSTERIES[setKey];if(!set)return;const indices=indexValue==='all'?set.list.map((_,index)=>index):[Number(indexValue)];if(indices.some(index=>!Number.isInteger(index)||!set.list[index]))return;state.commonPrayer=false;state.commonKey=null;state.studyingMystery=true;state.studyMysteryKey=key;state.beads=markBeads(indices.map(index=>mysteryStudyBead(setKey,set,index)));state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
+function startMysteryStudy(source='mystery-study-select'){const el=$(source);const key=el?el.value:source;const [setKey,indexValue]=String(key).split(':');const set=MYSTERIES[setKey];if(!set)return;const indices=indexValue==='all'?set.list.map((_,index)=>index):[Number(indexValue)];if(indices.some(index=>!Number.isInteger(index)||!set.list[index]))return;state.commonPrayer=false;state.commonKey=null;state.chaplet=false;state.chapletKey=null;state.studyingMystery=true;state.studyMysteryKey=key;state.beads=markBeads(indices.map(index=>mysteryStudyBead(setKey,set,index)));state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function showScreen(name){if(name!=='prayer')closeMobileMenu(false);document.body.classList.toggle('prayer-active',name==='prayer');['setup','prayer','complete'].forEach(s=>{const el=$('screen-'+s);const active=s===name;el.classList.toggle('active',active);el.hidden=!active;el.setAttribute('aria-hidden',String(!active));});const hdr=$('app-header');if(hdr)hdr.hidden=name!=='setup';$('screen-'+name).focus({preventScroll:true});if(name!=='prayer'){stopReadAloud();releaseWakeLock();updatePrayerFollowing();}}
 function screenIs(name){return $('screen-'+name).classList.contains('active')}
 function renderBead(focus=false){const bead=state.beads[state.index];state.showingIntention=bead&&bead.kind==='intention';const pcard=$('prayer-card');pcard.classList.toggle('intention-active',state.showingIntention);$('intention-card').hidden=!state.showingIntention;$('mystery-art').hidden=true;$('prayer-type').hidden=false;$('prayer-name').hidden=false;$('prayer-text').hidden=false;$('prayer-contemplation').hidden=true;if(state.showingIntention){$('prayer-type').textContent='';$('prayer-name').textContent='';$('prayer-text').innerHTML='';}else{if(bead.kind==='mystery'){renderMystery(bead)}else{renderPrayer(bead)}}renderIntention();updatePrayerFollowing();updateProgress();showTapHint();persistSession();if(state.readMode)readCurrentBead();if(focus)pcard.focus({preventScroll:true});pcard.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});}
@@ -641,9 +742,9 @@ function updateProgress(){const total=state.beads.length;const bead=state.beads[
 function progressTitle(bead){if(!bead)return 'Prayer';if(bead.progressTitle)return bead.progressTitle;if(bead.kind==='intention')return 'Intentions';if(bead.kind==='mystery')return bead.type;return bead.type&&bead.type!=='Prayer'?bead.type:bead.name;}
 function renderRosaryMap(total){const beads=$('rosary-beads');const fill=$('rosary-map-fill');if(!beads||!fill)return;if(!total){beads.innerHTML='';fill.style.width='0%';return;}const pct=Math.round(((state.index+1)/total)*100);fill.style.width=pct+'%';beads.innerHTML=state.beads.map((bead,index)=>{const classes=['rosary-dot',bead.mapType||'small'];if(bead.groupStart)classes.push('group-start');if(index<state.index)classes.push('passed');if(index===state.index)classes.push('current');return `<span class="${classes.join(' ')}"></span>`;}).join('');}
 function startTimer(){clearInterval(state.timer);state.timer=null}
-function completeRosary(){clearInterval(state.timer);stopReadAloud();releaseWakeLock();localStorage.removeItem('rosary-v2-session');if(state.studyingMystery){const [setKey,indexValue]=String(state.studyMysteryKey||'').split(':');const set=MYSTERIES[setKey];const mystery=state.beads[0];$('complete-summary').textContent=indexValue==='all'&&set?`You have reviewed all five ${set.singular} Mysteries.`:(mystery?`You have reviewed ${mystery.name}.`:'You have reviewed this mystery.');}else if(!state.commonPrayer&&isCommunalFirstSaturday(state.mystery)){const dominican=state.mystery===COMMUNAL_FIRST_SATURDAY_DOMINICAN;$('complete-summary').textContent=dominican?'You have prayed the Dominican Communal First Saturday Rosary.':'You have prayed the Communal First Saturday Rosary.';}else{const m=!state.commonPrayer&&state.mystery?MYSTERIES[state.mystery]:null;$('complete-summary').textContent=m?`You have prayed the ${m.singular} Mysteries.`:'You have completed this prayer.';}showScreen('complete');}
+function completeRosary(){clearInterval(state.timer);stopReadAloud();releaseWakeLock();localStorage.removeItem('rosary-v2-session');if(state.studyingMystery){const [setKey,indexValue]=String(state.studyMysteryKey||'').split(':');const set=MYSTERIES[setKey];const mystery=state.beads[0];$('complete-summary').textContent=indexValue==='all'&&set?`You have reviewed all five ${set.singular} Mysteries.`:(mystery?`You have reviewed ${mystery.name}.`:'You have reviewed this mystery.');}else if(state.chaplet){$('complete-summary').textContent=`You have prayed the ${CHAPLETS[state.chapletKey]?.name||'chaplet'}.`;}else{const m=!state.commonPrayer&&state.mystery?MYSTERIES[state.mystery]:null;$('complete-summary').textContent=m?(state.style==='dominican'?`You have prayed the ${m.singular} Mysteries in the Dominican style.`:`You have prayed the ${m.singular} Mysteries.`):'You have completed this prayer.';}showScreen('complete');}
 function backToPrayer(){if(!state.beads.length){showSetup();return;}showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
-function restartCurrentSession(){if(state.studyingMystery)startMysteryStudy(state.studyMysteryKey||'mystery-study-select');else if(state.commonPrayer)startCommonPrayer(state.commonKey||'common-prayer-select');else startRosary()}
+function restartCurrentSession(){if(state.studyingMystery)startMysteryStudy(state.studyMysteryKey||'mystery-study-select');else if(state.chaplet)startChaplet(state.chapletKey||'chaplet-select');else if(state.commonPrayer)startCommonPrayer(state.commonKey||'common-prayer-select');else startRosary()}
 function showSetup(){clearInterval(state.timer);showScreen('setup');}
 
 function isMobileMenuOpen(){return !!($('mobile-menu-sheet')&&!$('mobile-menu-sheet').hidden)}
@@ -735,7 +836,7 @@ function stopReadAloud(updateButton=true){if(supportsReadAloud()){try{window.spe
 function setVoiceStatus(msg,warn=false){const el=$('voice-status');el.textContent=msg;el.classList.toggle('warn',warn)}
 async function requestWakeLock(){if(!('wakeLock'in navigator)||!screenIs('prayer'))return;try{state.wakeLock=await navigator.wakeLock.request('screen');}catch(e){}}
 function releaseWakeLock(){if(state.wakeLock){state.wakeLock.release().catch(()=>{});state.wakeLock=null}}
-function persistSession(){if(!state.beads.length||!state.startedAt)return;try{localStorage.setItem('rosary-v2-session',JSON.stringify({mystery:state.mystery,rosary:state.rosary,decades:state.decades,index:state.index,intention:state.intention,startedAt:state.startedAt,commonPrayer:state.commonPrayer,commonKey:state.commonPrayer?state.commonKey:null,studyingMystery:state.studyingMystery,studyMysteryKey:state.studyingMystery?state.studyMysteryKey:null}))}catch(e){}}
+function persistSession(){if(!state.beads.length||!state.startedAt)return;try{localStorage.setItem('rosary-v2-session',JSON.stringify({mystery:state.mystery,rosary:state.rosary,style:state.style,index:state.index,intention:state.intention,startedAt:state.startedAt,commonPrayer:state.commonPrayer,commonKey:state.commonPrayer?state.commonKey:null,chaplet:state.chaplet,chapletKey:state.chaplet?state.chapletKey:null,studyingMystery:state.studyingMystery,studyMysteryKey:state.studyingMystery?state.studyMysteryKey:null}))}catch(e){}}
 function escapeHtml(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 init();
 </script>
