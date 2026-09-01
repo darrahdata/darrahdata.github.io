@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rosary-usage-analytics",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-08-31",
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "ALLOWED_ORIGINS": "https://darrahdata.github.io,http://127.0.0.1:4176,http://localhost:4176",
+    "ANALYTICS_TIMEZONE": "America/Los_Angeles"
+  },
+  "secrets": {
+    "required": [
+      "DASHBOARD_PASSWORD",
+      "SESSION_SECRET",
+      "HASH_SALT"
+    ]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "rosary-analytics",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID"
+    }
+  ]
+}

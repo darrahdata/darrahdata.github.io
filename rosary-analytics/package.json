@@ -1,0 +1,16 @@
+{
+  "name": "rosary-usage-analytics",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 execute rosary-analytics --local --file=./schema.sql",
+    "db:remote": "wrangler d1 execute rosary-analytics --remote --file=./schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

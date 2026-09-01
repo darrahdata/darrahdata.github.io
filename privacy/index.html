@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy &amp; Analytics — darrahdata</title>
+<meta name="description" content="Privacy and analytics notice for darrahdata and The Rosary.">
+<meta name="theme-color" content="#100d09">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#100d09;--surface:#1b1711;--text:#efe8d8;--soft:#c9bca5;--muted:#91846f;--gold:#c9a96c;--gold-light:#e0ca98;--line:rgba(201,169,108,.2);--green:#9fb28c}
+*{box-sizing:border-box}html{background:var(--bg);color-scheme:dark}body{margin:0;min-height:100dvh;color:var(--text);font-family:Lora,Georgia,serif;background:linear-gradient(rgba(201,169,108,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,108,.04) 1px,transparent 1px),radial-gradient(90% 60% at 50% -10%,rgba(201,169,108,.11),transparent 65%),var(--bg);background-size:44px 44px,44px 44px,auto,auto;padding:clamp(1rem,4vw,3rem)}
+a{color:var(--gold-light);text-underline-offset:.2em}.shell{width:min(820px,100%);margin:auto}.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:clamp(2rem,6vw,4.5rem)}.brand{text-decoration:none;text-transform:lowercase;letter-spacing:.22em;font-size:.82rem}.back{color:var(--muted);font-size:.8rem}
+.eyebrow{color:var(--gold);font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;margin:0 0 .75rem}h1,h2{font-family:'Cormorant Garamond',serif;font-weight:400}h1{font-size:clamp(3rem,10vw,5.4rem);line-height:.95;margin:0 0 1rem}h2{font-size:1.8rem;margin:0 0 .65rem;color:var(--gold-light)}.intro{color:var(--soft);font-size:1.05rem;line-height:1.8;max-width:670px}.updated{color:var(--muted);font-size:.76rem;margin-top:1rem}
+.notice{margin:2rem 0 1rem;border:1px solid rgba(201,169,108,.32);border-radius:20px;padding:clamp(1.2rem,4vw,2rem);background:linear-gradient(145deg,rgba(201,169,108,.06),transparent 48%),var(--surface)}.notice-label{color:var(--gold);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase}.notice p,.section p,.section li{color:var(--soft);line-height:1.75}.notice strong,.section strong{color:var(--text);font-weight:500}.section{border-top:1px solid var(--line);padding:1.7rem 0}.section ul{padding-left:1.25rem;margin:.6rem 0}.section li+li{margin-top:.5rem}
+.choice{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:1.3rem;margin:1rem 0 2rem}.choice-row{display:flex;gap:1rem;justify-content:space-between;align-items:center}.choice p{margin:.35rem 0 0;color:var(--muted);font-size:.84rem;line-height:1.55}.toggle{border:1px solid var(--gold);border-radius:999px;background:var(--gold);color:#171108;padding:.7rem 1rem;min-width:150px;font:500 .86rem Lora,serif;cursor:pointer}.toggle.opted-out{background:transparent;color:var(--gold-light)}.status{display:inline-flex;align-items:center;gap:.45rem;color:var(--green);font-size:.76rem}.status::before{content:'●';font-size:.48rem}
+footer{border-top:1px solid var(--line);padding-top:1.5rem;margin-top:1rem;color:var(--muted);font-size:.74rem;line-height:1.7}@media(max-width:560px){.choice-row{align-items:flex-start;flex-direction:column}.toggle{width:100%}.topbar{align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar"><a class="brand" href="/">darrahdata</a><a class="back" href="/rosary-v2/">Return to The Rosary</a></header>
+  <main>
+    <p class="eyebrow">Privacy &amp; analytics</p>
+    <h1>A quiet record,<br>kept lightly.</h1>
+    <p class="intro">The Rosary uses limited, pseudonymous analytics to understand whether the companion is useful. It does not ask for your name, email, prayer intentions, or the words you pray.</p>
+    <p class="updated">Effective and last updated August 31, 2026</p>
+
+    <section class="notice" aria-labelledby="notice-title">
+      <p class="notice-label">Notice at collection</p>
+      <h2 id="notice-title">What is collected and why</h2>
+      <p><strong>Internet or electronic activity:</strong> a page view, the kind of prayer opened or completed, and selected Rosary mystery or style. The server briefly processes the request IP address and browser user-agent to create pseudonymous identifiers, but the app database does not store either raw value.</p>
+      <p><strong>Purpose:</strong> measure daily use, distinguish new and returning use, understand which prayer features are helpful, maintain security, and improve the app. This information is not used for advertising.</p>
+      <p><strong>Retention:</strong> daily identifiers are deleted after three days. Rolling identifiers are deleted after 30 days of inactivity. Aggregate daily counts are retained for historical trends.</p>
+    </section>
+
+    <section class="choice" aria-labelledby="choice-title">
+      <div class="choice-row">
+        <div><span class="status" id="tracking-status">Analytics are allowed</span><p id="choice-title">Your choice is saved only in this browser. Global Privacy Control is honored automatically.</p></div>
+        <button class="toggle" id="tracking-toggle" type="button">Turn analytics off</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What is not collected</h2>
+      <ul>
+        <li>No names, email addresses, accounts, prayer intentions, or prayer text.</li>
+        <li>No raw IP address or user-agent is stored in the analytics database.</li>
+        <li>No precise location, advertising identifier, contact list, or cross-site browsing history.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>New and returning users</h2>
+      <p>A salted one-way identifier is derived from the network address and browser user-agent. It is used only to estimate whether a visitor is new or has returned during the prior 30 days. It can change when a person changes device, browser, or network, so the dashboard shows estimates—not identified people.</p>
+    </section>
+
+    <section class="section">
+      <h2>Sharing and service providers</h2>
+      <p>Personal information is not sold or shared for cross-context behavioral advertising. Cloudflare provides the analytics service and database infrastructure and may process request metadata to deliver and secure that service. GitHub hosts the public website.</p>
+    </section>
+
+    <section class="section">
+      <h2>Your California privacy choices</h2>
+      <p>You may turn analytics off above, or enable Global Privacy Control in a compatible browser. Depending on applicable law, California residents may also have rights to know, correct, delete, or limit certain uses of personal information, and to receive equal service when exercising those rights.</p>
+      <p>To ask a privacy question or make a request, contact John Darrah through the <a href="https://www.linkedin.com/in/john-darrah-19019079">LinkedIn profile</a> linked on the home page. Please do not include prayer intentions or other sensitive information. Because the analytics are pseudonymous and are not linked to a name, it may not be possible to identify a particular visitor’s record.</p>
+    </section>
+  </main>
+  <footer>This notice describes the current analytics design for darrahdata and The Rosary. Material changes will be reflected here with a new updated date.</footer>
+</div>
+<script>
+const STORAGE_KEY='rosary-analytics-opt-out';
+const status=document.getElementById('tracking-status');
+const toggle=document.getElementById('tracking-toggle');
+function isOptedOut(){try{return localStorage.getItem(STORAGE_KEY)==='1';}catch(error){return false;}}
+function renderChoice(){const gpc=navigator.globalPrivacyControl===true;const optedOut=isOptedOut();const off=gpc||optedOut;status.textContent=gpc?'Analytics are off · Global Privacy Control':off?'Analytics are off':'Analytics are allowed';toggle.textContent=off&&!gpc?'Turn analytics on':'Turn analytics off';toggle.disabled=gpc;toggle.classList.toggle('opted-out',off);if(gpc)toggle.title='Global Privacy Control is enabled in this browser.';}
+toggle.addEventListener('click',()=>{try{if(isOptedOut())localStorage.removeItem(STORAGE_KEY);else localStorage.setItem(STORAGE_KEY,'1');}catch(error){}renderChoice();});
+renderChoice();
+</script>
+</body>
+</html>

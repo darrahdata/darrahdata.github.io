@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rosary Analytics — darrahdata</title>
+<meta name="description" content="Private usage analytics for the Rosary prayer companion.">
+<meta name="theme-color" content="#100d09">
+<meta name="robots" content="noindex, nofollow">
+<meta name="rosary-analytics-api" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#100d09;--surface:#1b1711;--surface-2:#211c15;--text:#efe8d8;--soft:#c9bca5;
+  --muted:#91846f;--gold:#c9a96c;--gold-light:#e0ca98;--line:rgba(201,169,108,.2);
+  --green:#9fb28c;--red:#d29a8e;--shadow:0 22px 60px rgba(0,0,0,.38);--radius:18px;
+}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--bg);color-scheme:dark}
+body{margin:0;min-height:100dvh;color:var(--text);font-family:Lora,Georgia,serif;background:
+  linear-gradient(rgba(201,169,108,.045) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(201,169,108,.045) 1px,transparent 1px),
+  radial-gradient(100% 70% at 50% -10%,rgba(201,169,108,.1),transparent 62%),var(--bg);
+  background-size:44px 44px,44px 44px,auto,auto;padding:clamp(1rem,3vw,2.5rem)}
+button,input{font:inherit}
+button{cursor:pointer}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.shell{width:min(1120px,100%);margin:0 auto}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem}
+.brand{color:var(--gold-light);letter-spacing:.24em;text-transform:lowercase;text-decoration:none;font-size:.88rem}
+.privacy{display:inline-flex;align-items:center;gap:.45rem;color:var(--muted);font-size:.76rem;letter-spacing:.09em;text-transform:uppercase}
+.privacy::before{content:'●';font-size:.48rem;color:var(--green)}
+.login-wrap{min-height:calc(100dvh - 8rem);display:grid;place-items:center}
+.login-card{width:min(470px,100%);padding:clamp(1.7rem,6vw,3.2rem);border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,rgba(201,169,108,.055),transparent 48%),var(--surface);box-shadow:var(--shadow);text-align:center}
+.lock{width:52px;height:52px;border:1px solid var(--line);border-radius:999px;display:grid;place-items:center;margin:0 auto 1.25rem;color:var(--gold);font-size:1.15rem}
+.eyebrow{color:var(--gold);font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;margin:0 0 .55rem}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:400}
+.login-card h1{font-size:clamp(2.35rem,8vw,3.35rem);margin:0;line-height:1.02}
+.login-copy{color:var(--soft);line-height:1.7;margin:1rem auto 1.65rem;max-width:23rem}
+.field{text-align:left;margin-bottom:.8rem}
+.field label{display:block;color:var(--muted);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;margin:0 0 .45rem}
+.field input{width:100%;border:1px solid var(--line);border-radius:13px;background:#0e0c09;color:var(--text);padding:.92rem 1rem;outline:none}
+.field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,108,.12)}
+.primary{width:100%;border:1px solid var(--gold);border-radius:999px;background:var(--gold);color:#171108;padding:.88rem 1.2rem;font-weight:500}
+.primary:hover{background:var(--gold-light)}
+.primary:disabled{opacity:.55;cursor:wait}
+.message{min-height:1.45rem;color:var(--red);font-size:.82rem;margin:.7rem 0 0}
+.setup-note{border-top:1px solid var(--line);margin-top:1.45rem;padding-top:1.1rem;color:var(--muted);font-size:.77rem;line-height:1.55}
+.setup-note a{color:var(--gold-light)}
+[hidden]{display:none!important}
+.dashboard{padding-bottom:3rem}
+.dashboard-header{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;margin:2.3rem 0 1.4rem}
+.dashboard-header h1{font-size:clamp(2.6rem,7vw,4.6rem);line-height:.95;margin:.2rem 0 0}
+.header-actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;justify-content:flex-end;max-width:680px}
+.range-controls{display:flex;gap:.55rem;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.range{display:flex;border:1px solid var(--line);border-radius:999px;padding:.25rem;background:rgba(0,0,0,.14)}
+.range button,.quiet-btn{border:0;background:transparent;color:var(--muted);padding:.5rem .75rem;border-radius:999px;font-size:.78rem}
+.range button.active{background:var(--surface-2);color:var(--gold-light)}
+.custom-range{display:flex;align-items:center;gap:.4rem;border:1px solid var(--line);border-radius:999px;padding:.25rem .3rem .25rem .7rem;background:rgba(0,0,0,.14);color:var(--muted);font-size:.76rem}
+.custom-range input{width:3.3rem;border:0;border-bottom:1px solid rgba(201,169,108,.32);background:transparent;color:var(--text);padding:.35rem .2rem;text-align:center;outline:none}
+.custom-range select{border:0;background:transparent;color:var(--soft);padding:.35rem .1rem;outline:none}
+.custom-range button{border:0;border-radius:999px;background:var(--surface-2);color:var(--gold-light);padding:.48rem .72rem}
+.dashboard-tabs{display:flex;gap:.25rem;border-bottom:1px solid var(--line);margin:0 0 1rem}
+.dashboard-tabs button{border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);padding:.8rem 1rem;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.dashboard-tabs button.active{color:var(--gold-light);border-bottom-color:var(--gold)}
+.tab-panel{animation:panelIn .25s ease both}@keyframes panelIn{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+.quiet-btn{border:1px solid var(--line)}
+.quiet-btn:hover{color:var(--text);border-color:rgba(201,169,108,.4)}
+.preview-banner{border:1px solid rgba(201,169,108,.36);background:rgba(201,169,108,.08);color:var(--gold-light);padding:.72rem 1rem;border-radius:12px;margin-bottom:1rem;font-size:.82rem}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;margin-bottom:.8rem}
+.card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(150deg,rgba(201,169,108,.035),transparent 50%),var(--surface);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.metric{padding:1.15rem 1.25rem;min-height:135px;display:flex;flex-direction:column;justify-content:space-between}
+.metric-label{color:var(--muted);font-size:.68rem;text-transform:uppercase;letter-spacing:.16em}
+.metric-value{font-family:'Cormorant Garamond',serif;font-size:clamp(2.25rem,5vw,3.15rem);line-height:1;color:var(--gold-light)}
+.metric-note{color:var(--muted);font-size:.72rem}
+.grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,.8fr);gap:.8rem;margin-bottom:.8rem}
+.panel{padding:1.25rem}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.2rem}
+.panel h2{font-size:1.55rem;margin:0}
+.panel-note{color:var(--muted);font-size:.72rem}
+.chart{height:255px;display:flex;align-items:stretch;gap:min(1.1vw,10px);border-bottom:1px solid var(--line);padding:.5rem .15rem 0;overflow:hidden}
+.day{flex:1;min-width:4px;display:flex;flex-direction:row;justify-content:center;align-items:flex-end;gap:2px;position:relative}
+.bar{display:block;width:44%;border-radius:4px 4px 1px 1px;transition:height .25s ease}
+.bar.visitors{background:linear-gradient(180deg,var(--gold-light),var(--gold))}
+.bar.views{background:rgba(159,178,140,.48)}
+.day:hover::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;background:#090806;border:1px solid var(--line);color:var(--text);font-size:.68rem;padding:.4rem .5rem;border-radius:7px;z-index:2}
+.legend{display:flex;gap:1rem;align-items:center;margin-top:.7rem;color:var(--muted);font-size:.68rem}
+.legend span{display:flex;gap:.35rem;align-items:center}.legend i{width:8px;height:8px;border-radius:2px;background:var(--gold);display:block}.legend span+span i{background:var(--green)}
+.legend.returning span:first-child i{background:var(--gold-light)}.legend.returning span+span i{background:var(--green)}
+.bar.new-users{background:linear-gradient(180deg,var(--gold-light),var(--gold))}.bar.returning-users{background:linear-gradient(180deg,#b8c9a7,var(--green))}
+.activity-list,.breakdown{display:grid;gap:.8rem}
+.activity{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding-bottom:.65rem;border-bottom:1px solid rgba(201,169,108,.1)}
+.activity:last-child{border:0;padding-bottom:0}
+.activity-name{color:var(--soft);font-size:.84rem}.activity-value{font-family:'Cormorant Garamond',serif;color:var(--gold-light);font-size:1.5rem}
+.lower{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+.returning-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,.8fr);gap:.8rem}
+.privacy-copy{color:var(--soft);font-size:.84rem;line-height:1.75}.privacy-copy strong{color:var(--gold-light);font-weight:500}.privacy-copy a{color:var(--gold-light)}
+.break-row{display:grid;grid-template-columns:minmax(100px,1fr) 2fr auto;gap:.65rem;align-items:center}
+.break-name{color:var(--soft);font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track{height:7px;border-radius:99px;background:rgba(255,255,255,.045);overflow:hidden}.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-light))}
+.break-count{color:var(--muted);font-size:.72rem;font-variant-numeric:tabular-nums}
+.empty{color:var(--muted);font-size:.82rem;line-height:1.6;padding:.5rem 0}
+.footer{display:flex;justify-content:space-between;gap:1rem;align-items:center;color:var(--muted);font-size:.7rem;margin-top:1rem;padding:.3rem}
+.footer a{color:var(--soft)}
+@media(max-width:850px){.metrics{grid-template-columns:repeat(2,1fr)}.grid,.returning-grid{grid-template-columns:1fr}.lower{grid-template-columns:1fr}.dashboard-header{align-items:flex-start;flex-direction:column}.header-actions,.range-controls{justify-content:flex-start}}
+@media(max-width:520px){body{padding:1rem}.metrics{gap:.6rem}.metric{min-height:122px;padding:1rem}.panel{padding:1rem}.chart{height:210px}.privacy{display:none}.header-actions,.range-controls{width:100%;justify-content:flex-start}.custom-range{width:100%;justify-content:space-between}.dashboard-tabs button{flex:1;padding:.75rem .35rem}.footer{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <a class="brand" href="/">darrahdata</a>
+    <span class="privacy">Private dashboard</span>
+  </header>
+
+  <main>
+    <section class="login-wrap" id="login-view" aria-labelledby="login-title">
+      <div class="login-card">
+        <div class="lock" aria-hidden="true">◇</div>
+        <p class="eyebrow">Rosary usage</p>
+        <h1 id="login-title">Analytics</h1>
+        <p class="login-copy">A quiet, private view of how the Rosary companion is serving people day by day.</p>
+        <form id="login-form">
+          <div class="field">
+            <label for="password">Dashboard password</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required>
+          </div>
+          <button class="primary" id="login-button" type="submit">Open dashboard</button>
+          <p class="message" id="login-message" role="status"></p>
+        </form>
+        <p class="setup-note" id="setup-note" hidden>The secure analytics service has not been connected yet. <a href="?demo=1">View the dashboard preview</a>.</p>
+      </div>
+    </section>
+
+    <section class="dashboard" id="dashboard-view" hidden aria-labelledby="dashboard-title">
+      <div class="dashboard-header">
+        <div>
+          <p class="eyebrow">Rosary usage</p>
+          <h1 id="dashboard-title">Day by day</h1>
+        </div>
+        <div class="header-actions">
+          <div class="range-controls">
+            <div class="range" aria-label="Date range presets">
+              <button type="button" data-range-value="7" data-range-unit="days">7 days</button>
+              <button type="button" data-range-value="30" data-range-unit="days" class="active">30 days</button>
+              <button type="button" data-range-value="90" data-range-unit="days">90 days</button>
+            </div>
+            <form class="custom-range" id="custom-range-form">
+              <span>Last</span>
+              <label class="sr-only" for="range-value">Range amount</label>
+              <input id="range-value" type="number" min="1" max="3650" value="30" inputmode="numeric">
+              <label class="sr-only" for="range-unit">Range unit</label>
+              <select id="range-unit">
+                <option value="days">days</option>
+                <option value="weeks">weeks</option>
+                <option value="months">months</option>
+                <option value="years">years</option>
+              </select>
+              <button type="submit">Apply</button>
+            </form>
+          </div>
+          <button class="quiet-btn" id="logout-button" type="button">Lock</button>
+        </div>
+      </div>
+
+      <div class="preview-banner" id="preview-banner" hidden>Preview mode · These numbers are sample data only.</div>
+
+      <nav class="dashboard-tabs" aria-label="Analytics views">
+        <button type="button" class="active" data-tab="overview" aria-selected="true">Overview</button>
+        <button type="button" data-tab="returning" aria-selected="false">New &amp; returning</button>
+      </nav>
+
+      <section class="tab-panel" id="tab-overview" aria-label="Overview analytics">
+        <div class="metrics">
+          <article class="card metric"><span class="metric-label">Visitors today</span><strong class="metric-value" id="metric-today">—</strong><span class="metric-note" id="metric-today-note">Daily pseudonymous count · Pacific Time</span></article>
+          <article class="card metric"><span class="metric-label">Visitors yesterday</span><strong class="metric-value" id="metric-yesterday">—</strong><span class="metric-note" id="metric-yesterday-note">Compared with today</span></article>
+          <article class="card metric"><span class="metric-label">Page views</span><strong class="metric-value" id="metric-views">—</strong><span class="metric-note" id="metric-views-note">In this period</span></article>
+          <article class="card metric"><span class="metric-label">Rosaries completed</span><strong class="metric-value" id="metric-completed">—</strong><span class="metric-note" id="metric-completed-note">In this period</span></article>
+        </div>
+
+        <div class="grid">
+          <article class="card panel">
+            <div class="panel-head"><h2>Visitors over time</h2><span class="panel-note" id="chart-period">Last 30 days</span></div>
+            <div class="chart" id="daily-chart" aria-label="Visitors and page views over time chart"></div>
+            <div class="legend"><span><i></i>Visitors</span><span><i></i>Page views</span></div>
+          </article>
+          <article class="card panel">
+            <div class="panel-head"><h2>Prayer activity</h2><span class="panel-note">Selected period</span></div>
+            <div class="activity-list" id="activity-list"></div>
+          </article>
+        </div>
+
+        <div class="lower">
+          <article class="card panel"><div class="panel-head"><h2>Mysteries</h2></div><div class="breakdown" id="mystery-breakdown"></div></article>
+          <article class="card panel"><div class="panel-head"><h2>Styles</h2></div><div class="breakdown" id="style-breakdown"></div></article>
+          <article class="card panel"><div class="panel-head"><h2>Chaplets</h2></div><div class="breakdown" id="chaplet-breakdown"></div></article>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="tab-returning" aria-label="New and returning user analytics" hidden>
+        <div class="metrics">
+          <article class="card metric"><span class="metric-label">New users</span><strong class="metric-value" id="metric-new-users">—</strong><span class="metric-note">First seen within the rolling window</span></article>
+          <article class="card metric"><span class="metric-label">Returning users</span><strong class="metric-value" id="metric-returning-users">—</strong><span class="metric-note">Seen on a prior day within 30 days</span></article>
+          <article class="card metric"><span class="metric-label">Returning share</span><strong class="metric-value" id="metric-return-rate">—</strong><span class="metric-note">Of pseudonymous visitor-days</span></article>
+          <article class="card metric"><span class="metric-label">Active profiles</span><strong class="metric-value" id="metric-active-profiles">—</strong><span class="metric-note">Automatically deleted after 30 inactive days</span></article>
+        </div>
+
+        <div class="returning-grid">
+          <article class="card panel">
+            <div class="panel-head"><h2>New users over time</h2><span class="panel-note" id="returning-chart-period">Last 30 days</span></div>
+            <div class="chart" id="returning-chart" aria-label="New and returning users over time chart"></div>
+            <div class="legend returning"><span><i></i>New</span><span><i></i>Returning</span></div>
+          </article>
+          <article class="card panel">
+            <div class="panel-head"><h2>Privacy window</h2><span class="panel-note">California-conscious</span></div>
+            <div class="privacy-copy">
+              <p><strong>No raw IP addresses are stored.</strong> A salted identifier recognizes a browser and network only within a rolling 30-day window.</p>
+              <p>Identifiers are deleted after 30 inactive days. Only aggregate daily counts remain for longer historical ranges.</p>
+              <p><a href="/privacy/">Privacy and analytics notice →</a></p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div class="footer">
+        <span id="updated-at">Waiting for analytics…</span>
+        <span>Pacific Time · <a href="/privacy/">Privacy &amp; analytics</a></span>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const API_BASE=document.querySelector('meta[name="rosary-analytics-api"]').content.replace(/\/$/,'');
+const isDemo=new URLSearchParams(location.search).get('demo')==='1';
+const loginView=document.getElementById('login-view');
+const dashboardView=document.getElementById('dashboard-view');
+const loginForm=document.getElementById('login-form');
+const loginButton=document.getElementById('login-button');
+const loginMessage=document.getElementById('login-message');
+const setupNote=document.getElementById('setup-note');
+const ANALYTICS_TIME_ZONE='America/Los_Angeles';
+const RANGE_LIMITS={days:3650,weeks:520,months:120,years:10};
+let activeRange={value:30,unit:'days'};
+
+loginForm.addEventListener('submit',async event=>{
+  event.preventDefault();
+  if(!API_BASE){setupNote.hidden=false;return;}
+  loginButton.disabled=true;loginMessage.textContent='';
+  try{
+    const response=await fetch(`${API_BASE}/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:document.getElementById('password').value})});
+    const data=await response.json();
+    if(!response.ok)throw new Error(data.error||'Unable to sign in');
+    sessionStorage.setItem('rosary-analytics-token',data.token);
+    document.getElementById('password').value='';
+    await openDashboard();
+  }catch(error){loginMessage.textContent=error.message==='Failed to fetch'?'The analytics service could not be reached.':error.message;}
+  finally{loginButton.disabled=false;}
+});
+
+document.getElementById('logout-button').addEventListener('click',()=>{
+  sessionStorage.removeItem('rosary-analytics-token');
+  dashboardView.hidden=true;loginView.hidden=false;document.getElementById('password').focus();
+});
+
+document.querySelectorAll('[data-range-value]').forEach(button=>button.addEventListener('click',async()=>{
+  activeRange={value:Number(button.dataset.rangeValue),unit:button.dataset.rangeUnit};
+  document.querySelectorAll('[data-range-value]').forEach(item=>item.classList.toggle('active',item===button));
+  document.getElementById('range-value').value=activeRange.value;
+  document.getElementById('range-unit').value=activeRange.unit;
+  await loadAnalytics();
+}));
+
+document.getElementById('custom-range-form').addEventListener('submit',async event=>{
+  event.preventDefault();
+  const unit=document.getElementById('range-unit').value;
+  const requested=Number.parseInt(document.getElementById('range-value').value,10);
+  const value=Math.max(1,Math.min(Number.isFinite(requested)?requested:1,RANGE_LIMITS[unit]));
+  activeRange={value,unit};
+  document.getElementById('range-value').value=value;
+  document.querySelectorAll('[data-range-value]').forEach(item=>item.classList.toggle('active',Number(item.dataset.rangeValue)===value&&item.dataset.rangeUnit===unit));
+  await loadAnalytics();
+});
+
+document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>{
+  const selected=button.dataset.tab;
+  document.querySelectorAll('[data-tab]').forEach(item=>{
+    const active=item===button;
+    item.classList.toggle('active',active);
+    item.setAttribute('aria-selected',String(active));
+  });
+  document.getElementById('tab-overview').hidden=selected!=='overview';
+  document.getElementById('tab-returning').hidden=selected!=='returning';
+}));
+
+async function openDashboard(){
+  loginView.hidden=true;dashboardView.hidden=false;
+  await loadAnalytics();
+}
+
+async function loadAnalytics(){
+  try{
+    const data=isDemo?demoData(activeRange):await fetchAnalytics(activeRange);
+    renderDashboard(data);
+  }catch(error){
+    if(error.message==='Session expired'){
+      sessionStorage.removeItem('rosary-analytics-token');dashboardView.hidden=true;loginView.hidden=false;loginMessage.textContent='Your private session expired. Please enter the password again.';
+    }else document.getElementById('updated-at').textContent='Analytics could not be loaded.';
+  }
+}
+
+async function fetchAnalytics(range){
+  const token=sessionStorage.getItem('rosary-analytics-token');
+  if(!token)throw new Error('Session expired');
+  const query=new URLSearchParams({value:String(range.value),unit:range.unit});
+  const response=await fetch(`${API_BASE}/api/summary?${query}`,{headers:{Authorization:`Bearer ${token}`}});
+  const data=await response.json();
+  if(response.status===401)throw new Error('Session expired');
+  if(!response.ok)throw new Error(data.error||'Analytics unavailable');
+  return data;
+}
+
+function renderDashboard(data){
+  const range=data.range||rangeDetails(activeRange);
+  const daily=fillDays(data.daily||[],range.startDate,range.endDate);
+  const events=data.events||[];
+  const todayKey=dateKey(new Date());
+  const yesterdayKey=dateKey(new Date(Date.now()-86400000));
+  const today=daily.find(row=>row.day===todayKey)||{unique_visitors:0};
+  const yesterday=daily.find(row=>row.day===yesterdayKey)||{unique_visitors:0};
+  const views=daily.reduce((sum,row)=>sum+Number(row.page_views||0),0);
+  const completed=eventTotal(events,'rosary_complete');
+  const started=eventTotal(events,'rosary_start');
+  const newUsers=daily.reduce((sum,row)=>sum+Number(row.new_visitors||0),0);
+  const returningUsers=daily.reduce((sum,row)=>sum+Number(row.returning_visitors||0),0);
+  const classifiedUsers=newUsers+returningUsers;
+  setText('metric-today',formatNumber(today.unique_visitors));
+  setText('metric-yesterday',formatNumber(yesterday.unique_visitors));
+  setText('metric-views',formatNumber(views));
+  setText('metric-completed',formatNumber(completed));
+  const change=Number(yesterday.unique_visitors)?Math.round((Number(today.unique_visitors)-Number(yesterday.unique_visitors))/Number(yesterday.unique_visitors)*100):null;
+  setText('metric-yesterday-note',change===null?'No prior comparison':`${change>=0?'+':''}${change}% today vs. yesterday`);
+  setText('metric-views-note',`Across ${formatNumber(range.dayCount)} days`);
+  setText('metric-completed-note',started?`${Math.round(completed/started*100)}% of Rosaries started`:'No starts yet');
+  setText('chart-period',range.label);
+  setText('returning-chart-period',range.label);
+  setText('metric-new-users',formatNumber(newUsers));
+  setText('metric-returning-users',formatNumber(returningUsers));
+  setText('metric-return-rate',classifiedUsers?`${Math.round(returningUsers/classifiedUsers*100)}%`:'—');
+  setText('metric-active-profiles',formatNumber(data.rolling?.active_profiles||0));
+  renderTimeChart('daily-chart',daily,[
+    {field:'page_views',className:'views',label:'views'},
+    {field:'unique_visitors',className:'visitors',label:'visitors'}
+  ]);
+  renderTimeChart('returning-chart',daily,[
+    {field:'new_visitors',className:'new-users',label:'new'},
+    {field:'returning_visitors',className:'returning-users',label:'returning'}
+  ]);
+  renderActivity(events);
+  renderBreakdown('mystery-breakdown',rollup(events,'mystery'),{joyful:'Joyful',sorrowful:'Sorrowful',glorious:'Glorious',luminous:'Luminous'});
+  renderBreakdown('style-breakdown',rollup(events,'style'),{one:'One decade',five:'Five decades',darrah:'Darrah Family',dominican:'Dominican'});
+  renderBreakdown('chaplet-breakdown',rollup(events,'item','chaplet_start'),{stCharbel:'St. Charbel',divineMercy:'Divine Mercy'});
+  setText('updated-at',`Updated ${new Date(data.generatedAt).toLocaleString([], {dateStyle:'medium',timeStyle:'short'})}`);
+  document.getElementById('preview-banner').hidden=!isDemo;
+}
+
+function renderTimeChart(id,daily,series){
+  const chart=document.getElementById(id);
+  const buckets=groupDaily(daily);
+  const max=Math.max(1,...buckets.flatMap(row=>series.map(item=>Number(row[item.field]||0))));
+  chart.innerHTML=buckets.map(row=>{
+    const values=series.map(item=>Number(row[item.field]||0));
+    const tip=[row.label,...series.map((item,index)=>`${values[index]} ${item.label}`)].join(' · ');
+    const bars=series.map((item,index)=>`<span class="bar ${item.className}" style="height:${values[index]?Math.max(2,values[index]/max*100):0}%"></span>`).join('');
+    return `<div class="day" data-tip="${tip}">${bars}</div>`;
+  }).join('');
+}
+
+function renderActivity(events){
+  const items=[['Rosaries started',eventTotal(events,'rosary_start')],['Rosaries completed',eventTotal(events,'rosary_complete')],['Chaplets started',eventTotal(events,'chaplet_start')],['Common prayers opened',eventTotal(events,'common_prayer_start')],['Mysteries studied',eventTotal(events,'mystery_study_start')]];
+  document.getElementById('activity-list').innerHTML=items.map(([name,value])=>`<div class="activity"><span class="activity-name">${name}</span><strong class="activity-value">${formatNumber(value)}</strong></div>`).join('');
+}
+
+function renderBreakdown(id,values,labels){
+  const container=document.getElementById(id);const entries=Object.entries(values).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length){container.innerHTML='<p class="empty">No activity in this period yet.</p>';return;}
+  const max=Math.max(...entries.map(([,value])=>value),1);
+  container.innerHTML=entries.map(([key,value])=>`<div class="break-row"><span class="break-name">${labels[key]||humanize(key)}</span><span class="track"><span class="fill" style="width:${value/max*100}%"></span></span><span class="break-count">${formatNumber(value)}</span></div>`).join('');
+}
+
+function fillDays(rows,startDate,endDate){
+  const byDay=new Map(rows.map(row=>[row.day,row]));const filled=[];
+  const cursor=new Date(`${startDate}T12:00:00Z`);const end=new Date(`${endDate}T12:00:00Z`);
+  while(cursor<=end){const day=cursor.toISOString().slice(0,10);filled.push(byDay.get(day)||{day,unique_visitors:0,page_views:0,new_visitors:0,returning_visitors:0});cursor.setUTCDate(cursor.getUTCDate()+1);}
+  return filled;
+}
+
+function groupDaily(rows){
+  const size=rows.length<=45?1:rows.length<=370?7:rows.length<=1461?30:90;
+  const grouped=[];
+  for(let index=0;index<rows.length;index+=size){
+    const slice=rows.slice(index,index+size);const first=slice[0];const last=slice[slice.length-1];
+    const sum=field=>slice.reduce((total,row)=>total+Number(row[field]||0),0);
+    grouped.push({day:first.day,label:formatBucketLabel(first.day,last.day),unique_visitors:sum('unique_visitors'),page_views:sum('page_views'),new_visitors:sum('new_visitors'),returning_visitors:sum('returning_visitors')});
+  }
+  return grouped;
+}
+
+function formatBucketLabel(start,end){
+  const options={month:'short',day:'numeric',year:start.slice(0,4)!==dateKey(new Date()).slice(0,4)?'numeric':undefined,timeZone:'UTC'};
+  const first=new Date(`${start}T12:00:00Z`).toLocaleDateString([],options);
+  if(start===end)return first;
+  const last=new Date(`${end}T12:00:00Z`).toLocaleDateString([],options);
+  return `${first}–${last}`;
+}
+function eventTotal(events,name){return events.filter(row=>row.event===name).reduce((sum,row)=>sum+Number(row.count||0),0)}
+function rollup(events,field,event='rosary_start'){return events.filter(row=>row.event===event&&row[field]).reduce((result,row)=>{result[row[field]]=(result[row[field]]||0)+Number(row.count||0);return result},{})}
+function setText(id,value){document.getElementById(id).textContent=value}
+function formatNumber(value){return Number(value||0).toLocaleString()}
+function humanize(value){return String(value).replace(/([a-z])([A-Z])/g,'$1 $2').replace(/[-_]/g,' ').replace(/^./,letter=>letter.toUpperCase())}
+function dateKey(date){const parts=new Intl.DateTimeFormat('en-US',{timeZone:ANALYTICS_TIME_ZONE,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date);const values=Object.fromEntries(parts.map(part=>[part.type,part.value]));return `${values.year}-${values.month}-${values.day}`}
+
+function rangeDetails(range){
+  const endDate=dateKey(new Date());const anchor=new Date(`${endDate}T12:00:00Z`);
+  if(range.unit==='days')anchor.setUTCDate(anchor.getUTCDate()-(range.value-1));
+  if(range.unit==='weeks')anchor.setUTCDate(anchor.getUTCDate()-(range.value*7-1));
+  if(range.unit==='months')anchor.setUTCMonth(anchor.getUTCMonth()-range.value);
+  if(range.unit==='years')anchor.setUTCFullYear(anchor.getUTCFullYear()-range.value);
+  const startDate=anchor.toISOString().slice(0,10);
+  const dayCount=Math.round((new Date(`${endDate}T12:00:00Z`)-new Date(`${startDate}T12:00:00Z`))/86400000)+1;
+  const singular=range.unit.slice(0,-1);
+  return {...range,startDate,endDate,dayCount,label:`Last ${range.value} ${range.value===1?singular:range.unit}`};
+}
+
+function demoData(selectedRange){
+  const range=rangeDetails(selectedRange);const days=range.dayCount;
+  const daily=[];
+  for(let index=days-1;index>=0;index--){const date=new Date(Date.now()-index*86400000);const wave=Math.sin(index*.75)*2;const visitors=Math.max(1,Math.round(7+wave+(index%6===0?4:0)));const returning=Math.min(visitors-1,Math.max(1,Math.round(visitors*(.24+(index%5)*.025))));daily.push({day:dateKey(date),unique_visitors:visitors,page_views:visitors+Math.round(visitors*.65),new_visitors:visitors-returning,returning_visitors:returning});}
+  const scale=Math.max(1,days/30);const count=value=>Math.round(value*scale);
+  return {range,retentionDays:30,generatedAt:new Date().toISOString(),daily,rolling:{active_profiles:138,repeat_profiles:47},events:[
+    {event:'rosary_start',mystery:'joyful',style:'dominican',item:'',count:count(32)},{event:'rosary_start',mystery:'sorrowful',style:'darrah',item:'',count:count(25)},{event:'rosary_start',mystery:'glorious',style:'five',item:'',count:count(19)},{event:'rosary_start',mystery:'luminous',style:'darrah',item:'',count:count(15)},{event:'rosary_complete',mystery:'',style:'',item:'',count:count(61)},{event:'chaplet_start',mystery:'',style:'',item:'divineMercy',count:count(12)},{event:'chaplet_start',mystery:'',style:'',item:'stCharbel',count:count(8)},{event:'common_prayer_start',mystery:'',style:'',item:'',count:count(18)},{event:'mystery_study_start',mystery:'',style:'',item:'',count:count(9)}
+  ]};
+}
+
+if(isDemo){openDashboard();}
+else if(!API_BASE){setupNote.hidden=false;}
+else if(sessionStorage.getItem('rosary-analytics-token')){openDashboard();}
+</script>
+</body>
+</html>
