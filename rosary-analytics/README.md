@@ -4,6 +4,12 @@ The public dashboard shell lives at:
 
 `https://darrahdata.github.io/rosary-analytics/`
 
+The production collection service is deployed at:
+
+`https://rosary-usage-analytics.darrahdata-rosary.workers.dev`
+
+The Cloudflare D1 database is configured in `wrangler.jsonc`. Dashboard and hashing secrets are stored only as encrypted Worker secrets and are not present in this repository.
+
 The analytics data and password verification run in a Cloudflare Worker so that no password, session secret, database credential, IP address, or analytics data is published in the GitHub Pages source.
 
 ## Privacy model
