@@ -32,6 +32,11 @@ test('homepage is responsive, accessible by keyboard, and links to existing apps
     await page.getByRole('link', { name: 'Data', exact: true }).click();
     assert.equal(new URL(page.url()).hash, '#data');
     assert.equal(await page.getByRole('link', { name: 'Open Little Signs' }).count(), 0);
+    assert.equal(await page.getByRole('link', { name: 'Open Baby Signs' }).count(), 0);
+    await page.goto('http://127.0.0.1:8080/baby-signs/#startpath');
+    await page.waitForURL('**/archive/baby-signs/#startpath');
+    await page.getByRole('searchbox', { name: 'Search signs' }).fill('milk');
+    assert.ok(await page.locator('#grid').innerText().then(text => /milk/i.test(text)));
     await page.goto('http://127.0.0.1:8080/little-signs/#/today');
     await page.waitForURL('**/archive/little-signs/#/today');
     await page.getByRole('button', { name: 'Continue', exact: true }).waitFor();
