@@ -39,7 +39,7 @@ img { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; object-fit
 .family-tools { margin-top: 56px; }
 .section-heading h2 { font-size: 32px; }
 .section-heading p { color: var(--muted); font-size: 14px; margin-top: 8px; }
-.tool-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 24px; border-top: 1px solid var(--line); }
+.tool-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 24px; border-top: 1px solid var(--line); }
 .tool { padding: 24px 24px 12px; display: flex; flex-direction: column; align-items: flex-start; }
 .tool:first-child { padding-left: 0; }
 .tool:last-child { padding-right: 0; }

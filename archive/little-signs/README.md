@@ -52,7 +52,7 @@ The production build is created in the `dist` folder.
 Open `vite.config.js` and update this line:
 
 ```js
-const githubPagesBase = "/little-signs/";
+const githubPagesBase = "/archive/little-signs/";
 ```
 
 If your repo is:
@@ -64,7 +64,7 @@ https://github.com/USERNAME/little-signs
 use:
 
 ```js
-const githubPagesBase = "/little-signs/";
+const githubPagesBase = "/archive/little-signs/";
 ```
 
 If your site is a root user site:

@@ -31,5 +31,13 @@ test('homepage is responsive, accessible by keyboard, and links to existing apps
     assert.equal(await page.locator('main').evaluate(el => el === document.activeElement), true);
     await page.getByRole('link', { name: 'Data', exact: true }).click();
     assert.equal(new URL(page.url()).hash, '#data');
+    assert.equal(await page.getByRole('link', { name: 'Open Little Signs' }).count(), 0);
+    await page.goto('http://127.0.0.1:8080/little-signs/#/today');
+    await page.waitForURL('**/archive/little-signs/#/today');
+    await page.getByRole('button', { name: 'Continue', exact: true }).waitFor();
+    for (let i = 0; i < 3; i++) await page.getByRole('button', { name: 'Continue', exact: true }).click();
+    await page.getByRole('button', { name: 'Create my plan', exact: true }).click();
+    await page.getByRole('link', { name: 'Learn', exact: true }).click();
+    await page.locator('.grid-list .sign-card').first().waitFor();
   } finally { await browser.close(); }
 });
