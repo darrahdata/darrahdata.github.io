@@ -29,7 +29,7 @@ const motionClasses = {
   "touch-forehead": "touch"
 };
 
-export default function MotionCoach({ sign, dominantHand = "right" }) {
+export default function MotionCoach({ sign, dominantHand = "right", compact = false }) {
   const [speed, setSpeed] = useState("slow");
   const [playing, setPlaying] = useState(true);
   const [step, setStep] = useState(null);
@@ -60,11 +60,11 @@ export default function MotionCoach({ sign, dominantHand = "right" }) {
   };
 
   return (
-    <section className="motion-coach" aria-labelledby="motion-heading">
+    <section className={`motion-coach ${compact ? "is-compact" : ""}`} aria-labelledby={`motion-heading-${sign.id}-${compact ? "compact" : "full"}`}>
       <div className="motion-heading-row">
         <div>
-          <p className="eyebrow">Motion map</p>
-          <h2 id="motion-heading">See the whole sign</h2>
+          <p className="eyebrow">Illustrated guide</p>
+          <h2 id={`motion-heading-${sign.id}-${compact ? "compact" : "full"}`}>{compact ? `Copy ${sign.word}` : "Watch the movement"}</h2>
         </div>
         <button
           type="button"
@@ -108,10 +108,10 @@ export default function MotionCoach({ sign, dominantHand = "right" }) {
 
       <div className="motion-controls" aria-label="Motion controls">
         <button className={speed === "slow" && step === null ? "selected" : ""} aria-pressed={speed === "slow" && step === null} type="button" onClick={() => play("slow")}>Slow</button>
-        <button className={speed === "normal" && step === null ? "selected" : ""} aria-pressed={speed === "normal" && step === null} type="button" onClick={() => play("normal")}>Normal</button>
-        <button className={step !== null ? "selected" : ""} aria-pressed={step !== null} type="button" onClick={nextStep}>Next step</button>
+        {!compact && <button className={speed === "normal" && step === null ? "selected" : ""} aria-pressed={speed === "normal" && step === null} type="button" onClick={() => play("normal")}>Normal</button>}
+        <button className={step !== null ? "selected" : ""} aria-pressed={step !== null} type="button" onClick={nextStep}>Step</button>
         <button type="button" onClick={() => play(speed)}>Replay</button>
-        <button type="button" aria-pressed={!playing} onClick={() => setPlaying((value) => !value)}>{playing ? "Pause" : "Play"}</button>
+        {!compact && <button type="button" aria-pressed={!playing} onClick={() => setPlaying((value) => !value)}>{playing ? "Pause" : "Play"}</button>}
       </div>
 
       <p className="motion-disclaimer">

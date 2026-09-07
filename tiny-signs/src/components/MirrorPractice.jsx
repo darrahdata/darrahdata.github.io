@@ -71,10 +71,10 @@ export default function MirrorPractice({ sign }) {
       <div className="mirror-intro">
         <div>
           <p className="eyebrow">Optional mirror</p>
-          <h2>Compare your hands</h2>
-          <p>Open your front camera, make {sign.word}, and compare the four checks above. Nothing is recorded, saved, uploaded, or graded.</p>
+          <h2>See yourself beside the guide</h2>
+          <p>Open your front camera, make {sign.word}, and compare the three cues above. Nothing is recorded, saved, uploaded, analyzed, or graded.</p>
         </div>
-        {status === "closed" && <button type="button" className="button secondary" onClick={openCamera}>Open my mirror</button>}
+        {status === "closed" && <button type="button" className="button secondary" onClick={openCamera}>Open private mirror</button>}
       </div>
 
       {status === "requesting" && <p className="camera-status" role="status">Waiting for camera permission…</p>}
@@ -82,7 +82,7 @@ export default function MirrorPractice({ sign }) {
       {(status === "denied" || status === "unavailable") && (
         <div className="camera-fallback" role="status">
           <strong>The camera is optional.</strong>
-          <p>Use a household mirror and the four checks above. You can learn every sign without camera access.</p>
+          <p>Use a household mirror and the three cues above. You can learn every sign without camera access.</p>
           {status === "denied" && <button type="button" className="text-button" onClick={openCamera}>Try again</button>}
         </div>
       )}
