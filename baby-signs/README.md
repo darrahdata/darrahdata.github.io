@@ -23,16 +23,24 @@ Live at `/baby-signs/`.
 - **Slow-motion** for anything that moves too fast to copy.
 - **Mirror mode.** Opens the front camera beside a small looping demo so you can check
   yourself. The video is never recorded, stored, or transmitted — it stays in the page.
-- **Quiz mode**, a sign of the day, search, categories, and progress saved to
-  `localStorage`.
+- **Browse by routine, not category.** A tired parent thinks "we're at breakfast",
+  not "Feeding". Signs are tagged Mealtime · Bedtime · Bath time · Playtime ·
+  Out & about · Anytime, and appear in every routine they're actually used in.
+- **A guided starter path.** The home screen shows three signs, not twenty-seven —
+  Milk, More, All done to begin with. Mark them off and it advances to the next
+  three. Starting small is the single biggest predictor of this working.
+- **Quiz mode**, search, and progress saved to `localStorage`.
 
 ## The 27 signs
 
-Feeding · milk, more, eat, drink, water, all done
-Sleep & care · sleep, bath, diaper, hurt, help
-Manners & feelings · please, thank you, I love you, sorry, yes, no
-People · mom, dad, grandma, grandpa
-Play & world · play, book, ball, dog, cat, light
+Browsed by routine (a sign can belong to several):
+
+Mealtime · milk, more, eat, drink, water, all done, please, thank you, yes, no
+Bedtime · milk, sleep, I love you, mom, dad, book, light
+Bath time · bath, water, diaper, all done
+Playtime · play, book, ball, dog, cat, more, all done, help, sorry
+Out & about · dog, cat, water, drink, help, hurt, mom, dad, grandma, grandpa, ball
+Anytime · please, thank you, sorry, yes, no, I love you, help, hurt, more, all done, diaper, mom, dad, grandma, grandpa, light
 
 ## How the animation works
 
