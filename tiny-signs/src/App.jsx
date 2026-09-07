@@ -45,7 +45,7 @@ function AppHeader({ page, lowLight, onToggleTheme, go }) {
           <span><strong>Tiny Signs</strong><small>learn baby signs</small></span>
         </button>
         <div className="header-actions">
-          <span className="privacy-chip">Progress saved here</span>
+          <a className="homepage-button" href="https://darrahdata.github.io/"><span aria-hidden="true">←</span> My homepage</a>
           <button type="button" className="theme-toggle" onClick={onToggleTheme} aria-pressed={lowLight}>
             <span aria-hidden="true">{lowLight ? "☀" : "☾"}</span>
             <span className="theme-label">{lowLight ? "Day" : "Low light"}</span>
