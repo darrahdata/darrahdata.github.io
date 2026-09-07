@@ -24,7 +24,8 @@ const req=createRequire(base+'/package.json');const {createServer}=await import(
 globalThis.window={location:{origin:'https://example.com'},caches};Object.defineProperty(globalThis,'navigator',{value:{serviceWorker:{}},configurable:true});globalThis.caches=caches;
 let fetched=0;globalThis.fetch=async()=>{fetched++;return new Response('media',{status:200});};
 const pack=await vite.ssrLoadModule('/src/offline.js');await pack.removeOfflinePack();let state=await pack.offlineStatus();assert.equal(state.count,0);
-let progress=0;state=await pack.saveOfflinePack(n=>progress=n,new AbortController().signal);assert.equal(state.count,60);assert.equal(progress,60);assert.equal(fetched,60);
-await pack.saveOfflinePack(()=>{},new AbortController().signal);assert.equal(fetched,60,'reuse downloaded files');await pack.removeOfflinePack();assert.equal((await pack.offlineStatus()).count,0);
+let progress=0;state=await pack.saveOfflinePack(n=>progress=n,new AbortController().signal);assert.equal(state.count,pack.mediaPaths.length);assert.equal(progress,pack.mediaPaths.length);assert.equal(fetched,pack.mediaPaths.length);
+await pack.saveOfflinePack(()=>{},new AbortController().signal);assert.equal(fetched,pack.mediaPaths.length,'reuse downloaded files');await pack.removeOfflinePack();assert.equal((await pack.offlineStatus()).count,0);
+const subset=pack.mediaPaths.slice(0,6);fetched=0;state=await pack.saveOfflinePack(()=>{},new AbortController().signal,subset);assert.equal(state.count,6);assert.equal(state.total,6);assert.equal(fetched,6);assert.equal((await pack.offlineStatus()).count,6);assert.equal((await pack.offlineStatus(pack.mediaPaths.slice(6,10))).count,0);
 const abort=new AbortController();abort.abort();await assert.rejects(()=>pack.saveOfflinePack(()=>{},abort.signal));
-await vite.close();console.log('PASS: offline installation, scoped cache cleanup, offline navigation, full and partial video ranges, invalid ranges, 60-file pack download, status, reuse, removal and cancellation.');process.exit(0);
+await vite.close();console.log('PASS: offline installation, scoped cache cleanup, offline navigation, full and partial video ranges, invalid ranges, full-library and selected-collection pack download, status, reuse, removal and cancellation.');process.exit(0);

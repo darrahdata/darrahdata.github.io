@@ -41,6 +41,7 @@ function TechniqueCard({ number, title, children }) {
 
 export default function GuidedLessonPage({
   sign,
+  saved, onToggleSaved,
   progress,
   dominantHand,
   setDominantHand,
@@ -76,7 +77,6 @@ export default function GuidedLessonPage({
   }, [stepIndex]);
 
   const nextSign = signs.find((item) => item.id === relatedSigns[sign.id]) || signs.find(item => item.group === sign.group && item.id !== sign.id) || signs[0];
-  const hasRealDemo = Boolean(sign.demo?.src);
 
   const logPractice = () => {
     if (!logged) onLog(sign.id);
@@ -86,7 +86,7 @@ export default function GuidedLessonPage({
   return (
     <main tabIndex={-1} id="main-content" className="page-shell lesson-page guided-lesson-page">
       <div className="lesson-topline">
-        <button type="button" className="back-button" onClick={() => go("today")}>← Home</button>
+        <button type="button" className="back-button" onClick={() => go("signs")}>← Sign library</button>
         <button type="button" className={`learn-toggle ${learnMore ? "active" : ""}`} aria-pressed={learnMore} onClick={() => setLearnMore(!learnMore)}>
           <span>{learnMore ? "Learn mode" : "Quick mode"}</span>
           <small>{learnMore ? "Details shown" : "30–60 seconds"}</small>
@@ -99,7 +99,7 @@ export default function GuidedLessonPage({
           <h1>{sign.word}</h1>
           <p>One sign. Three small steps. Learn at your own pace.</p>
         </div>
-        <div className="lesson-meta">
+        <div className="lesson-meta"><button className="button quiet" type="button" aria-pressed={saved} onClick={onToggleSaved}>{saved ? "♥ Saved" : "♡ Save sign"}</button>
           <span>{sign.hands === "one" ? "One hand" : "Two hands"}</span>
           <span>{sign.repetitions}</span>
         </div>
@@ -129,14 +129,8 @@ export default function GuidedLessonPage({
               <div><p className="eyebrow">First, just watch</p><h2 id={`watch-heading-${sign.id}`}>Notice the whole movement.</h2><p>Watch once without copying. Then replay and follow along.</p></div>
             </div>
             <SignDemo key={sign.id} sign={sign} dominantHand={dominantHand} />
-            <div className="hand-breakdown"><article><span>01 · {sign.hands === "one" ? `Your ${dominantHand} hand` : sign.id === "help" ? "Your top hand" : "Set up your hands"}</span><p>{sign.handGuide[0]}</p></article><article><span>02 · {sign.hands === "one" ? "Your other hand" : sign.id === "help" ? "Your supporting hand" : "Move them together"}</span><p>{sign.handGuide[1]}</p></article></div>
-            {!hasRealDemo && (
-              <div className="verified-demo compact-demo-link">
-                <div><strong>Confirm with a real signer</strong><p>The illustrated guide is a memory aid, not the teaching authority.</p></div>
-                <a className="button source" href={sign.source.url} target="_blank" rel="noreferrer">Watch Deaf-led demo ↗</a>
-              </div>
-            )}
-            <p className="lesson-source"><a href={sign.source.url} target="_blank" rel="noreferrer">Read a fuller explanation of {sign.word} ↗</a></p>
+            <div className="hand-breakdown"><article><span>01 · {sign.hands === "one" ? `Your ${dominantHand} hand` : sign.id === "help" ? "Your top hand" : "Set up your hands"}</span><p>{sign.handGuide[0]}</p></article><article><span>02 · {sign.hands === "one" ? "Your other hand" : sign.id === "help" ? "Your supporting hand" : "Follow the movement"}</span><p>{sign.handGuide[1]}</p></article></div>
+            <p className="lesson-source"><a href={sign.source.url} target="_blank" rel="noreferrer">See the source for {sign.word} ↗</a></p>
             <div className="flow-footer">
               <p><strong>Look for:</strong> {sign.cue.summary}</p>
               <button type="button" className="button primary" onClick={() => setStepIndex(1)}>Now copy it →</button>

@@ -30,10 +30,11 @@ export default function SignDemo({ sign, compact = false, concealWord = false })
       else setMessage("Use your browser’s zoom or turn your phone sideways for a larger view.");
     } catch { setMessage("Use your browser’s zoom or turn your phone sideways for a larger view."); }
   }
+  if (!sign.demo?.src) return <div className="external-demo"><span className="external-demo-symbol" aria-hidden="true">✝</span><p className="eyebrow">Teacher’s demonstration · opens another site</p><h3>Learn {sign.word} with a real signer.</h3><p>This lesson’s demonstration is available on ASL University. Open it, study the hand positions, then return here to practice.</p><a className="button primary" href={sign.demo.sourceUrl} target="_blank" rel="noreferrer">Open {sign.word} teaching reference ↗</a><p className="external-demo-note">{sign.demo.credit} · Internet required. This reference is not included in the offline video pack.</p></div>;
   return <div className={`real-demo ${compact ? "is-compact" : ""}`}>
     <div className="native-video-frame">
       <video ref={videoRef} src={mediaUrl(sign.demo.src)} poster={mediaUrl(sign.demo.poster)}
-        controls playsInline preload="metadata" loop={repeat}
+        controls playsInline preload="none" loop={repeat}
         aria-label={concealWord ? "Mystery sign reference clip" : `${sign.word} reference clip`}
         onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)}
         onLoadedMetadata={e => { setDuration(e.currentTarget.duration); setError(false); }}

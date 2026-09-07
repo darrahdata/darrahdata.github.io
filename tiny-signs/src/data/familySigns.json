@@ -1,0 +1,5147 @@
+[
+  {
+    "id": "hungry",
+    "word": "Hungry",
+    "group": "Feelings",
+    "hands": "one",
+    "shape": "Curve your fingers and thumb into a C.",
+    "place": "At the front of your upper chest",
+    "palm": "Palm faces your body",
+    "move": "Draw the C hand down the center of your chest.",
+    "shortContext": "Before a feed",
+    "aliases": "hunger hungry food starving",
+    "routine": "Feelings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Before a feed: say “hungry,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve your fingers and thumb into a C. At the front of your upper chest.",
+      "Palm faces your body. Draw the C hand down the center of your chest. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Draw the C hand down the center of your chest.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/488.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "tired",
+    "word": "Tired",
+    "group": "Feelings",
+    "hands": "two",
+    "shape": "Curve both hands with fingers spread.",
+    "place": "At the upper chest",
+    "palm": "Fingertips angle toward your chest",
+    "move": "Let the hands and shoulders drop a little, with a tired expression.",
+    "shortContext": "Time for a rest",
+    "aliases": "sleepy exhausted fatigue",
+    "routine": "Feelings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Time for a rest: say “tired,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve both hands with fingers spread. At the upper chest.",
+      "Fingertips angle toward your chest. Let the hands and shoulders drop a little, with a tired expression."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Let the hands and shoulders drop a little, with a tired expression.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/297.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "hot",
+    "word": "Hot",
+    "group": "Feelings",
+    "hands": "one",
+    "shape": "Curve the fingers of one hand into a loose claw.",
+    "place": "Near your mouth",
+    "palm": "Palm starts toward you",
+    "move": "Move the hand away from your mouth and turn it outward.",
+    "shortContext": "Describing temperature",
+    "aliases": "warm heat temperature",
+    "routine": "Feelings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Describing temperature: say “hot,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve the fingers of one hand into a loose claw. Near your mouth.",
+      "Palm starts toward you. Move the hand away from your mouth and turn it outward. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the hand away from your mouth and turn it outward.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/485.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "cold",
+    "word": "Cold",
+    "group": "Feelings",
+    "hands": "two",
+    "shape": "Make two loose fists.",
+    "place": "In front of your chest",
+    "palm": "Fists face toward one another",
+    "move": "Shake the fists slightly as if shivering.",
+    "shortContext": "A chilly day",
+    "aliases": "chilly freezing temperature",
+    "routine": "Feelings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A chilly day: say “cold,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Make two loose fists. In front of your chest.",
+      "Fists face toward one another. Shake the fists slightly as if shivering."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Shake the fists slightly as if shivering.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/432.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "gentle",
+    "word": "Gentle",
+    "group": "Everyday",
+    "hands": "two",
+    "shape": "Hold both hands loosely curved.",
+    "place": "In front of your body",
+    "palm": "Palms angle upward",
+    "move": "Gently close the fingers toward the thumbs without squeezing hard.",
+    "shortContext": "A gentle touch",
+    "aliases": "soft softly gently pet",
+    "routine": "Everyday",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A gentle touch: say “gentle,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands loosely curved. In front of your body.",
+      "Palms angle upward. Gently close the fingers toward the thumbs without squeezing hard."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Gently close the fingers toward the thumbs without squeezing hard.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/542.html"
+    },
+    "careNote": "This clip uses the SOFT variant for gentle. Other gentle / slow forms exist; keep one form consistent with your teacher."
+  },
+  {
+    "id": "wait",
+    "word": "Wait",
+    "group": "Everyday",
+    "hands": "two",
+    "shape": "Spread the fingers of both hands.",
+    "place": "In front of your body, one slightly ahead",
+    "palm": "Palms angle upward",
+    "move": "Wiggle the fingers while keeping the arms relaxed.",
+    "shortContext": "A short pause in a game",
+    "aliases": "waiting patience pause",
+    "routine": "Everyday",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A short pause in a game: say “wait,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Spread the fingers of both hands. In front of your body, one slightly ahead.",
+      "Palms angle upward. Wiggle the fingers while keeping the arms relaxed."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Wiggle the fingers while keeping the arms relaxed.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1405.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "hello",
+    "word": "Hello",
+    "group": "People",
+    "hands": "one",
+    "shape": "Hold one hand flat with fingers together.",
+    "place": "Beside your forehead",
+    "palm": "Palm angles away",
+    "move": "Move the hand outward in a small greeting.",
+    "shortContext": "Welcoming someone",
+    "aliases": "hi greeting welcome",
+    "routine": "People",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Welcoming someone: say “hello,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold one hand flat with fingers together. Beside your forehead.",
+      "Palm angles away. Move the hand outward in a small greeting. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the hand outward in a small greeting.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/482.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "goodbye",
+    "word": "Goodbye",
+    "group": "People",
+    "hands": "one",
+    "shape": "Open one hand and keep it relaxed.",
+    "place": "Beside your shoulder",
+    "palm": "Palm faces the person",
+    "move": "Bend the fingers down and open them again in a wave.",
+    "shortContext": "When someone leaves",
+    "aliases": "bye bye-bye farewell wave",
+    "routine": "People",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "When someone leaves: say “goodbye,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Open one hand and keep it relaxed. Beside your shoulder.",
+      "Palm faces the person. Bend the fingers down and open them again in a wave. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Bend the fingers down and open them again in a wave.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/425.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "outside",
+    "word": "Outside",
+    "group": "Outings",
+    "hands": "one",
+    "shape": "Curve your fingers with your thumb opposite them.",
+    "place": "In front of your shoulder",
+    "palm": "Hand angles forward",
+    "move": "Gather the fingertips toward the thumb, release slightly, and gather again, with a small outward motion.",
+    "shortContext": "A walk together",
+    "aliases": "out outdoors outdoor walk",
+    "routine": "Outings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A walk together: say “outside,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve your fingers with your thumb opposite them. In front of your shoulder.",
+      "Hand angles forward. Gather the fingertips toward the thumb, release slightly, and gather again, with a small outward motion. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Gather the fingertips toward the thumb, release slightly, and gather again, with a small outward motion.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/209.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "change",
+    "word": "Change",
+    "group": "Care",
+    "hands": "two",
+    "shape": "Bend both index fingers into hooks; fold the other fingers.",
+    "place": "In front of your body",
+    "palm": "Hands face one another",
+    "move": "Bring the hooked fingers together and rotate the hands to exchange positions.",
+    "shortContext": "Before a diaper change",
+    "aliases": "changing replace switch",
+    "routine": "Care",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Before a diaper change: say “change,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Bend both index fingers into hooks; fold the other fingers. In front of your body.",
+      "Hands face one another. Bring the hooked fingers together and rotate the hands to exchange positions."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Bring the hooked fingers together and rotate the hands to exchange positions.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1053.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "wash",
+    "word": "Wash hands",
+    "group": "Care",
+    "hands": "two",
+    "shape": "Hold both hands loosely curved.",
+    "place": "In front of your body",
+    "palm": "Palms face one another",
+    "move": "Rub the hands together as if washing them.",
+    "shortContext": "Washing hands",
+    "aliases": "soap washing hands handwashing",
+    "routine": "Care",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Washing hands: say “wash hands,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands loosely curved. In front of your body.",
+      "Palms face one another. Rub the hands together as if washing them."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Rub the hands together as if washing them.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2553.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "church",
+    "word": "Church",
+    "group": "Faith",
+    "hands": "two",
+    "shape": "Make a C with your signing hand; hold the other hand flat.",
+    "place": "Above the back of your supporting hand",
+    "palm": "Supporting palm faces down",
+    "move": "Tap the lower edge of the C hand onto the back of the supporting hand.",
+    "shortContext": "Arriving for worship",
+    "aliases": "chapel service congregation worship",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Arriving for worship: say “church,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Make a C with your signing hand; hold the other hand flat. Above the back of your supporting hand.",
+      "Supporting palm faces down. Tap the lower edge of the C hand onto the back of the supporting hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Tap the lower edge of the C hand onto the back of the supporting hand.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2296.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "pray",
+    "word": "Pray",
+    "group": "Faith",
+    "hands": "two",
+    "shape": "Bring two flat hands together, fingers pointing up.",
+    "place": "In front of your chest",
+    "palm": "Palms touch",
+    "move": "Keep the palms together and make the small movement shown by the signer.",
+    "shortContext": "A family prayer",
+    "aliases": "prayer praying grace blessing",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A family prayer: say “pray,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Bring two flat hands together, fingers pointing up. In front of your chest.",
+      "Palms touch. Keep the palms together and make the small movement shown by the signer."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Keep the palms together and make the small movement shown by the signer.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/3044.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "god",
+    "word": "God",
+    "group": "Faith",
+    "hands": "one",
+    "shape": "Hold one flat hand with fingers together.",
+    "place": "Above and in front of your face",
+    "palm": "Palm angles sideways",
+    "move": "Move the hand down in a smooth arc, following the reference.",
+    "shortContext": "Talking about God",
+    "aliases": "lord creator god",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Talking about God: say “god,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold one flat hand with fingers together. Above and in front of your face.",
+      "Palm angles sideways. Move the hand down in a smooth arc, following the reference. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the hand down in a smooth arc, following the reference.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1871.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "cross",
+    "word": "Cross",
+    "group": "Faith",
+    "hands": "one",
+    "shape": "Touch your index fingertip to your thumb; extend the other three fingers.",
+    "place": "In front of your upper body",
+    "palm": "Palm angles away",
+    "move": "Keep that handshape as you draw a vertical stroke followed by a horizontal stroke.",
+    "shortContext": "Noticing a cross",
+    "aliases": "crucifix christian",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Noticing a cross: say “cross,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Touch your index fingertip to your thumb; extend the other three fingers. In front of your upper body.",
+      "Palm angles away. Keep that handshape as you draw a vertical stroke followed by a horizontal stroke. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Keep that handshape as you draw a vertical stroke followed by a horizontal stroke.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2560.html"
+    },
+    "careNote": "This is the vocabulary sign for a cross, separate from making the devotional sign of the cross."
+  },
+  {
+    "id": "angel",
+    "word": "Angel",
+    "group": "Faith",
+    "hands": "two",
+    "shape": "Bend your arms with hands near your shoulders.",
+    "place": "At the sides of your upper body",
+    "palm": "Hands angle toward your shoulders",
+    "move": "Move the bent arms outward like wings.",
+    "shortContext": "An angel in a story",
+    "aliases": "angels wings",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "An angel in a story: say “angel,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Bend your arms with hands near your shoulders. At the sides of your upper body.",
+      "Hands angle toward your shoulders. Move the bent arms outward like wings."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the bent arms outward like wings.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2201.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "heaven",
+    "word": "Heaven",
+    "group": "Faith",
+    "hands": "two",
+    "shape": "Hold both hands flat.",
+    "place": "Above eye level",
+    "palm": "Palms face down",
+    "move": "Begin with the hands together above your face, then move them outward in a gentle arch.",
+    "shortContext": "A Bible story",
+    "aliases": "sky heavens",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A Bible story: say “heaven,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands flat. Above eye level.",
+      "Palms face down. Begin with the hands together above your face, then move them outward in a gentle arch."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Begin with the hands together above your face, then move them outward in a gentle arch.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/672.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "believe",
+    "word": "Believe",
+    "group": "Faith",
+    "hands": "two",
+    "shape": "Point one index finger; keep the other hand loosely curved.",
+    "place": "From your forehead to the space in front of you",
+    "palm": "Hands turn toward one another",
+    "move": "Touch near your forehead, then bring the hands together into a clasp.",
+    "shortContext": "Talking about belief",
+    "aliases": "belief believing faith",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Talking about belief: say “believe,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Point one index finger; keep the other hand loosely curved. From your forehead to the space in front of you.",
+      "Hands turn toward one another. Touch near your forehead, then bring the hands together into a clasp."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Touch near your forehead, then bring the hands together into a clasp.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1963.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "sing",
+    "word": "Sing",
+    "group": "Faith",
+    "hands": "two",
+    "shape": "Hold your supporting forearm across your body and the signing hand open.",
+    "place": "Over the supporting forearm",
+    "palm": "Signing palm angles toward your body",
+    "move": "Sweep your open signing hand back and forth above the forearm.",
+    "shortContext": "Singing together",
+    "aliases": "song singing hymn choir",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Singing together: say “sing,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold your supporting forearm across your body and the signing hand open. Over the supporting forearm.",
+      "Signing palm angles toward your body. Sweep your open signing hand back and forth above the forearm."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Sweep your open signing hand back and forth above the forearm.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/3111.html"
+    },
+    "careNote": "Sing and Music have closely related forms. This reference uses an open supporting hand."
+  },
+  {
+    "id": "music",
+    "word": "Music",
+    "group": "Play",
+    "hands": "two",
+    "shape": "Hold a supporting fist and forearm across your body; open your signing hand.",
+    "place": "Above the supporting forearm",
+    "palm": "Signing palm faces toward you",
+    "move": "Sweep your open hand side to side above the forearm.",
+    "shortContext": "A favorite song",
+    "aliases": "songs musical instrument",
+    "routine": "Play",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A favorite song: say “music,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold a supporting fist and forearm across your body; open your signing hand. Above the supporting forearm.",
+      "Signing palm faces toward you. Sweep your open hand side to side above the forearm."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Sweep your open hand side to side above the forearm.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1584.html"
+    },
+    "careNote": "Music and Sing have closely related forms. This reference uses a closed supporting hand."
+  },
+  {
+    "id": "sunday",
+    "word": "Sunday",
+    "group": "Faith",
+    "hands": "two",
+    "shape": "Open both hands with fingers together.",
+    "place": "In front of your upper body",
+    "palm": "Palms face forward",
+    "move": "Lift both hands in small repeated movements.",
+    "shortContext": "Getting ready on Sunday",
+    "aliases": "sabbath weekend sunday school",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Getting ready on Sunday: say “sunday,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Open both hands with fingers together. In front of your upper body.",
+      "Palms face forward. Lift both hands in small repeated movements."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Lift both hands in small repeated movements.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2788.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "friend",
+    "word": "Friend",
+    "group": "People",
+    "hands": "two",
+    "shape": "Hook both index fingers; fold the other fingers.",
+    "place": "In front of your chest",
+    "palm": "Hands face toward one another",
+    "move": "Link the bent index fingers, switch which is on top, and link again.",
+    "shortContext": "Meeting a friend",
+    "aliases": "friends friendship buddy",
+    "routine": "People",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Meeting a friend: say “friend,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hook both index fingers; fold the other fingers. In front of your chest.",
+      "Hands face toward one another. Link the bent index fingers, switch which is on top, and link again."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Link the bent index fingers, switch which is on top, and link again.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/462.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "family",
+    "word": "Family",
+    "group": "People",
+    "hands": "two",
+    "shape": "Touch each thumb to its index fingertip; extend the other three fingers.",
+    "place": "In front of your chest",
+    "palm": "Palms start toward each other",
+    "move": "Begin with the thumb-index circles near each other; circle the hands outward until the little-finger sides meet.",
+    "shortContext": "Your family together",
+    "aliases": "relatives parents children",
+    "routine": "People",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Your family together: say “family,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Touch each thumb to its index fingertip; extend the other three fingers. In front of your chest.",
+      "Palms start toward each other. Begin with the thumb-index circles near each other; circle the hands outward until the little-finger sides meet."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Begin with the thumb-index circles near each other; circle the hands outward until the little-finger sides meet.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1379.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "baby",
+    "word": "Baby",
+    "group": "People",
+    "hands": "two",
+    "shape": "Lay one forearm across the other as if cradling a baby.",
+    "place": "Across your torso",
+    "palm": "Hands turn upward",
+    "move": "Rock the cradled arms gently from side to side.",
+    "shortContext": "Looking at baby photos",
+    "aliases": "infant newborn daughter son",
+    "routine": "People",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Looking at baby photos: say “baby,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Lay one forearm across the other as if cradling a baby. Across your torso.",
+      "Hands turn upward. Rock the cradled arms gently from side to side."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Rock the cradled arms gently from side to side.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/407.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "brother",
+    "word": "Brother",
+    "group": "People",
+    "hands": "two",
+    "shape": "Extend both index fingers and thumbs into L shapes; keep the supporting hand still.",
+    "place": "From forehead to supporting hand",
+    "palm": "Signing hand turns downward",
+    "move": "Touch near the forehead, then bring the signing index finger down across the supporting index finger.",
+    "shortContext": "Naming a sibling",
+    "aliases": "sibling brother",
+    "routine": "People",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming a sibling: say “brother,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend both index fingers and thumbs into L shapes; keep the supporting hand still. From forehead to supporting hand.",
+      "Signing hand turns downward. Touch near the forehead, then bring the signing index finger down across the supporting index finger."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Touch near the forehead, then bring the signing index finger down across the supporting index finger.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/52.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "sister",
+    "word": "Sister",
+    "group": "People",
+    "hands": "two",
+    "shape": "Extend both index fingers and thumbs into L shapes; keep the supporting hand still.",
+    "place": "From chin to supporting hand",
+    "palm": "Signing hand turns downward",
+    "move": "Touch near the chin, then bring the signing index finger down across the supporting index finger.",
+    "shortContext": "Naming a sibling",
+    "aliases": "sibling sister",
+    "routine": "People",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming a sibling: say “sister,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend both index fingers and thumbs into L shapes; keep the supporting hand still. From chin to supporting hand.",
+      "Signing hand turns downward. Touch near the chin, then bring the signing index finger down across the supporting index finger."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Touch near the chin, then bring the signing index finger down across the supporting index finger.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2962.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "grandma",
+    "word": "Grandma",
+    "group": "People",
+    "hands": "one",
+    "shape": "Spread the fingers of one hand.",
+    "place": "Begin with thumb near your chin",
+    "palm": "Palm angles sideways",
+    "move": "Move the hand forward in small arcs away from the chin.",
+    "shortContext": "Grandma comes to visit",
+    "aliases": "grandmother nana granny grandmother",
+    "routine": "People",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Grandma comes to visit: say “grandma,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Spread the fingers of one hand. Begin with thumb near your chin.",
+      "Palm angles sideways. Move the hand forward in small arcs away from the chin. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the hand forward in small arcs away from the chin.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1862.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "grandpa",
+    "word": "Grandpa",
+    "group": "People",
+    "hands": "one",
+    "shape": "Spread the fingers of one hand.",
+    "place": "Begin with thumb near your forehead",
+    "palm": "Palm angles sideways",
+    "move": "Move the hand forward in small arcs away from the forehead.",
+    "shortContext": "Grandpa comes to visit",
+    "aliases": "grandfather papa granddad",
+    "routine": "People",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Grandpa comes to visit: say “grandpa,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Spread the fingers of one hand. Begin with thumb near your forehead.",
+      "Palm angles sideways. Move the hand forward in small arcs away from the forehead. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the hand forward in small arcs away from the forehead.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1863.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "happy",
+    "word": "Happy",
+    "group": "Feelings",
+    "hands": "two",
+    "shape": "Open both hands with fingers together.",
+    "place": "In front of your chest",
+    "palm": "Palms face your chest",
+    "move": "Brush the hands upward along the chest with a happy expression.",
+    "shortContext": "Sharing a happy moment",
+    "aliases": "joy glad happiness",
+    "routine": "Feelings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Sharing a happy moment: say “happy,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Open both hands with fingers together. In front of your chest.",
+      "Palms face your chest. Brush the hands upward along the chest with a happy expression."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Brush the hands upward along the chest with a happy expression.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/476.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "sad",
+    "word": "Sad",
+    "group": "Feelings",
+    "hands": "two",
+    "shape": "Spread your fingers with hands open.",
+    "place": "In front of your face",
+    "palm": "Palms face you",
+    "move": "Lower both hands in front of your face with a sad expression.",
+    "shortContext": "Naming a feeling",
+    "aliases": "unhappy sorrow crying",
+    "routine": "Feelings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming a feeling: say “sad,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Spread your fingers with hands open. In front of your face.",
+      "Palms face you. Lower both hands in front of your face with a sad expression."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Lower both hands in front of your face with a sad expression.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/245.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "angry",
+    "word": "Angry",
+    "group": "Feelings",
+    "hands": "two",
+    "shape": "Curve the fingers of both hands into loose claws.",
+    "place": "Near the upper chest",
+    "palm": "Palms face inward",
+    "move": "Move the hands outward from the chest while showing an angry expression.",
+    "shortContext": "Naming frustration",
+    "aliases": "mad upset frustrated anger",
+    "routine": "Feelings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming frustration: say “angry,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve the fingers of both hands into loose claws. Near the upper chest.",
+      "Palms face inward. Move the hands outward from the chest while showing an angry expression."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the hands outward from the chest while showing an angry expression.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/15.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "scared",
+    "word": "Scared",
+    "group": "Feelings",
+    "hands": "two",
+    "shape": "Start with both hands loosely closed.",
+    "place": "In front of your chest",
+    "palm": "Hands face one another",
+    "move": "Open the hands suddenly with spread fingers, following the direction in the video.",
+    "shortContext": "Something feels scary",
+    "aliases": "afraid fear frightened scary",
+    "routine": "Feelings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Something feels scary: say “scared,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Start with both hands loosely closed. In front of your chest.",
+      "Hands face one another. Open the hands suddenly with spread fingers, following the direction in the video."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Open the hands suddenly with spread fingers, following the direction in the video.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/246.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "sick",
+    "word": "Sick",
+    "group": "Feelings",
+    "hands": "two",
+    "shape": "Bend the middle finger of each hand slightly, leaving other fingers extended.",
+    "place": "One hand at the forehead, one at the stomach",
+    "palm": "Palms face your body",
+    "move": "Bring the bent middle fingertips toward the forehead and stomach.",
+    "shortContext": "Talking about feeling unwell",
+    "aliases": "ill illness unwell doctor",
+    "routine": "Feelings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Talking about feeling unwell: say “sick,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Bend the middle finger of each hand slightly, leaving other fingers extended. One hand at the forehead, one at the stomach.",
+      "Palms face your body. Bring the bent middle fingertips toward the forehead and stomach."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Bring the bent middle fingertips toward the forehead and stomach.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/255.html"
+    },
+    "careNote": "This vocabulary is for communication. Respond to symptoms and natural cues; do not wait for a sign."
+  },
+  {
+    "id": "sorry",
+    "word": "Sorry",
+    "group": "Connection",
+    "hands": "one",
+    "shape": "Make a loose fist.",
+    "place": "At the center of your chest",
+    "palm": "Palm side faces your chest",
+    "move": "Move the fist in a small circle against your chest.",
+    "shortContext": "Modeling an apology",
+    "aliases": "apologize apology regret",
+    "routine": "Connection",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Modeling an apology: say “sorry,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Make a loose fist. At the center of your chest.",
+      "Palm side faces your chest. Move the fist in a small circle against your chest. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the fist in a small circle against your chest.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/566.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "want",
+    "word": "Want",
+    "group": "Everyday",
+    "hands": "two",
+    "shape": "Open both hands with fingers spread.",
+    "place": "In front of your body",
+    "palm": "Palms face up",
+    "move": "Pull the hands toward you while curling the fingers slightly.",
+    "shortContext": "Offering a choice",
+    "aliases": "wanting wish request",
+    "routine": "Everyday",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Offering a choice: say “want,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Open both hands with fingers spread. In front of your body.",
+      "Palms face up. Pull the hands toward you while curling the fingers slightly."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Pull the hands toward you while curling the fingers slightly.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1409.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "again",
+    "word": "Again",
+    "group": "Everyday",
+    "hands": "two",
+    "shape": "Curve your signing hand slightly; hold the other hand flat.",
+    "place": "Above the supporting palm",
+    "palm": "Supporting palm faces up",
+    "move": "Bring the fingertips of the curved hand into the supporting palm.",
+    "shortContext": "Another song or game",
+    "aliases": "repeat another once more",
+    "routine": "Everyday",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Another song or game: say “again,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve your signing hand slightly; hold the other hand flat. Above the supporting palm.",
+      "Supporting palm faces up. Bring the fingertips of the curved hand into the supporting palm."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Bring the fingertips of the curved hand into the supporting palm.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/400.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "share",
+    "word": "Share",
+    "group": "Everyday",
+    "hands": "two",
+    "shape": "Hold both hands flat.",
+    "place": "In front of your body",
+    "palm": "Supporting palm faces toward you",
+    "move": "Move the little-finger edge of your signing hand back and forth across the supporting hand.",
+    "shortContext": "Sharing a toy",
+    "aliases": "sharing divide together",
+    "routine": "Everyday",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Sharing a toy: say “share,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands flat. In front of your body.",
+      "Supporting palm faces toward you. Move the little-finger edge of your signing hand back and forth across the supporting hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the little-finger edge of your signing hand back and forth across the supporting hand.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/251.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "turn",
+    "word": "Turn",
+    "group": "Everyday",
+    "hands": "one",
+    "shape": "Hold one hand flat, fingers together.",
+    "place": "In front of your body",
+    "palm": "Palm begins facing up",
+    "move": "Move the flat hand across your body and turn the palm down, as shown. Direction changes with whose turn you mean.",
+    "shortContext": "Taking turns",
+    "aliases": "my turn your turn taking turns next",
+    "routine": "Everyday",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Taking turns: say “turn,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold one hand flat, fingers together. In front of your body.",
+      "Palm begins facing up. Move the flat hand across your body and turn the palm down, as shown. Direction changes with whose turn you mean. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the flat hand across your body and turn the palm down, as shown. Direction changes with whose turn you mean.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/308.html"
+    },
+    "careNote": "The movement can point toward the person whose turn it is. Learn directional use with a teacher."
+  },
+  {
+    "id": "mine",
+    "word": "Mine / my",
+    "group": "Everyday",
+    "hands": "one",
+    "shape": "Hold one flat hand with fingers together.",
+    "place": "At your chest",
+    "palm": "Palm faces you",
+    "move": "Place your palm gently on your chest.",
+    "shortContext": "My turn, my cup",
+    "aliases": "my me possessive",
+    "routine": "Everyday",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "My turn, my cup: say “mine / my,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold one flat hand with fingers together. At your chest.",
+      "Palm faces you. Place your palm gently on your chest. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Place your palm gently on your chest.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2154.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "yours",
+    "word": "Yours / your",
+    "group": "Everyday",
+    "hands": "one",
+    "shape": "Hold one flat hand with fingers together.",
+    "place": "In front of your body toward the other person",
+    "palm": "Palm faces the person",
+    "move": "Move your open palm gently toward the person whose object you mean.",
+    "shortContext": "Your turn, your cup",
+    "aliases": "your possessive theirs",
+    "routine": "Everyday",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Your turn, your cup: say “yours / your,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold one flat hand with fingers together. In front of your body toward the other person.",
+      "Palm faces the person. Move your open palm gently toward the person whose object you mean. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move your open palm gently toward the person whose object you mean.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/919.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "sit",
+    "word": "Sit",
+    "group": "Movement",
+    "hands": "two",
+    "shape": "Extend the index and middle fingers on each hand.",
+    "place": "In front of your body",
+    "palm": "Supporting fingers angle across your body",
+    "move": "Bend the signing fingers and rest them across the supporting pair, like legs sitting.",
+    "shortContext": "Sitting together",
+    "aliases": "chair seat sitting sit down",
+    "routine": "Movement",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Sitting together: say “sit,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend the index and middle fingers on each hand. In front of your body.",
+      "Supporting fingers angle across your body. Bend the signing fingers and rest them across the supporting pair, like legs sitting."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Bend the signing fingers and rest them across the supporting pair, like legs sitting.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/541.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "stand",
+    "word": "Stand",
+    "group": "Movement",
+    "hands": "two",
+    "shape": "Extend the signing index and middle fingers; hold the other palm flat.",
+    "place": "Above the supporting hand",
+    "palm": "Supporting palm faces up",
+    "move": "Place the two fingertips on the supporting palm as if they were feet standing.",
+    "shortContext": "Standing up together",
+    "aliases": "standing upright feet",
+    "routine": "Movement",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Standing up together: say “stand,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend the signing index and middle fingers; hold the other palm flat. Above the supporting hand.",
+      "Supporting palm faces up. Place the two fingertips on the supporting palm as if they were feet standing."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Place the two fingertips on the supporting palm as if they were feet standing.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/273.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "walk",
+    "word": "Walk",
+    "group": "Movement",
+    "hands": "two",
+    "shape": "Hold both hands flat with fingers together.",
+    "place": "In front of your lower torso",
+    "palm": "Palms face down",
+    "move": "Tip the hands forward alternately like two feet walking.",
+    "shortContext": "A family walk",
+    "aliases": "walking stroll steps",
+    "routine": "Movement",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A family walk: say “walk,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands flat with fingers together. In front of your lower torso.",
+      "Palms face down. Tip the hands forward alternately like two feet walking."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Tip the hands forward alternately like two feet walking.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/314.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "run",
+    "word": "Run",
+    "group": "Movement",
+    "hands": "two",
+    "shape": "Extend both index fingers and hook one around the other.",
+    "place": "In front of your body",
+    "palm": "Hands angle toward one another",
+    "move": "Move the linked hands forward while flexing the index fingers as shown.",
+    "shortContext": "Running in a game",
+    "aliases": "running jog race sprint",
+    "routine": "Movement",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Running in a game: say “run,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend both index fingers and hook one around the other. In front of your body.",
+      "Hands angle toward one another. Move the linked hands forward while flexing the index fingers as shown."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the linked hands forward while flexing the index fingers as shown.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/243.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "jump",
+    "word": "Jump",
+    "group": "Movement",
+    "hands": "two",
+    "shape": "Extend two signing fingers like legs; open the supporting hand.",
+    "place": "Above the supporting palm",
+    "palm": "Supporting palm faces up",
+    "move": "Bend and spring the two fingers upward, then land on the palm.",
+    "shortContext": "A little jump",
+    "aliases": "jumping hop leap",
+    "routine": "Movement",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A little jump: say “jump,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend two signing fingers like legs; open the supporting hand. Above the supporting palm.",
+      "Supporting palm faces up. Bend and spring the two fingers upward, then land on the palm."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Bend and spring the two fingers upward, then land on the palm.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/159.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "dance",
+    "word": "Dance",
+    "group": "Movement",
+    "hands": "two",
+    "shape": "Extend the signing index and middle fingers like legs.",
+    "place": "Above your open supporting palm",
+    "palm": "Supporting palm faces up",
+    "move": "Swing the two fingers side to side above the palm.",
+    "shortContext": "Dancing to a song",
+    "aliases": "dancing movement ballet",
+    "routine": "Movement",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Dancing to a song: say “dance,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend the signing index and middle fingers like legs. Above your open supporting palm.",
+      "Supporting palm faces up. Swing the two fingers side to side above the palm."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Swing the two fingers side to side above the palm.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1207.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "swim",
+    "word": "Swim",
+    "group": "Movement",
+    "hands": "two",
+    "shape": "Open both hands with fingers together.",
+    "place": "In front of your upper body",
+    "palm": "Palms begin facing down",
+    "move": "Move your hands forward and sweep them outward as if swimming.",
+    "shortContext": "Talking about swimming",
+    "aliases": "swimming pool water",
+    "routine": "Movement",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Talking about swimming: say “swim,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Open both hands with fingers together. In front of your upper body.",
+      "Palms begin facing down. Move your hands forward and sweep them outward as if swimming."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move your hands forward and sweep them outward as if swimming.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1153.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "swing",
+    "word": "Swing",
+    "group": "Play",
+    "hands": "two",
+    "shape": "Extend two signing fingers like legs; hold the other index finger across.",
+    "place": "In front of your body",
+    "palm": "Signing fingers bend over the supporting finger",
+    "move": "Hook the two fingers over the support and rock them forward and back.",
+    "shortContext": "A turn on the swing",
+    "aliases": "swinging playground",
+    "routine": "Play",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A turn on the swing: say “swing,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend two signing fingers like legs; hold the other index finger across. In front of your body.",
+      "Signing fingers bend over the supporting finger. Hook the two fingers over the support and rock them forward and back."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Hook the two fingers over the support and rock them forward and back.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2369.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "slide",
+    "word": "Slide",
+    "group": "Play",
+    "hands": "two",
+    "shape": "Hold both hands flat with fingers together.",
+    "place": "In front of your body",
+    "palm": "Palms face down",
+    "move": "Hold one hand higher as a starting point; slide the other hand forward and downward away from it.",
+    "shortContext": "At the playground",
+    "aliases": "sliding playground slope",
+    "routine": "Play",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "At the playground: say “slide,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands flat with fingers together. In front of your body.",
+      "Palms face down. Hold one hand higher as a starting point; slide the other hand forward and downward away from it."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Hold one hand higher as a starting point; slide the other hand forward and downward away from it.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2015.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "park",
+    "word": "Playground",
+    "group": "Outings",
+    "hands": "two",
+    "shape": "Extend both thumbs and little fingers for Play; then open both hands.",
+    "place": "In front of your chest",
+    "palm": "Palms begin inward, then turn down",
+    "move": "Wiggle the Play handshapes, then move the open hands horizontally to indicate a place.",
+    "shortContext": "Going to the playground",
+    "aliases": "playground park playground equipment",
+    "routine": "Outings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Going to the playground: say “playground,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend both thumbs and little fingers for Play; then open both hands. In front of your chest.",
+      "Palms begin inward, then turn down. Wiggle the Play handshapes, then move the open hands horizontally to indicate a place."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Wiggle the Play handshapes, then move the open hands horizontally to indicate a place.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/3038.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "car",
+    "word": "Car",
+    "group": "Outings",
+    "hands": "two",
+    "shape": "Make two loose fists as if holding a steering wheel.",
+    "place": "In front of your chest",
+    "palm": "Fists face each other",
+    "move": "Turn the imaginary steering wheel a little left and right.",
+    "shortContext": "Getting into the car",
+    "aliases": "drive driving vehicle ride",
+    "routine": "Outings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Getting into the car: say “car,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Make two loose fists as if holding a steering wheel. In front of your chest.",
+      "Fists face each other. Turn the imaginary steering wheel a little left and right."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Turn the imaginary steering wheel a little left and right.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/428.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "home",
+    "word": "Home",
+    "group": "Home",
+    "hands": "one",
+    "shape": "Gather the fingertips of one hand to the thumb.",
+    "place": "Beside your mouth and cheek",
+    "palm": "Fingertips face your cheek",
+    "move": "Touch near the mouth, then farther back on the cheek.",
+    "shortContext": "Coming home",
+    "aliases": "house homecoming",
+    "routine": "Home",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Coming home: say “home,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Gather the fingertips of one hand to the thumb. Beside your mouth and cheek.",
+      "Fingertips face your cheek. Touch near the mouth, then farther back on the cheek. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Touch near the mouth, then farther back on the cheek.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/152.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "school",
+    "word": "School",
+    "group": "Outings",
+    "hands": "two",
+    "shape": "Hold both hands flat.",
+    "place": "In front of your body",
+    "palm": "Signing palm faces down; supporting palm faces up",
+    "move": "Tap the signing palm onto the supporting palm twice.",
+    "shortContext": "Talking about school",
+    "aliases": "preschool daycare classroom",
+    "routine": "Outings",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Talking about school: say “school,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands flat. In front of your body.",
+      "Signing palm faces down; supporting palm faces up. Tap the signing palm onto the supporting palm twice."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Tap the signing palm onto the supporting palm twice.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/247.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "teacher",
+    "word": "Teacher",
+    "group": "People",
+    "hands": "two",
+    "shape": "Gather the fingertips toward each thumb, then open both hands for the second part.",
+    "place": "Begin near your temples, finish in front of your torso",
+    "palm": "Palms turn to face one another at the end",
+    "move": "Move the gathered hands forward from the head, then lower two flat hands to show a person.",
+    "shortContext": "Meeting a teacher",
+    "aliases": "educator preschool instructor",
+    "routine": "People",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Meeting a teacher: say “teacher,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Gather the fingertips toward each thumb, then open both hands for the second part. Begin near your temples, finish in front of your torso.",
+      "Palms turn to face one another at the end. Move the gathered hands forward from the head, then lower two flat hands to show a person."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the gathered hands forward from the head, then lower two flat hands to show a person.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/792.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "doctor",
+    "word": "Doctor",
+    "group": "People",
+    "hands": "two",
+    "shape": "Keep your supporting hand relaxed; flatten your signing hand.",
+    "place": "At your supporting wrist",
+    "palm": "Supporting palm faces down",
+    "move": "Tap the signing fingertips at the back of the supporting wrist, matching this variant.",
+    "shortContext": "A doctor visit",
+    "aliases": "physician pediatrician checkup",
+    "routine": "People",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A doctor visit: say “doctor,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Keep your supporting hand relaxed; flatten your signing hand. At your supporting wrist.",
+      "Supporting palm faces down. Tap the signing fingertips at the back of the supporting wrist, matching this variant."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Tap the signing fingertips at the back of the supporting wrist, matching this variant.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/344.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "bed",
+    "word": "Bed",
+    "group": "Bedtime",
+    "hands": "one",
+    "shape": "Hold one hand flat.",
+    "place": "Beside your cheek",
+    "palm": "Palm faces your cheek",
+    "move": "Rest your head toward the flat hand like a pillow.",
+    "shortContext": "Talking about bedtime",
+    "aliases": "pillow sleeping bed",
+    "routine": "Bedtime",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Talking about bedtime: say “bed,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold one hand flat. Beside your cheek.",
+      "Palm faces your cheek. Rest your head toward the flat hand like a pillow. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Rest your head toward the flat hand like a pillow.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/384.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "blanket",
+    "word": "Blanket",
+    "group": "Bedtime",
+    "hands": "two",
+    "shape": "Gather the fingertips of both hands toward their thumbs as if pinching fabric.",
+    "place": "In front of your chest",
+    "palm": "Palms angle down",
+    "move": "Pull both hands upward as if drawing a blanket over yourself.",
+    "shortContext": "Naming a blanket while awake",
+    "aliases": "cover comfort blanket",
+    "routine": "Bedtime",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming a blanket while awake: say “blanket,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Gather the fingertips of both hands toward their thumbs as if pinching fabric. In front of your chest.",
+      "Palms angle down. Pull both hands upward as if drawing a blanket over yourself."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Pull both hands upward as if drawing a blanket over yourself.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/41.html"
+    },
+    "careNote": "Name a blanket during awake, supervised time. Keep loose blankets out of an infant’s sleep space."
+  },
+  {
+    "id": "light",
+    "word": "Light",
+    "group": "Home",
+    "hands": "one",
+    "shape": "Start with the middle finger touching your thumb; spread the other fingers.",
+    "place": "Beside your face",
+    "palm": "Palm angles sideways",
+    "move": "Flick the middle finger upward from the thumb.",
+    "shortContext": "Turning a light on",
+    "aliases": "lamp lights bright",
+    "routine": "Home",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Turning a light on: say “light,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Start with the middle finger touching your thumb; spread the other fingers. Beside your face.",
+      "Palm angles sideways. Flick the middle finger upward from the thumb. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Flick the middle finger upward from the thumb.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/497.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "dark",
+    "word": "Dark",
+    "group": "Bedtime",
+    "hands": "two",
+    "shape": "Hold both hands flat.",
+    "place": "In front of your face",
+    "palm": "Palms face you",
+    "move": "Pass the hands across one another in front of your face.",
+    "shortContext": "The room gets dark",
+    "aliases": "night dim darkness",
+    "routine": "Bedtime",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "The room gets dark: say “dark,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands flat. In front of your face.",
+      "Palms face you. Pass the hands across one another in front of your face."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Pass the hands across one another in front of your face.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/100.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "wake",
+    "word": "Wake up",
+    "group": "Bedtime",
+    "hands": "two",
+    "shape": "Bring each thumb and index finger together.",
+    "place": "Beside your eyes",
+    "palm": "Palms angle away",
+    "move": "Open the index fingers and thumbs as if your eyes are opening.",
+    "shortContext": "Good morning",
+    "aliases": "awake wake up waking morning",
+    "routine": "Bedtime",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Good morning: say “wake up,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Bring each thumb and index finger together. Beside your eyes.",
+      "Palms angle away. Open the index fingers and thumbs as if your eyes are opening."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Open the index fingers and thumbs as if your eyes are opening.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2354.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "bottle",
+    "word": "Bottle",
+    "group": "Meals",
+    "hands": "two",
+    "shape": "Curve your signing hand around an imaginary bottle; hold the other hand flat.",
+    "place": "Above the supporting palm",
+    "palm": "Supporting palm faces up",
+    "move": "Rest the curved hand on the palm and move it up to suggest the bottle shape.",
+    "shortContext": "Preparing a bottle",
+    "aliases": "bottles feeding container",
+    "routine": "Meals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Preparing a bottle: say “bottle,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve your signing hand around an imaginary bottle; hold the other hand flat. Above the supporting palm.",
+      "Supporting palm faces up. Rest the curved hand on the palm and move it up to suggest the bottle shape."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Rest the curved hand on the palm and move it up to suggest the bottle shape.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/47.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "cup",
+    "word": "Cup",
+    "group": "Meals",
+    "hands": "two",
+    "shape": "Curve your signing hand into a C.",
+    "place": "Above your open supporting palm",
+    "palm": "Supporting palm faces up",
+    "move": "Set the C hand on the palm as if placing a cup down.",
+    "shortContext": "Choosing a cup",
+    "aliases": "glass drinking cup",
+    "routine": "Meals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Choosing a cup: say “cup,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve your signing hand into a C. Above your open supporting palm.",
+      "Supporting palm faces up. Set the C hand on the palm as if placing a cup down."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Set the C hand on the palm as if placing a cup down.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/388.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "spoon",
+    "word": "Spoon",
+    "group": "Meals",
+    "hands": "two",
+    "shape": "Extend the index and middle fingers on each hand.",
+    "place": "In front of your body",
+    "palm": "Supporting palm angles up",
+    "move": "Scoop the two signing fingers over the supporting fingers, then move them toward your mouth.",
+    "shortContext": "Finding a spoon",
+    "aliases": "utensil feeding spoon",
+    "routine": "Meals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Finding a spoon: say “spoon,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend the index and middle fingers on each hand. In front of your body.",
+      "Supporting palm angles up. Scoop the two signing fingers over the supporting fingers, then move them toward your mouth."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Scoop the two signing fingers over the supporting fingers, then move them toward your mouth.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/3132.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "bread",
+    "word": "Bread",
+    "group": "Meals",
+    "hands": "two",
+    "shape": "Hold one hand upright, fingers together; flatten your signing hand.",
+    "place": "Beside your supporting hand",
+    "palm": "Supporting palm angles toward you",
+    "move": "Draw the little-finger edge of the signing hand down along the other hand, like slicing a loaf.",
+    "shortContext": "Naming food at the table",
+    "aliases": "loaf toast sandwich",
+    "routine": "Meals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming food at the table: say “bread,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold one hand upright, fingers together; flatten your signing hand. Beside your supporting hand.",
+      "Supporting palm angles toward you. Draw the little-finger edge of the signing hand down along the other hand, like slicing a loaf."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Draw the little-finger edge of the signing hand down along the other hand, like slicing a loaf.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/373.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "cheese",
+    "word": "Cheese",
+    "group": "Meals",
+    "hands": "two",
+    "shape": "Hold both hands loosely curved.",
+    "place": "In front of your body",
+    "palm": "Palms face one another",
+    "move": "Press the hands together and twist slightly, as shown.",
+    "shortContext": "Naming food at the table",
+    "aliases": "dairy cheesy",
+    "routine": "Meals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming food at the table: say “cheese,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands loosely curved. In front of your body.",
+      "Palms face one another. Press the hands together and twist slightly, as shown."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Press the hands together and twist slightly, as shown.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/430.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "egg",
+    "word": "Egg",
+    "group": "Meals",
+    "hands": "two",
+    "shape": "Extend the index and middle fingers on both hands.",
+    "place": "In front of your body",
+    "palm": "Hands face down",
+    "move": "Touch the two pairs together, then separate them downward like cracking an egg.",
+    "shortContext": "Naming food at the table",
+    "aliases": "eggs breakfast",
+    "routine": "Meals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming food at the table: say “egg,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend the index and middle fingers on both hands. In front of your body.",
+      "Hands face down. Touch the two pairs together, then separate them downward like cracking an egg."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Touch the two pairs together, then separate them downward like cracking an egg.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/447.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "orange",
+    "word": "Orange",
+    "group": "Meals",
+    "hands": "one",
+    "shape": "Make a loose fist with one hand.",
+    "place": "Near your chin",
+    "palm": "Palm faces sideways toward you",
+    "move": "Squeeze and relax the fist near your chin.",
+    "shortContext": "A fruit or a color",
+    "aliases": "fruit citrus color orange",
+    "routine": "Meals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A fruit or a color: say “orange,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Make a loose fist with one hand. Near your chin.",
+      "Palm faces sideways toward you. Squeeze and relax the fist near your chin. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Squeeze and relax the fist near your chin.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/521.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "strawberry",
+    "word": "Strawberry",
+    "group": "Meals",
+    "hands": "one",
+    "shape": "Touch your thumb and index fingertip together; keep the other fingers extended.",
+    "place": "At the nose",
+    "palm": "Palm faces inward",
+    "move": "Start the pinched thumb-index shape near the nose, then twist it forward and downward.",
+    "shortContext": "Naming a berry",
+    "aliases": "berries fruit strawberry",
+    "routine": "Meals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming a berry: say “strawberry,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Touch your thumb and index fingertip together; keep the other fingers extended. At the nose.",
+      "Palm faces inward. Start the pinched thumb-index shape near the nose, then twist it forward and downward. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Start the pinched thumb-index shape near the nose, then twist it forward and downward.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2019.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "carrot",
+    "word": "Carrot",
+    "group": "Meals",
+    "hands": "one",
+    "shape": "Make a loose fist as though holding a carrot.",
+    "place": "Beside your mouth",
+    "palm": "Thumb angles toward your mouth",
+    "move": "Bring the fist near the mouth and flex the wrist downward in a small biting motion.",
+    "shortContext": "Naming a vegetable",
+    "aliases": "vegetable carrots",
+    "routine": "Meals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming a vegetable: say “carrot,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Make a loose fist as though holding a carrot. Beside your mouth.",
+      "Thumb angles toward your mouth. Bring the fist near the mouth and flex the wrist downward in a small biting motion. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Bring the fist near the mouth and flex the wrist downward in a small biting motion.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2470.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "cookie",
+    "word": "Cookie",
+    "group": "Meals",
+    "hands": "two",
+    "shape": "Curve your signing fingers as if holding a cookie cutter.",
+    "place": "Above your open supporting palm",
+    "palm": "Supporting palm faces up",
+    "move": "Press the curved fingertips into the palm, lift, turn slightly, and press again.",
+    "shortContext": "Naming a snack",
+    "aliases": "cookies biscuit snack",
+    "routine": "Meals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming a snack: say “cookie,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve your signing fingers as if holding a cookie cutter. Above your open supporting palm.",
+      "Supporting palm faces up. Press the curved fingertips into the palm, lift, turn slightly, and press again."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Press the curved fingertips into the palm, lift, turn slightly, and press again.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/435.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "cracker",
+    "word": "Cracker",
+    "group": "Meals",
+    "hands": "two",
+    "shape": "Close your signing hand into a fist.",
+    "place": "At your opposite elbow",
+    "palm": "Knuckles angle toward the elbow",
+    "move": "Tap the fist near the elbow as shown.",
+    "shortContext": "Naming a snack",
+    "aliases": "crackers snack crisp",
+    "routine": "Meals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Naming a snack: say “cracker,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Close your signing hand into a fist. At your opposite elbow.",
+      "Knuckles angle toward the elbow. Tap the fist near the elbow as shown."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Tap the fist near the elbow as shown.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/647.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "fish",
+    "word": "Fish",
+    "group": "Animals",
+    "hands": "one",
+    "shape": "Hold one hand flat, fingers together.",
+    "place": "In front of your body",
+    "palm": "Palm faces sideways",
+    "move": "Move the hand forward while wiggling it side to side like a swimming fish.",
+    "shortContext": "Watching a fish",
+    "aliases": "fishes ocean aquarium",
+    "routine": "Animals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Watching a fish: say “fish,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold one hand flat, fingers together. In front of your body.",
+      "Palm faces sideways. Move the hand forward while wiggling it side to side like a swimming fish. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the hand forward while wiggling it side to side like a swimming fish.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/387.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "bird",
+    "word": "Bird",
+    "group": "Animals",
+    "hands": "one",
+    "shape": "Extend your thumb and index finger; fold the other fingers.",
+    "place": "Beside your mouth",
+    "palm": "Hand angles sideways",
+    "move": "Open and close the index finger and thumb like a small beak.",
+    "shortContext": "Spotting a bird",
+    "aliases": "chicken birds beak",
+    "routine": "Animals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Spotting a bird: say “bird,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend your thumb and index finger; fold the other fingers. Beside your mouth.",
+      "Hand angles sideways. Open and close the index finger and thumb like a small beak. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Open and close the index finger and thumb like a small beak.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/361.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "horse",
+    "word": "Horse",
+    "group": "Animals",
+    "hands": "one",
+    "shape": "Extend your index and middle fingers with your thumb out.",
+    "place": "Beside your temple",
+    "palm": "Palm faces forward",
+    "move": "Bend the two extended fingers forward and back.",
+    "shortContext": "A horse in a story",
+    "aliases": "pony horses farm",
+    "routine": "Animals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A horse in a story: say “horse,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend your index and middle fingers with your thumb out. Beside your temple.",
+      "Palm faces forward. Bend the two extended fingers forward and back. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Bend the two extended fingers forward and back.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/391.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "cow",
+    "word": "Cow",
+    "group": "Animals",
+    "hands": "one",
+    "shape": "Extend the thumb and little finger of one hand; fold the middle three fingers.",
+    "place": "Beside your temple",
+    "palm": "Palms angle forward",
+    "move": "Hold your thumb near the temple and turn the hand slightly like a horn.",
+    "shortContext": "A farm animal",
+    "aliases": "cows cattle farm",
+    "routine": "Animals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A farm animal: say “cow,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend the thumb and little finger of one hand; fold the middle three fingers. Beside your temple.",
+      "Palms angle forward. Hold your thumb near the temple and turn the hand slightly like a horn. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Hold your thumb near the temple and turn the hand slightly like a horn.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/436.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "pig",
+    "word": "Pig",
+    "group": "Animals",
+    "hands": "one",
+    "shape": "Hold one hand flat with fingers together.",
+    "place": "Under your chin",
+    "palm": "Palm faces down",
+    "move": "Bend the fingers downward repeatedly.",
+    "shortContext": "A farm animal",
+    "aliases": "pigs farm pork",
+    "routine": "Animals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A farm animal: say “pig,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold one hand flat with fingers together. Under your chin.",
+      "Palm faces down. Bend the fingers downward repeatedly. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Bend the fingers downward repeatedly.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/525.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "duck",
+    "word": "Duck",
+    "group": "Animals",
+    "hands": "one",
+    "shape": "Extend your index and middle fingers with the thumb below.",
+    "place": "Beside your mouth",
+    "palm": "Palm angles sideways",
+    "move": "Bring the two fingers down to the thumb and open again like a duck bill.",
+    "shortContext": "Ducks at the pond",
+    "aliases": "ducks duckling pond",
+    "routine": "Animals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Ducks at the pond: say “duck,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend your index and middle fingers with the thumb below. Beside your mouth.",
+      "Palm angles sideways. Bring the two fingers down to the thumb and open again like a duck bill. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Bring the two fingers down to the thumb and open again like a duck bill.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/446.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "rabbit",
+    "word": "Rabbit",
+    "group": "Animals",
+    "hands": "two",
+    "shape": "Extend the index and middle fingers on both hands.",
+    "place": "Beside your head",
+    "palm": "Palms face forward",
+    "move": "Bend the finger pairs forward and up like rabbit ears.",
+    "shortContext": "A rabbit in a book",
+    "aliases": "bunny hare rabbit ears",
+    "routine": "Animals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A rabbit in a book: say “rabbit,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend the index and middle fingers on both hands. Beside your head.",
+      "Palms face forward. Bend the finger pairs forward and up like rabbit ears."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Bend the finger pairs forward and up like rabbit ears.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/234.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "bear",
+    "word": "Bear",
+    "group": "Animals",
+    "hands": "two",
+    "shape": "Curve both hands into loose claws.",
+    "place": "Across your upper chest",
+    "palm": "Palms face toward your body",
+    "move": "Cross the arms and make small scratching movements at the chest.",
+    "shortContext": "A bear in a story",
+    "aliases": "teddy bear polar bear grizzly",
+    "routine": "Animals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A bear in a story: say “bear,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve both hands into loose claws. Across your upper chest.",
+      "Palms face toward your body. Cross the arms and make small scratching movements at the chest."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Cross the arms and make small scratching movements at the chest.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/394.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "lion",
+    "word": "Lion",
+    "group": "Animals",
+    "hands": "one",
+    "shape": "Curve one hand with fingers spread.",
+    "place": "Above your forehead",
+    "palm": "Palm faces toward your head",
+    "move": "Sweep the curved hand from the forehead down around the side of your head to outline a mane.",
+    "shortContext": "A lion in a book",
+    "aliases": "lions mane zoo",
+    "routine": "Animals",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A lion in a book: say “lion,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve one hand with fingers spread. Above your forehead.",
+      "Palm faces toward your head. Sweep the curved hand from the forehead down around the side of your head to outline a mane. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Sweep the curved hand from the forehead down around the side of your head to outline a mane.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/499.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "tree",
+    "word": "Tree",
+    "group": "Nature",
+    "hands": "two",
+    "shape": "Spread your signing fingers; keep the supporting hand flat.",
+    "place": "Signing elbow rests on the supporting hand",
+    "palm": "Signing palm faces forward",
+    "move": "Hold the forearm upright and twist the open hand like branches moving.",
+    "shortContext": "A tree on your walk",
+    "aliases": "trees forest woods",
+    "routine": "Nature",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A tree on your walk: say “tree,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Spread your signing fingers; keep the supporting hand flat. Signing elbow rests on the supporting hand.",
+      "Signing palm faces forward. Hold the forearm upright and twist the open hand like branches moving."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Hold the forearm upright and twist the open hand like branches moving.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/342.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "flower",
+    "word": "Flower",
+    "group": "Nature",
+    "hands": "one",
+    "shape": "Gather your fingertips toward your thumb.",
+    "place": "Beside your nose",
+    "palm": "Fingertips face inward",
+    "move": "Move the gathered hand from one side of your nose to the other.",
+    "shortContext": "Stopping to notice a flower",
+    "aliases": "flowers blossom smell",
+    "routine": "Nature",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Stopping to notice a flower: say “flower,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Gather your fingertips toward your thumb. Beside your nose.",
+      "Fingertips face inward. Move the gathered hand from one side of your nose to the other. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move the gathered hand from one side of your nose to the other.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/381.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "sun",
+    "word": "Sun",
+    "group": "Nature",
+    "hands": "one",
+    "shape": "Make a small O with one hand, then spread its fingers.",
+    "place": "Above and beside your head",
+    "palm": "Palm faces away",
+    "move": "Open the O into spread fingers, following the downward ray movement in the clip.",
+    "shortContext": "A sunny day",
+    "aliases": "sunny sunshine summer",
+    "routine": "Nature",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A sunny day: say “sun,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Make a small O with one hand, then spread its fingers. Above and beside your head.",
+      "Palm faces away. Open the O into spread fingers, following the downward ray movement in the clip. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Open the O into spread fingers, following the downward ray movement in the clip.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/678.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "rain",
+    "word": "Rain",
+    "group": "Nature",
+    "hands": "two",
+    "shape": "Spread and slightly bend both sets of fingers.",
+    "place": "In front of your upper body",
+    "palm": "Palms face down",
+    "move": "Lower both hands in short repeated movements like falling rain.",
+    "shortContext": "Watching rain",
+    "aliases": "raining rainy weather",
+    "routine": "Nature",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Watching rain: say “rain,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Spread and slightly bend both sets of fingers. In front of your upper body.",
+      "Palms face down. Lower both hands in short repeated movements like falling rain."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Lower both hands in short repeated movements like falling rain.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1011.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "snow",
+    "word": "Snow",
+    "group": "Nature",
+    "hands": "two",
+    "shape": "Open both hands with fingers spread.",
+    "place": "In front of your upper body",
+    "palm": "Palms face down",
+    "move": "Wiggle your fingers as both hands drift down.",
+    "shortContext": "Watching snow fall",
+    "aliases": "snowing snowy winter",
+    "routine": "Nature",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Watching snow fall: say “snow,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Open both hands with fingers spread. In front of your upper body.",
+      "Palms face down. Wiggle your fingers as both hands drift down."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Wiggle your fingers as both hands drift down.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/686.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "wind",
+    "word": "Wind",
+    "group": "Nature",
+    "hands": "two",
+    "shape": "Hold both hands open.",
+    "place": "In front of your chest",
+    "palm": "Palms face toward one another",
+    "move": "Move both hands from side to side as though air is blowing.",
+    "shortContext": "A windy walk",
+    "aliases": "windy breeze blowing",
+    "routine": "Nature",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A windy walk: say “wind,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands open. In front of your chest.",
+      "Palms face toward one another. Move both hands from side to side as though air is blowing."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move both hands from side to side as though air is blowing.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/321.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "hat",
+    "word": "Hat",
+    "group": "Clothes",
+    "hands": "one",
+    "shape": "Hold one hand flat.",
+    "place": "On top of your head",
+    "palm": "Palm faces down",
+    "move": "Pat the top of your head lightly.",
+    "shortContext": "Putting on a hat",
+    "aliases": "cap sunhat beanie",
+    "routine": "Clothes",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Putting on a hat: say “hat,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold one hand flat. On top of your head.",
+      "Palm faces down. Pat the top of your head lightly. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Pat the top of your head lightly.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/477.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "coat",
+    "word": "Coat",
+    "group": "Clothes",
+    "hands": "two",
+    "shape": "Close both hands as if holding lapels.",
+    "place": "Near your shoulders",
+    "palm": "Fists angle toward your chest",
+    "move": "Draw the hands downward as if pulling a jacket on.",
+    "shortContext": "Getting ready to go out",
+    "aliases": "jacket raincoat clothing",
+    "routine": "Clothes",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Getting ready to go out: say “coat,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Close both hands as if holding lapels. Near your shoulders.",
+      "Fists angle toward your chest. Draw the hands downward as if pulling a jacket on."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Draw the hands downward as if pulling a jacket on.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2982.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "socks",
+    "word": "Socks",
+    "group": "Clothes",
+    "hands": "two",
+    "shape": "Extend both index fingers.",
+    "place": "In front of your body",
+    "palm": "Fingers face in opposite directions",
+    "move": "Rub the sides of the index fingers together.",
+    "shortContext": "Putting socks on",
+    "aliases": "sock stockings feet",
+    "routine": "Clothes",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Putting socks on: say “socks,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend both index fingers. In front of your body.",
+      "Fingers face in opposite directions. Rub the sides of the index fingers together."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Rub the sides of the index fingers together.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1093.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "shirt",
+    "word": "Shirt",
+    "group": "Clothes",
+    "hands": "two",
+    "shape": "Open both hands with fingers spread.",
+    "place": "At the upper chest",
+    "palm": "Palms face your body",
+    "move": "Brush the hands against the chest in small movements.",
+    "shortContext": "Getting dressed",
+    "aliases": "clothes clothing top tshirt t-shirt",
+    "routine": "Clothes",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Getting dressed: say “shirt,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Open both hands with fingers spread. At the upper chest.",
+      "Palms face your body. Brush the hands against the chest in small movements."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Brush the hands against the chest in small movements.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/92.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "pants",
+    "word": "Pants",
+    "group": "Clothes",
+    "hands": "two",
+    "shape": "Hold both hands flat.",
+    "place": "At the front of your thighs",
+    "palm": "Palms face your legs",
+    "move": "Brush the hands up along your thighs as shown.",
+    "shortContext": "Getting dressed",
+    "aliases": "trousers jeans shorts clothing",
+    "routine": "Clothes",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Getting dressed: say “pants,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands flat. At the front of your thighs.",
+      "Palms face your legs. Brush the hands up along your thighs as shown."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Brush the hands up along your thighs as shown.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/871.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "dress",
+    "word": "Dress",
+    "group": "Clothes",
+    "hands": "two",
+    "shape": "Open both hands with fingers spread.",
+    "place": "From chest toward your hips",
+    "palm": "Palms face your body",
+    "move": "Brush down the torso and outward to show the shape of a dress.",
+    "shortContext": "Getting dressed",
+    "aliases": "gown clothing outfit",
+    "routine": "Clothes",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Getting dressed: say “dress,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Open both hands with fingers spread. From chest toward your hips.",
+      "Palms face your body. Brush down the torso and outward to show the shape of a dress."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Brush down the torso and outward to show the shape of a dress.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/118.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "clean",
+    "word": "Clean",
+    "group": "Care",
+    "hands": "two",
+    "shape": "Hold both hands flat.",
+    "place": "In front of your body",
+    "palm": "Supporting palm faces up",
+    "move": "Brush your signing palm across the supporting palm.",
+    "shortContext": "Cleaning up together",
+    "aliases": "wipe cleanup clean up tidy",
+    "routine": "Care",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Cleaning up together: say “clean,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands flat. In front of your body.",
+      "Supporting palm faces up. Brush your signing palm across the supporting palm."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Brush your signing palm across the supporting palm.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/431.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "dirty",
+    "word": "Dirty",
+    "group": "Care",
+    "hands": "one",
+    "shape": "Open one hand with fingers spread.",
+    "place": "Under your chin",
+    "palm": "Palm faces down",
+    "move": "Touch the thumb near the chin and wiggle the fingers.",
+    "shortContext": "Messy hands after play",
+    "aliases": "messy dirt muddy",
+    "routine": "Care",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Messy hands after play: say “dirty,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Open one hand with fingers spread. Under your chin.",
+      "Palm faces down. Touch the thumb near the chin and wiggle the fingers. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Touch the thumb near the chin and wiggle the fingers.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/109.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "wet",
+    "word": "Wet",
+    "group": "Care",
+    "hands": "two",
+    "shape": "Hold both hands open with fingers curved.",
+    "place": "In front of your lower chest",
+    "palm": "Palms angle upward toward your body",
+    "move": "Close the fingers toward the thumbs as shown.",
+    "shortContext": "Wet hands after washing",
+    "aliases": "damp water wet",
+    "routine": "Care",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Wet hands after washing: say “wet,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands open with fingers curved. In front of your lower chest.",
+      "Palms angle upward toward your body. Close the fingers toward the thumbs as shown."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Close the fingers toward the thumbs as shown.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/319.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "dry",
+    "word": "Dry",
+    "group": "Care",
+    "hands": "one",
+    "shape": "Bend one index finger into a hook.",
+    "place": "Near your chin",
+    "palm": "Palm angles toward your face",
+    "move": "Draw the bent finger sideways across the chin.",
+    "shortContext": "Drying off",
+    "aliases": "towel dry drying",
+    "routine": "Care",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Drying off: say “dry,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Bend one index finger into a hook. Near your chin.",
+      "Palm angles toward your face. Draw the bent finger sideways across the chin. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Draw the bent finger sideways across the chin.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/122.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "potty",
+    "word": "Potty / bathroom",
+    "group": "Care",
+    "hands": "one",
+    "shape": "Make a fist with your thumb between the index and middle fingers.",
+    "place": "In front of your body",
+    "palm": "Palm faces away",
+    "move": "Shake the hand gently from side to side.",
+    "shortContext": "Talking about the bathroom",
+    "aliases": "toilet bathroom restroom potty pee",
+    "routine": "Care",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Talking about the bathroom: say “potty / bathroom,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Make a fist with your thumb between the index and middle fingers. In front of your body.",
+      "Palm faces away. Shake the hand gently from side to side. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Shake the hand gently from side to side.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/32.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "poop",
+    "word": "Poop",
+    "group": "Care",
+    "hands": "two",
+    "shape": "Wrap one hand around the thumb of your other fist.",
+    "place": "In front of your lower torso",
+    "palm": "Hands face one another",
+    "move": "Pull the thumb down out of the wrapping hand.",
+    "shortContext": "A diaper or bathroom moment",
+    "aliases": "poo bowel diaper",
+    "routine": "Care",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A diaper or bathroom moment: say “poop,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Wrap one hand around the thumb of your other fist. In front of your lower torso.",
+      "Hands face one another. Pull the thumb down out of the wrapping hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Pull the thumb down out of the wrapping hand.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/916.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "ready",
+    "word": "Ready",
+    "group": "Everyday",
+    "hands": "two",
+    "shape": "Cross the index and middle fingers on each hand.",
+    "place": "In front of your body",
+    "palm": "Palms face one another",
+    "move": "Move both hands apart in a small outward motion.",
+    "shortContext": "Starting a game",
+    "aliases": "get set all set prepared",
+    "routine": "Everyday",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Starting a game: say “ready,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Cross the index and middle fingers on each hand. In front of your body.",
+      "Palms face one another. Move both hands apart in a small outward motion."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move both hands apart in a small outward motion.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/33.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "quiet",
+    "word": "Quiet",
+    "group": "Everyday",
+    "hands": "two",
+    "shape": "Hold both hands flat, one crossing above the other.",
+    "place": "In front of your chest",
+    "palm": "Palms face down",
+    "move": "Separate the crossed hands and lower them gently, ending with palms down.",
+    "shortContext": "A calm moment together",
+    "aliases": "calm silence peaceful shh",
+    "routine": "Everyday",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A calm moment together: say “quiet,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands flat, one crossing above the other. In front of your chest.",
+      "Palms face down. Separate the crossed hands and lower them gently, ending with palms down."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Separate the crossed hands and lower them gently, ending with palms down.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/233.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "open",
+    "word": "Open",
+    "group": "Home",
+    "hands": "two",
+    "shape": "Hold both hands flat, fingers pointing forward and index-finger sides near each other.",
+    "place": "In front of your chest",
+    "palm": "Palms start down and turn toward each other",
+    "move": "Separate the hands while turning them upright, like opening two flaps.",
+    "shortContext": "Opening a door",
+    "aliases": "opening unlock door",
+    "routine": "Home",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Opening a door: say “open,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Hold both hands flat, fingers pointing forward and index-finger sides near each other. In front of your chest.",
+      "Palms start down and turn toward each other. Separate the hands while turning them upright, like opening two flaps."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Separate the hands while turning them upright, like opening two flaps.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/520.html"
+    },
+    "careNote": "Opening a door, lid, or book can use different forms. This lesson shows the general OPEN variant."
+  },
+  {
+    "id": "go",
+    "word": "Go",
+    "group": "Everyday",
+    "hands": "two",
+    "shape": "Extend both index fingers.",
+    "place": "In front of your body",
+    "palm": "Palms face toward one another",
+    "move": "Move both index fingers forward in the direction of travel.",
+    "shortContext": "Ready, set, go",
+    "aliases": "going leave attend",
+    "routine": "Everyday",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Ready, set, go: say “go,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Extend both index fingers. In front of your body.",
+      "Palms face toward one another. Move both index fingers forward in the direction of travel."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move both index fingers forward in the direction of travel.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/469.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "christmas",
+    "word": "Christmas",
+    "group": "Faith",
+    "hands": "one",
+    "shape": "Curve one hand into a C.",
+    "place": "From the center of your chest toward shoulder height",
+    "palm": "Palm angles sideways",
+    "move": "Sweep the C hand in an upward arc to the side.",
+    "shortContext": "A Christmas story",
+    "aliases": "nativity holiday christmas day",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A Christmas story: say “christmas,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curve one hand into a C. From the center of your chest toward shoulder height.",
+      "Palm angles sideways. Sweep the C hand in an upward arc to the side. Rest your other hand."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Sweep the C hand in an upward arc to the side.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/1064.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "easter",
+    "word": "Easter",
+    "group": "Faith",
+    "hands": "two",
+    "shape": "Curl the fingers of each hand toward the thumb to make E shapes.",
+    "place": "In front of your body",
+    "palm": "Palms angle forward",
+    "move": "Move both E hands in small circles.",
+    "shortContext": "Celebrating Easter",
+    "aliases": "holiday resurrection easter sunday",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "Celebrating Easter: say “easter,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Curl the fingers of each hand toward the thumb to make E shapes. In front of your body.",
+      "Palms angle forward. Move both E hands in small circles."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move both E hands in small circles.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2883.html"
+    },
+    "careNote": null
+  },
+  {
+    "id": "bless",
+    "word": "Bless",
+    "group": "Faith",
+    "hands": "two",
+    "shape": "Begin with both hands near your mouth, then open them.",
+    "place": "From your mouth outward in front of you",
+    "palm": "Palms turn downward",
+    "move": "Move both hands forward and down with fingers spreading, following the reference.",
+    "shortContext": "A blessing together",
+    "aliases": "blessing blessed bless you",
+    "routine": "Faith",
+    "stage": "extra",
+    "stageLabel": "Add when useful",
+    "repetitions": "A small, clear movement",
+    "teachingMoment": "A blessing together: say “bless,” model the sign where your child can see, and connect it to the real person, object, feeling, or activity.",
+    "commonMistake": "Keep the handshape and palm direction shown in this specific reference; valid variants may look different.",
+    "handGuide": [
+      "Begin with both hands near your mouth, then open them. From your mouth outward in front of you.",
+      "Palms turn downward. Move both hands forward and down with fingers spreading, following the reference."
+    ],
+    "checks": [
+      {
+        "id": "shape",
+        "prompt": "I compared my handshape with the signer."
+      },
+      {
+        "id": "palm",
+        "prompt": "I checked which way my palms face."
+      },
+      {
+        "id": "place",
+        "prompt": "I matched the signing location."
+      },
+      {
+        "id": "move",
+        "prompt": "I followed the movement and noticed the expression."
+      }
+    ],
+    "cue": {
+      "summary": "Move both hands forward and down with fingers spreading, following the reference.",
+      "frames": []
+    },
+    "source": {
+      "label": "ASL Signbank source variant",
+      "url": "https://aslsignbank.com/dictionary/gloss/2116.html"
+    },
+    "careNote": null
+  }
+]

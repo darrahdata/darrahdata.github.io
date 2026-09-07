@@ -1,0 +1,32 @@
+import { useState } from 'react';
+import { signs } from '../data/signs.js';
+import { collections, collectionSigns } from '../data/collections.js';
+import { mediaUrl } from './SignDemo.jsx';
+
+export function CollectionTiles({go, compact=false}) {
+  const items = compact ? collections.filter(c => ['church','meals','comfort','play','outside','care'].includes(c.id)) : collections;
+  return <div className="collection-grid">{items.map(c => <button type="button" key={c.id} className={`collection-tile tone-${c.color}`} onClick={() => go(`signs/${c.id}`)}><span className="collection-icon" aria-hidden="true">{c.icon}</span><span><strong>{c.title}</strong><small>{c.note}</small></span><span className="collection-count">{collectionSigns(signs,c).length} signs <b aria-hidden="true">↗</b></span></button>)}</div>;
+}
+
+export default function FamilyLibrary({progress,onOpen,go,collectionId='all',saved=[],onToggleSaved}) {
+  const [query,setQuery] = useState('');
+  const [status,setStatus] = useState('all');
+  const collection=collections.find(c => c.id === collectionId);
+  const normalized=query.trim().toLocaleLowerCase();
+  const searching=!!normalized;
+  const pool=collectionId === 'saved' ? signs.filter(s=>saved.includes(s.id)) : collection ? collectionSigns(signs,collection) : signs;
+  const visible=pool.filter(s => (status === 'all' || (status === 'practiced' ? progress[s.id]?.practiceCount : !progress[s.id]?.practiceCount)) && `${s.word} ${s.group} ${s.aliases || ''} ${s.routine || ''}`.toLocaleLowerCase().includes(normalized)).sort((a,b)=>a.word.localeCompare(b.word));
+  const title=collection?.title || (collectionId === 'saved' ? 'Your family’s signs' : 'A sign for your everyday.');
+  return <main id="main-content" tabIndex={-1} className="page-shell family-library">
+    <div className="library-heading"><div><p className="eyebrow">From first feeds to Sunday mornings</p><h1>{title}</h1><p>{collection?.note || (collectionId === 'saved' ? 'The signs you want close at hand. Saved on this device.' : `${signs.length} signs, with ${signs.filter(s=>s.demo?.src).length} in-app human videos. Explore a moment, find a word, or save a family favorite.`)}</p></div><span className="library-seal" aria-hidden="true">little hands<br/><b>big connection</b></span></div>
+    <label className="sign-search">Find a sign<input type="search" placeholder={collection ? `Search ${collection.title.toLowerCase()}…` : 'Try Jesus, hungry, grandma, swimming…'} value={query} onChange={e=>setQuery(e.target.value)}/></label>
+    <div className="library-toolbar"><label>Explore <select value={collection?.id || (collectionId === 'saved' ? 'saved' : 'all')} onChange={e=>go(`signs/${e.target.value}`)}><option value="all">All {signs.length} signs</option><option value="saved">My saved signs ({saved.length})</option>{collections.map(c=><option key={c.id} value={c.id}>{c.title}</option>)}</select></label><label>Show <select value={status} onChange={e=>setStatus(e.target.value)}><option value="all">Every sign</option><option value="new">Not practiced yet</option><option value="practiced">Practiced</option></select></label></div>
+    {!collection && collectionId !== 'saved' && !searching && status === 'all' && <section className="collection-browser"><div className="section-heading"><h2>What does today look like?</h2><span>Choose a collection</span></div><CollectionTiles go={go}/></section>}
+    {collection && !searching && <section className={`routine-story tone-${collection.color}`}><div><p className="eyebrow">Try this together · {collection.moment}</p><h2>One moment. A few useful words.</h2><p>{collection.phrase}</p>{collection.care && <p className="collection-care">{collection.care}</p>}</div><div className="routine-sign-path">{collection.path.filter(id=>signs.some(s=>s.id===id)).map(id=><button type="button" key={id} onClick={()=>onOpen(id)}>{signs.find(s=>s.id===id).word}<span aria-hidden="true">→</span></button>)}</div><button type="button" className="text-button" onClick={()=>go(`practice/${collection.id}`)}>Practice this collection →</button></section>}
+    {collectionId === 'saved' && saved.length > 0 && <button type="button" className="button secondary" onClick={()=>go('practice/saved')}>Practice my saved signs →</button>}
+    <div className="section-heading library-results"><h2>{collection || collectionId === 'saved' ? 'Explore the signs' : 'The whole vocabulary'}</h2><span role="status">{visible.length} {visible.length === 1 ? 'sign' : 'signs'}{searching ? ` matching “${query}”` : ''}</span></div>
+    {!visible.length && <div className="library-empty card"><h3>{collectionId === 'saved' && !saved.length ? 'Make this library yours.' : 'No matching signs here.'}</h3><p>{collectionId === 'saved' && !saved.length ? 'Tap the heart beside a sign to keep it in your family’s collection.' : 'Try a shorter word, change the practice filter, or search the whole library.'}</p><button className="button secondary" type="button" onClick={()=>{setStatus('all');go('signs');}}>Explore all signs →</button></div>}
+    <div className="family-sign-grid">{visible.map(s=><article className="family-sign-card" key={s.id}><button type="button" className="family-sign-open" onClick={()=>onOpen(s.id)}><div className="family-sign-image">{s.demo?.poster ? <img src={mediaUrl(s.demo.poster)} alt="" loading="lazy"/> : <span className="reference-symbol" aria-hidden="true">✝</span>}<span className="video-pill">{s.demo?.src ? "▶ Watch & learn" : "↗ Teacher reference"}</span></div><div className="family-sign-copy"><small>{s.group} · {s.hands === 'one' ? 'One hand' : 'Two hands'}</small><h3>{s.word}</h3><p>{s.shortContext || s.routine || 'An everyday moment together'}</p><span className="sign-status">{progress[s.id]?.practiceCount ? '✓ Practiced' : 'Start this sign →'}</span></div></button><button className={`save-sign ${saved.includes(s.id) ? 'is-saved' : ''}`} type="button" aria-label={`${saved.includes(s.id) ? 'Unsave' : 'Save'} ${s.word}`} aria-pressed={saved.includes(s.id)} onClick={()=>onToggleSaved(s.id)}>{saved.includes(s.id) ? '♥' : '♡'}</button></article>)}</div>
+    <footer className="safety-footer"><p>For dads, moms, and everyone who cares for a child. Keep talking and respond to natural cues; there is no need to learn every sign at once.</p><p>Human reference videos: ASL Signbank (2026). Individual vocabulary, not a complete ASL course. <a href={`${import.meta.env.BASE_URL}credits.html`}>Credits, variants & teaching notes</a>.</p></footer>
+  </main>;
+}

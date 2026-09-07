@@ -1,3 +1,5 @@
+import familySigns from "./familySigns.json";
+import { faithReferences } from "./faithReferences.js";
 import { extraSigns } from "./extraSigns.js";
 import media from "./media.json";
 
@@ -389,13 +391,13 @@ const handGuides = {
   hurt: ["Point both index fingers toward each other. Fold your other fingers and thumbs in.", "Move the fingertips toward each other twice with a small motion, near the area that hurts. Use a concerned expression."]
 };
 const originalGroups = {milk:"Meals",sleep:"Bedtime",diaper:"Care",mom:"Connection",dad:"Connection","all-done":"Meals",more:"Meals",up:"Care",eat:"Meals",drink:"Meals",help:"Connection",hurt:"Connection"};
-export const signs = [...signCatalog, ...extraSigns].map(sign => ({
+export const signs = [...signCatalog, ...extraSigns, ...familySigns, ...faithReferences].map(sign => ({
   ...sign,
   group: sign.group || originalGroups[sign.id],
   handGuide: sign.handGuide || handGuides[sign.id],
-  demo: media[sign.id]
+  demo: media[sign.id] || sign.demo
 }));
-export const routineGroups = ["Meals", "Care", "Bedtime", "Play", "Animals", "Connection"];
+export const routineGroups = [...new Set(signs.map(sign => sign.group))];
 
 export const stageOrder = [
   { id: "birth", shortLabel: "From birth" },

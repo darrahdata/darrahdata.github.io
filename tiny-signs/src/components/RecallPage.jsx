@@ -1,25 +1,28 @@
 import { useState } from "react";
 import { signs } from "../data/signs.js";
+import { collections, collectionSigns } from "../data/collections.js";
 import SignDemo from "./SignDemo.jsx";
 
-export function makeDeck(progress, scope = "learned") {
-  let pool = scope === "all" ? signs : signs.filter(sign => progress[sign.id]?.practiceCount || progress[sign.id]?.count);
-  if (!pool.length) pool = signs.filter(sign => ["milk", "more", "all-done"].includes(sign.id));
+export function makeDeck(progress, scope = "learned", saved = [], mode = "make") {
+  const collection=collections.find(c=>c.id === scope);
+  let pool = scope === "all" ? signs : scope === "saved" ? signs.filter(s=>saved.includes(s.id)) : collection ? collectionSigns(signs,collection) : signs.filter(sign => progress[sign.id]?.practiceCount || progress[sign.id]?.count);
+  if (!pool.length && scope === "learned") pool = signs.filter(sign => ["milk", "more", "all-done"].includes(sign.id));
+  if (mode === "recognize") pool=pool.filter(s=>s.demo?.src);
   return [...pool].sort((a,b) => {
     const pa = progress[a.id] || {}, pb = progress[b.id] || {};
     const priority = p => p.recallRating === 'again' ? 0 : p.recallAt ? 2 : 1;
     return priority(pa) - priority(pb) || (pa.recallAt || '').localeCompare(pb.recallAt || '');
   }).slice(0,5);
 }
-export default function RecallPage({ progress, onRecall, onOpen, go }) {
+export default function RecallPage({ progress, onRecall, onOpen, go, saved = [], initialScope }) {
   const [mode, setMode] = useState('make');
-  const [scope, setScope] = useState('learned');
+  const [scope, setScope] = useState(initialScope || 'learned');
   const [deck, setDeck] = useState(null);
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [answer, setAnswer] = useState('');
   const [results, setResults] = useState([]);
-  const pool = makeDeck(progress,scope);
+  const pool = makeDeck(progress,scope,saved,mode);
   const sign = deck?.[index];
   const complete = deck && !sign;
   function start() { setDeck(pool); setIndex(0); setResults([]); setRevealed(false); setAnswer(''); }
@@ -33,9 +36,11 @@ export default function RecallPage({ progress, onRecall, onOpen, go }) {
     <p className="eyebrow">A little practice, from memory</p><h1>Let’s see what stuck.</h1>
     {!deck && <section className="card recall-setup"><h2>Try first. Then compare.</h2><p>Practice up to five signs. Signs you want to revisit appear first; familiar signs return later.</p>
       <div className="recall-choices"><button type="button" aria-pressed={mode === 'make'} onClick={() => setMode('make')}><strong>Make the sign</strong><span>See a word. Try signing it before the video appears.</span></button><button type="button" aria-pressed={mode === 'recognize'} onClick={() => setMode('recognize')}><strong>Name the sign</strong><span>Watch a clip without the word. Recall its meaning.</span></button></div>
-      <label className="recall-scope">Practice from <select value={scope} onChange={e => setScope(e.target.value)}><option value="learned">My practiced signs</option><option value="all">All 30 signs</option></select></label>
+      <label className="recall-scope">Practice from <select value={scope} onChange={e => setScope(e.target.value)}><option value="learned">My practiced signs</option><option value="all">All {signs.length} signs</option><option value="saved">My saved signs</option>{collections.map(c=><option key={c.id} value={c.id}>{c.title}</option>)}</select></label>
       <p>{scope === 'learned' && !signs.some(s => progress[s.id]?.practiceCount || progress[s.id]?.count) ? 'No practiced signs yet. We’ll start with Milk, More, and All done. You can reveal the answer whenever you need it.' : `${pool.length} signs in this round.`}</p>
-      <button type="button" className="button primary" onClick={start}>Start practice →</button></section>}
+      {mode === "recognize" && <p>Name the sign uses the {signs.filter(s=>s.demo?.src).length} in-app clips. Linked teaching references are available in Make the sign.</p>}
+      {!pool.length && <p role="status">No eligible signs in this selection. Save some video signs or choose another collection.</p>}
+      <button type="button" className="button primary" disabled={!pool.length} onClick={start}>Start practice →</button></section>}
     {sign && <section className="card recall-round" aria-labelledby="recall-prompt">
       <div className="recall-top"><span>{index + 1} / {deck.length}</span><button type="button" className="text-button" onClick={() => setDeck(null)}>Finish early</button></div>
       <h2 id="recall-prompt">{mode === 'make' ? `Can you sign “${sign.word}”?` : 'What does this sign mean?'}</h2>

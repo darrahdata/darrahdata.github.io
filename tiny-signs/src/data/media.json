@@ -8,7 +8,8 @@
     "gloss": "MILKasym",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 1656228
   },
   "mom": {
     "type": "native",
@@ -19,7 +20,8 @@
     "gloss": "MOTHERstr",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 421331
   },
   "dad": {
     "type": "native",
@@ -30,7 +32,8 @@
     "gloss": "FATHERstr",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 1465073
   },
   "all-done": {
     "type": "native",
@@ -41,7 +44,8 @@
     "gloss": "FINISH",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 320139
   },
   "hurt": {
     "type": "native",
@@ -52,7 +56,8 @@
     "gloss": "PAIN",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 2547535
   },
   "sleep": {
     "type": "native",
@@ -63,7 +68,8 @@
     "gloss": "SLEEPo",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 1646700
   },
   "diaper": {
     "type": "native",
@@ -74,7 +80,8 @@
     "gloss": "DIAPER",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 881592
   },
   "more": {
     "type": "native",
@@ -85,7 +92,8 @@
     "gloss": "MORE",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 1579718
   },
   "eat": {
     "type": "native",
@@ -96,7 +104,8 @@
     "gloss": "EAT",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 637583
   },
   "drink": {
     "type": "native",
@@ -107,7 +116,8 @@
     "gloss": "DRINKc",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 261882
   },
   "up": {
     "type": "native",
@@ -118,7 +128,8 @@
     "gloss": "UP",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 1478981
   },
   "help": {
     "type": "native",
@@ -129,7 +140,8 @@
     "gloss": "HELPstr",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 352768
   },
   "bath": {
     "type": "native",
@@ -140,7 +152,8 @@
     "gloss": "BATH",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 535705
   },
   "book": {
     "type": "native",
@@ -151,7 +164,8 @@
     "gloss": "BOOK",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 633594
   },
   "ball": {
     "type": "native",
@@ -162,7 +176,8 @@
     "gloss": "BALL",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 542606
   },
   "dog": {
     "type": "native",
@@ -173,7 +188,8 @@
     "gloss": "DOGslap",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 497287
   },
   "cat": {
     "type": "native",
@@ -184,7 +200,8 @@
     "gloss": "CATg",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 495996
   },
   "water": {
     "type": "native",
@@ -195,7 +212,8 @@
     "gloss": "WATER",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 1522690
   },
   "banana": {
     "type": "native",
@@ -206,7 +224,8 @@
     "gloss": "BANANAfull",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 522521
   },
   "apple": {
     "type": "native",
@@ -217,7 +236,8 @@
     "gloss": "APPLEx",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 777899
   },
   "please": {
     "type": "native",
@@ -228,7 +248,8 @@
     "gloss": "PLEASE",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 2588855
   },
   "thank-you": {
     "type": "native",
@@ -239,7 +260,8 @@
     "gloss": "THANK-YOU",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 445363
   },
   "yes": {
     "type": "native",
@@ -250,7 +272,8 @@
     "gloss": "YES",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 563972
   },
   "no": {
     "type": "native",
@@ -261,7 +284,8 @@
     "gloss": "NO",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 2486459
   },
   "stop": {
     "type": "native",
@@ -272,7 +296,8 @@
     "gloss": "STOP",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 1548932
   },
   "play": {
     "type": "native",
@@ -283,7 +308,8 @@
     "gloss": "PLAY",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 1681516
   },
   "love": {
     "type": "native",
@@ -294,7 +320,8 @@
     "gloss": "LOVEs",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 1466481
   },
   "hug": {
     "type": "native",
@@ -305,7 +332,8 @@
     "gloss": "HUG",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 340959
   },
   "shoes": {
     "type": "native",
@@ -316,7 +344,8 @@
     "gloss": "SHOES",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 1545613
   },
   "toothbrush": {
     "type": "native",
@@ -327,6 +356,1267 @@
     "gloss": "TOOTHBRUSH",
     "license": "CC BY-NC-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-    "reviewed": false
+    "reviewed": false,
+    "bytes": 1742389
+  },
+  "hungry": {
+    "type": "native",
+    "src": "media/hungry.mp4",
+    "poster": "media/hungry.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/488.html",
+    "gloss": "DESIRE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 518844
+  },
+  "tired": {
+    "type": "native",
+    "src": "media/tired.mp4",
+    "poster": "media/tired.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/297.html",
+    "gloss": "TIRED",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 2218902
+  },
+  "hot": {
+    "type": "native",
+    "src": "media/hot.mp4",
+    "poster": "media/hot.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/485.html",
+    "gloss": "HOT",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1374370
+  },
+  "cold": {
+    "type": "native",
+    "src": "media/cold.mp4",
+    "poster": "media/cold.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/432.html",
+    "gloss": "COLD",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 405867
+  },
+  "gentle": {
+    "type": "native",
+    "src": "media/gentle.mp4",
+    "poster": "media/gentle.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/542.html",
+    "gloss": "SOFT",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 310263
+  },
+  "wait": {
+    "type": "native",
+    "src": "media/wait.mp4",
+    "poster": "media/wait.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1405.html",
+    "gloss": "WAIT",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1816564
+  },
+  "hello": {
+    "type": "native",
+    "src": "media/hello.mp4",
+    "poster": "media/hello.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/482.html",
+    "gloss": "HELLO",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1442774
+  },
+  "goodbye": {
+    "type": "native",
+    "src": "media/goodbye.mp4",
+    "poster": "media/goodbye.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/425.html",
+    "gloss": "BYE-BYE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 589194
+  },
+  "outside": {
+    "type": "native",
+    "src": "media/outside.mp4",
+    "poster": "media/outside.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/209.html",
+    "gloss": "OUTSIDE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1430545
+  },
+  "change": {
+    "type": "native",
+    "src": "media/change.mp4",
+    "poster": "media/change.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1053.html",
+    "gloss": "CHANGEx",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 341547
+  },
+  "wash": {
+    "type": "native",
+    "src": "media/wash.mp4",
+    "poster": "media/wash.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2553.html",
+    "gloss": "WASH-HANDS",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 267897
+  },
+  "church": {
+    "type": "native",
+    "src": "media/church.mp4",
+    "poster": "media/church.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2296.html",
+    "gloss": "CHURCH",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 398770
+  },
+  "pray": {
+    "type": "native",
+    "src": "media/pray.mp4",
+    "poster": "media/pray.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/3044.html",
+    "gloss": "PRAYER",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1001778
+  },
+  "god": {
+    "type": "native",
+    "src": "media/god.mp4",
+    "poster": "media/god.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1871.html",
+    "gloss": "GOD",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1407150
+  },
+  "cross": {
+    "type": "native",
+    "src": "media/cross.mp4",
+    "poster": "media/cross.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2560.html",
+    "gloss": "CROSS",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 639270
+  },
+  "angel": {
+    "type": "native",
+    "src": "media/angel.mp4",
+    "poster": "media/angel.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2201.html",
+    "gloss": "ANGEL",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 253359
+  },
+  "heaven": {
+    "type": "native",
+    "src": "media/heaven.mp4",
+    "poster": "media/heaven.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/672.html",
+    "gloss": "HEAVEN",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 412737
+  },
+  "believe": {
+    "type": "native",
+    "src": "media/believe.mp4",
+    "poster": "media/believe.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1963.html",
+    "gloss": "BELIEVEix",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 425933
+  },
+  "sing": {
+    "type": "native",
+    "src": "media/sing.mp4",
+    "poster": "media/sing.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/3111.html",
+    "gloss": "SING",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 301362
+  },
+  "music": {
+    "type": "native",
+    "src": "media/music.mp4",
+    "poster": "media/music.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1584.html",
+    "gloss": "MUSIC",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 544056
+  },
+  "sunday": {
+    "type": "native",
+    "src": "media/sunday.mp4",
+    "poster": "media/sunday.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2788.html",
+    "gloss": "SUNDAYbup",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 589027
+  },
+  "friend": {
+    "type": "native",
+    "src": "media/friend.mp4",
+    "poster": "media/friend.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/462.html",
+    "gloss": "FRIEND",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 319234
+  },
+  "family": {
+    "type": "native",
+    "src": "media/family.mp4",
+    "poster": "media/family.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1379.html",
+    "gloss": "FAMILYf",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 543337
+  },
+  "baby": {
+    "type": "native",
+    "src": "media/baby.mp4",
+    "poster": "media/baby.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/407.html",
+    "gloss": "BABY",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 762474
+  },
+  "brother": {
+    "type": "native",
+    "src": "media/brother.mp4",
+    "poster": "media/brother.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/52.html",
+    "gloss": "BROTHERix",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 993144
+  },
+  "sister": {
+    "type": "native",
+    "src": "media/sister.mp4",
+    "poster": "media/sister.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2962.html",
+    "gloss": "SISTERix",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 344301
+  },
+  "grandma": {
+    "type": "native",
+    "src": "media/grandma.mp4",
+    "poster": "media/grandma.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1862.html",
+    "gloss": "GRANDMOTHER",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1589907
+  },
+  "grandpa": {
+    "type": "native",
+    "src": "media/grandpa.mp4",
+    "poster": "media/grandpa.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1863.html",
+    "gloss": "GRANDFATHER",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1519354
+  },
+  "happy": {
+    "type": "native",
+    "src": "media/happy.mp4",
+    "poster": "media/happy.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/476.html",
+    "gloss": "HAPPY",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1590493
+  },
+  "sad": {
+    "type": "native",
+    "src": "media/sad.mp4",
+    "poster": "media/sad.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/245.html",
+    "gloss": "SAD",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 411814
+  },
+  "angry": {
+    "type": "native",
+    "src": "media/angry.mp4",
+    "poster": "media/angry.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/15.html",
+    "gloss": "ANGRY",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 493673
+  },
+  "scared": {
+    "type": "native",
+    "src": "media/scared.mp4",
+    "poster": "media/scared.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/246.html",
+    "gloss": "SCARED5",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 472836
+  },
+  "sick": {
+    "type": "native",
+    "src": "media/sick.mp4",
+    "poster": "media/sick.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/255.html",
+    "gloss": "SICKstr",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 362150
+  },
+  "sorry": {
+    "type": "native",
+    "src": "media/sorry.mp4",
+    "poster": "media/sorry.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/566.html",
+    "gloss": "SORRY",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 642581
+  },
+  "want": {
+    "type": "native",
+    "src": "media/want.mp4",
+    "poster": "media/want.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1409.html",
+    "gloss": "WANT",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1483886
+  },
+  "again": {
+    "type": "native",
+    "src": "media/again.mp4",
+    "poster": "media/again.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/400.html",
+    "gloss": "AGAIN",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 525977
+  },
+  "share": {
+    "type": "native",
+    "src": "media/share.mp4",
+    "poster": "media/share.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/251.html",
+    "gloss": "SHARE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 355876
+  },
+  "turn": {
+    "type": "native",
+    "src": "media/turn.mp4",
+    "poster": "media/turn.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/308.html",
+    "gloss": "TURN",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1757108
+  },
+  "mine": {
+    "type": "native",
+    "src": "media/mine.mp4",
+    "poster": "media/mine.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2154.html",
+    "gloss": "POSS_1",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 2113532
+  },
+  "yours": {
+    "type": "native",
+    "src": "media/yours.mp4",
+    "poster": "media/yours.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/919.html",
+    "gloss": "POSS",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 487886
+  },
+  "sit": {
+    "type": "native",
+    "src": "media/sit.mp4",
+    "poster": "media/sit.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/541.html",
+    "gloss": "SIT",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1556695
+  },
+  "stand": {
+    "type": "native",
+    "src": "media/stand.mp4",
+    "poster": "media/stand.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/273.html",
+    "gloss": "STAND",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 395175
+  },
+  "walk": {
+    "type": "native",
+    "src": "media/walk.mp4",
+    "poster": "media/walk.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/314.html",
+    "gloss": "WALKb",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 2038985
+  },
+  "run": {
+    "type": "native",
+    "src": "media/run.mp4",
+    "poster": "media/run.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/243.html",
+    "gloss": "RUNasym",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 2021961
+  },
+  "jump": {
+    "type": "native",
+    "src": "media/jump.mp4",
+    "poster": "media/jump.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/159.html",
+    "gloss": "JUMPup",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 480403
+  },
+  "dance": {
+    "type": "native",
+    "src": "media/dance.mp4",
+    "poster": "media/dance.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1207.html",
+    "gloss": "DANCE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 366978
+  },
+  "swim": {
+    "type": "native",
+    "src": "media/swim.mp4",
+    "poster": "media/swim.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1153.html",
+    "gloss": "SWIM",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1744177
+  },
+  "swing": {
+    "type": "native",
+    "src": "media/swing.mp4",
+    "poster": "media/swing.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2369.html",
+    "gloss": "SWING",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 307187
+  },
+  "slide": {
+    "type": "native",
+    "src": "media/slide.mp4",
+    "poster": "media/slide.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2015.html",
+    "gloss": "SLIDEsym",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 301041
+  },
+  "park": {
+    "type": "native",
+    "src": "media/park.mp4",
+    "poster": "media/park.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/3038.html",
+    "gloss": "PLAYGROUND",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1247594
+  },
+  "car": {
+    "type": "native",
+    "src": "media/car.mp4",
+    "poster": "media/car.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/428.html",
+    "gloss": "CAR",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 3631610
+  },
+  "home": {
+    "type": "native",
+    "src": "media/home.mp4",
+    "poster": "media/home.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/152.html",
+    "gloss": "HOME",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1726696
+  },
+  "school": {
+    "type": "native",
+    "src": "media/school.mp4",
+    "poster": "media/school.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/247.html",
+    "gloss": "SCHOOL",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 332227
+  },
+  "teacher": {
+    "type": "native",
+    "src": "media/teacher.mp4",
+    "poster": "media/teacher.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/792.html",
+    "gloss": "TEACHER",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 3326614
+  },
+  "doctor": {
+    "type": "native",
+    "src": "media/doctor.mp4",
+    "poster": "media/doctor.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/344.html",
+    "gloss": "DOCTORb",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1591302
+  },
+  "bed": {
+    "type": "native",
+    "src": "media/bed.mp4",
+    "poster": "media/bed.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/384.html",
+    "gloss": "BEDpa",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 394646
+  },
+  "blanket": {
+    "type": "native",
+    "src": "media/blanket.mp4",
+    "poster": "media/blanket.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/41.html",
+    "gloss": "BLANKETpull",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 652509
+  },
+  "light": {
+    "type": "native",
+    "src": "media/light.mp4",
+    "poster": "media/light.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/497.html",
+    "gloss": "LIGHT",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 680571
+  },
+  "dark": {
+    "type": "native",
+    "src": "media/dark.mp4",
+    "poster": "media/dark.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/100.html",
+    "gloss": "DARKb",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 529007
+  },
+  "wake": {
+    "type": "native",
+    "src": "media/wake.mp4",
+    "poster": "media/wake.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2354.html",
+    "gloss": "AWAKE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 660993
+  },
+  "bottle": {
+    "type": "native",
+    "src": "media/bottle.mp4",
+    "poster": "media/bottle.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/47.html",
+    "gloss": "BOTTLE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 433512
+  },
+  "cup": {
+    "type": "native",
+    "src": "media/cup.mp4",
+    "poster": "media/cup.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/388.html",
+    "gloss": "CUP",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 920011
+  },
+  "spoon": {
+    "type": "native",
+    "src": "media/spoon.mp4",
+    "poster": "media/spoon.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/3132.html",
+    "gloss": "SPOON",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 297855
+  },
+  "bread": {
+    "type": "native",
+    "src": "media/bread.mp4",
+    "poster": "media/bread.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/373.html",
+    "gloss": "SLICED-BREAD",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 509539
+  },
+  "cheese": {
+    "type": "native",
+    "src": "media/cheese.mp4",
+    "poster": "media/cheese.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/430.html",
+    "gloss": "CHEESE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 474820
+  },
+  "egg": {
+    "type": "native",
+    "src": "media/egg.mp4",
+    "poster": "media/egg.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/447.html",
+    "gloss": "EGG",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 456788
+  },
+  "orange": {
+    "type": "native",
+    "src": "media/orange.mp4",
+    "poster": "media/orange.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/521.html",
+    "gloss": "ORANGE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 369520
+  },
+  "strawberry": {
+    "type": "native",
+    "src": "media/strawberry.mp4",
+    "poster": "media/strawberry.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2019.html",
+    "gloss": "STRAWBERRYdown",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 261926
+  },
+  "carrot": {
+    "type": "native",
+    "src": "media/carrot.mp4",
+    "poster": "media/carrot.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2470.html",
+    "gloss": "CARROTflex",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 309442
+  },
+  "cookie": {
+    "type": "native",
+    "src": "media/cookie.mp4",
+    "poster": "media/cookie.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/435.html",
+    "gloss": "COOKIE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 897006
+  },
+  "cracker": {
+    "type": "native",
+    "src": "media/cracker.mp4",
+    "poster": "media/cracker.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/647.html",
+    "gloss": "CRACKER",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 848341
+  },
+  "fish": {
+    "type": "native",
+    "src": "media/fish.mp4",
+    "poster": "media/fish.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/387.html",
+    "gloss": "FISH",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 291179
+  },
+  "bird": {
+    "type": "native",
+    "src": "media/bird.mp4",
+    "poster": "media/bird.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/361.html",
+    "gloss": "BIRD",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 475964
+  },
+  "horse": {
+    "type": "native",
+    "src": "media/horse.mp4",
+    "poster": "media/horse.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/391.html",
+    "gloss": "HORSE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 444647
+  },
+  "cow": {
+    "type": "native",
+    "src": "media/cow.mp4",
+    "poster": "media/cow.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/436.html",
+    "gloss": "COW",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 869490
+  },
+  "pig": {
+    "type": "native",
+    "src": "media/pig.mp4",
+    "poster": "media/pig.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/525.html",
+    "gloss": "PIG",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 2364832
+  },
+  "duck": {
+    "type": "native",
+    "src": "media/duck.mp4",
+    "poster": "media/duck.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/446.html",
+    "gloss": "DUCK",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 268491
+  },
+  "rabbit": {
+    "type": "native",
+    "src": "media/rabbit.mp4",
+    "poster": "media/rabbit.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/234.html",
+    "gloss": "RABBIT-EARS",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 815822
+  },
+  "bear": {
+    "type": "native",
+    "src": "media/bear.mp4",
+    "poster": "media/bear.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/394.html",
+    "gloss": "BEAR",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 562138
+  },
+  "lion": {
+    "type": "native",
+    "src": "media/lion.mp4",
+    "poster": "media/lion.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/499.html",
+    "gloss": "LION",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 3995111
+  },
+  "tree": {
+    "type": "native",
+    "src": "media/tree.mp4",
+    "poster": "media/tree.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/342.html",
+    "gloss": "TREE",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 615882
+  },
+  "flower": {
+    "type": "native",
+    "src": "media/flower.mp4",
+    "poster": "media/flower.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/381.html",
+    "gloss": "FLOWER",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 342297
+  },
+  "sun": {
+    "type": "native",
+    "src": "media/sun.mp4",
+    "poster": "media/sun.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/678.html",
+    "gloss": "SUNo5",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 478596
+  },
+  "rain": {
+    "type": "native",
+    "src": "media/rain.mp4",
+    "poster": "media/rain.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1011.html",
+    "gloss": "RAIN",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 340215
+  },
+  "snow": {
+    "type": "native",
+    "src": "media/snow.mp4",
+    "poster": "media/snow.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/686.html",
+    "gloss": "SNOWstr",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 415714
+  },
+  "wind": {
+    "type": "native",
+    "src": "media/wind.mp4",
+    "poster": "media/wind.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/321.html",
+    "gloss": "WIND",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 717425
+  },
+  "hat": {
+    "type": "native",
+    "src": "media/hat.mp4",
+    "poster": "media/hat.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/477.html",
+    "gloss": "HAT",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1690877
+  },
+  "coat": {
+    "type": "native",
+    "src": "media/coat.mp4",
+    "poster": "media/coat.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2982.html",
+    "gloss": "JACKETa",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1705074
+  },
+  "socks": {
+    "type": "native",
+    "src": "media/socks.mp4",
+    "poster": "media/socks.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1093.html",
+    "gloss": "SOCKS",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 521602
+  },
+  "shirt": {
+    "type": "native",
+    "src": "media/shirt.mp4",
+    "poster": "media/shirt.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/92.html",
+    "gloss": "SHIRT",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1410702
+  },
+  "pants": {
+    "type": "native",
+    "src": "media/pants.mp4",
+    "poster": "media/pants.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/871.html",
+    "gloss": "PANTSb",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 541157
+  },
+  "dress": {
+    "type": "native",
+    "src": "media/dress.mp4",
+    "poster": "media/dress.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/118.html",
+    "gloss": "DRESS",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 314248
+  },
+  "clean": {
+    "type": "native",
+    "src": "media/clean.mp4",
+    "poster": "media/clean.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/431.html",
+    "gloss": "CLEAN",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 489005
+  },
+  "dirty": {
+    "type": "native",
+    "src": "media/dirty.mp4",
+    "poster": "media/dirty.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/109.html",
+    "gloss": "DIRTY",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 369091
+  },
+  "wet": {
+    "type": "native",
+    "src": "media/wet.mp4",
+    "poster": "media/wet.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/319.html",
+    "gloss": "WETneut",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 622347
+  },
+  "dry": {
+    "type": "native",
+    "src": "media/dry.mp4",
+    "poster": "media/dry.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/122.html",
+    "gloss": "DRY",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 373622
+  },
+  "potty": {
+    "type": "native",
+    "src": "media/potty.mp4",
+    "poster": "media/potty.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/32.html",
+    "gloss": "BATHROOM",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 547322
+  },
+  "poop": {
+    "type": "native",
+    "src": "media/poop.mp4",
+    "poster": "media/poop.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/916.html",
+    "gloss": "POOP",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 610141
+  },
+  "ready": {
+    "type": "native",
+    "src": "media/ready.mp4",
+    "poster": "media/ready.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/33.html",
+    "gloss": "READY",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 2573922
+  },
+  "quiet": {
+    "type": "native",
+    "src": "media/quiet.mp4",
+    "poster": "media/quiet.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/233.html",
+    "gloss": "QUIET",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 276707
+  },
+  "open": {
+    "type": "native",
+    "src": "media/open.mp4",
+    "poster": "media/open.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/520.html",
+    "gloss": "OPEN",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1496540
+  },
+  "go": {
+    "type": "native",
+    "src": "media/go.mp4",
+    "poster": "media/go.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/469.html",
+    "gloss": "GOix",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 311920
+  },
+  "christmas": {
+    "type": "native",
+    "src": "media/christmas.mp4",
+    "poster": "media/christmas.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1064.html",
+    "gloss": "CHRISTMAS",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 477195
+  },
+  "easter": {
+    "type": "native",
+    "src": "media/easter.mp4",
+    "poster": "media/easter.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2883.html",
+    "gloss": "EASTERrot",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 551009
+  },
+  "bless": {
+    "type": "native",
+    "src": "media/bless.mp4",
+    "poster": "media/bless.jpg",
+    "credit": "ASL Signbank (2026)",
+    "sourceUrl": "https://aslsignbank.com/dictionary/gloss/2116.html",
+    "gloss": "BLESS",
+    "license": "CC BY-NC-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "reviewed": false,
+    "bytes": 1825754
   }
 }
