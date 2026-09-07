@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { signs } from "../data/signs.js";
 import MirrorPractice from "./MirrorPractice.jsx";
 import SignDemo from "./SignDemo.jsx";
@@ -51,6 +51,8 @@ export default function GuidedLessonPage({
   onOpen,
   go
 }) {
+  const flowRef = useRef(null);
+  const previousStep = useRef(0);
   const [stepIndex, setStepIndex] = useState(0);
   const [logged, setLogged] = useState(false);
   const [checked, setChecked] = useState({});
@@ -61,6 +63,16 @@ export default function GuidedLessonPage({
     setLogged(false);
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [sign.id]);
+
+  useEffect(() => {
+    if (previousStep.current !== stepIndex) {
+      flowRef.current?.scrollIntoView({ block: "start", behavior: "auto" });
+      const heading = flowRef.current?.querySelector(".flow-heading h2");
+      heading?.setAttribute("tabindex", "-1");
+      heading?.focus({ preventScroll: true });
+    }
+    previousStep.current = stepIndex;
+  }, [stepIndex]);
 
   const nextSign = signs.find((item) => item.id === relatedSigns[sign.id]) || signs[0];
   const hasRealDemo = sign.demo?.type === "video";
@@ -92,7 +104,7 @@ export default function GuidedLessonPage({
         </div>
       </section>
 
-      <section className="lesson-flow card" aria-label={`${sign.word} guided lesson`}>
+      <section ref={flowRef} className="lesson-flow card" aria-label={`${sign.word} guided lesson`}>
         <nav className="lesson-stepper" aria-label="Lesson steps">
           {steps.map((step, index) => (
             <button

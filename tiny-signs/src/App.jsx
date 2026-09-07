@@ -172,7 +172,7 @@ export default function App() {
   }));
 
   useEffect(() => {
-    const onHashChange = () => setRoute(readRoute());
+    const onHashChange = () => { setRoute(readRoute()); window.scrollTo({ top: 0, behavior: "auto" }); };
     window.addEventListener("hashchange", onHashChange);
     if (!window.location.hash) window.history.replaceState(null, "", "#/today");
     return () => window.removeEventListener("hashchange", onHashChange);

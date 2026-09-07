@@ -1825,3 +1825,5 @@ input:focus-visible, select:focus-visible { outline: 3px solid var(--coral); out
   .lesson-meta { min-width: 0; align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
   .lesson-topline .back-button { margin-bottom: 0; }
 }
+
+.lesson-flow { scroll-margin-top: 110px; }
