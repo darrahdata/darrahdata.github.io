@@ -138,6 +138,10 @@ h1,h2,h3,.display{font-family:Fredoka,Nunito,sans-serif;font-weight:600;letter-s
 .ctrls{display:flex;flex-wrap:wrap;gap:.5rem}
 .ctrls .btn{flex:1 1 auto}
 .cam-note{font-size:.78rem;color:var(--muted);margin:.1rem 0 0}
+.palm-key{font-size:.8rem;color:var(--muted);margin:.1rem 0 0;line-height:1.7}
+.palm-key b{color:var(--ink)}
+.pk{display:inline-block;background:var(--cream);border:1.5px solid #5f8168;color:var(--sage-dark);
+  border-radius:999px;padding:.05rem .45rem;font-weight:700;font-size:.72rem;margin-left:.15rem}
 .cam-err{font-size:.82rem;color:#a35a48;background:#fdeee9;border:1px solid #f3cfc3;border-radius:12px;padding:.5rem .7rem;margin:0}
 
 /* ---------- Steps ---------- */
@@ -280,6 +284,10 @@ footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:2rem}
       <button class="btn ghost" type="button" id="d-slow">🐢 Slow</button>
       <button class="btn ghost" type="button" id="d-mirror">📷 Mirror me</button>
     </div>
+    <p class="palm-key"><b>The badge on the palm</b> tells you which way your palm faces:
+      <span class="pk">IN</span> toward your body ·
+      <span class="pk">OUT</span> away from your body.
+      The thumb shows you the rest — follow where it points.</p>
     <p class="cam-note">Mirror mode uses your camera only on your device. Nothing is recorded, saved, or sent anywhere.</p>
   </div>
 
@@ -348,41 +356,41 @@ const POSES={
 */
 const SIGNS=[
 /* ---- Feeding ---- */
-{id:'milk',word:'Milk',em:'🍼',cat:'Feeding',
+{id:'milk',palm:'OUT',word:'Milk',em:'🍼',cat:'Feeding',
  when:'Every single feed — bottle, breast, or cup.',
  tip:'This is the classic first sign. Do it right before the milk appears, every time. Babies often sign it back around 6–9 months.',
  steps:['Hold one hand up, fingers open.','Squeeze it closed into a fist.','Open and squeeze again — like milking a cow.'],
  k:[[0,'open',150,215,-6],[.25,'fist',150,211,-6],[.5,'open',150,215,-6],[.75,'fist',150,211,-6],[1,'open',150,215,-6]]},
 
-{id:'more',word:'More',em:'➕',cat:'Feeding',hands:2,
+{id:'more',palm:'OUT',word:'More',em:'➕',cat:'Feeding',hands:2,
  when:'Another bite, another song, another round of peekaboo.',
  tip:'“More” unlocks everything — food, play, books. Pair it with a big happy face so it feels like a reward.',
  steps:['Pinch each hand so the fingertips meet the thumb.','Point the two bunches at each other.','Tap the fingertips together twice.'],
  k :[[0,'flatO',196,200,-90],[.3,'flatO',170,200,-90],[.5,'flatO',196,200,-90],[.8,'flatO',170,200,-90],[1,'flatO',196,200,-90]],
  kL:[[0,'flatO',104,200,90],[.3,'flatO',130,200,90],[.5,'flatO',104,200,90],[.8,'flatO',130,200,90],[1,'flatO',104,200,90]]},
 
-{id:'eat',word:'Eat',em:'🍽️',cat:'Feeding',
+{id:'eat',palm:'IN',word:'Eat',em:'🍽️',cat:'Feeding',
  when:'Right before meals and snacks — highchair time.',
  tip:'Same shape as “more”, but it travels to your mouth. Say “eat!” as the spoon comes out.',
  steps:['Pinch your fingertips together with your thumb.','Bring the bunch up to your lips.','Tap your lips a couple of times.'],
  focus:[150,118],
  k:[[0,'flatO',150,235,0],[.32,'flatO',150,152,0],[.48,'flatO',150,166,0],[.66,'flatO',150,152,0],[1,'flatO',150,235,0]]},
 
-{id:'drink',word:'Drink',em:'🥤',cat:'Feeding',
+{id:'drink',palm:'IN',word:'Drink',em:'🥤',cat:'Feeding',
  when:'Offering a bottle, sippy cup, or water.',
  tip:'Curl your hand like it is already holding the cup — babies copy the cup shape before the movement.',
  steps:['Curve your hand like you are holding a cup.','Bring it up to your mouth.','Tip it up, like taking a sip.'],
  focus:[150,118],
  k:[[0,'cup',150,235,0],[.35,'cup',150,168,0],[.6,'cup',150,164,-32],[.8,'cup',150,168,0],[1,'cup',150,235,0]]},
 
-{id:'water',word:'Water',em:'💧',cat:'Feeding',
+{id:'water',palm:'OUT',word:'Water',em:'💧',cat:'Feeding',
  when:'Cups of water, bath water, rain on the window.',
  tip:'Three fingers up makes a “W”. Tap the chin — not the lips — to keep it different from “eat”.',
  steps:['Hold up three fingers: index, middle, ring.','Bring the index finger to your chin.','Tap your chin twice.'],
  focus:[150,131],
  k:[[0,'w3',150,235,0],[.3,'w3',150,178,0],[.45,'w3',150,186,0],[.62,'w3',150,178,0],[1,'w3',150,235,0]]},
 
-{id:'all-done',word:'All done',em:'🙌',cat:'Feeding',hands:2,
+{id:'all-done',palm:[[0,'IN'],[.4,'OUT']],word:'All done',em:'🙌',cat:'Feeding',hands:2,
  when:'End of a meal, bath, diaper change, or play.',
  tip:'A giant favorite — it gives your baby a way to say “stop” without crying. Expect it to be used constantly.',
  steps:['Hold both hands up, palms facing your chest.','Twist your wrists quickly so the palms face out.','Shake them out once — all done!'],
@@ -390,21 +398,21 @@ const SIGNS=[
  kL:[[0,'open',104,205,0],[.4,'open',100,200,-165],[.6,'open',104,203,-175],[.8,'open',100,200,-165],[1,'open',104,205,0]]},
 
 /* ---- Sleep & care ---- */
-{id:'sleep',word:'Sleep',em:'😴',cat:'Sleep & care',
+{id:'sleep',palm:'IN',word:'Sleep',em:'😴',cat:'Sleep & care',
  when:'Naps, bedtime, the wind-down routine.',
  tip:'Do this one slowly and softly — the calm pace is part of the message.',
  steps:['Open your hand in front of your face.','Draw it slowly down over your face.','Close the fingers as it reaches your chin.'],
  focus:[150,90],
  k:[[0,'open',150,110,0],[.5,'flatO',150,178,0],[.75,'flatO',150,178,0],[1,'open',150,110,0]]},
 
-{id:'bath',word:'Bath',em:'🛁',cat:'Sleep & care',hands:2,
+{id:'bath',palm:'IN',word:'Bath',em:'🛁',cat:'Sleep & care',hands:2,
  when:'Filling the tub, getting undressed for a bath.',
  tip:'It looks exactly like scrubbing, so babies guess this one early.',
  steps:['Make two fists.','Put them on your chest.','Scrub up and down, like washing.'],
  k :[[0,'fist',182,200,0],[.3,'fist',182,222,0],[.6,'fist',182,200,0],[.85,'fist',182,218,0],[1,'fist',182,200,0]],
  kL:[[0,'fist',118,200,0],[.3,'fist',118,222,0],[.6,'fist',118,200,0],[.85,'fist',118,218,0],[1,'fist',118,200,0]]},
 
-{id:'diaper',word:'Diaper',em:'🧷',cat:'Sleep & care',hands:2,
+{id:'diaper',palm:'IN',word:'Diaper',em:'🧷',cat:'Sleep & care',hands:2,
  when:'Every change — and later, when they tell you they need one.',
  tip:'Pinch at your hips, right where the tabs fasten. Very literal, very easy to copy.',
  steps:['Bring both hands to your hips.','Pinch your fingers and thumbs together.','Tap them closed twice, like fastening the tabs.'],
@@ -412,14 +420,14 @@ const SIGNS=[
  kL:[[0,'pinch',104,238,0],[.3,'pinch',104,238,0],[.5,'pinch',104,238,0],[.75,'pinch',104,238,0],[1,'pinch',104,238,0]],
  morph:'pinch'},
 
-{id:'hurt',word:'Hurt',em:'🤕',cat:'Sleep & care',hands:2,
+{id:'hurt',palm:'IN',word:'Hurt',em:'🤕',cat:'Sleep & care',hands:2,
  when:'Bonks, teething, a sore tummy. Priceless once they can point.',
  tip:'Sign it near the part that hurts — near the mouth for teething, near the tummy for a tummy ache.',
  steps:['Point one index finger on each hand.','Aim the fingertips toward each other.','Twist them back and forth.'],
  k :[[0,'point',176,200,-60],[.25,'point',176,200,-100],[.5,'point',176,200,-60],[.75,'point',176,200,-100],[1,'point',176,200,-60]],
  kL:[[0,'point',124,200,60],[.25,'point',124,200,100],[.5,'point',124,200,60],[.75,'point',124,200,100],[1,'point',124,200,60]]},
 
-{id:'help',word:'Help',em:'🆘',cat:'Sleep & care',hands:2,
+{id:'help',palm:'IN',word:'Help',em:'🆘',cat:'Sleep & care',hands:2,
  when:'Stuck toys, tricky stairs, a shoe that will not go on.',
  tip:'A frustration-saver. Model it out loud — “you want help?” — while you do it.',
  steps:['Make a fist with your thumb pointing up.','Rest that fist on your other flat palm.','Lift both hands upward together.'],
@@ -427,7 +435,7 @@ const SIGNS=[
  kL:[[0,'flat',150,235,-90],[.45,'flat',150,200,-90],[.7,'flat',150,200,-90],[1,'flat',150,235,-90]]},
 
 /* ---- Manners & feelings ---- */
-{id:'please',word:'Please',em:'🥺',cat:'Manners & feelings',
+{id:'please',palm:'IN',word:'Please',em:'🥺',cat:'Manners & feelings',
  when:'Any time they want something. Gentle, not forced.',
  tip:'A flat hand circling on the chest. Toddlers often shorten it into a happy little belly rub.',
  steps:['Lay your flat hand on your chest.','Rub it in a slow circle.'],
@@ -435,61 +443,62 @@ const SIGNS=[
  circle:{cx:150,cy:212,r:16},
  k:[[0,'flat',150,196,0],[.25,'flat',166,212,0],[.5,'flat',150,228,0],[.75,'flat',134,212,0],[1,'flat',150,196,0]]},
 
-{id:'thank-you',word:'Thank you',em:'💗',cat:'Manners & feelings',
+{id:'thank-you',palm:'IN',word:'Thank you',em:'💗',cat:'Manners & feelings',
  when:'Handing things back and forth, end of a meal.',
  tip:'Starts at the chin like a kiss, then moves out toward the person you are thanking.',
  steps:['Put your flat fingertips on your chin.','Move your hand forward and down.','Aim it toward the person.'],
  focus:[150,131],
  k:[[0,'flat',150,172,0],[.45,'flat',150,214,26],[.7,'flat',150,214,26],[1,'flat',150,172,0]]},
 
-{id:'love',word:'I love you',em:'❤️',cat:'Manners & feelings',hands:2,
+{id:'love',palm:'IN',word:'I love you',em:'❤️',cat:'Manners & feelings',hands:2,
  when:'Goodbyes, cuddles, bedtime.',
  tip:'Cross your arms over your heart and squeeze. Nobody minds if this one is not perfect.',
  steps:['Make two fists.','Cross your arms over your chest.','Give yourself a squeeze.'],
  k :[[0,'fist',196,215,0],[.4,'fist',132,205,-32],[.72,'fist',132,205,-32],[1,'fist',196,215,0]],
  kL:[[0,'fist',104,215,0],[.4,'fist',168,222,32],[.72,'fist',168,222,32],[1,'fist',104,215,0]]},
 
-{id:'sorry',word:'Sorry',em:'🫂',cat:'Manners & feelings',
+{id:'sorry',palm:'IN',word:'Sorry',em:'🫂',cat:'Manners & feelings',
  when:'After a bonk, a grab, or a spill. Model it yourself first.',
  tip:'Same circle as “please” but with a fist. Kids learn it by watching you use it.',
+ steps:['Make a fist, thumb resting along the side.','Put it flat on your chest.','Circle it slowly a couple of times.'],
  circle:{cx:150,cy:212,r:14},
  k:[[0,'fist',150,198,0],[.25,'fist',164,212,0],[.5,'fist',150,226,0],[.75,'fist',136,212,0],[1,'fist',150,198,0]]},
 
-{id:'yes',word:'Yes',em:'👍',cat:'Manners & feelings',
+{id:'yes',palm:'OUT',word:'Yes',em:'👍',cat:'Manners & feelings',
  when:'Answering questions — “do you want more?”',
  tip:'The fist is a little nodding head. Exaggerate the nod and add a big “yes!”.',
  steps:['Make a fist, thumb on top.','Bob it up and down at the wrist, like a nodding head.'],
  k:[[0,'fist',150,200,0],[.25,'fist',150,200,34],[.5,'fist',150,200,0],[.75,'fist',150,200,34],[1,'fist',150,200,0]]},
 
-{id:'no',word:'No',em:'🙅',cat:'Manners & feelings',
+{id:'no',palm:'OUT',word:'No',em:'🙅',cat:'Manners & feelings',
  when:'Setting a limit, or when they tell you no.',
  tip:'Two fingers snapping shut onto the thumb — quick and crisp.',
  steps:['Hold out your index and middle fingers, thumb below.','Snap them closed onto your thumb.','Do it once, clearly.'],
  k:[[0,'two',150,196,0],[.35,'flatO',150,196,0],[.6,'two',150,196,0],[1,'two',150,196,0]]},
 
 /* ---- People ---- */
-{id:'mom',word:'Mom',em:'👩',cat:'People',
+{id:'mom',palm:'OUT',word:'Mom',em:'👩',cat:'People',
  when:'“Where’s Mama?” — every hello and goodbye.',
  tip:'Thumb on the CHIN for Mom. Chin = Mom is the easiest way to remember it.',
  steps:['Spread your hand open, fingers up.','Bring your thumb to your chin.','Tap your chin twice.'],
  focus:[150,131],
  k:[[0,'open',198,238,0],[.3,'open',188,138,0],[.45,'open',188,147,0],[.62,'open',188,138,0],[1,'open',198,238,0]]},
 
-{id:'dad',word:'Dad',em:'👨',cat:'People',
+{id:'dad',palm:'OUT',word:'Dad',em:'👨',cat:'People',
  when:'“Dada’s home!” — greetings and goodbyes.',
  tip:'Thumb on the FOREHEAD for Dad. Higher up than Mom — that is the whole difference.',
  steps:['Spread your hand open, fingers up.','Bring your thumb to your forehead.','Tap twice.'],
  focus:[150,60],
  k:[[0,'open',198,238,0],[.3,'open',188,67,0],[.45,'open',188,76,0],[.62,'open',188,67,0],[1,'open',198,238,0]]},
 
-{id:'grandma',word:'Grandma',em:'👵',cat:'People',
+{id:'grandma',palm:'OUT',word:'Grandma',em:'👵',cat:'People',
  when:'Video calls and visits.',
  tip:'Start like Mom at the chin, then hop forward — one generation further away.',
  steps:['Start like Mom: open hand, thumb on your chin.','Hop the hand forward and away.','Hop once more in a little arc.'],
  focus:[150,131],
  k:[[0,'open',188,138,0],[.35,'open',214,152,0],[.7,'open',240,166,0],[1,'open',188,138,0]]},
 
-{id:'grandpa',word:'Grandpa',em:'👴',cat:'People',
+{id:'grandpa',palm:'OUT',word:'Grandpa',em:'👴',cat:'People',
  when:'Video calls and visits.',
  tip:'Start like Dad at the forehead, then hop forward twice.',
  steps:['Start like Dad: open hand, thumb on your forehead.','Hop the hand forward and away.','Hop once more in a little arc.'],
@@ -497,41 +506,41 @@ const SIGNS=[
  k:[[0,'open',188,67,0],[.35,'open',214,85,0],[.7,'open',240,103,0],[1,'open',188,67,0]]},
 
 /* ---- Play & world ---- */
-{id:'play',word:'Play',em:'🧸',cat:'Play & world',hands:2,
+{id:'play',palm:'IN',word:'Play',em:'🧸',cat:'Play & world',hands:2,
  when:'Starting playtime, heading to the park.',
  tip:'Thumb and pinky out, wiggle. It looks as silly as it sounds, which is why babies love it.',
  steps:['Stick out your thumb and pinky on both hands.','Hold them up in front of you.','Twist your wrists back and forth.'],
  k :[[0,'yo',192,205,-20],[.25,'yo',192,205,16],[.5,'yo',192,205,-20],[.75,'yo',192,205,16],[1,'yo',192,205,-20]],
  kL:[[0,'yo',108,205,20],[.25,'yo',108,205,-16],[.5,'yo',108,205,20],[.75,'yo',108,205,-16],[1,'yo',108,205,20]]},
 
-{id:'book',word:'Book',em:'📖',cat:'Play & world',hands:2,
+{id:'book',palm:'IN',word:'Book',em:'📖',cat:'Play & world',hands:2,
  when:'Story time — one of the best signing routines there is.',
  tip:'Keep your pinky edges together like a spine and open the covers.',
  steps:['Press your palms together.','Keep the pinky sides touching.','Open them like opening a book.'],
  k :[[0,'flat',158,210,4],[.45,'flat',176,208,30],[.7,'flat',176,208,30],[1,'flat',158,210,4]],
  kL:[[0,'flat',142,210,-4],[.45,'flat',124,208,-30],[.7,'flat',124,208,-30],[1,'flat',142,210,-4]]},
 
-{id:'ball',word:'Ball',em:'⚽',cat:'Play & world',hands:2,
+{id:'ball',palm:'IN',word:'Ball',em:'⚽',cat:'Play & world',hands:2,
  when:'Rolling a ball back and forth — a great early game.',
  tip:'Your hands literally make the shape of the ball. Tap the fingertips twice.',
  steps:['Curve both hands like claws.','Bring the fingertips together to make a ball.','Tap them together twice.'],
  k :[[0,'claw',186,205,-40],[.3,'claw',168,205,-40],[.5,'claw',186,205,-40],[.8,'claw',168,205,-40],[1,'claw',186,205,-40]],
  kL:[[0,'claw',114,205,40],[.3,'claw',132,205,40],[.5,'claw',114,205,40],[.8,'claw',132,205,40],[1,'claw',114,205,40]]},
 
-{id:'dog',word:'Dog',em:'🐕',cat:'Play & world',
+{id:'dog',palm:'IN',word:'Dog',em:'🐕',cat:'Play & world',
  when:'Every dog on every walk. Babies adore this one.',
  tip:'Just pat your thigh like you are calling a dog over. Add a finger snap if you like.',
  steps:['Let your hand hang down by your side.','Pat your thigh a couple of times.','Say “dog!” each time.'],
  k:[[0,'flat',196,238,0],[.28,'flat',196,258,0],[.5,'flat',196,238,0],[.78,'flat',196,258,0],[1,'flat',196,238,0]]},
 
-{id:'cat',word:'Cat',em:'🐈',cat:'Play & world',
+{id:'cat',palm:'OUT',word:'Cat',em:'🐈',cat:'Play & world',
  when:'Pointing out cats in books and windows.',
  tip:'You are drawing whiskers off your cheek. Two little strokes.',
  steps:['Pinch your thumb and index finger together near your cheek.','Pull outward, drawing a whisker.','Do it twice.'],
  focus:[196,112],
  k:[[0,'pinch',176,152,-16],[.3,'pinch',206,150,-16],[.5,'pinch',176,152,-16],[.8,'pinch',206,150,-16],[1,'pinch',176,152,-16]]},
 
-{id:'light',word:'Light',em:'💡',cat:'Play & world',
+{id:'light',palm:'IN',word:'Light',em:'💡',cat:'Play & world',
  when:'Flipping the light on and off — an easy daily ritual.',
  tip:'Your fingers burst open like the light switching on. Great for bedtime routines.',
  steps:['Hold a closed bunch of fingertips above your head, pointing down.','Flick your fingers wide open.','Like the light bursting on.'],
@@ -624,11 +633,26 @@ function buildHand(svg,flip){
   const tnail=el('rect',{x:-4,y:-12.5,width:8,height:7,rx:2.2,fill:NAIL,opacity:'.9'});
   t1.appendChild(tr1);t2.appendChild(tr2);t2.appendChild(tnail);
   t1.appendChild(t2);tBase.appendChild(t1);g.appendChild(tBase);
+  /* palm-direction badge — which way the palm faces, the hardest bit to guess */
+  const palmTag=el('g',{});
+  const palmPill=el('rect',{x:-14,y:-9,width:28,height:18,rx:9,
+    fill:'#fffdf9',stroke:'#5f8168','stroke-width':1.6,opacity:'.96'});
+  const palmTxt=el('text',{'text-anchor':'middle','dominant-baseline':'central',x:0,y:0,
+    'font-family':'Nunito,sans-serif','font-size':'12','font-weight':'700',fill:'#3f6448'});
+  palmTag.appendChild(palmPill);palmTag.appendChild(palmTxt);g.appendChild(palmTag);
   svg.appendChild(g);
-  return {g,arm,armOut,armIn,fingers,tBase,t1,t2,tr1,tr2,tnail,flip:flip?-1:1};
+  return {g,arm,armOut,armIn,fingers,tBase,t1,t2,tr1,tr2,tnail,palmTag,palmPill,palmTxt,flip:flip?-1:1};
 }
 
-function poseHand(h,st,anchor){
+/* palm direction can change mid-sign (that IS the sign, for "all done") */
+function palmAt(p,t){
+  if(!p)return '';
+  if(typeof p==='string')return p;
+  let cur=p[0][1];
+  for(const kv of p){if(t>=kv[0])cur=kv[1];}
+  return cur;
+}
+function poseHand(h,st,anchor,palmLabel){
   h.g.setAttribute('transform',
     `translate(${st.x} ${st.y}) rotate(${st.r}) scale(${h.flip*HAND_SCALE} ${HAND_SCALE})`);
   for(let i=0;i<4;i++){
@@ -645,14 +669,16 @@ function poseHand(h,st,anchor){
     fg.g2.setAttribute('transform',`translate(0 ${-l0}) rotate(${c*56})`);
     fg.g3.setAttribute('transform',`translate(0 ${-l1}) rotate(${c*36})`);
   }
-  const tc=st.c[0];
+  /* Thumb. On pinched shapes (flat-O, C, F) the convergence value `v` walks the
+     thumb up and across the palm so its tip actually meets the fingertips. */
+  const tc=st.c[0],v=st.v;
   const tl1=20*(1-.34*tc),tl2=15*(1-.5*tc);
   h.tr1.setAttribute('y',-tl1);h.tr1.setAttribute('height',tl1+8);
   h.tr2.setAttribute('y',-tl2);h.tr2.setAttribute('height',tl2);
   h.tnail.setAttribute('y',-tl2+2);h.tnail.setAttribute('height',Math.max(2,tl2*.45));
-  h.tBase.setAttribute('transform','translate(-21 14)');
-  h.t1.setAttribute('transform',`rotate(${-52+tc*44})`);
-  h.t2.setAttribute('transform',`translate(0 ${-tl1}) rotate(${tc*34})`);
+  h.tBase.setAttribute('transform',`translate(${-21+v*10} ${14-v*22})`);
+  h.t1.setAttribute('transform',`rotate(${-52+tc*44+v*55})`);
+  h.t2.setAttribute('transform',`translate(0 ${-tl1}) rotate(${tc*30-v*18})`);
   /* forearm: elbow → wrist, with a slight natural bend outward */
   const W=32*HAND_SCALE,rad=st.r*Math.PI/180;
   const wx=st.x-W*Math.sin(rad),wy=st.y+W*Math.cos(rad);
@@ -662,6 +688,15 @@ function poseHand(h,st,anchor){
   const mx=(ex+wx)/2+(h.flip*10),my=(ey+wy)/2;   /* bow the arm away from the body */
   const d=`M ${ex} ${ey} Q ${mx} ${my} ${wx} ${wy}`;
   h.armOut.setAttribute('d',d);h.armIn.setAttribute('d',d);
+  /* palm badge, kept upright and unmirrored no matter how the hand is turned */
+  if(palmLabel){
+    h.palmTag.style.display='';
+    h.palmTxt.textContent=palmLabel;
+    const w=Math.max(26,palmLabel.length*8.5+13);
+    h.palmPill.setAttribute('x',-w/2);h.palmPill.setAttribute('width',w);
+    h.palmTag.setAttribute('transform',
+      `translate(0 16) scale(${h.flip} 1) rotate(${-st.r})`);
+  }else h.palmTag.style.display='none';
 }
 
 /* ---------------- animation ---------------- */
@@ -741,12 +776,12 @@ function renderScene(scene,t){
     const m=sampleTrack(morph.map(f=>[f[0],f[1],s.k[0][2],s.k[0][3],s.k[0][4]]),t);
     st.c=m.c;st.s=m.s;st.v=m.v;
   }
-  poseHand(scene.right,st,ELBOW_R);
+  poseHand(scene.right,st,ELBOW_R,palmAt(s.palm,t));
   if(s.hands===2){
     scene.left.g.style.display='';scene.left.arm.style.display='';
     const stL=sampleTrack(s.kL,t);
     if(morph){const m=sampleTrack(morph.map(f=>[f[0],f[1],s.kL[0][2],s.kL[0][3],s.kL[0][4]]),t);stL.c=m.c;stL.s=m.s;stL.v=m.v;}
-    poseHand(scene.left,stL,ELBOW_L);
+    poseHand(scene.left,stL,ELBOW_L,palmAt(s.palmL||s.palm,t));
   }else{
     scene.left.g.style.display='none';scene.left.arm.style.display='none';
   }

@@ -15,6 +15,10 @@ Live at `/baby-signs/`.
   with it, so movements that depend on arm travel (help, thank you, grandma) are legible.
 - **A body to aim at.** A faint head and torso sit behind the hands, and a pulsing
   target ring marks the spot the sign lands on — chin for Mom, forehead for Dad.
+- **Palm direction on the palm.** Each hand carries an `IN` / `OUT` badge saying whether
+  the palm faces your body or away from it — the one thing a flat drawing cannot show.
+  It stays upright and unmirrored however the hand is rotated, and it can change
+  mid-sign (that flip *is* the sign, for "all done"). The thumb conveys up vs down.
 - **Steps that follow along.** The numbered steps highlight in time with the animation.
 - **Slow-motion** for anything that moves too fast to copy.
 - **Mirror mode.** Opens the front camera beside a small looping demo so you can check
