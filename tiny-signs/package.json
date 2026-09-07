@@ -1,0 +1,17 @@
+{
+  "name": "tiny-signs",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --open /dev.html",
+    "build": "vite build && mv dist/dev.html dist/index.html",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "vite": "^7.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  }
+}
