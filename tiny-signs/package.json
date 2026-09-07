@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --open /dev.html",
-    "build": "vite build && mv dist/dev.html dist/index.html",
-    "preview": "vite preview"
+    "build": "vite build && node scripts/build-offline.mjs",
+    "preview": "vite preview",
+    "test:offline": "node scripts/test-offline.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",

@@ -1,11 +1,13 @@
+import OfflinePack from "./OfflinePack.jsx";
 export default function SettingsPage({ settings, onChangeSettings, onResetProgress }) {
   return (
     <main id="main-content" className="page-shell settings-page">
       <div className="page-intro">
         <p className="eyebrow">Make it comfortable</p>
         <h1>Settings</h1>
-        <p>Your progress stays in this browser. Videos and preview images load from YouTube; the optional camera mirror is never uploaded.</p>
+        <p>Your progress stays in this browser. Videos are served with the app and can be saved offline; the optional camera mirror is never uploaded.</p>
       </div>
+      <OfflinePack />
       <div className="settings-grid">
         <section className="card setting-card">
           <div><p className="eyebrow">Signing hand</p><h2>Which hand feels natural?</h2><p>Use the same comfortable hand consistently. Human videos keep the original signer’s orientation.</p></div>

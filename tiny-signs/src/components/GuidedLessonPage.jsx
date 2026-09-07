@@ -48,6 +48,7 @@ export default function GuidedLessonPage({
   setLearnMore,
   onLog,
   onPractice,
+  onReview,
   onOpen,
   go
 }) {
@@ -74,8 +75,8 @@ export default function GuidedLessonPage({
     previousStep.current = stepIndex;
   }, [stepIndex]);
 
-  const nextSign = signs.find((item) => item.id === relatedSigns[sign.id]) || signs[0];
-  const hasRealDemo = sign.demo?.type === "video";
+  const nextSign = signs.find((item) => item.id === relatedSigns[sign.id]) || signs.find(item => item.group === sign.group && item.id !== sign.id) || signs[0];
+  const hasRealDemo = Boolean(sign.demo?.src);
 
   const logPractice = () => {
     if (!logged) onLog(sign.id);
@@ -135,6 +136,7 @@ export default function GuidedLessonPage({
                 <a className="button source" href={sign.source.url} target="_blank" rel="noreferrer">Watch Deaf-led demo ↗</a>
               </div>
             )}
+            <p className="lesson-source"><a href={sign.source.url} target="_blank" rel="noreferrer">Read a fuller explanation of {sign.word} ↗</a></p>
             <div className="flow-footer">
               <p><strong>Look for:</strong> {sign.cue.summary}</p>
               <button type="button" className="button primary" onClick={() => setStepIndex(1)}>Now copy it →</button>
@@ -195,6 +197,7 @@ export default function GuidedLessonPage({
               <div><p className="eyebrow">Your progress</p><strong>{logged ? "Saved this moment." : formatCount(progress?.count || 0)}</strong><small>Counts are for signs you use with your baby.</small></div>
               <button type="button" className="button primary" disabled={logged} onClick={logPractice}>{logged ? "Modeled ✓" : "I modeled this"}</button>
             </div>
+            <button type="button" className="button primary recall-after-lesson" onClick={onReview}>Try it from memory →</button>
             <div className="flow-footer use-footer">
               <button type="button" className="button quiet" onClick={() => setStepIndex(1)}>← Copy again</button>
               <button type="button" className="button secondary" onClick={() => onOpen(nextSign.id)}>Next for this routine: {nextSign.word} →</button>

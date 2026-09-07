@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { signs, stageOrder } from "./data/signs.js";
+import { signs, routineGroups } from "./data/signs.js";
 import GuidedLessonPage from "./components/GuidedLessonPage.jsx";
-import SignDemo from "./components/SignDemo.jsx";
+import RecallPage from "./components/RecallPage.jsx";
+import SignDemo, { mediaUrl } from "./components/SignDemo.jsx";
 import SettingsPage from "./components/SettingsPage.jsx";
 
 const STORAGE_KEY = "tiny-signs-progress-v1";
@@ -26,6 +27,7 @@ function readStored(key, fallback) {
 function readRoute() {
   const hash = window.location.hash.replace(/^#\/?/, "");
   if (hash.startsWith("learn/")) return { page: "learn", signId: hash.split("/")[1] };
+  if (hash === "practice") return { page: "practice" };
   if (hash === "signs") return { page: "signs" };
   if (hash === "settings") return { page: "settings" };
   return { page: "today" };
@@ -55,6 +57,7 @@ function AppHeader({ page, lowLight, onToggleTheme, go }) {
       <nav className="desktop-nav" aria-label="Main navigation">
         <button className={page === "today" ? "active" : ""} aria-current={page === "today" ? "page" : undefined} type="button" onClick={() => go("today")}>Home</button>
         <button className={page === "signs" ? "active" : ""} aria-current={page === "signs" ? "page" : undefined} type="button" onClick={() => go("signs")}>All signs</button>
+        <button className={page === "practice" ? "active" : ""} aria-current={page === "practice" ? "page" : undefined} type="button" onClick={() => go("practice")}>Practice</button>
         <button className={page === "settings" ? "active" : ""} aria-current={page === "settings" ? "page" : undefined} type="button" onClick={() => go("settings")}>Settings</button>
       </nav>
     </header>
@@ -70,6 +73,7 @@ function BottomNav({ page, go }) {
       <button className={page === "signs" ? "active" : ""} aria-current={page === "signs" ? "page" : undefined} type="button" onClick={() => go("signs")}>
         <span aria-hidden="true">☝</span>Signs
       </button>
+      <button className={page === "practice" ? "active" : ""} aria-current={page === "practice" ? "page" : undefined} type="button" onClick={() => go("practice")}><span aria-hidden="true">↺</span>Practice</button>
       <button className={page === "settings" ? "active" : ""} aria-current={page === "settings" ? "page" : undefined} type="button" onClick={() => go("settings")}>
         <span aria-hidden="true">⚙</span>Settings
       </button>
@@ -80,10 +84,10 @@ function BottomNav({ page, go }) {
 function SignCard({ sign, progress, onOpen, compact = false }) {
   return (
     <button type="button" className={`sign-card ${compact ? "compact" : ""}`} onClick={() => onOpen(sign.id)}>
-      <span className="sign-thumbnail"><img src={`https://i.ytimg.com/vi/${sign.demo.videoId}/hqdefault.jpg`} alt="" loading="lazy" /><b aria-hidden="true">▶</b></span>
+      <span className="sign-thumbnail"><img src={mediaUrl(sign.demo.poster)} alt="" loading="lazy" /><b aria-hidden="true">▶</b></span>
       <span className="sign-card-copy">
         <strong>{sign.word}</strong>
-        <small>{compact ? sign.routine : sign.stageLabel}</small>
+        <small>{sign.group}</small>
         {!compact && <em>{progress?.practiceCount ? "Practiced ✓ · " : ""}{formatCount(progress?.count || 0)}</em>}
       </span>
       <span className="round-arrow" aria-hidden="true">→</span>
@@ -113,7 +117,8 @@ function TodayPage({ progress, onOpen, go }) {
         <div className="path-steps">{starters.map((sign,index) => <button type="button" key={sign.id} onClick={() => onOpen(sign.id)}><span className="path-number">{progress[sign.id]?.practiceCount ? "✓" : `0${index + 1}`}</span><strong>{sign.word}</strong><small>{["Before a feed", "Another song or turn", "When an activity ends"][index]}</small><span className="path-link">{progress[sign.id]?.practiceCount ? "Practice again" : "Learn this sign"} →</span></button>)}</div>
         <div className="path-footer"><span>No streaks. No catching up. Just a few useful signs.</span><button type="button" className="text-button" onClick={() => onOpen(next.id)}>{practiced === 3 ? "Revisit Milk" : `Continue with ${next.word}`} →</button></div>
       </section>
-      <section className="section-block" aria-labelledby="moment-heading"><div className="section-heading"><div><p className="eyebrow">In the moment</p><h2 id="moment-heading">Find a sign for right now.</h2></div><button className="text-button" type="button" onClick={() => go("signs")}>All 12 signs →</button></div><div className="moment-grid">{routines.map(routine => <button type="button" className="moment-button" key={routine.name} onClick={() => onOpen(routine.signId)}><span className="moment-icon" aria-hidden="true">{routine.icon}</span><span><strong>{routine.name}</strong><small>{routine.note}</small></span><span className="moment-sign">{routine.signLabel} →</span></button>)}</div></section>
+      <section className="recall-invitation card"><div><p className="eyebrow">Beyond watching</p><h2>Can you remember the movement?</h2><p>Try a short round with the video hidden, or name a sign you see.</p></div><button type="button" className="button primary" onClick={() => go("practice")}>Practice from memory →</button></section>
+      <section className="section-block" aria-labelledby="moment-heading"><div className="section-heading"><div><p className="eyebrow">In the moment</p><h2 id="moment-heading">Find a sign for right now.</h2></div><button className="text-button" type="button" onClick={() => go("signs")}>All {signs.length} signs →</button></div><div className="moment-grid">{routines.map(routine => <button type="button" className="moment-button" key={routine.name} onClick={() => onOpen(routine.signId)}><span className="moment-icon" aria-hidden="true">{routine.icon}</span><span><strong>{routine.name}</strong><small>{routine.note}</small></span><span className="moment-sign">{routine.signLabel} →</span></button>)}</div></section>
       <section className="before-baby card"><span aria-hidden="true">♡</span><div><h2>Practice now. Use it together later.</h2><p>For now, rehearse while you say the word out loud. With your baby, say the word, make the sign, then follow through with the feed, cuddle, or game. These lessons are for you to watch; the connection happens face to face.</p></div></section>
       <SafetyFooter />
     </main>
@@ -123,22 +128,21 @@ function TodayPage({ progress, onOpen, go }) {
 function SignsPage({ progress, onOpen }) {
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
-  const visible = signs.filter(sign => (filter === "all" || sign.stage === filter) && `${sign.word} ${sign.routine}`.toLowerCase().includes(query.trim().toLowerCase()));
+  const visible = signs.filter(sign => (filter === "all" || sign.group === filter) && `${sign.word} ${sign.routine} ${sign.group}`.toLowerCase().includes(query.trim().toLowerCase()));
   return (
     <main id="main-content" tabIndex={-1} className="page-shell signs-page">
       <div className="page-intro">
         <p className="eyebrow">A small, useful vocabulary</p>
-        <h1>12 signs for daily life</h1>
-        <p>Age bands tell you when a sign becomes especially useful—not when your baby must perform it.</p>
+        <h1>{signs.length} signs for daily life</h1>
+        <p>Choose a routine and add one useful sign at a time. You can practice every sign before your baby arrives.</p>
       </div>
       <label className="sign-search">Find a sign<input type="search" placeholder="Try milk, sleep, or play…" value={query} onChange={e => setQuery(e.target.value)} /></label>
-      <div className="filter-tabs" role="group" aria-label="Filter signs by stage">
+      <div className="filter-tabs" role="group" aria-label="Filter signs by routine">
         <button type="button" className={filter === "all" ? "active" : ""} aria-pressed={filter === "all"} onClick={() => setFilter("all")}>All</button>
-        {stageOrder.map((stage) => (
-          <button type="button" className={filter === stage.id ? "active" : ""} aria-pressed={filter === stage.id} onClick={() => setFilter(stage.id)} key={stage.id}>{stage.shortLabel}</button>
-        ))}
+        {routineGroups.map(group => <button type="button" className={filter === group ? "active" : ""} aria-pressed={filter === group} onClick={() => setFilter(group)} key={group}>{group}</button>)}
       </div>
       {visible.length === 0 && <p role="status">No signs match “{query}”. Try a different word or choose All.</p>}
+      <p className="library-credit">Reference images: ASL Signbank (2026). <a href={`${import.meta.env.BASE_URL}credits.html`}>Credits and teaching notes</a>.</p>
       <div className="sign-library" aria-live="polite">
         {visible.map((sign) => <SignCard key={sign.id} sign={sign} progress={progress[sign.id]} onOpen={onOpen} />)}
       </div>
@@ -153,6 +157,7 @@ function SafetyFooter() {
       <div><strong>Tiny Signs supports connection—not a milestone race.</strong><p>Keep talking, reading, and responding to your baby’s natural cues. Never wait for a sign before meeting a need. These vocabulary lessons are an introduction, not a complete ASL course.</p></div>
       <div className="source-links">
         <a href="https://www.healthychildren.org/English/ages-stages/baby/Pages/These-Hands-Were-Made-for-Talking.aspx" target="_blank" rel="noreferrer">AAP baby-sign guidance ↗</a>
+        <a href={`${import.meta.env.BASE_URL}credits.html`}>Video credits & teaching notes ↗</a>
         <a href="https://www.nidcd.nih.gov/health/american-sign-language" target="_blank" rel="noreferrer">About ASL · NIDCD ↗</a>
         <a href="https://www.cdc.gov/infant-toddler-nutrition/mealtime/signs-your-child-is-hungry-or-full.html" target="_blank" rel="noreferrer">Responsive feeding · CDC ↗</a>
       </div>
@@ -161,6 +166,8 @@ function SafetyFooter() {
 }
 
 export default function App() {
+  const [online, setOnline] = useState(() => navigator.onLine);
+  useEffect(() => { const update=()=>setOnline(navigator.onLine); window.addEventListener("online",update); window.addEventListener("offline",update); return()=>{window.removeEventListener("online",update);window.removeEventListener("offline",update);}; },[]);
   const [route, setRoute] = useState(readRoute);
   const [progress, setProgress] = useState(() => readStored(STORAGE_KEY, {}));
   const [settings, setSettings] = useState(() => ({
@@ -229,6 +236,7 @@ export default function App() {
         onToggleTheme={() => setSettings((current) => ({ ...current, lowLight: !current.lowLight }))}
         go={go}
       />
+      {!online && <div className="offline-banner" role="status">You’re offline. Written lessons and saved video packs are available.</div>}
       {route.page === "today" && <TodayPage progress={progress} onOpen={openSign} go={go} />}
       {route.page === "signs" && <SignsPage progress={progress} onOpen={openSign} />}
       {route.page === "learn" && (
@@ -239,12 +247,14 @@ export default function App() {
           setDominantHand={(dominantHand) => setSettings((current) => ({ ...current, dominantHand }))}
           learnMore={settings.learnMore}
           setLearnMore={(learnMore) => setSettings((current) => ({ ...current, learnMore }))}
+          onReview={() => go("practice")}
           onPractice={(id) => setProgress(current => ({ ...current, [id]: { ...current[id], practiceCount: (current[id]?.practiceCount || 0) + 1 } }))}
           onLog={logPractice}
           onOpen={openSign}
           go={go}
         />
       )}
+      {route.page === "practice" && <RecallPage progress={progress} onOpen={openSign} go={go} onRecall={(id,rating) => setProgress(current => ({...current,[id]:{...current[id],recallRating:rating,recallAt:new Date().toISOString(),recallCount:(current[id]?.recallCount || 0)+1}}))} />}
       {route.page === "settings" && <SettingsPage settings={settings} onChangeSettings={updateSettings} onResetProgress={resetProgress} />}
       <BottomNav page={route.page} go={go} />
     </div>

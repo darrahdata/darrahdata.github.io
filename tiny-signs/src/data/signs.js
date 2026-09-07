@@ -1,3 +1,6 @@
+import { extraSigns } from "./extraSigns.js";
+import media from "./media.json";
+
 const lifeprintSource = (path) => ({
   label: "ASL University",
   url: `https://www.lifeprint.com/asl101/pages-signs/${path}`
@@ -21,20 +24,19 @@ const signCatalog = [
     shape: "A relaxed C hand that closes into an S hand (a fist)",
     place: "Neutral space in front of your torso",
     palm: "Thumb side up, with the palm angled inward or sideways",
-    move: "Close the C hand into a fist twice. Keep your forearm still—only the hand closes.",
-    repetitions: "Two closes",
+    move: "Close the curved hand into a fist and relax it again. Keep your forearm still—only the hand closes.",
+    repetitions: "One or two closes",
     teachingMoment: "Right before nursing or offering a bottle, say “milk,” make the sign, pause briefly, then feed your baby.",
     commonMistake: "Pumping the whole arm up and down instead of opening and closing the hand.",
     checks: componentChecks({
       shape: "I start with a relaxed C and finish with a fist.",
       palm: "My thumb stays on top and my palm does not face straight down.",
       place: "My hand stays in the comfortable space in front of my torso.",
-      move: "My hand closes twice while my arm stays quiet."
+      move: "My hand closes while my arm stays quiet."
     }),
     source: lifeprintSource("m/milk.htm"),
-    demo: { type: "video", videoId: "quk_XoRtZWk", credit: "ASL University" },
     cue: {
-      summary: "C hand → fist, twice",
+      summary: "Curved hand → fist",
       frames: [
         { shape: "c", label: "Start: C" },
         { shape: "fist", label: "Close", motion: "squeeze" },
@@ -127,7 +129,6 @@ const signCatalog = [
       move: "I use one light, clear contact."
     }),
     source: lifeprintSource("m/momdad.htm"),
-    demo: { type: "video", videoId: "DHl2-NT3mIM", credit: "ASL University" },
     cue: {
       summary: "Open 5 hand, thumb to chin",
       frames: [{ shape: "open", label: "Thumb to chin", motion: "touch-chin" }]
@@ -155,7 +156,6 @@ const signCatalog = [
       move: "I use one light, clear contact."
     }),
     source: lifeprintSource("m/momdad.htm"),
-    demo: { type: "video", videoId: "1Vllc4F5ic0", credit: "ASL University" },
     cue: {
       summary: "Open 5 hand, thumb to forehead",
       frames: [{ shape: "open", label: "Thumb to forehead", motion: "touch-forehead" }]
@@ -172,8 +172,8 @@ const signCatalog = [
     shape: "Both hands open with fingers relaxed and pointing up",
     place: "Neutral space in front of the chest",
     palm: "Begin with palms facing you; finish with palms facing forward",
-    move: "Twist both hands outward at the wrists. Use two quick twists for the usual form.",
-    repetitions: "Two twists",
+    move: "Turn both hands outward at the wrists in one short movement.",
+    repetitions: "One outward turn",
     teachingMoment: "At the end of a feed, bath, or game, say “all done,” sign, pause, and then finish the activity.",
     commonMistake: "Waving the arms side to side instead of rotating both wrists.",
     checks: componentChecks({
@@ -183,7 +183,6 @@ const signCatalog = [
       move: "Both wrists twist together without my arms swinging."
     }),
     source: lifeprintSource("f/finish.htm"),
-    demo: { type: "video", videoId: "7xQE2N0z7gM", credit: "ASL University" },
     cue: {
       summary: "Two open palms turn outward",
       frames: [
@@ -375,26 +374,10 @@ const signCatalog = [
   }
 ];
 
-// Human demonstrations linked from the publishers' own dictionary pages.
-// Source URLs and YouTube oEmbed titles checked September 7, 2026.
-const videoCatalog = {
-  milk: ["quk_XoRtZWk", "ASL University", "https://www.lifeprint.com/asl101/pages-signs/m/milk.htm"],
-  mom: ["DHl2-NT3mIM", "ASL University", "https://www.lifeprint.com/asl101/pages-signs/m/mom.htm"],
-  dad: ["1Vllc4F5ic0", "ASL University", "https://www.lifeprint.com/asl101/pages-signs/d/dad.htm"],
-  "all-done": ["7xQE2N0z7gM", "ASL University", "https://www.lifeprint.com/asl101/pages-signs/f/finish.htm"],
-  hurt: ["xs4k_Qf3BSc", "ASL University", "https://www.lifeprint.com/asl101/pages-signs/h/hurt.htm"],
-  sleep: ["51zIxIxSZrc", "Baby Sign Language", "https://babysignlanguage.com/dictionary/sleep/"],
-  diaper: ["9H9v3DnuswE", "Baby Sign Language", "https://babysignlanguage.com/dictionary/diaper/"],
-  more: ["EVaRNgCUpGE", "Baby Sign Language", "https://babysignlanguage.com/dictionary/more/"],
-  eat: ["Z3rvyvZ1Dlk", "Baby Sign Language", "https://babysignlanguage.com/dictionary/eat/"],
-  drink: ["66Lu16dZ9zU", "Baby Sign Language", "https://babysignlanguage.com/dictionary/drink/"],
-  up: ["fotnTKL9l7s", "Baby Sign Language", "https://babysignlanguage.com/dictionary/up/"],
-  help: ["HgRpq8gEnC8", "Baby Sign Language", "https://babysignlanguage.com/dictionary/help/"]
-};
 const handGuides = {
-  milk: ["Curve your fingers and thumb as if holding a small cup. Close your fingers into a fist, then open. Do that twice.", "Rest your other hand. Only the signing hand opens and closes."],
+  milk: ["Curve your fingers and thumb as if holding a small cup. Close your fingers into a fist, then relax them again.", "Rest your other hand. Only the signing hand opens and closes."],
   sleep: ["Spread your fingers in front of your face, palm toward you. Lower the hand while gathering your fingertips to your thumb, ending below your chin.", "Rest your other hand. Let your face look sleepy as the hand comes down."],
-  diaper: ["At one side of your waist, hold out your thumb, index finger, and middle finger. Fold your ring finger and pinky. Tap the two fingers against the thumb.", "Make the same shape at the other side of your waist. Both hands tap their own thumbs together, twice."],
+  diaper: ["At one side of your waist, hold out your thumb, index finger, and middle finger. Fold your ring finger and pinky. Tap the two fingers against the thumb.", "Make the same shape at the other side of your waist. Both hands tap their own thumbs at the same time."],
   mom: ["Spread all five fingers. Lightly touch your thumb to your chin, keeping the fingers pointing up.", "Rest your other hand. Remember: Mom is at the chin."],
   dad: ["Spread all five fingers. Lightly touch your thumb to your forehead, keeping the fingers pointing up.", "Rest your other hand. Remember: Dad is at the forehead."],
   "all-done": ["Open both hands at chest height, fingers pointing up and palms toward you.", "Turn both wrists outward so your palms face away. The wrists turn; your arms do not wave from side to side."],
@@ -405,11 +388,14 @@ const handGuides = {
   help: ["Make a loose fist with your thumb pointing up. Rest the little-finger side of that fist on your other palm.", "Hold your other hand flat, palm up, under the fist. Lift both hands together, keeping them in contact."],
   hurt: ["Point both index fingers toward each other. Fold your other fingers and thumbs in.", "Move the fingertips toward each other twice with a small motion, near the area that hurts. Use a concerned expression."]
 };
-export const signs = signCatalog.map(sign => ({
+const originalGroups = {milk:"Meals",sleep:"Bedtime",diaper:"Care",mom:"Connection",dad:"Connection","all-done":"Meals",more:"Meals",up:"Care",eat:"Meals",drink:"Meals",help:"Connection",hurt:"Connection"};
+export const signs = [...signCatalog, ...extraSigns].map(sign => ({
   ...sign,
-  handGuide: handGuides[sign.id],
-  demo: { type: "video", videoId: videoCatalog[sign.id][0], credit: videoCatalog[sign.id][1], sourceUrl: videoCatalog[sign.id][2] }
+  group: sign.group || originalGroups[sign.id],
+  handGuide: sign.handGuide || handGuides[sign.id],
+  demo: media[sign.id]
 }));
+export const routineGroups = ["Meals", "Care", "Bedtime", "Play", "Animals", "Connection"];
 
 export const stageOrder = [
   { id: "birth", shortLabel: "From birth" },
