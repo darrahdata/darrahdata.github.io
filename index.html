@@ -1,438 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>darrahdata</title>
-  <meta name="description" content="John Darrah — Data Scientist. Small tools, built with care." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg-deep: #0f0d0a;
-      --bg-main: #1a1410;
-      --bg-card: #1e1914;
-      --bg-card-hover: #2a231b;
-      --border: #2e261e;
-      --border-hover: #c9a96e;
-      --gold: #c9a96e;
-      --gold-dim: rgba(201, 169, 110, 0.15);
-      --cream: #e8dcc8;
-      --muted: #9e8c75;
-      --dim: #5a5048;
-      --mono: 'JetBrains Mono', monospace;
-    }
-
-    body {
-      background: var(--bg-deep);
-      color: var(--cream);
-      font-family: 'EB Garamond', Georgia, serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ---- Ambient background grid ---- */
-    .bg-grid {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(201, 169, 110, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(201, 169, 110, 0.03) 1px, transparent 1px);
-      background-size: 48px 48px;
-    }
-
-    .bg-glow {
-      position: fixed;
-      top: -30%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(201, 169, 110, 0.06) 0%, transparent 70%);
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 1.5rem 6rem;
-    }
-
-    /* ---- Hero ---- */
-    .hero {
-      text-align: center;
-      padding: 6rem 0 4rem;
-      max-width: 640px;
-      animation: fadeUp 0.8s ease-out both;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .hero-tag {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      font-weight: 300;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      opacity: 0.8;
-      margin-bottom: 1.5rem;
-      display: inline-block;
-    }
-
-    .hero h1 {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-weight: 300;
-      font-size: clamp(2.6rem, 7vw, 4.2rem);
-      letter-spacing: 0.08em;
-      color: var(--cream);
-      line-height: 1.15;
-    }
-
-    .hero h1 span {
-      color: var(--gold);
-    }
-
-    .hero-sub {
-      margin-top: 1.25rem;
-      font-size: 1.15rem;
-      font-style: normal;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .divider {
-      width: 48px;
-      height: 1px;
-      background: var(--gold);
-      opacity: 0.35;
-      margin: 2rem auto 0;
-    }
-
-    /* ---- Social links ---- */
-    .social {
-      display: flex;
-      gap: 1.25rem;
-      margin-top: 2rem;
-      justify-content: center;
-      animation: fadeUp 0.8s ease-out 0.2s both;
-    }
-
-    .social a {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      font-weight: 300;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      transition: color 0.25s, border-color 0.25s;
-    }
-
-    .social a:hover {
-      color: var(--gold);
-      border-color: var(--gold);
-    }
-
-    .social svg {
-      width: 14px;
-      height: 14px;
-      fill: currentColor;
-    }
-
-    /* ---- Section ---- */
-    .section-label {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      font-weight: 300;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-bottom: 2rem;
-      text-align: center;
-      animation: fadeUp 0.8s ease-out 0.35s both;
-    }
-
-    /* ---- Project grid ---- */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.25rem;
-      width: 100%;
-      max-width: 780px;
-      animation: fadeUp 0.8s ease-out 0.4s both;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2rem 2rem 1.75rem;
-      text-decoration: none;
-      color: inherit;
-      transition: border-color 0.3s, background 0.3s, transform 0.3s, box-shadow 0.3s;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .card:hover {
-      border-color: rgba(201, 169, 110, 0.4);
-      background: var(--bg-card-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
-
-    .card:hover::before {
-      opacity: 1;
-    }
-
-    .card-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: var(--gold-dim);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 0.25rem;
-    }
-
-    .card-icon svg {
-      width: 18px;
-      height: 18px;
-      stroke: var(--gold);
-      fill: none;
-      stroke-width: 1.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .card-label {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      font-weight: 300;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      opacity: 0.8;
-    }
-
-    .card h2 {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 1.4rem;
-      font-weight: 400;
-      color: var(--cream);
-      line-height: 1.3;
-    }
-
-    .card p {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.65;
-    }
-
-    .card-arrow {
-      margin-top: auto;
-      padding-top: 0.75rem;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--dim);
-      letter-spacing: 0.05em;
-      transition: color 0.3s;
-    }
-
-    .card:hover .card-arrow {
-      color: var(--gold);
-    }
-
-    /* ---- Footer ---- */
-    footer {
-      margin-top: 6rem;
-      text-align: center;
-      animation: fadeUp 0.8s ease-out 0.5s both;
-    }
-
-    footer a {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      color: var(--dim);
-      text-decoration: none;
-      transition: color 0.25s;
-    }
-
-    footer a:hover {
-      color: var(--gold);
-    }
-
-    footer .footer-line {
-      width: 32px;
-      height: 1px;
-      background: var(--border);
-      margin: 1rem auto 0;
-    }
-
-    footer .footer-copy {
-      margin-top: 0.75rem;
-      font-size: 0.7rem;
-      color: var(--dim);
-      opacity: 0.5;
-      font-family: var(--mono);
-      font-weight: 300;
-    }
-
-    /* ---- Responsive ---- */
-    @media (max-width: 600px) {
-      .hero { padding: 4rem 0 3rem; }
-      .grid { grid-template-columns: 1fr; }
-      .card { padding: 1.5rem; }
-      .social { flex-direction: column; align-items: center; }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#141717">
+  <meta name="description" content="John Darrah, data scientist. Thoughtful tools for prayer, family life, and data.">
+  <title>darrahdata | Thoughtful tools for everyday life</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/home/home.css">
 </head>
 <body>
-
-  <div class="bg-grid"></div>
-  <div class="bg-glow"></div>
-
-  <div class="content">
-
-    <header class="hero">
-      <span class="hero-tag">data scientist</span>
-      <h1>darrah<span>data</span></h1>
-      <p class="hero-sub">Thoughtful tools for data and everyday life.</p>
-      <div class="divider"></div>
+  <a class="skip-link" href="#apps">Skip to apps</a>
+  <div class="page">
+    <header class="masthead">
+      <div><p class="byline">John Darrah <span aria-hidden="true">/</span> Data scientist</p>
+        <h1>darrah<span>data</span></h1>
+        <p class="intro">Thoughtful tools for data and everyday life.</p></div>
+      <nav class="social" aria-label="Find John online">
+        <a href="https://www.linkedin.com/in/john-darrah-19019079">LinkedIn</a>
+        <a href="https://github.com/darrahdata">GitHub</a>
+      </nav>
     </header>
-
-    <nav class="social">
-      <a href="https://www.linkedin.com/in/john-darrah-19019079" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
-      </a>
-      <a href="https://github.com/darrahdata" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-        GitHub
-      </a>
-    </nav>
-
-    <div style="margin-top: 4rem; width: 100%; max-width: 780px;">
-      <p class="section-label">Projects</p>
-
-      <div class="grid">
-        <a class="card" href="/rosary-v2/">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4m-3.07-6.93l-2.83 2.83M7.9 16.1l-2.83 2.83m0-13.86l2.83 2.83M16.1 16.1l2.83 2.83"/></svg>
-          </div>
-          <span class="card-label">Prayer</span>
-          <h2>Rosary</h2>
-          <p>A contemplative prayer companion with guided mysteries, decade selection, reflections, voice follow-along, and a quiet Stone Chapel design.</p>
-          <span class="card-arrow">explore &rarr;</span>
-        </a>
-
-        <a class="card" href="/little-signs/">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M7 11V5a2 2 0 0 1 4 0v5M11 10V4a2 2 0 0 1 4 0v7M15 11V6a2 2 0 0 1 4 0v8a7 7 0 0 1-14 0v-3a2 2 0 0 1 4 0v3"/></svg>
-          </div>
-          <span class="card-label">Family</span>
-          <h2>Little Signs</h2>
-          <p>A parent companion app for learning baby sign language and beginner ASL through daily routines, practice, and gentle progress tracking.</p>
-          <span class="card-arrow">explore &rarr;</span>
-        </a>
-
-        <a class="card" href="/baby-playbook/">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h5v18H6a2 2 0 0 1-2-2zM20 5a2 2 0 0 0-2-2h-5v18h5a2 2 0 0 0 2-2zM11 3v18"/></svg>
-          </div>
-          <span class="card-label">Family</span>
-          <h2>Baby Playbook</h2>
-          <p>A searchable field guide for a first-time dad &mdash; sleep, feeding, safety, and postpartum warning signs, with every entry marked by source.</p>
-          <span class="card-arrow">explore &rarr;</span>
-        </a>
-
-        <a class="card" href="/baby-signs/">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M9 11V6.5a1.5 1.5 0 0 1 3 0V11m0-.5V5a1.5 1.5 0 0 1 3 0v6m0-.5V7a1.5 1.5 0 0 1 3 0v7a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6v-2.5a1.5 1.5 0 0 1 3 0V13"/></svg>
-          </div>
-          <span class="card-label">Family</span>
-          <h2>Baby Signs</h2>
-          <p>Animated baby sign language for parents who know none. Watch the hands and arms move, follow the steps, then check yourself in the camera mirror.</p>
-          <span class="card-arrow">explore &rarr;</span>
-        </a>
-
-        <a class="card" href="/tiny-signs/">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M8.5 12V7.2a1.7 1.7 0 0 1 3.4 0V11m0-1.3V5.8a1.7 1.7 0 0 1 3.4 0v5.4m0-2.2V7.1a1.7 1.7 0 0 1 3.4 0v6.2a6.3 6.3 0 0 1-12.6 0v-1.5a1.7 1.7 0 0 1 3.4 0v1.4"/><path d="M4.3 16.8c-1.4-.8-2.1-2.3-1.7-3.6.4-1.2 1.6-1.7 2.7-1.2.7.3 1.1 1 1.3 1.7"/></svg>
-          </div>
-          <span class="card-label">Newborn</span>
-          <h2>Tiny Signs</h2>
-          <p>A simple visual coach for learning the first signs you’ll use with your baby, with guided motion, mirror practice, and clear self-checks.</p>
-          <span class="card-arrow">start learning &rarr;</span>
-        </a>
-
-        <a class="card" href="/model_usage">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-          </div>
-          <span class="card-label">Productivity</span>
-          <h2>Model Usage</h2>
-          <p>Track GPT token usage and costs by model, with cached input support, a 30-day cost chart, and running totals.</p>
-          <span class="card-arrow">explore &rarr;</span>
-        </a>
-
-        <a class="card" href="/rosary-analytics/">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.8-3 8.2-7 10-4-1.8-7-5.2-7-10V6l7-3z"/><path d="M9 14v-3m3 3V8m3 6v-2"/></svg>
-          </div>
-          <span class="card-label">Private</span>
-          <h2>Rosary Analytics</h2>
-          <p>A password-protected view of Rosary visitors, prayer activity, and new and returning users over time.</p>
-          <span class="card-arrow">view dashboard &rarr;</span>
-        </a>
+    <main id="apps" tabindex="-1">
+      <div class="collection-heading">
+        <h2>A small collection, made with care.</h2>
+        <nav class="categories" aria-label="App categories"><a href="#prayer">Prayer</a><a href="#family">Family</a><a href="#data">Data</a></nav>
       </div>
-    </div>
-
-    <footer>
-      <a href="https://github.com/darrahdata" target="_blank" rel="noopener">github.com/darrahdata</a>
-      <span aria-hidden="true" style="color:var(--dim);margin:0 .55rem">·</span>
-      <a href="/privacy/">privacy &amp; analytics</a>
-      <div class="footer-line"></div>
-      <p class="footer-copy">built with care &amp; dark coffee</p>
+      <div class="featured">
+        <article class="app prayer" id="prayer">
+          <div class="app-copy">
+            <p class="eyebrow">Prayer</p><h3>Rosary</h3>
+            <p>A quiet companion for daily prayer. Follow the mysteries, bring your intentions, and return to where you left off.</p>
+            <a class="open-link" href="rosary-v2/">Open Rosary <span aria-hidden="true">&rarr;</span></a>
+          </div>
+          <img src="assets/home/rosary.jpg" width="960" height="600" alt="Rosary prayer screen with the Hail Mary, read-aloud control, and bead progress." fetchpriority="high">
+        </article>
+        <article class="app family" id="family">
+          <div class="app-copy">
+            <p class="eyebrow">Family / Daily routines</p><h3>Little Signs</h3>
+            <p>Make room for baby signs in everyday moments, with a personal learning plan and practice around your family routines.</p>
+            <a class="open-link" href="little-signs/">Open Little Signs <span aria-hidden="true">&rarr;</span></a>
+          </div>
+          <img src="assets/home/little-signs.jpg" width="960" height="600" alt="Little Signs library with signs organized for everyday parent and baby routines.">
+        </article>
+      </div>
+      <section class="family-tools" aria-labelledby="family-heading">
+        <div class="section-heading"><h2 id="family-heading">More for family life</h2><p>A different kind of help for each moment.</p></div>
+        <div class="tool-list">
+          <article class="tool"><p class="eyebrow">Video-led practice</p><h3>Tiny Signs</h3>
+            <p>Watch human sign demonstrations, slow them down, and practice recalling the signs.</p>
+            <a class="open-link" href="tiny-signs/">Open Tiny Signs <span aria-hidden="true">&rarr;</span></a></article>
+          <article class="tool"><p class="eyebrow">Animated demonstrations</p><h3>Baby Signs</h3>
+            <p>See the movement step by step, then try it yourself with an optional camera mirror.</p>
+            <a class="open-link" href="baby-signs/">Open Baby Signs <span aria-hidden="true">&rarr;</span></a></article>
+          <article class="tool"><p class="eyebrow">A parent's reference</p><h3>Baby Playbook</h3>
+            <p>A searchable first-time dad's guide to sleep, feeding, and care, with sources alongside each entry.</p>
+            <a class="open-link" href="baby-playbook/">Open Baby Playbook <span aria-hidden="true">&rarr;</span></a></article>
+        </div>
+      </section>
+      <section class="data-section" id="data" aria-labelledby="data-heading">
+        <div class="data-copy"><p class="eyebrow">Data / Everyday utility</p><h2 id="data-heading">Model Usage</h2>
+          <p>Keep token usage and model costs in view, with cached inputs, running totals, and a 30-day cost chart.</p>
+          <a class="open-link" href="model_usage/">Open Model Usage <span aria-hidden="true">&rarr;</span></a></div>
+        <img src="assets/home/model-usage.jpg" width="960" height="600" alt="Model Usage dashboard with token totals, a cost summary, and a daily cost chart." loading="lazy">
+      </section>
+    </main>
+    <footer><p>John Darrah <span aria-hidden="true">/</span> Built with care.</p>
+      <nav aria-label="Site information"><a href="privacy/">Privacy &amp; analytics</a><a href="rosary-analytics/">Private Rosary analytics</a></nav>
     </footer>
-
   </div>
-
 </body>
 </html>

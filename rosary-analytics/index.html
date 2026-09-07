@@ -99,14 +99,28 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:400}
 .privacy-copy{color:var(--soft);font-size:.84rem;line-height:1.75}.privacy-copy strong{color:var(--gold-light);font-weight:500}.privacy-copy a{color:var(--gold-light)}
 .break-row{display:grid;grid-template-columns:minmax(100px,1fr) 2fr auto;gap:.65rem;align-items:center}
 .break-name{color:var(--soft);font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.track{height:7px;border-radius:99px;background:rgba(255,255,255,.045);overflow:hidden}.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-light))}
+.track{height:7px;border-radius:99px;background:rgba(255,255,255,.045);overflow:hidden}.fill{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-light))}
 .break-count{color:var(--muted);font-size:.72rem;font-variant-numeric:tabular-nums}
 .empty{color:var(--muted);font-size:.82rem;line-height:1.6;padding:.5rem 0}
 .footer{display:flex;justify-content:space-between;gap:1rem;align-items:center;color:var(--muted);font-size:.7rem;margin-top:1rem;padding:.3rem}
 .footer a{color:var(--soft)}
 @media(max-width:850px){.metrics{grid-template-columns:repeat(2,1fr)}.grid,.returning-grid{grid-template-columns:1fr}.lower{grid-template-columns:1fr}.dashboard-header{align-items:flex-start;flex-direction:column}.header-actions,.range-controls{justify-content:flex-start}}
 @media(max-width:520px){body{padding:1rem}.metrics{gap:.6rem}.metric{min-height:122px;padding:1rem}.panel{padding:1rem}.chart{height:210px}.privacy{display:none}.header-actions,.range-controls{width:100%;justify-content:flex-start}.custom-range{width:100%;justify-content:space-between}.dashboard-tabs button{flex:1;padding:.75rem .35rem}.footer{flex-direction:column;align-items:flex-start}}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+:focus-visible{outline:2px solid var(--gold-light)!important;outline-offset:3px}
+.metric-note{line-height:1.5;margin-top:.5rem}.metric-value{font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.panel-head{flex-wrap:wrap}.panel{min-width:0}
+.period-status,.limitations{color:var(--soft);font-size:.78rem;line-height:1.65;margin:1rem 0}
+.period-status{display:flex;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
+#load-status{color:var(--gold-light)}
+.limitations{border-top:1px solid var(--line);padding-top:1rem}.limitations summary{cursor:pointer;color:var(--gold-light)}
+.chart{gap:3px}.day{min-width:0;border:0;padding:0;background:transparent;border-radius:0}
+.day:hover::after{display:none}.day:hover,.day:focus-visible{background:rgba(201,169,108,.12)}
+.chart-detail,.chart-axis{color:var(--soft);font-size:.72rem;line-height:1.6;margin-top:.65rem}
+.chart-detail{min-height:3.2em}.chart-axis{display:flex;justify-content:space-between;gap:1rem}
+.table-wrap{max-height:300px;overflow:auto;margin-top:.75rem}table{width:100%;border-collapse:collapse;font-size:.74rem}th,td{text-align:right;padding:.55rem;border-bottom:1px solid var(--line)}th:first-child,td:first-child{text-align:left}caption{text-align:left;color:var(--soft);padding-bottom:.5rem}
+.panel details{color:var(--soft);font-size:.75rem;margin-top:.75rem}.panel summary{cursor:pointer}
+[aria-busy="true"] .tab-panel{opacity:.55}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -163,10 +177,18 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:400}
             </form>
           </div>
           <button class="quiet-btn" id="logout-button" type="button">Lock</button>
+          <button class="quiet-btn" id="refresh-button" type="button">Refresh</button>
         </div>
       </div>
 
       <div class="preview-banner" id="preview-banner" hidden>Preview mode · These numbers are sample data only.</div>
+      <div class="period-status"><span id="selected-period">No period loaded</span><span id="load-status" role="status" aria-live="polite"></span></div>
+      <details class="limitations">
+        <summary>How to read these counts</summary>
+        <p>Visitors are estimates from salted IP-address and user-agent identifiers. Shared networks can merge people; network, browser or device changes can split one person. Visitor-days sum daily counts, so the same visitor can count on multiple days.</p>
+        <p>Only received events are counted. Privacy opt-outs, Global Privacy Control and blocked or failed requests reduce coverage. A day without a row means no recorded activity; it does not prove there was no usage. Today is still in progress in Pacific Time.</p>
+        <p>Starts and completions are separate event totals, not matched sessions or a completion rate. Breakdowns count start events with a recorded option. New means no matching prior-day profile within 30 days, not necessarily a first-ever visit. Returning share uses classified visitor-days, not retention.</p>
+      </details>
 
       <nav class="dashboard-tabs" aria-label="Analytics views">
         <button type="button" class="active" data-tab="overview" aria-selected="true">Overview</button>
@@ -175,49 +197,49 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:400}
 
       <section class="tab-panel" id="tab-overview" aria-label="Overview analytics">
         <div class="metrics">
-          <article class="card metric"><span class="metric-label">Visitors today</span><strong class="metric-value" id="metric-today">—</strong><span class="metric-note" id="metric-today-note">Daily pseudonymous count · Pacific Time</span></article>
-          <article class="card metric"><span class="metric-label">Visitors yesterday</span><strong class="metric-value" id="metric-yesterday">—</strong><span class="metric-note" id="metric-yesterday-note">Compared with today</span></article>
+          <article class="card metric"><span class="metric-label">Visitors today</span><strong class="metric-value" id="metric-today">—</strong><span class="metric-note" id="metric-today-note">Estimated daily count · Partial day</span></article>
+          <article class="card metric"><span class="metric-label">Visitors yesterday</span><strong class="metric-value" id="metric-yesterday">—</strong><span class="metric-note" id="metric-yesterday-note">Estimated daily count · Full day</span></article>
           <article class="card metric"><span class="metric-label">Page views</span><strong class="metric-value" id="metric-views">—</strong><span class="metric-note" id="metric-views-note">In this period</span></article>
-          <article class="card metric"><span class="metric-label">Rosaries completed</span><strong class="metric-value" id="metric-completed">—</strong><span class="metric-note" id="metric-completed-note">In this period</span></article>
+          <article class="card metric"><span class="metric-label">Rosary completions</span><strong class="metric-value" id="metric-completed">—</strong><span class="metric-note" id="metric-completed-note">Recorded events in this period</span></article>
         </div>
 
         <div class="grid">
           <article class="card panel">
             <div class="panel-head"><h2>Visitors over time</h2><span class="panel-note" id="chart-period">Last 30 days</span></div>
             <div class="chart" id="daily-chart" aria-label="Visitors and page views over time chart"></div>
-            <div class="legend"><span><i></i>Visitors</span><span><i></i>Page views</span></div>
+            <div class="legend"><span><i></i>Visitor-days</span><span><i></i>Page views</span></div>
           </article>
           <article class="card panel">
-            <div class="panel-head"><h2>Prayer activity</h2><span class="panel-note">Selected period</span></div>
+            <div class="panel-head"><h2>Prayer activity</h2><span class="panel-note">Recorded events</span></div>
             <div class="activity-list" id="activity-list"></div>
           </article>
         </div>
 
         <div class="lower">
-          <article class="card panel"><div class="panel-head"><h2>Mysteries</h2></div><div class="breakdown" id="mystery-breakdown"></div></article>
-          <article class="card panel"><div class="panel-head"><h2>Styles</h2></div><div class="breakdown" id="style-breakdown"></div></article>
-          <article class="card panel"><div class="panel-head"><h2>Chaplets</h2></div><div class="breakdown" id="chaplet-breakdown"></div></article>
+          <article class="card panel"><div class="panel-head"><h2>Mysteries</h2><span class="panel-note">Rosary starts</span></div><div class="breakdown" id="mystery-breakdown"></div></article>
+          <article class="card panel"><div class="panel-head"><h2>Styles</h2><span class="panel-note">Rosary starts</span></div><div class="breakdown" id="style-breakdown"></div></article>
+          <article class="card panel"><div class="panel-head"><h2>Chaplets</h2><span class="panel-note">Chaplet starts</span></div><div class="breakdown" id="chaplet-breakdown"></div></article>
         </div>
       </section>
 
       <section class="tab-panel" id="tab-returning" aria-label="New and returning user analytics" hidden>
         <div class="metrics">
-          <article class="card metric"><span class="metric-label">New users</span><strong class="metric-value" id="metric-new-users">—</strong><span class="metric-note">First seen within the rolling window</span></article>
-          <article class="card metric"><span class="metric-label">Returning users</span><strong class="metric-value" id="metric-returning-users">—</strong><span class="metric-note">Seen on a prior day within 30 days</span></article>
+          <article class="card metric"><span class="metric-label">New visitor-days</span><strong class="metric-value" id="metric-new-users">—</strong><span class="metric-note">No matching prior day within 30 days</span></article>
+          <article class="card metric"><span class="metric-label">Returning visitor-days</span><strong class="metric-value" id="metric-returning-users">—</strong><span class="metric-note">Seen on a prior day within 30 days</span></article>
           <article class="card metric"><span class="metric-label">Returning share</span><strong class="metric-value" id="metric-return-rate">—</strong><span class="metric-note">Of pseudonymous visitor-days</span></article>
-          <article class="card metric"><span class="metric-label">Active profiles</span><strong class="metric-value" id="metric-active-profiles">—</strong><span class="metric-note">Automatically deleted after 30 inactive days</span></article>
+          <article class="card metric"><span class="metric-label">Active profiles</span><strong class="metric-value" id="metric-active-profiles">—</strong><span class="metric-note">Rolling 30-day window · Independent of selected period</span></article>
         </div>
 
         <div class="returning-grid">
           <article class="card panel">
-            <div class="panel-head"><h2>New users over time</h2><span class="panel-note" id="returning-chart-period">Last 30 days</span></div>
+            <div class="panel-head"><h2>New &amp; returning visitor-days</h2><span class="panel-note" id="returning-chart-period">Last 30 days</span></div>
             <div class="chart" id="returning-chart" aria-label="New and returning users over time chart"></div>
             <div class="legend returning"><span><i></i>New</span><span><i></i>Returning</span></div>
           </article>
           <article class="card panel">
-            <div class="panel-head"><h2>Privacy window</h2><span class="panel-note">California-conscious</span></div>
+            <div class="panel-head"><h2>Privacy window</h2><span class="panel-note">Pseudonymous counts</span></div>
             <div class="privacy-copy">
-              <p><strong>No raw IP addresses are stored.</strong> A salted identifier recognizes a browser and network only within a rolling 30-day window.</p>
+              <p><strong>No raw IP addresses are stored.</strong> A salted identifier estimates a browser and network. An active profile can persist while it continues to be seen.</p>
               <p>Identifiers are deleted after 30 inactive days. Only aggregate daily counts remain for longer historical ranges.</p>
               <p><a href="/privacy/">Privacy and analytics notice →</a></p>
             </div>
@@ -245,6 +267,12 @@ const setupNote=document.getElementById('setup-note');
 const ANALYTICS_TIME_ZONE='America/Los_Angeles';
 const RANGE_LIMITS={days:3650,weeks:520,months:120,years:10};
 let activeRange={value:30,unit:'days'};
+let loadVersion=0;
+let pendingRequest;
+document.getElementById('refresh-button').addEventListener('click',loadAnalytics);
+document.getElementById('range-unit').addEventListener('change',event=>{
+  document.getElementById('range-value').max=RANGE_LIMITS[event.target.value];
+});
 
 loginForm.addEventListener('submit',async event=>{
   event.preventDefault();
@@ -262,6 +290,7 @@ loginForm.addEventListener('submit',async event=>{
 });
 
 document.getElementById('logout-button').addEventListener('click',()=>{
+  loadVersion++;pendingRequest?.abort();dashboardView.setAttribute('aria-busy','false');
   sessionStorage.removeItem('rosary-analytics-token');
   dashboardView.hidden=true;loginView.hidden=false;document.getElementById('password').focus();
 });
@@ -271,6 +300,7 @@ document.querySelectorAll('[data-range-value]').forEach(button=>button.addEventL
   document.querySelectorAll('[data-range-value]').forEach(item=>item.classList.toggle('active',item===button));
   document.getElementById('range-value').value=activeRange.value;
   document.getElementById('range-unit').value=activeRange.unit;
+  document.getElementById('range-value').max=RANGE_LIMITS[activeRange.unit];
   await loadAnalytics();
 }));
 
@@ -285,12 +315,29 @@ document.getElementById('custom-range-form').addEventListener('submit',async eve
   await loadAnalytics();
 });
 
-document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>{
+const tabs=[...document.querySelectorAll('[data-tab]')];
+document.querySelector('.dashboard-tabs').setAttribute('role','tablist');
+tabs.forEach((button,index)=>{
+  button.id=`view-${button.dataset.tab}`;
+  button.setAttribute('role','tab');
+  button.setAttribute('aria-controls',`tab-${button.dataset.tab}`);
+  button.tabIndex=index===0?0:-1;
+  const panel=document.getElementById(`tab-${button.dataset.tab}`);
+  panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby',button.id);
+  button.addEventListener('keydown',event=>{
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+    event.preventDefault();
+    const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
+    tabs[next].click();tabs[next].focus();
+  });
+});
+tabs.forEach(button=>button.addEventListener('click',()=>{
   const selected=button.dataset.tab;
   document.querySelectorAll('[data-tab]').forEach(item=>{
     const active=item===button;
     item.classList.toggle('active',active);
     item.setAttribute('aria-selected',String(active));
+    item.tabIndex=active?0:-1;
   });
   document.getElementById('tab-overview').hidden=selected!=='overview';
   document.getElementById('tab-returning').hidden=selected!=='returning';
@@ -302,23 +349,34 @@ async function openDashboard(){
 }
 
 async function loadAnalytics(){
+  const version=++loadVersion;
+  pendingRequest?.abort();pendingRequest=new AbortController();
+  dashboardView.setAttribute('aria-busy','true');
+  setText('load-status',`Loading ${rangeDetails(activeRange).label.toLowerCase()}…`);
+  document.querySelectorAll('[data-range-value]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.rangeValue)===activeRange.value&&button.dataset.rangeUnit===activeRange.unit)));
   try{
-    const data=isDemo?demoData(activeRange):await fetchAnalytics(activeRange);
+    const data=isDemo?demoData(activeRange):await fetchAnalytics(activeRange,pendingRequest.signal);
+    if(version!==loadVersion)return;
     renderDashboard(data);
+    setText('load-status',isDemo?'Sample data only':'Loaded');
   }catch(error){
+    if(version!==loadVersion)return;
     if(error.message==='Session expired'){
       sessionStorage.removeItem('rosary-analytics-token');dashboardView.hidden=true;loginView.hidden=false;loginMessage.textContent='Your private session expired. Please enter the password again.';
-    }else document.getElementById('updated-at').textContent='Analytics could not be loaded.';
+      document.getElementById('password').focus();
+    }else setText('load-status','Could not load requested period. Displayed data has not updated. Use Refresh to retry.');
+  }finally{
+    if(version===loadVersion)dashboardView.setAttribute('aria-busy','false');
   }
 }
 
-async function fetchAnalytics(range){
+async function fetchAnalytics(range,signal){
   const token=sessionStorage.getItem('rosary-analytics-token');
   if(!token)throw new Error('Session expired');
   const query=new URLSearchParams({value:String(range.value),unit:range.unit});
-  const response=await fetch(`${API_BASE}/api/summary?${query}`,{headers:{Authorization:`Bearer ${token}`}});
-  const data=await response.json();
+  const response=await fetch(`${API_BASE}/api/summary?${query}`,{signal,headers:{Authorization:`Bearer ${token}`}});
   if(response.status===401)throw new Error('Session expired');
+  const data=await response.json();
   if(!response.ok)throw new Error(data.error||'Analytics unavailable');
   return data;
 }
@@ -328,7 +386,8 @@ function renderDashboard(data){
   const daily=fillDays(data.daily||[],range.startDate,range.endDate);
   const events=data.events||[];
   const todayKey=dateKey(new Date());
-  const yesterdayKey=dateKey(new Date(Date.now()-86400000));
+  const previousDay=new Date(`${todayKey}T12:00:00Z`);previousDay.setUTCDate(previousDay.getUTCDate()-1);
+  const yesterdayKey=previousDay.toISOString().slice(0,10);
   const today=daily.find(row=>row.day===todayKey)||{unique_visitors:0};
   const yesterday=daily.find(row=>row.day===yesterdayKey)||{unique_visitors:0};
   const views=daily.reduce((sum,row)=>sum+Number(row.page_views||0),0);
@@ -338,22 +397,23 @@ function renderDashboard(data){
   const returningUsers=daily.reduce((sum,row)=>sum+Number(row.returning_visitors||0),0);
   const classifiedUsers=newUsers+returningUsers;
   setText('metric-today',formatNumber(today.unique_visitors));
-  setText('metric-yesterday',formatNumber(yesterday.unique_visitors));
+  const includesYesterday=yesterdayKey>=range.startDate&&yesterdayKey<=range.endDate;
+  setText('metric-yesterday',includesYesterday?formatNumber(yesterday.unique_visitors):'—');
   setText('metric-views',formatNumber(views));
   setText('metric-completed',formatNumber(completed));
-  const change=Number(yesterday.unique_visitors)?Math.round((Number(today.unique_visitors)-Number(yesterday.unique_visitors))/Number(yesterday.unique_visitors)*100):null;
-  setText('metric-yesterday-note',change===null?'No prior comparison':`${change>=0?'+':''}${change}% today vs. yesterday`);
+  setText('metric-yesterday-note',includesYesterday?'Estimated daily count · Full day':'Outside selected period');
   setText('metric-views-note',`Across ${formatNumber(range.dayCount)} days`);
-  setText('metric-completed-note',started?`${Math.round(completed/started*100)}% of Rosaries started`:'No starts yet');
+  setText('metric-completed-note',`${formatNumber(started)} start events · Not matched sessions`);
+  setText('selected-period',`${range.label} · ${range.startDate} to ${range.endDate} · Pacific Time · Today partial`);
   setText('chart-period',range.label);
   setText('returning-chart-period',range.label);
   setText('metric-new-users',formatNumber(newUsers));
   setText('metric-returning-users',formatNumber(returningUsers));
   setText('metric-return-rate',classifiedUsers?`${Math.round(returningUsers/classifiedUsers*100)}%`:'—');
-  setText('metric-active-profiles',formatNumber(data.rolling?.active_profiles||0));
+  setText('metric-active-profiles',data.rolling?.active_profiles==null?'—':formatNumber(data.rolling.active_profiles));
   renderTimeChart('daily-chart',daily,[
-    {field:'page_views',className:'views',label:'views'},
-    {field:'unique_visitors',className:'visitors',label:'visitors'}
+    {field:'unique_visitors',className:'visitors',label:'visitor-days'},
+    {field:'page_views',className:'views',label:'page views'}
   ]);
   renderTimeChart('returning-chart',daily,[
     {field:'new_visitors',className:'new-users',label:'new'},
@@ -363,7 +423,7 @@ function renderDashboard(data){
   renderBreakdown('mystery-breakdown',rollup(events,'mystery'),{joyful:'Joyful',sorrowful:'Sorrowful',glorious:'Glorious',luminous:'Luminous'});
   renderBreakdown('style-breakdown',rollup(events,'style'),{one:'One decade',five:'Five decades',darrah:'Darrah Family',dominican:'Dominican'});
   renderBreakdown('chaplet-breakdown',rollup(events,'item','chaplet_start'),{stCharbel:'St. Charbel',divineMercy:'Divine Mercy'});
-  setText('updated-at',`Updated ${new Date(data.generatedAt).toLocaleString([], {dateStyle:'medium',timeStyle:'short'})}`);
+  setText('updated-at',`${isDemo?'Sample generated':'Updated'} ${new Date(data.generatedAt).toLocaleString([], {dateStyle:'medium',timeStyle:'short',timeZone:ANALYTICS_TIME_ZONE})} Pacific Time`);
   document.getElementById('preview-banner').hidden=!isDemo;
 }
 
@@ -375,12 +435,20 @@ function renderTimeChart(id,daily,series){
     const values=series.map(item=>Number(row[item.field]||0));
     const tip=[row.label,...series.map((item,index)=>`${values[index]} ${item.label}`)].join(' · ');
     const bars=series.map((item,index)=>`<span class="bar ${item.className}" style="height:${values[index]?Math.max(2,values[index]/max*100):0}%"></span>`).join('');
-    return `<div class="day" data-tip="${tip}">${bars}</div>`;
+    return `<button type="button" class="day" aria-label="${tip}" data-tip="${tip}">${bars}</button>`;
   }).join('');
+  let companion=document.getElementById(`${id}-data`);
+  if(!companion){companion=document.createElement('div');companion.id=`${id}-data`;chart.after(companion);}
+  const size=daily.length<=45?1:daily.length<=370?7:daily.length<=1461?30:90;
+  companion.innerHTML=`<div class="chart-axis"><span>${daily[0]?.day||''}</span><span>Scale 0–${formatNumber(max)}</span><span>${daily.at(-1)?.day||''}</span></div><p class="chart-detail" aria-live="polite">${size===1?'Daily counts':`Totals per ${size}-day bucket; final bucket may be shorter`}. ${daily.some(row=>series.some(item=>Number(row[item.field])>0))?'':'No recorded activity.'}</p><details><summary>View chart values</summary><div class="table-wrap"><table><caption>${size===1?'Daily counts':'Bucket totals'} · Missing days counted as zero recorded events</caption><thead><tr><th scope="col">Period</th>${series.map(item=>`<th scope="col">${item.label}</th>`).join('')}</tr></thead><tbody>${buckets.map(row=>`<tr><th scope="row">${row.label}</th>${series.map(item=>`<td>${formatNumber(row[item.field])}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details>`;
+  chart.querySelectorAll('.day').forEach(button=>{
+    const describe=()=>{companion.querySelector('.chart-detail').textContent=button.dataset.tip;};
+    button.addEventListener('focus',describe);button.addEventListener('pointerenter',describe);button.addEventListener('click',describe);
+  });
 }
 
 function renderActivity(events){
-  const items=[['Rosaries started',eventTotal(events,'rosary_start')],['Rosaries completed',eventTotal(events,'rosary_complete')],['Chaplets started',eventTotal(events,'chaplet_start')],['Common prayers opened',eventTotal(events,'common_prayer_start')],['Mysteries studied',eventTotal(events,'mystery_study_start')]];
+  const items=[['Rosary starts',eventTotal(events,'rosary_start')],['Rosary completions',eventTotal(events,'rosary_complete')],['Chaplet starts',eventTotal(events,'chaplet_start')],['Common prayer starts',eventTotal(events,'common_prayer_start')],['Mystery study starts',eventTotal(events,'mystery_study_start')]];
   document.getElementById('activity-list').innerHTML=items.map(([name,value])=>`<div class="activity"><span class="activity-name">${name}</span><strong class="activity-value">${formatNumber(value)}</strong></div>`).join('');
 }
 

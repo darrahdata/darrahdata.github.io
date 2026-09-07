@@ -319,6 +319,7 @@ body.read-on .read-voice-settings.available{display:flex}
   *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
 }
 </style>
+<link rel="stylesheet" href="polish.css">
 </head>
 <body data-theme="monastery_green" aria-label="The Rosary, a contemplative prayer companion">
 <nav class="home-nav" aria-label="Site"><a class="home-btn" href="/" aria-label="Home">✦</a></nav>
@@ -326,6 +327,10 @@ body.read-on .read-voice-settings.available{display:flex}
 <header class="app-header" id="app-header"><div class="mark" aria-hidden="true">✦</div><h1>The Rosary</h1><p class="subtitle">A companion for contemplative prayer</p></header>
 
 <section class="screen active" id="screen-setup" aria-labelledby="hero-mystery" tabindex="-1" aria-hidden="false">
+  <div class="resume-panel" id="resume-panel" hidden>
+    <div><span class="eyebrow">Your place is saved</span><p id="resume-label"></p></div>
+    <button class="btn gold" id="resume-btn" type="button" onclick="resumeSavedSession()">Resume prayer</button>
+  </div>
   <div class="hero">
     <div class="hero-eyebrow" id="today-kicker">Today</div>
     <h2 class="hero-title" id="hero-mystery">Choose your mysteries</h2>
@@ -345,15 +350,35 @@ body.read-on .read-voice-settings.available{display:flex}
       </select>
     </fieldset>
     <fieldset style="border:0;margin:0;padding:0">
-      <legend class="choice-label">Style</legend>
-      <select class="select" id="style-select" aria-label="Choose the style" onchange="selectStyle(this.value)">
-        <option value="one">One decade · a shorter prayer</option>
+      <legend class="choice-label">Prayer form</legend>
+      <select class="select" id="style-select" aria-label="Choose the style" aria-describedby="style-description" onchange="selectStyle(this.value)">
+        <option value="one">Short form · ten Hail Marys</option>
         <option value="five">Five decades · the full Rosary</option>
         <option value="darrah" selected>The Darrah Family Rosary</option>
         <option value="dominican">Dominican</option>
       </select>
+      <p class="field-description" id="style-description"></p>
     </fieldset>
   </div>
+
+  <details class="drawer learning-guide" id="learning-guide">
+    <summary><span>New to the Rosary?</span><span class="hint" aria-hidden="true"></span></summary>
+    <div class="drawer-body">
+      <p>The Rosary is a prayerful reflection on the life of Jesus with Mary. A mystery is an event to contemplate; a traditional decade includes ten Hail Marys.</p>
+      <p>For the traditional sequence, choose Five decades. You can pray quietly, aloud, or with others. There is no need to hurry.</p>
+      <p>In group prayers, <strong>Leader</strong> and <strong>Response</strong> mark the two parts. When praying alone, you may read both.</p>
+      <a class="guide-link" href="https://www.usccb.org/how-to-pray-the-rosary" target="_blank" rel="noopener noreferrer">How to pray the Rosary · USCCB <span class="sr-only">(opens a new tab)</span></a>
+      <label class="setting-toggle" for="guided-mode"><input id="guided-mode" type="checkbox"><span>Show Previous and Next while praying</span></label>
+    </div>
+  </details>
+
+  <details class="drawer" aria-label="Reading preferences">
+    <summary><span>Reading preferences</span><span class="hint" aria-hidden="true"></span></summary>
+    <div class="drawer-body">
+      <label class="choice-label" for="reading-size">Prayer text size</label>
+      <select class="select" id="reading-size"><option value="standard">Standard</option><option value="large">Large</option><option value="extra">Extra large</option></select>
+    </div>
+  </details>
 
   <details class="drawer" aria-label="Common prayers">
     <summary><span>Common prayers</span><span class="hint" aria-hidden="true"></span></summary>
@@ -400,7 +425,7 @@ body.read-on .read-voice-settings.available{display:flex}
   <p class="privacy-notice-link"><a href="/privacy/">Privacy &amp; analytics</a> · Pseudonymous usage counts; raw IP addresses are not stored in the app database.</p>
 </section>
 
-<section class="screen" id="screen-prayer" aria-labelledby="prayer-name" tabindex="-1" hidden aria-hidden="true">
+<section class="screen" id="screen-prayer" aria-label="Current prayer" tabindex="-1" hidden aria-hidden="true">
   <div class="rosary-map" id="rosary-map" aria-label="Rosary progress">
     <div class="progress-head" aria-live="polite">
       <span id="progress-title">Prayer</span>
@@ -419,10 +444,14 @@ body.read-on .read-voice-settings.available{display:flex}
       <div class="intention-kicker">Before the First Mystery</div>
       <h2 class="intention-title" id="intention-title">Pause for your intentions.</h2>
       <p class="intention-copy">We lift up these intentions to Jesus through Mary.</p>
+      <label class="intention-label" for="intention-input">What intentions would you like to lift up to Jesus through Mary?</label>
+      <textarea class="select" id="intention-input" rows="4" maxlength="1000" placeholder="For someone you love, for gratitude, for guidance…" aria-describedby="intention-privacy"></textarea>
+      <p class="field-description" id="intention-privacy">Optional. Saved only in this browser with your place in prayer.</p>
+      <div class="intention-actions" data-interactive><button class="btn ghost" type="button" onclick="skipIntention()">Skip</button><button class="btn gold" type="button" onclick="nextBead()">Continue</button></div>
     </div>
     <div class="mystery-art" id="mystery-art" hidden><div class="mystery-text" id="mystery-text"></div><img id="mystery-image" loading="lazy" decoding="async" alt=""></div>
     <div class="prayer-type" id="prayer-type"></div>
-    <div class="prayer-name" id="prayer-name"></div>
+    <h2 class="prayer-name" id="prayer-name"></h2>
     <div class="prayer-contemplation" id="prayer-contemplation" hidden></div>
     <div class="prayer-text" id="prayer-text"></div>
     <div class="voice-status" id="voice-status" aria-live="polite"></div>
@@ -621,12 +650,12 @@ const SCRIPTURAL_MYSTERY_SETS={
   glorious:GLORIOUS_SCRIPTURAL_MYSTERIES,
   luminous:LUMINOUS_SCRIPTURAL_MYSTERIES
 };
-const state={mystery:null,rosary:'scriptural',style:'darrah',beads:[],index:0,intention:'',showingIntention:false,startedAt:0,timer:null,wakeLock:null,commonPrayer:false,commonKey:null,chaplet:false,chapletKey:null,studyingMystery:false,studyMysteryKey:null,lineCount:0,readMode:false,currentUtterance:null,readVoices:[],selectedVoiceURI:'',tapStart:null,hintShown:false,hintTimer:null,flashTimer:null,menuReturnFocus:null};
+const state={mystery:null,rosary:'scriptural',style:'darrah',beads:[],index:0,intention:'',showingIntention:false,startedAt:0,firstSaturday:false,timer:null,wakeLock:null,commonPrayer:false,commonKey:null,chaplet:false,chapletKey:null,studyingMystery:false,studyMysteryKey:null,lineCount:0,readMode:false,currentUtterance:null,readVoices:[],selectedVoiceURI:'',tapStart:null,hintShown:false,hintTimer:null,flashTimer:null,menuReturnFocus:null};
 const $=id=>document.getElementById(id);
 const ANALYTICS_API=(document.querySelector('meta[name="rosary-analytics-api"]')?.content||'').replace(/\/$/,'');
-function analyticsAllowed(){try{if(localStorage.getItem('rosary-analytics-opt-out')==='1')return false;}catch(e){}return navigator.globalPrivacyControl!==true;}
+function analyticsAllowed(){if(location.protocol==='file:'||/^(localhost|127(?:\.\d{1,3}){3}|\[::1\])$/i.test(location.hostname))return false;try{if(localStorage.getItem('rosary-analytics-opt-out')==='1')return false;}catch(e){}return navigator.globalPrivacyControl!==true;}
 function trackUsage(event,details={}){if(!ANALYTICS_API||!analyticsAllowed())return;const payload={event,mystery:details.mystery||'',style:details.style||'',item:details.item||''};fetch(`${ANALYTICS_API}/collect`,{method:'POST',mode:'cors',credentials:'omit',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(()=>{});}
-function init(){selectToday();trackUsage('page_view');loadReadVoices();setupPageTurns();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&screenIs('prayer'))requestWakeLock();});document.addEventListener('keydown',e=>{if(isMobileMenuOpen()){if(e.key==='Escape'){e.preventDefault();closeMobileMenu();}return;}if(!screenIs('prayer'))return;const active=document.activeElement;const tag=active&&active.tagName;if(tag==='TEXTAREA'||tag==='INPUT'||tag==='SELECT'||active?.isContentEditable)return;if((e.key===' '||e.key==='Spacebar')&&!(active&&active.closest&&active.closest('button,a,label,summary'))){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();flashPageTurn('left');prevBead();}});if(supportsReadAloud()&&'onvoiceschanged' in speechSynthesis){speechSynthesis.onvoiceschanged=loadReadVoices;}}
+function init(){selectToday();restoreSession();updateResumeCard();trackUsage('page_view');loadReadVoices();setupPageTurns();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&screenIs('prayer'))requestWakeLock();});document.addEventListener('keydown',e=>{if(isMobileMenuOpen()){if(e.key==='Escape'){e.preventDefault();closeMobileMenu();}return;}if(!screenIs('prayer'))return;const active=document.activeElement;const tag=active&&active.tagName;if(tag==='TEXTAREA'||tag==='INPUT'||tag==='SELECT'||active?.isContentEditable)return;if((e.key===' '||e.key==='Spacebar')&&!(active&&active.closest&&active.closest('button,a,label,summary'))){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();flashPageTurn('right');nextBead();}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();flashPageTurn('left');prevBead();}});if(supportsReadAloud()&&'onvoiceschanged' in speechSynthesis){speechSynthesis.onvoiceschanged=loadReadVoices;}}
 function setupPageTurns(){document.addEventListener('pointerdown',e=>{if(!screenIs('prayer')||isMobileMenuOpen()||e.pointerType==='mouse'&&e.button!==0||isInteractiveTap(e.target))return;state.tapStart={x:e.clientX,y:e.clientY,t:Date.now(),id:e.pointerId};},{passive:true});document.addEventListener('pointercancel',()=>{state.tapStart=null;},{passive:true});document.addEventListener('pointerup',e=>{const s=state.tapStart;state.tapStart=null;if(!screenIs('prayer')||isMobileMenuOpen()||!s||isInteractiveTap(e.target))return;if(e.pointerId!==undefined&&s.id!==undefined&&e.pointerId!==s.id)return;if(Math.abs(e.clientX-s.x)>12||Math.abs(e.clientY-s.y)>12||Date.now()-s.t>700)return;if(window.getSelection&&String(window.getSelection()).length)return;const w=window.innerWidth||document.documentElement.clientWidth;const x=e.clientX;if(x<=w*.35){e.preventDefault();flashPageTurn('left');prevBead();}else if(x>=w*.65){e.preventDefault();flashPageTurn('right');nextBead();}},{passive:false});}
 function isInteractiveTap(target){return !!(target&&target.closest&&target.closest('button,a,input,select,textarea,audio,video,label,summary,details,[role="button"],[contenteditable="true"],[data-interactive],.manual-nav,.card-controls,.read-voice-settings,.drawer,.mobile-prayer-dock,.mobile-menu-sheet,.mobile-menu-backdrop'))}
 function flashPageTurn(side){const el=$(side==='left'?'tap-flash-left':'tap-flash-right');if(!el)return;clearTimeout(state.flashTimer);el.classList.add('show');state.flashTimer=setTimeout(()=>el.classList.remove('show'),180)}
@@ -634,14 +663,15 @@ function showTapHint(){const hint=$('tap-hint');if(!hint||state.hintShown)return
 function selectToday(){const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];const d=new Date().getDay();const m=[null,'joyful','sorrowful','glorious','luminous','sorrowful','joyful'][d]||'glorious';selectMystery(m);selectStyle(d===6?'dominican':'darrah');$('today-kicker').textContent=`${days[d]} · Today`;}
 function selectMystery(val){state.mystery=MYSTERIES[val]?val:'joyful';const sel=$('mystery-select');if(sel)sel.value=state.mystery;updateSummary();}
 function selectStyle(val){state.style=['one','five','darrah','dominican'].includes(val)?val:'darrah';const sel=$('style-select');if(sel)sel.value=state.style;updateSummary();}
-function updateSummary(){const m=state.mystery?MYSTERIES[state.mystery]:null;$('hero-mystery').textContent=m?m.name:'Choose your mysteries';$('hero-days').textContent=m?m.days:'Select a set below';const styles={one:'One decade',five:'Five decades',darrah:'The Darrah Family Rosary',dominican:'Dominican'};$('hero-meta').textContent=`Scriptural · ${styles[state.style]||styles.darrah}`;$('start-btn').disabled=!state.mystery;}
+function updateSummary(){const m=state.mystery?MYSTERIES[state.mystery]:null;$('hero-mystery').textContent=m?m.name:'Choose your mysteries';$('hero-days').textContent=m?m.days:'Select a set below';const styles={one:'One decade',five:'Five decades',darrah:'The Darrah Family Rosary',dominican:'Dominican'};$('hero-meta').textContent=`Scriptural · ${styles[state.style]||styles.darrah}`;$('start-btn').disabled=!state.mystery;const description=$('style-description');if(description)description.textContent={one:'A custom one-decade prayer: two Hail Marys for each of the five mysteries.',five:'Five decades, with an Our Father, ten Hail Marys, Glory Be, and Fatima prayer for each mystery.',darrah:'The family\'s shortened flow, with three opening Hail Marys and one Hail Mary for each of the five mysteries.',dominican:'Five decades with leader and response prayers, a special opening on the first Saturday of the month.'}[state.style];}
 function mysteryLabel(set,index){const ord=['First','Second','Third','Fourth','Fifth'][index]||String(index+1);return `The ${ord} ${set.singular} Mystery`;}
 function mysteryCardBead(setKey,set,index,scriptural=true){const exact=scriptural&&SCRIPTURAL_MYSTERY_SETS[setKey]?SCRIPTURAL_MYSTERY_SETS[setKey][index]:null;if(exact)return {kind:'mystery',name:exact.name,type:exact.type,desire:exact.scripture,meditation:exact.citation,image:exact.image,spokenText:`${exact.type}. ${exact.name} ${exact.scripture} ${exact.citation}`};const mystery=set.list[index];return {kind:'mystery',name:mystery[0],type:mysteryLabel(set,index),desire:mystery[1],meditation:mystery[2],image:mystery[3]};}
 function markBeads(beads){return beads.map((bead,index)=>({...bead,mapType:bead.mapType||mapTypeForBead(bead),groupStart:index>0&&bead.group!==beads[index-1].group}));}
 function mapTypeForBead(bead){if(bead.kind==='intention')return 'chain';if(bead.name==="Apostles' Creed")return 'cross';if(bead.name==='Our Father'||bead.kind==='mystery')return 'large';if(bead.name==='Hail Mary')return 'small';return 'chain';}
 function communalResponsePrayer(prayer,reversed=false){if(!reversed)return prayer;return {...prayer,text:prayer.text.replace(/^V:/,'R:').replace(/\nR:/,'\nV:')};}
 function dominicanRolePrayer(prayer,dominican=false){if(!dominican)return prayer;const rename=text=>text.replace(/^V[.:]\s*/gm,'Leader: ').replace(/^R[.:]\s*/gm,'Response: ');return {...prayer,text:rename(prayer.text),spokenText:prayer.spokenText?rename(prayer.spokenText):prayer.spokenText};}
-function buildDominicanBeads(setKey,firstSaturday=new Date().getDay()===6){
+function isFirstSaturday(date=new Date()){return date.getDay()===6&&date.getDate()<=7;}
+function buildDominicanBeads(setKey,firstSaturday=isFirstSaturday()){
   const b=[];
   const prayers=DOMINICAN_PRAYERS;
   const set=MYSTERIES[setKey];
@@ -668,22 +698,20 @@ ${opening.text}`}:opening;
   });
   b.push({...dominicanRolePrayer(prayers.hailHolyQueen,true),group:'closing'});
   b.push({...dominicanRolePrayer(prayers.collect,true),group:'closing'});
-  if(firstSaturday)b.push({name:'After the Rosary',type:'Dominican',progressTitle:'After the Rosary',preserveLines:true,paragraphBreaks:true,text:`To fulfill Our Lady's request to meditate for 15 minutes on the mysteries of the Rosary, we will have a 15-minute Adoration immediately following Mass, offered in reparation for sins committed against the Immaculate Heart of Mary.
-
-We also have our Pilgrim Statue—a smaller version of Our Lady's statue here in the church—available for anyone who would like to invite Mary into their home during month of September. She is already visiting a home this August. If you’re interested, please speak with Ashly after Adoration.`,group:'closing'});
   return markBeads(b);
 }
 function buildStCharbelChaplet(){const b=[{...CHAPLET_PRAYERS.signOfCross,type:'Chaplet of St. Charbel',group:'opening',mapType:'cross'},{...CHAPLET_PRAYERS.fatherOfTruth,group:'first-white-bead',mapType:'large'}];const sets=[{label:'Red Beads · Poverty',contemplation:"In honor of St. Charbel's fidelity to the vow of poverty."},{label:'Red Beads · Chastity',contemplation:"In honor of St. Charbel's fidelity to the vow of chastity."},{label:'Red Beads · Obedience',contemplation:"In honor of St. Charbel's fidelity to the vow of obedience."},{label:'White Beads · Holy Eucharist',contemplation:"In honor of St. Charbel's love for the Holy Eucharist."},{label:'Blue Beads · Blessed Mother',contemplation:"In honor of St. Charbel's devotion to Our Blessed Mother."}];sets.forEach((set,index)=>{const group=`charbel-set-${index+1}`;b.push({...PRAYERS.ourFather,type:`Black Bead · ${index+1} of 5`,group,mapType:'large'});for(let bead=0;bead<3;bead++)b.push({...PRAYERS.hailMary,type:`${set.label} · Bead ${bead+1} of 3`,contemplation:set.contemplation,group,mapType:'small'});});b.push({...CHAPLET_PRAYERS.obtainGraces,group:'closing',mapType:'chain'});return markBeads(b);}
 function buildDivineMercyChaplet(){const b=[{...CHAPLET_PRAYERS.signOfCross,type:'Chaplet of Divine Mercy',group:'opening',mapType:'cross'},{...CHAPLET_PRAYERS.mercyOpening,group:'optional-opening',mapType:'chain'},{...CHAPLET_PRAYERS.bloodAndWater,group:'optional-opening',mapType:'chain'},{...PRAYERS.ourFather,type:'Opening Prayer',group:'opening-prayers',mapType:'large'},{...PRAYERS.hailMary,type:'Opening Prayer',group:'opening-prayers',mapType:'small'},{...PRAYERS.apostlesCreed,type:'Opening Prayer',group:'opening-prayers',mapType:'cross'}];for(let decade=1;decade<=5;decade++){const group=`mercy-decade-${decade}`;b.push({...CHAPLET_PRAYERS.eternalFather,type:`Decade ${decade} · Large Bead`,group,mapType:'large'});for(let bead=1;bead<=10;bead++)b.push({...CHAPLET_PRAYERS.sorrowfulPassion,type:`Decade ${decade} · Bead ${bead} of 10`,group,mapType:'small'});}b.push({...CHAPLET_PRAYERS.holyGod,group:'closing',mapType:'chain'});b.push({...CHAPLET_PRAYERS.eternalGod,group:'closing',mapType:'chain'});return markBeads(b);}
 function buildChaplet(key){return key==='divineMercy'?buildDivineMercyChaplet():buildStCharbelChaplet();}
 function buildBeads(){
-  if(state.style==='dominican')return buildDominicanBeads(state.mystery);
+  if(state.style==='dominican')return buildDominicanBeads(state.mystery,state.firstSaturday);
   const b=[];
+  if(state.style==='one'||state.style==='five')b.push({...CHAPLET_PRAYERS.signOfCross,group:'opening',mapType:'cross'});
   if(state.style==='darrah')b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.opening,true),type:'The Darrah Family Rosary',group:'darrah-opening',mapType:'cross'});
   b.push({...PRAYERS.apostlesCreed,group:'opening'});
   if(state.style==='darrah')b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.ourFather,true),type:'Opening Prayer',group:'opening',mapType:'large'});
   else b.push({...PRAYERS.ourFather,type:'Opening Prayer',group:'opening'});
-  if(state.style==='darrah')b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.hailMary,true),name:'Hail Mary · 3x',type:'Opening Prayer',group:'opening',mapType:'small'});
+  if(state.style==='darrah')b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.hailMary,true),name:'Hail Mary · 3x',spokenText:Array(3).fill(dominicanRolePrayer(DOMINICAN_PRAYERS.hailMary,true).text).join('\n\n'),type:'Opening Prayer',group:'opening',mapType:'small'});
   else for(let i=0;i<3;i++)b.push({...PRAYERS.hailMary,type:['For faith','For hope','For charity'][i],group:'opening'});
   if(state.style==='darrah')b.push({...dominicanRolePrayer(DOMINICAN_PRAYERS.gloryBe,true),type:'Opening Prayer',group:'opening'});
   else b.push({...PRAYERS.gloryBe,type:'Opening Prayer',group:'opening'});
@@ -729,35 +757,42 @@ function buildBeads(){
     b.push({...PRAYERS.hailHolyQueen,group:'closing'});
     b.push({...PRAYERS.collect,group:'closing'});
   }
+  if(state.style==='one'||state.style==='five')b.push({...CHAPLET_PRAYERS.signOfCross,group:'closing',mapType:'cross'});
   return markBeads(b);
 }
-function startRosary(){state.commonPrayer=false;state.chaplet=false;state.chapletKey=null;state.studyingMystery=false;state.studyMysteryKey=null;state.beads=buildBeads();state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;trackUsage('rosary_start',{mystery:state.mystery,style:state.style});showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
+function startRosary(){state.firstSaturday=isFirstSaturday();state.commonPrayer=false;state.chaplet=false;state.chapletKey=null;state.studyingMystery=false;state.studyMysteryKey=null;state.beads=buildBeads();state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;trackUsage('rosary_start',{mystery:state.mystery,style:state.style});showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function startCommonPrayer(source='common-prayer-select'){const el=$(source);const key=el?el.value:source;state.commonPrayer=true;state.commonKey=key;state.chaplet=false;state.chapletKey=null;state.studyingMystery=false;state.studyMysteryKey=null;state.beads=[PRAYERS[key]||PRAYERS.comeHolySpirit];state.index=0;state.intention='';state.startedAt=Date.now();trackUsage('common_prayer_start',{item:key});showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function startChaplet(source='chaplet-select'){const el=$(source);const key=el?el.value:source;if(!CHAPLETS[key])return;state.commonPrayer=false;state.commonKey=null;state.chaplet=true;state.chapletKey=key;state.studyingMystery=false;state.studyMysteryKey=null;state.beads=buildChaplet(key);state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;trackUsage('chaplet_start',{item:key});showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function mysteryStudyBead(setKey,set,index){return {...mysteryCardBead(setKey,set,index,true),group:`mystery-study-${index+1}`};}
 function startMysteryStudy(source='mystery-study-select'){const el=$(source);const key=el?el.value:source;const [setKey,indexValue]=String(key).split(':');const set=MYSTERIES[setKey];if(!set)return;const indices=indexValue==='all'?set.list.map((_,index)=>index):[Number(indexValue)];if(indices.some(index=>!Number.isInteger(index)||!set.list[index]))return;state.commonPrayer=false;state.commonKey=null;state.chaplet=false;state.chapletKey=null;state.studyingMystery=true;state.studyMysteryKey=key;state.beads=markBeads(indices.map(index=>mysteryStudyBead(setKey,set,index)));state.index=0;state.intention='';state.startedAt=Date.now();state.showingIntention=false;trackUsage('mystery_study_start',{mystery:setKey,item:key});showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function showScreen(name){if(name!=='prayer')closeMobileMenu(false);document.body.classList.toggle('prayer-active',name==='prayer');['setup','prayer','complete'].forEach(s=>{const el=$('screen-'+s);const active=s===name;el.classList.toggle('active',active);el.hidden=!active;el.setAttribute('aria-hidden',String(!active));});const hdr=$('app-header');if(hdr)hdr.hidden=name!=='setup';$('screen-'+name).focus({preventScroll:true});if(name!=='prayer'){stopReadAloud();releaseWakeLock();updatePrayerFollowing();}}
 function screenIs(name){return $('screen-'+name).classList.contains('active')}
-function renderBead(focus=false){const bead=state.beads[state.index];state.showingIntention=bead&&bead.kind==='intention';const pcard=$('prayer-card');pcard.classList.toggle('intention-active',state.showingIntention);$('intention-card').hidden=!state.showingIntention;$('mystery-art').hidden=true;$('prayer-type').hidden=false;$('prayer-name').hidden=false;$('prayer-text').hidden=false;$('prayer-contemplation').hidden=true;if(state.showingIntention){$('prayer-type').textContent='';$('prayer-name').textContent='';$('prayer-text').innerHTML='';}else{if(bead.kind==='mystery'){renderMystery(bead)}else{renderPrayer(bead)}}renderIntention();updatePrayerFollowing();updateProgress();showTapHint();persistSession();if(state.readMode)readCurrentBead();if(focus)pcard.focus({preventScroll:true});pcard.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});}
+function renderBead(focus=false){const bead=state.beads[state.index];state.showingIntention=bead&&bead.kind==='intention';const pcard=$('prayer-card');pcard.classList.toggle('intention-active',state.showingIntention);$('intention-card').hidden=!state.showingIntention;$('mystery-art').hidden=true;$('prayer-type').hidden=false;$('prayer-name').hidden=false;$('prayer-text').hidden=false;$('prayer-contemplation').hidden=true;if(state.showingIntention){if($('intention-input'))$('intention-input').value=state.intention;$('prayer-type').textContent='';$('prayer-name').textContent='';$('prayer-text').innerHTML='';}else{if(bead.kind==='mystery'){renderMystery(bead)}else{renderPrayer(bead)}}renderIntention();updatePrayerFollowing();updateProgress();showTapHint();persistSession();if(state.readMode)readCurrentBead();if(focus)pcard.focus({preventScroll:true});pcard.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});}
 function renderMystery(bead){$('mystery-art').hidden=false;$('mystery-image').src=bead.image;$('mystery-image').alt=`Sacred art depicting ${bead.name}`;$('mystery-text').innerHTML=`<div class="mystery-kicker">${escapeHtml(bead.type)}</div><div class="mystery-title">${escapeHtml(bead.name)}</div><div class="mystery-desire">${escapeHtml(bead.desire)}</div><div class="mystery-meditation">${escapeHtml(bead.meditation)}</div>`;$('prayer-type').hidden=true;$('prayer-type').textContent='';$('prayer-name').hidden=true;$('prayer-name').textContent='';$('prayer-text').innerHTML='';}
 function renderPrayer(bead){$('prayer-type').hidden=false;$('prayer-name').hidden=false;$('prayer-type').textContent=bead.type||'Prayer';$('prayer-name').textContent=bead.name;const c=$('prayer-contemplation');if(bead.contemplation){c.textContent=bead.contemplation;c.hidden=false;}else{c.hidden=true;c.textContent='';}const lines=bead.preserveLines?bead.text.split(/\n+/).map(line=>line.trim()).filter(Boolean):splitLines(bead.text);state.lineCount=lines.length;const separator=bead.paragraphBreaks?'<br><br>':bead.preserveLines?'<br>':' ';$('prayer-text').innerHTML=lines.map((l,i)=>`<span class="prayer-line${i===0?' active':''}" data-line="${i}">${formatPrayerLine(l)}</span>`).join(separator);}
 function formatPrayerLine(line){const match=line.match(/^(Leader|Response):\s*/);if(!match)return escapeHtml(line);return `<span class="prayer-role">${escapeHtml(match[1]+':')}</span> ${escapeHtml(line.slice(match[0].length))}`;}
 function splitLines(text){return text.replace(/\s+/g,' ').trim().split(/(?<=[.;?!])\s+/).reduce((acc,s)=>{if(s.length>145){let parts=s.match(/.{1,115}(?:\s|$)/g)||[s];acc.push(...parts.map(x=>x.trim()).filter(Boolean));}else acc.push(s);return acc;},[])}
 function renderIntention(){const el=$('session-intention');if(state.intention&& !state.showingIntention){el.style.display='block';el.innerHTML=`<strong>Intention:</strong> ${escapeHtml(state.intention)}`;}else{el.style.display='none';el.innerHTML='';}}
-function nextBead(){if(state.index<state.beads.length-1){state.index++;renderBead(true);}else completeRosary();}
+function nextBead(){if(state.showingIntention&&$('intention-input'))state.intention=$('intention-input').value.trim().slice(0,1000);if(state.index<state.beads.length-1){state.index++;renderBead(true);}else completeRosary();}
+function skipIntention(){state.intention='';if($('intention-input'))$('intention-input').value='';nextBead();}
 function prevBead(){if(state.index>0){state.index--;renderBead(true)}}
 function updateProgress(){const total=state.beads.length;const bead=state.beads[state.index];const item=state.studyingMystery?'Mystery':'Prayer';const label=`${item} ${state.index+1} of ${total}`;renderRosaryMap(total);$('progress-title').textContent=progressTitle(bead);$('progress-count').textContent=label;if($('dock-progress'))$('dock-progress').textContent=label;if($('mobile-menu-progress'))$('mobile-menu-progress').textContent=label;$('prev-btn').disabled=state.index===0;$('next-btn').textContent=state.index===total-1?'Complete':'Next ›';$('next-btn').setAttribute('aria-label',state.index===total-1?'Complete prayer':'Next prayer');updateMobileMenuState();}
 function progressTitle(bead){if(!bead)return 'Prayer';if(bead.progressTitle)return bead.progressTitle;if(bead.kind==='intention')return 'Intentions';if(bead.kind==='mystery')return bead.type;return bead.type&&bead.type!=='Prayer'?bead.type:bead.name;}
 function renderRosaryMap(total){const beads=$('rosary-beads');const fill=$('rosary-map-fill');if(!beads||!fill)return;if(!total){beads.innerHTML='';fill.style.width='0%';return;}const pct=Math.round(((state.index+1)/total)*100);fill.style.width=pct+'%';beads.innerHTML=state.beads.map((bead,index)=>{const classes=['rosary-dot',bead.mapType||'small'];if(bead.groupStart)classes.push('group-start');if(index<state.index)classes.push('passed');if(index===state.index)classes.push('current');return `<span class="${classes.join(' ')}"></span>`;}).join('');}
 function startTimer(){clearInterval(state.timer);state.timer=null}
-function completeRosary(){clearInterval(state.timer);stopReadAloud();releaseWakeLock();localStorage.removeItem('rosary-v2-session');if(state.studyingMystery){const [setKey,indexValue]=String(state.studyMysteryKey||'').split(':');const set=MYSTERIES[setKey];const mystery=state.beads[0];trackUsage('mystery_study_complete',{mystery:setKey,item:state.studyMysteryKey});$('complete-summary').textContent=indexValue==='all'&&set?`You have reviewed all five ${set.singular} Mysteries.`:(mystery?`You have reviewed ${mystery.name}.`:'You have reviewed this mystery.');}else if(state.chaplet){trackUsage('chaplet_complete',{item:state.chapletKey});$('complete-summary').textContent=`You have prayed the ${CHAPLETS[state.chapletKey]?.name||'chaplet'}.`;}else if(state.commonPrayer){trackUsage('common_prayer_complete',{item:state.commonKey});$('complete-summary').textContent='You have completed this prayer.';}else{const m=state.mystery?MYSTERIES[state.mystery]:null;trackUsage('rosary_complete',{mystery:state.mystery,style:state.style});$('complete-summary').textContent=m?(state.style==='dominican'?`You have prayed the ${m.singular} Mysteries in the Dominican style.`:`You have prayed the ${m.singular} Mysteries.`):'You have completed this prayer.';}showScreen('complete');}
+function completeRosary(){clearInterval(state.timer);stopReadAloud();releaseWakeLock();clearSavedSession();if(state.studyingMystery){const [setKey,indexValue]=String(state.studyMysteryKey||'').split(':');const set=MYSTERIES[setKey];const mystery=state.beads[0];trackUsage('mystery_study_complete',{mystery:setKey,item:state.studyMysteryKey});$('complete-summary').textContent=indexValue==='all'&&set?`You have reviewed all five ${set.singular} Mysteries.`:(mystery?`You have reviewed ${mystery.name}.`:'You have reviewed this mystery.');}else if(state.chaplet){trackUsage('chaplet_complete',{item:state.chapletKey});$('complete-summary').textContent=`You have prayed the ${CHAPLETS[state.chapletKey]?.name||'chaplet'}.`;}else if(state.commonPrayer){trackUsage('common_prayer_complete',{item:state.commonKey});$('complete-summary').textContent='You have completed this prayer.';}else{const m=state.mystery?MYSTERIES[state.mystery]:null;trackUsage('rosary_complete',{mystery:state.mystery,style:state.style});$('complete-summary').textContent=m?(state.style==='dominican'?`You have prayed the ${m.singular} Mysteries in the Dominican style.`:`You have prayed the ${m.singular} Mysteries.`):'You have completed this prayer.';}showScreen('complete');}
 function backToPrayer(){if(!state.beads.length){showSetup();return;}showScreen('prayer');startTimer();requestWakeLock();renderBead(true);}
 function restartCurrentSession(){if(state.studyingMystery)startMysteryStudy(state.studyMysteryKey||'mystery-study-select');else if(state.chaplet)startChaplet(state.chapletKey||'chaplet-select');else if(state.commonPrayer)startCommonPrayer(state.commonKey||'common-prayer-select');else startRosary()}
-function showSetup(){clearInterval(state.timer);showScreen('setup');}
+function showSetup(){clearInterval(state.timer);showScreen('setup');updateResumeCard();}
 
 function isMobileMenuOpen(){return !!($('mobile-menu-sheet')&&!$('mobile-menu-sheet').hidden)}
-function openMobileMenu(){if(!screenIs('prayer'))return;state.menuReturnFocus=document.activeElement;$('mobile-menu-backdrop').hidden=false;$('mobile-menu-sheet').hidden=false;$('mobile-menu-btn')?.setAttribute('aria-expanded','true');updateMobileMenuState();setTimeout(()=>{$('mobile-menu-sheet').querySelector('[data-menu-close]')?.focus({preventScroll:true})},30)}
-function closeMobileMenu(returnFocus=true){const sheet=$('mobile-menu-sheet');const backdrop=$('mobile-menu-backdrop');if(!sheet||sheet.hidden)return;if(backdrop)backdrop.hidden=true;sheet.hidden=true;$('mobile-menu-btn')?.setAttribute('aria-expanded','false');if(returnFocus){const target=state.menuReturnFocus&&document.contains(state.menuReturnFocus)?state.menuReturnFocus:$('mobile-menu-btn');target?.focus({preventScroll:true})}}
+let menuInertElements=[];
+function menuFocusables(){return [...$('mobile-menu-sheet').querySelectorAll('button,a[href],input,select,textarea,[tabindex]')].filter(el=>!el.disabled&&el.tabIndex>=0&&!el.closest('[hidden],[inert]')&&el.getClientRects().length)}
+function openMobileMenu(){if(!screenIs('prayer')||isMobileMenuOpen()||!window.matchMedia('(max-width: 560px)').matches)return;state.menuReturnFocus=document.activeElement;const sheet=$('mobile-menu-sheet');const backdrop=$('mobile-menu-backdrop');backdrop.hidden=false;sheet.hidden=false;sheet.tabIndex=-1;$('mobile-menu-btn')?.setAttribute('aria-expanded','true');updateMobileMenuState();(menuFocusables()[0]||sheet).focus({preventScroll:true});menuInertElements=[...document.body.children].filter(el=>el!==sheet&&el!==backdrop&&el.tagName!=='SCRIPT').map(el=>[el,el.inert]);menuInertElements.forEach(([el])=>{el.inert=true;})}
+function closeMobileMenu(returnFocus=true){const sheet=$('mobile-menu-sheet');const backdrop=$('mobile-menu-backdrop');if(!sheet||sheet.hidden)return;menuInertElements.forEach(([el,inert])=>{el.inert=inert;});menuInertElements=[];if(backdrop)backdrop.hidden=true;sheet.hidden=true;$('mobile-menu-btn')?.setAttribute('aria-expanded','false');if(returnFocus){const target=state.menuReturnFocus&&document.contains(state.menuReturnFocus)&&state.menuReturnFocus.getClientRects().length?state.menuReturnFocus:$('prayer-card');target?.focus({preventScroll:true})}state.menuReturnFocus=null;}
+document.addEventListener('keydown',e=>{if(!isMobileMenuOpen()||e.key!=='Tab')return;const items=menuFocusables();const first=items[0]||$('mobile-menu-sheet');const last=items[items.length-1]||first;if(!items.length||!$('mobile-menu-sheet').contains(document.activeElement)||e.shiftKey&&document.activeElement===first||!e.shiftKey&&document.activeElement===last){e.preventDefault();(e.shiftKey?last:first).focus({preventScroll:true});}});
+document.addEventListener('focusin',e=>{if(isMobileMenuOpen()&&!$('mobile-menu-sheet').contains(e.target))(menuFocusables()[0]||$('mobile-menu-sheet')).focus({preventScroll:true});});
+window.addEventListener('resize',()=>{if(isMobileMenuOpen()&&!window.matchMedia('(max-width: 560px)').matches)closeMobileMenu();});
 function updateMobileMenuState(){const prev=$('menu-prev-btn');const next=$('menu-next-btn');const read=$('menu-read-btn');if(prev)prev.disabled=state.index===0;if(next){next.textContent=state.index===state.beads.length-1?'Complete':'Next ›';next.setAttribute('aria-label',state.index===state.beads.length-1?'Complete prayer':'Next prayer')}if(read){read.textContent=state.readMode?'Stop read aloud':'Read aloud';read.classList.toggle('primary',!state.readMode)}const voiceRow=$('mobile-voice-row');if(voiceRow)voiceRow.hidden=!supportsReadAloud()||state.readVoices.length===0}
 function menuPrevious(){prevBead();closeMobileMenu()}
 function menuNext(){nextBead();closeMobileMenu()}
@@ -839,14 +874,58 @@ function getSelectedReadVoice(){
 }
 function safeGet(key,fallback){try{return localStorage.getItem(key)||fallback}catch(e){return fallback}}
 function toggleReadAloud(){state.readMode=!state.readMode;updatePrayerFollowing();const btn=$('read-aloud-btn');btn.classList.toggle('active',state.readMode);btn.setAttribute('aria-pressed',String(state.readMode));btn.setAttribute('aria-label',state.readMode?'Stop Read to Me':'Start Read to Me');if(state.readMode){loadReadVoices();if(!supportsReadAloud()){state.readMode=false;updatePrayerFollowing();btn.classList.remove('active');btn.setAttribute('aria-pressed','false');btn.setAttribute('aria-label','Start Read to Me');setVoiceStatus('Read to Me is not available in this browser. Manual prayer still works.',true);updateMobileMenuState();return;}setVoiceStatus('Read to Me is on. The app will gently read each prayer aloud.');readCurrentBead();}else{stopReadAloud();updatePrayerFollowing();setVoiceStatus('Read to Me off.');}updateMobileMenuState();}
-function readCurrentBead(){if(!state.readMode||!supportsReadAloud()||!screenIs('prayer'))return;const bead=state.beads[state.index];let text='';if(!bead)return;if(bead.kind==='intention'){text='Before the first mystery. Pause for your intentions. We lift up these intentions to Jesus through Mary.';}else if(bead.spokenText){text=bead.spokenText;}else if(bead.kind==='mystery'){text=`${bead.type}. ${bead.name}. ${bead.desire}. ${bead.meditation}`;}else{text=`${bead.name}. ${bead.text}`;}stopReadAloud(false);try{const u=new SpeechSynthesisUtterance(text);const chosen=getSelectedReadVoice();if(chosen){u.voice=chosen;u.lang=chosen.lang||'en-US';}else{u.lang='en-US';}u.rate=.88;u.pitch=.98;u.volume=.9;u.onstart=()=>{setVoiceStatus(chosen?`Reading aloud with ${chosen.name}…`:'Reading aloud…');const first=document.querySelector('.prayer-line');if(first){document.querySelectorAll('.prayer-line.active').forEach(el=>el.classList.remove('active'));first.classList.add('active');}};u.onend=()=>{if(state.readMode)setVoiceStatus('Read to Me is on. Use Next when you are ready.');};u.onerror=()=>setVoiceStatus('Read to Me paused. Manual prayer still works.',true);state.currentUtterance=u;window.speechSynthesis.speak(u);}catch(e){setVoiceStatus('Read to Me could not start. Manual prayer still works.',true);}}
-function stopReadAloud(updateButton=true){if(supportsReadAloud()){try{window.speechSynthesis.cancel()}catch(e){}}state.currentUtterance=null;updatePrayerFollowing();if(updateButton&&$('read-aloud-btn')){const btn=$('read-aloud-btn');btn.classList.toggle('active',state.readMode);btn.setAttribute('aria-pressed',String(state.readMode));btn.setAttribute('aria-label',state.readMode?'Stop Read to Me':'Start Read to Me');}updateMobileMenuState();}
+function readCurrentBead(){if(!state.readMode||!supportsReadAloud()||!screenIs('prayer'))return;const bead=state.beads[state.index];let text='';if(!bead)return;if(bead.kind==='intention'){text='Before the first mystery. Pause for your intentions. We lift up these intentions to Jesus through Mary.';}else if(bead.spokenText){text=bead.spokenText;}else if(bead.kind==='mystery'){text=`${bead.type}. ${bead.name}. ${bead.desire}. ${bead.meditation}`;}else{text=`${bead.name}. ${bead.text}`;}stopReadAloud(false);try{const u=new SpeechSynthesisUtterance(text);const chosen=getSelectedReadVoice();if(chosen){u.voice=chosen;u.lang=chosen.lang||'en-US';}else{u.lang='en-US';}u.rate=.88;u.pitch=.98;u.volume=.9;const isCurrent=()=>state.currentUtterance===u&&state.readMode&&screenIs('prayer');u.onstart=()=>{if(!isCurrent())return;setVoiceStatus(chosen?`Reading aloud with ${chosen.name}…`:'Reading aloud…');const first=document.querySelector('.prayer-line');if(first){document.querySelectorAll('.prayer-line.active').forEach(el=>el.classList.remove('active'));first.classList.add('active');}};u.onend=()=>{if(!isCurrent())return;state.currentUtterance=null;setVoiceStatus('Read to Me is on. Use Next when you are ready.');};u.onerror=()=>{if(!isCurrent())return;stopReadAloud();setVoiceStatus('Read to Me paused. Manual prayer still works.',true);};state.currentUtterance=u;window.speechSynthesis.speak(u);}catch(e){stopReadAloud();setVoiceStatus('Read to Me could not start. Manual prayer still works.',true);}}
+function stopReadAloud(updateButton=true){const previous=state.currentUtterance;state.currentUtterance=null;if(previous)previous.onstart=previous.onend=previous.onerror=null;if(updateButton)state.readMode=false;if(supportsReadAloud()){try{window.speechSynthesis.cancel()}catch(e){}}state.currentUtterance=null;updatePrayerFollowing();if(updateButton&&$('read-aloud-btn')){const btn=$('read-aloud-btn');btn.classList.toggle('active',state.readMode);btn.setAttribute('aria-pressed',String(state.readMode));btn.setAttribute('aria-label',state.readMode?'Stop Read to Me':'Start Read to Me');}updateMobileMenuState();}
 function setVoiceStatus(msg,warn=false){const el=$('voice-status');el.textContent=msg;el.classList.toggle('warn',warn)}
 async function requestWakeLock(){if(!('wakeLock'in navigator)||!screenIs('prayer'))return;try{state.wakeLock=await navigator.wakeLock.request('screen');}catch(e){}}
 function releaseWakeLock(){if(state.wakeLock){state.wakeLock.release().catch(()=>{});state.wakeLock=null}}
-function persistSession(){if(!state.beads.length||!state.startedAt)return;try{localStorage.setItem('rosary-v2-session',JSON.stringify({mystery:state.mystery,rosary:state.rosary,style:state.style,index:state.index,intention:state.intention,startedAt:state.startedAt,commonPrayer:state.commonPrayer,commonKey:state.commonPrayer?state.commonKey:null,chaplet:state.chaplet,chapletKey:state.chaplet?state.chapletKey:null,studyingMystery:state.studyingMystery,studyMysteryKey:state.studyingMystery?state.studyMysteryKey:null}))}catch(e){}}
+function persistSession(){if(!state.beads.length||!state.startedAt)return;try{localStorage.setItem('rosary-v2-session',JSON.stringify({version:2,mystery:state.mystery,rosary:state.rosary,style:state.style,index:state.index,intention:state.intention,startedAt:state.startedAt,firstSaturday:state.firstSaturday,commonPrayer:state.commonPrayer,commonKey:state.commonPrayer?state.commonKey:null,chaplet:state.chaplet,chapletKey:state.chaplet?state.chapletKey:null,studyingMystery:state.studyingMystery,studyMysteryKey:state.studyingMystery?state.studyMysteryKey:null}))}catch(e){}}
+let savedSession=null;
+let ignoredSavedSession=null;
+function clearSavedSession(){savedSession=null;try{ignoredSavedSession=localStorage.getItem('rosary-v2-session');localStorage.removeItem('rosary-v2-session');}catch(e){}updateResumeCard(false);}
+function restoreSession(){
+  savedSession=null;
+  try{
+    const raw=localStorage.getItem('rosary-v2-session');
+    if(!raw||raw===ignoredSavedSession)return null;
+    const value=JSON.parse(raw);
+    const owns=(object,key)=>typeof key==='string'&&Object.prototype.hasOwnProperty.call(object,key);
+    if(!value||typeof value!=='object'||Array.isArray(value)||!Number.isInteger(value.index)||value.index<0||!Number.isFinite(value.startedAt)||value.startedAt<=0)return null;
+    const modes=['commonPrayer','chaplet','studyingMystery'];
+    if(modes.some(key=>value[key]!==undefined&&typeof value[key]!=='boolean')||modes.filter(key=>value[key]).length>1)return null;
+    if(value.commonPrayer){if(!owns(PRAYERS,value.commonKey))return null;}
+    else if(value.chaplet){if(!owns(CHAPLETS,value.chapletKey))return null;}
+    else if(value.studyingMystery){
+      const match=typeof value.studyMysteryKey==='string'&&value.studyMysteryKey.match(/^([^:]+):(all|[0-4])$/);
+      if(!match||!owns(MYSTERIES,match[1]))return null;
+    }else if(!owns(MYSTERIES,value.mystery)||!['one','five','darrah','dominican'].includes(value.style))return null;
+    // Version 2 adds an opening Sign of the Cross to these two rosary flows.
+    if((value.version===undefined||Number.isInteger(value.version)&&value.version<2)&&!modes.some(key=>value[key])&&['one','five'].includes(value.style))value.index++;
+    savedSession={mystery:owns(MYSTERIES,value.mystery)?value.mystery:state.mystery,rosary:value.rosary==='traditional'?'traditional':'scriptural',style:['one','five','darrah','dominican'].includes(value.style)?value.style:'darrah',index:value.index,intention:typeof value.intention==='string'?value.intention.slice(0,1000):'',startedAt:Math.min(value.startedAt,Date.now()),firstSaturday:typeof value.firstSaturday==='boolean'?value.firstSaturday:isFirstSaturday(new Date(value.startedAt)),commonPrayer:!!value.commonPrayer,commonKey:value.commonPrayer?value.commonKey:null,chaplet:!!value.chaplet,chapletKey:value.chaplet?value.chapletKey:null,studyingMystery:!!value.studyingMystery,studyMysteryKey:value.studyingMystery?value.studyMysteryKey:null};
+  }catch(e){}
+  return savedSession;
+}
+function updateResumeCard(refresh=true){
+  if(refresh)restoreSession();
+  const panel=$('resume-panel');const label=$('resume-label');const button=$('resume-btn');
+  if(panel)panel.hidden=!savedSession;
+  if(button){button.disabled=!savedSession;button.onclick=resumeSavedSession;}
+  if(label){const s=savedSession;const name=!s?'':s.commonPrayer?PRAYERS[s.commonKey].name:s.chaplet?CHAPLETS[s.chapletKey].name:s.studyingMystery?`${MYSTERIES[s.studyMysteryKey.split(':')[0]].name} study`:MYSTERIES[s.mystery].name;label.textContent=s?`${name} · ${s.studyingMystery?'Mystery':'Prayer'} ${s.index+1}`:'';}
+}
+function resumeSavedSession(){
+  const session=restoreSession();if(!session){updateResumeCard(false);return;}
+  stopReadAloud();Object.assign(state,session);
+  if(state.commonPrayer)state.beads=[PRAYERS[state.commonKey]];
+  else if(state.chaplet)state.beads=buildChaplet(state.chapletKey);
+  else if(state.studyingMystery){const [key,index]=state.studyMysteryKey.split(':');const set=MYSTERIES[key];state.beads=markBeads((index==='all'?set.list.map((_,i)=>i):[Number(index)]).map(i=>mysteryStudyBead(key,set,i)));}
+  else state.beads=buildBeads();
+  state.index=Math.min(state.index,state.beads.length-1);
+  selectMystery(state.mystery);selectStyle(state.style);
+  showScreen('prayer');startTimer();requestWakeLock();renderBead(true);
+}
 function escapeHtml(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 init();
 </script>
+<script src="polish.js"></script>
 </body>
 </html>

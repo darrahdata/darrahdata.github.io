@@ -1,0 +1,58 @@
+const {chromium}=require('playwright');
+const fs=require('fs');
+const assert=require('assert/strict');
+const source=fs.readFileSync(require('path').join(__dirname,'index.html'),'utf8');
+new Function(source.match(/<script>([\s\S]*?)<\/script>/)[1]);
+(async()=>{
+ const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHROME_CHANNEL?{channel:process.env.PLAYWRIGHT_CHROME_CHANNEL}:{})});
+ const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.route('https://preview.test/**',r=>r.fulfill({contentType:'text/html',body:source}));
+ await page.goto('https://preview.test/?demo=1');
+ await page.locator('#metric-today').waitFor({state:'visible'});
+ for(const width of [1440,850,390,320]){
+  await page.setViewportSize({width,height:1000});
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow ${width}`);
+  await page.screenshot({path:`/tmp/rosary-analytics-${width}.png`,fullPage:true});
+ }
+ await page.locator('#range-value').fill('1');await page.locator('#custom-range-form button').click();
+ assert.equal(await page.locator('#metric-yesterday').textContent(),'—');
+ assert.match(await page.locator('#metric-yesterday-note').textContent(),/Outside/);
+ await page.locator('[data-range-value="90"]').click();
+ assert.equal(await page.locator('#daily-chart .day').count(),13);
+ await page.locator('#daily-chart .day').first().focus();
+ assert.match(await page.locator('#daily-chart-data .chart-detail').textContent(),/visitor-days/);
+ await page.locator('[data-tab="overview"]').focus();await page.keyboard.press('ArrowRight');
+ assert.equal(await page.locator('[data-tab="returning"]').getAttribute('aria-selected'),'true');
+ await page.locator('#range-unit').selectOption('years');
+ assert.equal(await page.locator('#range-value').getAttribute('max'),'10');
+ await page.locator('#range-value').fill('10');await page.locator('#custom-range-form button').click();
+ assert(await page.locator('#returning-chart .day').count()>40);
+ await page.screenshot({path:'/tmp/rosary-analytics-returning.png',fullPage:true});
+ const data=await page.evaluate(()=>demoData({value:30,unit:'days'}));
+ await page.addInitScript(()=>sessionStorage.setItem('rosary-analytics-token','test-only'));
+ let mode='ok';
+ await page.route('**/api/summary?**',async r=>{
+  if(mode==='error')return r.fulfill({status:503,json:{error:'Unavailable'}});
+  if(mode==='expired')return r.fulfill({status:401,body:'Expired'});
+  const value=Number(new URL(r.request().url()).searchParams.get('value'));
+  if(mode==='race'&&value===7)await new Promise(resolve=>setTimeout(resolve,250));
+  const payload=await page.evaluate(value=>demoData({value,unit:'days'}),value);
+  await r.fulfill({json:payload}).catch(()=>{});
+ });
+ await page.goto('https://preview.test/');await page.getByText('Loaded',{exact:true}).waitFor();
+ mode='error';await page.locator('[data-range-value="7"]').click();
+ await page.getByText(/Could not load requested period/).waitFor();
+ assert.match(await page.locator('#selected-period').textContent(),/Last 30 days/);
+ mode='race';await page.locator('[data-range-value="7"]').click();await page.locator('[data-range-value="90"]').click();
+ await page.getByText('Loaded',{exact:true}).waitFor();await page.waitForTimeout(400);
+ assert.match(await page.locator('#selected-period').textContent(),/Last 90 days/);
+ mode='expired';await page.locator('#refresh-button').click();await page.locator('#password').waitFor({state:'visible'});
+ assert.match(await page.locator('#login-message').textContent(),/expired/);
+ await page.goto('https://preview.test/?demo=1');
+ await page.evaluate(()=>renderDashboard({range:rangeDetails({value:1,unit:'days'}),daily:[],events:[],generatedAt:new Date().toISOString()}));
+ assert.equal(await page.locator('#metric-active-profiles').textContent(),'—');
+ assert.match(await page.locator('#daily-chart-data .chart-detail').textContent(),/No recorded activity/);
+ assert.deepEqual(errors,[]);
+ console.log('PASS: syntax, 4 viewport widths, demo ranges, one-day exclusion, chart focus, keyboard tabs, unit limits, 10-year range, failed refresh, request race, non-JSON 401, empty data, missing profiles, no page errors.');
+ await browser.close();
+})().catch(e=>{console.error(e);process.exit(1)});
