@@ -18,8 +18,8 @@ test('homepage is responsive, accessible by keyboard, and links to existing apps
       assert.deepEqual(await page.locator('a').evaluateAll(links => links.filter(link => !link.classList.contains('skip-link') && link.getBoundingClientRect().height < 44).map(link => link.textContent)), []);
       assert.equal(await page.locator('main h1').count(), 0);
       assert.equal(await page.locator('h1').count(), 1);
-      assert.ok(await page.locator('.tile-link').count() >= 5, 'existing app tiles plus For Nora');
-      assert.equal(await page.getByRole('link', { name: 'For Nora', exact: true }).getAttribute('href'), 'for-nora/');
+      assert.ok(await page.locator('.tile-link').count() >= 5, 'active app tiles remain');
+      assert.equal(await page.locator('a[href*="for-nora"]').count(), 0, 'For Nora is archived, not featured');
       assert.equal(await page.locator('.tile-link a, .open-link').count(), 0);
       for (const tile of await page.locator('.tile-link').all()) {
         await tile.scrollIntoViewIfNeeded();
