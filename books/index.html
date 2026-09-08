@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#141717">
+  <meta name="description" content="A personal reading shelf for books, progress, and the ideas worth keeping.">
+  <title>Bookmarked · darrahdata</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="lucide.min.js"></script>
+  <script defer src="core.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to books</a>
+  <aside class="sidebar">
+    <a href="../" class="parent-brand">darrah<span>data</span></a>
+    <a class="brand" href="./"><i data-lucide="book-open" aria-hidden="true"></i><span>Bookmarked<span class="brand-caption">Your personal library</span></span></a>
+    <nav aria-label="Library">
+      <button data-view="books" class="nav-item active"><i data-lucide="library" aria-hidden="true"></i>My bookshelf <span id="nav-count">6</span></button>
+      <button data-view="highlights" class="nav-item"><i data-lucide="highlighter" aria-hidden="true"></i>Highlights <span id="highlight-count">0</span></button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="nav-item" id="import-open"><i data-lucide="upload" aria-hidden="true"></i>Import highlights</button>
+      <button class="nav-item" id="backup"><i data-lucide="download" aria-hidden="true"></i>Back up library</button>
+      <button class="nav-item" id="restore"><i data-lucide="archive-restore" aria-hidden="true"></i>Restore backup</button>
+      <p class="storage-note"><span class="status-dot"></span>Saved on this browser</p>
+    </div>
+  </aside>
+  <main id="main">
+    <header class="topbar"><span class="breadcrumb">Library <span>/</span> <span id="breadcrumb">My bookshelf</span></span><button class="primary" id="add-open"><i data-lucide="plus" aria-hidden="true"></i>Add book</button></header>
+    <section class="library-head">
+      <div><p class="eyebrow">A LITTLE WISDOM, WELL KEPT</p><h1 id="page-title">Your bookshelf.</h1><p class="intro" id="page-description">Good books. Lasting ideas. One page at a time.</p></div>
+      <div class="totals" aria-label="Reading totals"><div><strong id="total-books">6</strong><span>on the shelf</span></div><div><strong id="finished-books">2</strong><span>finished</span></div></div>
+    </section>
+    <div class="toolbar">
+      <div class="filters" role="group" aria-label="Filter by reading status">
+        <button class="filter active" data-filter="all" aria-pressed="true">All books <span></span></button>
+        <button class="filter" data-filter="reading" aria-pressed="false">Reading <span></span></button>
+        <button class="filter" data-filter="want" aria-pressed="false">Want to read <span></span></button>
+        <button class="filter" data-filter="finished" aria-pressed="false">Finished <span></span></button>
+      </div>
+      <label class="search"><i data-lucide="search" aria-hidden="true"></i><input id="search" type="search" placeholder="Find a book…" aria-label="Search library"></label>
+    </div>
+    <div class="section-line"><h2 id="section-title">The collection</h2><span id="result-count" role="status"></span></div>
+    <section id="book-grid" class="book-grid" aria-label="Books"></section>
+    <section id="highlights-list" hidden aria-label="Highlights"></section>
+    <div class="empty" id="empty" hidden><i data-lucide="book-open" aria-hidden="true"></i><h2 id="empty-title">Room for your next read.</h2><p id="empty-copy"></p><button class="secondary" id="empty-action">Add a book</button></div>
+    <footer><span>Bookmarked <span class="footer-dot">·</span> A darrahdata companion</span><span>Your shelf, at your pace.</span></footer>
+  </main>
+  <dialog id="detail-dialog" aria-labelledby="detail-title">
+    <div class="dialog-top"><span class="eyebrow">ON YOUR SHELF</span><button class="icon-button" data-close="detail-dialog" aria-label="Close book" title="Close book"><i data-lucide="x" aria-hidden="true"></i></button></div>
+    <div id="detail-body"></div>
+  </dialog>
+  <dialog id="add-dialog" class="small-dialog" aria-labelledby="add-title">
+    <div class="dialog-top"><h2 id="add-title">A new chapter.</h2><button class="icon-button" data-close="add-dialog" aria-label="Close add book" title="Close"><i data-lucide="x" aria-hidden="true"></i></button></div>
+    <form id="add-form">
+      <label>Book title<input name="title" required maxlength="300" autocomplete="off"></label>
+      <label>Author<input name="author" required maxlength="200" autocomplete="off"></label>
+      <div class="form-row"><label>Status<select name="status"><option value="want">Want to read</option><option value="reading">Reading</option><option value="finished">Finished</option></select></label><label>Total pages <span class="optional">(optional)</span><input name="total" type="number" min="1" max="100000" step="1"></label></div>
+      <label>ISBN <span class="optional">(optional, for the cover)</span><input name="isbn" pattern="[0-9Xx -]{10,20}" maxlength="20" autocomplete="off"></label>
+      <label>Summary <span class="optional">(optional)</span><textarea name="summary" rows="3" maxlength="5000"></textarea></label>
+      <label>Why this book? <span class="optional">(optional)</span><textarea name="why" rows="2" maxlength="2000"></textarea></label>
+      <div class="form-actions"><button type="button" class="secondary" data-close="add-dialog">Cancel</button><button class="primary" type="submit">Add to shelf<i data-lucide="arrow-right" aria-hidden="true"></i></button></div>
+    </form>
+  </dialog>
+  <dialog id="import-dialog" class="small-dialog" aria-labelledby="import-title">
+    <div class="dialog-top"><h2 id="import-title">Words worth keeping.</h2><button class="icon-button" data-close="import-dialog" aria-label="Close import" title="Close"><i data-lucide="x" aria-hidden="true"></i></button></div>
+    <p class="muted">Choose your Kindle’s <strong>My Clippings.txt</strong> file. Highlights and notes stay in this browser; nothing is sent to Amazon.</p>
+    <label class="file-drop">Kindle clippings<input type="file" id="clippings-file" accept=".txt,text/plain"></label>
+    <p class="small muted">English-language clippings supported. Re-imports skip duplicates. Back up your library before clearing browser data.</p>
+    <p id="import-result" role="status"></p>
+    <div class="form-actions"><button class="primary" data-close="import-dialog">Done</button></div>
+  </dialog>
+  <input id="restore-file" type="file" accept=".json,application/json" hidden>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p>JavaScript is needed to save and manage your reading shelf.</p></noscript>
+</body>
+</html>
