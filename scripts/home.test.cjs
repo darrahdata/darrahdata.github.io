@@ -45,10 +45,10 @@ test('homepage is responsive, accessible by keyboard, and links to existing apps
     await page.getByRole('link', { name: 'Data', exact: true }).click();
     assert.equal(new URL(page.url()).hash, '#data');
     await page.goto('http://127.0.0.1:8080/');
-    await page.getByRole('link', { name: 'Ave Maria', exact: true }).locator('img').click();
+    await page.locator('.tile-link').filter({has: page.locator('#ave-title')}).locator('img').click();
     assert.equal(new URL(page.url()).pathname, '/rosary-v2/');
     await page.goBack();
-    await page.getByRole('link', { name: 'Tiny Signs', exact: true }).focus();
+    await page.locator('.tile-link').filter({has: page.locator('#tiny-title')}).focus();
     await page.keyboard.press('Enter');
     await page.waitForURL('**/tiny-signs/');
     assert.equal(new URL(page.url()).pathname, '/tiny-signs/');

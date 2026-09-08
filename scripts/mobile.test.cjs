@@ -19,12 +19,23 @@ const openTools = p => p.locator('.sidebar-bottom summary').click();
 async function testData(page) {
   await page.route('**/model_usage/usage_data.json', route => route.fulfill({json:{entries:[]}}));
 }
-async function archivedProfile(p) {
+async function archivedProfile(p, route) {
+  await p.locator('.app-main h1').waitFor();
   await p.evaluate(() => localStorage.setItem('little-signs-profile', JSON.stringify({babyStage:'expecting',interests:[],routines:[],goalMinutes:5,learningMode:'both'})));
-  await p.reload();
+  await p.goto(base+'archive/little-signs/?mobile-test=1#/'+route);
+  await p.locator(route.startsWith('learn/') ? '.sign-lesson-page h1' : '.hero-card h1').waitFor();
 }
 const screens = [
-  ['home', ''], ['prayer-setup', 'rosary-v2/'],
+  ['home', '', async p => p.locator('[data-answer]').first().waitFor()],
+  ['home-answer', '', async p => p.locator('[data-answer]').first().click()],
+  ['home-complete', '', async p => {
+    for(let i=0;i<3;i++) {
+      await p.locator('[data-answer]').first().click();
+      await p.locator('[data-next]').click();
+    }
+    await p.locator('.challenge-review summary').click();
+  }],
+  ['prayer-setup', 'rosary-v2/'],
   ['prayer-reading', 'rosary-v2/', startPrayer],
   ['prayer-menu', 'rosary-v2/', async p => { await startPrayer(p); if(await p.locator('#mobile-menu-btn').isVisible()) await p.locator('#mobile-menu-btn').click(); }],
   ['tiny-home', 'tiny-signs/'], ['tiny-library', 'tiny-signs/#/signs'],
@@ -44,8 +55,8 @@ const screens = [
   ['privacy', 'privacy/'], ['archived-baby', 'archive/baby-signs/'],
   ['archived-baby-detail', 'archive/baby-signs/', async p => p.locator('.path-tile').first().click()],
   ['archived-little', 'archive/little-signs/'],
-  ['archived-little-home', 'archive/little-signs/#/today', archivedProfile],
-  ['archived-little-lesson', 'archive/little-signs/#/learn/milk', archivedProfile],
+  ['archived-little-home', 'archive/little-signs/', p => archivedProfile(p,'today')],
+  ['archived-little-lesson', 'archive/little-signs/', p => archivedProfile(p,'learn/milk')],
   ['archived-nora-gate', 'archive/for-nora/']
 ];
 
@@ -86,12 +97,15 @@ test(`${engine}: app screens fit phone, tablet, desktop and landscape`, {timeout
   try {
     for(const [width,height] of viewports) {
       for(const [name,path,setup] of screens) {
+        if(process.env.MOBILE_SCREEN && !new RegExp(process.env.MOBILE_SCREEN).test(name)) continue;
         const context=await browser.newContext({viewport:{width,height},hasTouch:width<1000,reducedMotion:'reduce',serviceWorkers:'block'});
         const page=await context.newPage();
         await testData(page);
         const errors=[]; page.on('pageerror', e=>errors.push(e.message));
         try {
           await page.goto(base+path);
+          if(path.startsWith('tiny-signs/')) await page.locator('#main-content').waitFor();
+          if(path.startsWith('archive/little-signs/')) await page.locator('.app-main h1').waitFor();
           await page.evaluate(()=>document.fonts.ready);
           if(setup) await setup(page);
           await geometry(page, `${name} ${width}x${height}`);

@@ -1663,6 +1663,8 @@ h3 {
 .first-lesson-copy > p:not(.eyebrow) { font-size: 1.1rem; max-width: 32rem; color: var(--ink-soft); }
 .first-lesson .button { margin-top: .7rem; }
 .beginner-note { display: block; margin-top: 1rem; color: var(--ink-soft); font-size: .9rem; }
+.daily-sign-progress { display: block; margin-top: 1.25rem; color: var(--ink); font-size: .95rem; font-weight: 600; }
+.daily-sign-progress + .beginner-note { margin-top: .4rem; max-width: 32rem; }
 .home-demo { border: 1px solid var(--line); background: var(--paper); border-radius: 26px; overflow: hidden; box-shadow: var(--shadow); }
 .home-demo-title { padding: 1.1rem 1.5rem; display: flex; align-items: baseline; gap: .8rem; flex-wrap: wrap; }
 .home-demo-title > span { font-size: .75rem; letter-spacing: .1em; font-weight: 700; color: var(--coral); }

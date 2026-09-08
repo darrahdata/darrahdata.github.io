@@ -19,7 +19,7 @@ MOBILE_BROWSER=webkit node --test scripts/mobile.test.cjs
 node --test scripts/all-apps.test.cjs scripts/home.test.cjs rosary-v2/mobile.test.cjs rosary-v2/runtime.test.cjs rosary-analytics/review.test.cjs baby-playbook/review.test.mjs books/core.test.cjs
 ```
 
-The mobile suite checks 33 screens at widths 320, 360, 390, 430, 768, 844
+The mobile suite checks 35 screens at widths 320, 360, 390, 430, 768, 844
 (landscape), and 1440. It checks page overflow, touch targets, input font sizes,
 runtime errors, and representative touch/navigation/save flows. Screenshots are
 written to `/tmp/site-mobile-review`. `MOBILE_TEST_URL` can override the local URL.

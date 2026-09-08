@@ -3,6 +3,9 @@ body { overflow: visible; }
 .app-shell, .onboarding-shell { min-height: 100dvh; }
 .app-main:not(.onboarding-main) { height: auto; overflow: visible; padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
 .app-main { min-width: 0; }
+.icon-button { min-width: 44px; min-height: 44px; flex-shrink: 0; }
+.button, .button.small { min-height: 44px; }
+.app-main h1 { letter-spacing: 0; }
 .app-main, .app-header { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
 @media (max-width: 760px) {
   .app-main { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }

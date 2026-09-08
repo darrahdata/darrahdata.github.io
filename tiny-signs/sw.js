@@ -1,7 +1,7 @@
-const SHELL = 'tiny-signs-shell-08fe32119231';
+const SHELL = 'tiny-signs-shell-74f778c4220a';
 const MEDIA = 'tiny-signs-media-v1';
 const ROOT = new URL('./',self.location).href;
-const PRECACHE = ["index.html","manifest.webmanifest","icon.svg","credits.html","assets/dev-CfNxSyCT.css","assets/dev-MvM4MYZC.js"].map(path => new URL(path,ROOT).href);
+const PRECACHE = ["index.html","manifest.webmanifest","icon.svg","credits.html","assets/dev-1kkC6JnO.css","assets/dev-CeMQmAEm.js"].map(path => new URL(path,ROOT).href);
 self.addEventListener('install',event => event.waitUntil((async() => {
   const cache=await caches.open(SHELL);await cache.addAll(PRECACHE);await self.skipWaiting();
 })()));
