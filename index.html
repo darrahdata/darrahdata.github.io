@@ -29,39 +29,38 @@
         <nav class="categories" aria-label="App categories"><a href="#prayer">Prayer</a><a href="#family">Family</a><a href="#data">Data</a></nav>
       </div>
       <div class="featured">
-        <article class="app prayer" id="prayer">
+        <a class="app prayer tile-link" id="prayer" href="rosary-v2/" aria-labelledby="ave-title">
           <div class="app-copy">
-            <p class="eyebrow">Prayer</p><h3>Ave Maria</h3>
+            <p class="eyebrow">Prayer</p><h3 id="ave-title">Ave Maria <span class="tile-arrow" aria-hidden="true">&rarr;</span></h3>
             <p>Your guide to the Rosary &amp; Catholic prayer.</p>
-            <a class="open-link" href="rosary-v2/">Open Ave Maria <span aria-hidden="true">&rarr;</span></a>
           </div>
           <img src="assets/home/rosary.jpg" width="960" height="600" alt="Rosary prayer screen with the Hail Mary, read-aloud control, and bead progress." fetchpriority="high">
-        </article>
-        <article class="app family" id="family">
+        </a>
+        <a class="app family tile-link" id="family" href="tiny-signs/" aria-labelledby="tiny-title">
           <div class="app-copy">
-            <p class="eyebrow">Family / Video-led practice</p><h3>Tiny Signs</h3>
+            <p class="eyebrow">Family / Video-led practice</p><h3 id="tiny-title">Tiny Signs <span class="tile-arrow" aria-hidden="true">&rarr;</span></h3>
             <p>Learn signs for everyday family moments. Watch human demonstrations, slow them down, and practice recalling each sign.</p>
-            <a class="open-link" href="tiny-signs/">Open Tiny Signs <span aria-hidden="true">&rarr;</span></a>
           </div>
           <img src="assets/home/tiny-signs.jpg" width="960" height="600" alt="Tiny Signs learning app with family sign lessons and practice controls.">
-        </article>
+        </a>
       </div>
       <section class="family-tools" aria-labelledby="family-heading">
         <div class="section-heading"><h2 id="family-heading">More for family life</h2><p>A different kind of help for each moment.</p></div>
-        <article class="app family guide-preview">
+        <a class="app family guide-preview tile-link" href="baby-playbook/" aria-labelledby="baby-title">
           <div class="app-copy">
-            <p class="eyebrow">Family / Catholic parenting</p><h3>Baby Playbook</h3>
+            <p class="eyebrow">Family / Catholic parenting</p><h3 id="baby-title">Baby Playbook <span class="tile-arrow" aria-hidden="true">&rarr;</span></h3>
             <p>A Catholic family guide with age-based care, daily faith practices, parent handoffs, and a saved emergency card.</p>
-            <a class="open-link" href="baby-playbook/">Open Baby Playbook <span aria-hidden="true">&rarr;</span></a>
           </div>
           <img src="assets/home/baby-guide.jpg" width="1280" height="800" alt="Baby Playbook Today screen with quick care buttons and priorities for preparing for a baby." loading="lazy">
-        </article>
+        </a>
       </section>
-      <section class="data-section" id="data" aria-labelledby="data-heading">
-        <div class="data-copy"><p class="eyebrow">Data / Everyday utility</p><h2 id="data-heading">Model Usage</h2>
+      <section id="data" aria-labelledby="data-heading">
+        <a class="data-section tile-link" href="model_usage/" aria-labelledby="data-heading">
+        <div class="data-copy"><p class="eyebrow">Data / Everyday utility</p><h2 id="data-heading">Model Usage <span class="tile-arrow" aria-hidden="true">&rarr;</span></h2>
           <p>Keep token usage and model costs in view, with cached inputs, running totals, and a 30-day cost chart.</p>
-          <a class="open-link" href="model_usage/">Open Model Usage <span aria-hidden="true">&rarr;</span></a></div>
+        </div>
         <img src="assets/home/model-usage.jpg" width="960" height="600" alt="Model Usage dashboard with token totals, a cost summary, and a daily cost chart." loading="lazy">
+        </a>
       </section>
     </main>
     <footer><p>John Darrah <span aria-hidden="true">/</span> Built with care.</p>

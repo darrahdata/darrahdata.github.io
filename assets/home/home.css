@@ -30,10 +30,11 @@ h1 span { color: var(--gold); }
 .family .eyebrow, .tool .eyebrow { color: var(--rose); }
 .app h3 { font-size: 40px; margin-bottom: 12px; }
 .app-copy > p:not(.eyebrow), .tool > p:not(.eyebrow), .data-copy > p:not(.eyebrow) { color: var(--muted); font-size: 15px; }
-.open-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; min-height: 44px; margin-top: 16px; font-size: 14px; font-weight: 600; text-decoration: none; }
-.open-link:hover { text-decoration: underline; }
-.open-link span { font-size: 22px; }
-.app .open-link { margin-top: auto; padding-top: 12px; }
+.tile-link { text-decoration: none; cursor: pointer; }
+.tile-link h2, .tile-link h3 { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
+.tile-arrow { flex: 0 0 24px; color: var(--gold); font: 24px/1 system-ui, sans-serif; text-align: center; }
+.tile-link:hover, .tile-link:focus-visible { border-color: var(--gold); }
+.tile-link:hover h2, .tile-link:hover h3, .tile-link:focus-visible h2, .tile-link:focus-visible h3 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
 img { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; object-fit: contain; }
 .app img { border-top: 1px solid var(--line); }
 .family-tools { margin-top: 56px; }
@@ -47,7 +48,6 @@ img { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; object-fit
 .tool:last-child { padding-right: 0; }
 .tool + .tool { border-left: 1px solid var(--line); }
 .tool h3 { font-size: 30px; margin-bottom: 12px; }
-.tool .open-link { margin-top: auto; padding-top: 12px; }
 .data-section { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; border-top: 1px solid var(--line); margin-top: 44px; padding: 36px 0; }
 .data-section .eyebrow { color: var(--blue); }
 .data-section h2 { font-size: 36px; margin-bottom: 14px; }
