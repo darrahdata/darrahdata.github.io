@@ -38,12 +38,12 @@ function AppHeader({ page, lowLight, onToggleTheme, go }) {
   return (
     <header className="site-header">
       <div className="header-inner">
+        <nav className="all-apps-nav" aria-label="Site"><a className="all-apps-link" href="../"><span className="all-apps-symbol" aria-hidden="true">←</span> All apps</a></nav>
         <button type="button" className="brand" onClick={() => go("today")} aria-label="Tiny Signs home">
           <span className="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
           <span><strong>Tiny Signs</strong><small>learn baby signs</small></span>
         </button>
         <div className="header-actions">
-          <a className="homepage-button" href="https://darrahdata.github.io/"><span aria-hidden="true">←</span> My homepage</a>
           <button type="button" className="theme-toggle" onClick={onToggleTheme} aria-pressed={lowLight}>
             <span aria-hidden="true">{lowLight ? "☀" : "☾"}</span>
             <span className="theme-label">{lowLight ? "Day" : "Low light"}</span>

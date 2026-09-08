@@ -7,7 +7,7 @@ button,input,select,textarea{font:inherit}
 button,a,select,textarea{touch-action:manipulation}
 button,select{min-height:44px}
 .app-shell{max-width:720px}
-.home-nav{position:absolute}
+.home-nav{position:static;max-width:720px;margin:0 auto;color:var(--text-soft)}
 .app-header{margin:2rem 0 1.5rem}
 .app-header h1{font-size:3rem;letter-spacing:0}
 .subtitle{letter-spacing:0;font-size:.95rem}

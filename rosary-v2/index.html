@@ -320,9 +320,10 @@ body.read-on .read-voice-settings.available{display:flex}
 }
 </style>
 <link rel="stylesheet" href="polish.css">
+<link rel="stylesheet" href="../assets/all-apps.css">
 </head>
 <body data-theme="monastery_green" aria-label="Ave Maria, your guide to the Rosary and Catholic prayer">
-<nav class="home-nav" aria-label="Site"><a class="home-btn" href="/" aria-label="Home">✦</a></nav>
+<nav class="home-nav all-apps-nav" aria-label="Site"><a class="all-apps-link" href="../"><span class="all-apps-symbol" aria-hidden="true">&larr;</span> All apps</a></nav>
 <main class="app-shell" id="app-main">
 <header class="app-header" id="app-header"><div class="mark" aria-hidden="true">✦</div><h1>Ave Maria</h1><p class="subtitle">Your guide to the Rosary &amp; Catholic prayer.</p></header>
 
@@ -524,6 +525,7 @@ body.read-on .read-voice-settings.available{display:flex}
     <div class="sheet-actions">
       <button class="sheet-action" type="button" onclick="menuRestart()">Restart</button>
       <button class="sheet-action sheet-danger" type="button" onclick="menuExit()">Exit</button>
+      <a class="all-apps-link" href="../" onclick="persistSession();stopReadAloud();releaseWakeLock()"><span class="all-apps-symbol" aria-hidden="true">&larr;</span> All apps</a>
     </div>
   </div>
 </section>
