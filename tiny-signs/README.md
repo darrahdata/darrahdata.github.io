@@ -4,7 +4,8 @@ Personal, noncommercial baby-sign vocabulary practice before and after baby arri
 
 ## Experience
 
-- 30 signs organized into Meals, Care, Bedtime, Play, Animals, and Connection.
+- 138 signs covering everyday family life and Catholic faith.
+- Home features a Sign of the day: one catalog entry per local calendar day, with a fixed September 7, 2026 epoch. The full 138-sign cycle restarts after the last entry. It refreshes at midnight and when returning to a suspended tab; no practice data or visit count affects selection.
 - Watch → Copy → Use lessons with handshape, palm, location, movement, self-checks, and an optional private camera mirror.
 - Native human reference clips with quarter/half speed, replay, repeat, 0.1-second seeking, and fullscreen where supported.
 - Make the sign from memory, or watch an unlabeled clip and recall its meaning. Reveal, compare, and self-assess; no automatic signing accuracy claim.
@@ -39,3 +40,7 @@ When changing a media file in place, bump the media cache version in both `src/o
 - Isolated React interaction checks: all lessons, controls, recall conceal/reveal and saved assessments, routine filters, preservation of practice/model history, offline unsupported state, camera fallback and stream cleanup.
 - `pnpm run test:offline`: simulated service-worker install/activation, scope isolation, offline navigation, partial content and invalid video ranges, pack save/status/reuse/removal/cancellation.
 - Production build succeeds. Full browser playback and real device offline installation have not been tested in this run.
+
+## Daily feature checks
+
+`node scripts/test-daily-sign.mjs` checks all 138 catalog entries, daily labels and media, external-reference fallbacks, and keyed player reset. From the repository root, `node --test scripts/daily-features.test.mjs` checks shared local-day scheduling (including DST), the homepage challenge bank, scoring, answer locking, and persistence.

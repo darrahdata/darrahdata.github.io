@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { signs } from "./data/signs.js";
 import GuidedLessonPage from "./components/GuidedLessonPage.jsx";
 import RecallPage from "./components/RecallPage.jsx";
-import SignDemo from "./components/SignDemo.jsx";
+import DailySign from "./components/DailySign.jsx";
 import FamilyLibrary, { CollectionTiles } from "./components/FamilyLibrary.jsx";
 import SettingsPage from "./components/SettingsPage.jsx";
 
@@ -84,16 +84,7 @@ function TodayPage({ progress, onOpen, go }) {
   const next = starters.find(sign => !progress[sign.id]?.practiceCount) || starters[0];
   return (
     <main id="main-content" tabIndex={-1} className="page-shell today-page">
-      <section className="first-lesson" aria-labelledby="welcome-heading">
-        <div className="first-lesson-copy">
-          <p className="eyebrow">Little signs. Everyday connection.</p>
-          <h1 id="welcome-heading">Your first sign.<br /><em>A little closer.</em></h1>
-          <p>You don’t need to know any sign language. Start with Milk: watch a real person, try the movement, and learn when to use it.</p>
-          <button type="button" className="button primary" onClick={() => onOpen("milk")}>Learn Milk, step by step <span aria-hidden="true">→</span></button>
-          <span className="beginner-note">Learning before baby arrives? This is for you, too.</span>
-        </div>
-        <div className="home-demo"><div className="home-demo-title"><span>YOUR FIRST SIGN</span><strong>Milk</strong><small>One hand · feeding time</small></div><SignDemo sign={starters[0]} /></div>
-      </section>
+      <DailySign signs={signs} onOpen={onOpen} />
       <section className="starter-path card" aria-labelledby="path-heading">
         <div className="section-heading"><div><p className="eyebrow">Start small</p><h2 id="path-heading">Three signs to feel ready.</h2><p>Learn these at your own pace. Then practice with everyday routines.</p></div><span className="path-count">{practiced} / 3 practiced</span></div>
         <div className="path-steps">{starters.map((sign,index) => <button type="button" key={sign.id} onClick={() => onOpen(sign.id)}><span className="path-number">{progress[sign.id]?.practiceCount ? "✓" : `0${index + 1}`}</span><strong>{sign.word}</strong><small>{["Before a feed", "Another song or turn", "When an activity ends"][index]}</small><span className="path-link">{progress[sign.id]?.practiceCount ? "Practice again" : "Learn this sign"} →</span></button>)}</div>

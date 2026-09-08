@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/home/home.css">
+  <link rel="stylesheet" href="assets/home/daily-challenge.css">
+  <script type="module" src="assets/home/daily-challenge.mjs"></script>
 </head>
 <body>
   <a class="skip-link" href="#apps">Skip to apps</a>
@@ -28,6 +30,20 @@
         <h2>A small collection, made with care.</h2>
         <nav class="categories" aria-label="App categories"><a href="#prayer">Prayer</a><a href="#family">Family</a><a href="#data">Data</a></nav>
       </div>
+      <section class="daily-challenge" id="daily-challenge" aria-labelledby="challenge-heading">
+        <div class="challenge-intro">
+          <div class="challenge-topline"><span aria-hidden="true">✦</span><time id="challenge-date">Today</time></div>
+          <h2 id="challenge-heading">Daily Challenge</h2>
+          <p>A little curiosity, every day.</p>
+          <a id="challenge-app" href="#family">Prayer, signs &amp; family life</a>
+          <p class="challenge-topic" id="challenge-topic">Three questions from one of your apps.</p>
+          <div class="challenge-progress" id="challenge-progress" role="img" aria-label="Three questions to explore"><span></span><span></span><span></span></div>
+          <p class="challenge-status" id="challenge-status">Three questions · about a minute</p>
+          <p class="challenge-save-note" id="challenge-save-note">Changes at local midnight. Progress stays in this browser.</p>
+        </div>
+        <div class="challenge-round" id="challenge-round"><p>Getting today’s challenge ready…</p><noscript>Enable JavaScript to answer today’s three questions.</noscript></div>
+        <p class="challenge-live" id="challenge-new-day" role="status"></p>
+      </section>
       <div class="featured">
         <a class="app prayer tile-link" id="prayer" href="rosary-v2/" aria-labelledby="ave-title">
           <div class="app-copy">
