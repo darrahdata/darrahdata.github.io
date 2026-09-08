@@ -1,0 +1,46 @@
+html { scroll-padding-block: 24px; }
+.sidebar { overflow-y: auto; padding-top: max(24px, env(safe-area-inset-top)); }
+.sidebar > .all-apps-nav { display: flex; }
+.sidebar-bottom { display: block; }
+.sidebar-bottom summary { font-size: .875rem; }
+.library-tools { min-width: 0; }
+.book-title { min-height: 44px; }
+.source-link { min-height: 44px; display: inline-flex; align-items: center; }
+.form-row, .progress-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.form-row > *, .progress-fields > *, .detail-header > * { min-width: 0; }
+.filter { min-width: 44px; }
+.cover, .cover-fallback { max-width: 100%; }
+dialog {
+  max-height: calc(100dvh - max(12px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom)));
+  overscroll-behavior: contain;
+  overflow-wrap: anywhere;
+}
+dialog .dialog-top { position: sticky; top: -28px; background: var(--bg); z-index: 1; padding-block: 8px; }
+body:has(dialog[open]) { overflow: hidden; }
+#toast { bottom: max(22px, env(safe-area-inset-bottom)); }
+@media (max-width: 640px) {
+  .sidebar {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left));
+  }
+  .sidebar nav[aria-label="Library"] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sidebar nav[aria-label="Library"] .nav-item { min-width: 0; font-size: .8125rem; gap: 6px; }
+  .sidebar-bottom { display: block; width: 100%; }
+  .library-tools { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  .sidebar-bottom .nav-item { min-width: 0; font-size: .8125rem; }
+  main { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+  footer { padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+  .topbar { flex-wrap: wrap; padding-block: 12px; }
+  .library-head { padding-block: 20px; }
+  h1 { font-size: 2.25rem; }
+  .intro { font-size: 1rem; }
+  .filters { flex-wrap: wrap; justify-content: flex-start; gap: 4px 16px; }
+  .filter { font-size: .8125rem; }
+  .form-row, .progress-fields { grid-template-columns: minmax(0, 1fr); }
+  dialog .dialog-top { top: -20px; }
+  .detail-header { gap: 16px; }
+}
+@media (max-height: 500px) and (min-width: 641px) {
+  .sidebar { gap: 20px; }
+}

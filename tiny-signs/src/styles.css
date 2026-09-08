@@ -33,7 +33,7 @@ html {
 
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: 0;
   min-height: 100vh;
   background:
     radial-gradient(circle at 88% 2%, rgba(242, 199, 98, 0.18), transparent 29rem),
@@ -1838,8 +1838,8 @@ input:focus-visible, select:focus-visible { outline: 3px solid var(--coral); out
   .header-actions { width: 100%; justify-content: space-between; }
 }
 
-.native-video-frame { background: #123d43; aspect-ratio: 16/9; min-height: 220px; }
-.native-video-frame video { width: 100%; height: 100%; display: block; object-fit: contain; min-height: 220px; }
+.native-video-frame { background: #123d43; aspect-ratio: 16/9; width: 100%; min-width: 0; }
+.native-video-frame video { width: 100%; height: 100%; display: block; object-fit: contain; min-height: 0; }
 .precision-controls { display:flex; align-items:center; flex-wrap:wrap; gap:.5rem; padding:.75rem; background:var(--cream); }
 .precision-controls > span { flex-basis:100%; font-size:.875rem; font-weight:700; }
 .precision-controls input { min-width:50px; flex:1; accent-color:var(--evergreen); }

@@ -1,0 +1,29 @@
+body { padding: max(24px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(40px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+header h1 { font-size: 3rem; letter-spacing: 0; }
+.tiles { grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); }
+.field, .tile { min-width: 0; }
+.tile-sub, .tile-label, .section-label, .field label { font-size: .875rem; letter-spacing: 0; }
+.log-header { gap: 12px; flex-wrap: wrap; }
+.del-btn { min-width: 44px; min-height: 44px; color: var(--muted); }
+.log-header .section-label { margin-bottom: 0; }
+.form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#cost-chart { min-height: 180px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 560px) {
+  header { margin-bottom: 2rem; }
+  header h1 { font-size: 2.5rem; }
+  .form-grid { grid-template-columns: minmax(0, 1fr); }
+  .form-card, .chart-wrap { padding: 1.1rem; }
+  .log-header { padding: 1rem; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .tile { padding: 1rem; }
+  .tile-value { overflow-wrap: anywhere; }
+  .log-wrap { overflow: visible; }
+  table, tbody { display: block; }
+  thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  tbody tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; border-top: 1px solid var(--border); padding: 1rem; }
+  tbody td { display: block; min-width: 0; border: 0; padding: 0; overflow-wrap: anywhere; }
+  tbody td::before { content: attr(data-label); display: block; font: .75rem/1.5 system-ui, sans-serif; color: var(--muted); }
+  td.model { font-size: 1rem; }
+  td:last-child { grid-column: 1 / -1; justify-self: end; }
+}

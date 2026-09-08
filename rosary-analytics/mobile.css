@@ -1,0 +1,27 @@
+body { padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+.range { flex-wrap: wrap; }
+.range button, .quiet-btn, .custom-range button { min-height: 44px; font-size: .875rem; }
+.custom-range { flex-wrap: wrap; border-radius: 8px; }
+.custom-range input { width: 4rem; }
+.custom-range select { min-width: 76px; }
+.dashboard-tabs { flex-wrap: wrap; }
+.dashboard-tabs button { min-height: 44px; letter-spacing: 0; font-size: .875rem; }
+.chart { overflow-x: auto; overflow-y: hidden; padding-bottom: 24px; overscroll-behavior-x: contain; scrollbar-width: thin; }
+.chart .day { flex: 1 0 44px; min-width: 44px; }
+.day-date { position: absolute; top: 100%; padding-top: 3px; white-space: nowrap; color: var(--soft); font-size: .625rem; }
+.chart:focus-within { outline-offset: 3px; }
+.chart-axis { flex-wrap: wrap; }
+.chart-detail, .panel-note, .metric-note { font-size: .8125rem; }
+.chart-axis, .table-wrap, .footer { font-size: .8125rem; }
+.footer a { display: inline-flex; align-items: center; min-height: 44px; }
+.break-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; }
+.break-name { white-space: normal; overflow-wrap: anywhere; }
+.metric { min-width: 0; }
+.metric-label { letter-spacing: 0; font-size: .8125rem; }
+.dashboard-header h1 { font-size: 3.5rem; }
+@media (max-width: 520px) {
+  .dashboard-header h1 { font-size: 2.75rem; }
+  .custom-range { gap: .4rem; }
+  .custom-range button { flex: 1 0 100%; }
+  .dashboard-tabs button { font-size: .8125rem; }
+}

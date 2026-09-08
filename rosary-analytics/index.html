@@ -123,6 +123,8 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:400}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 </style>
 <link rel="stylesheet" href="../assets/all-apps.css">
+<link rel="stylesheet" href="../assets/mobile.css">
+<link rel="stylesheet" href="mobile.css">
 <style>.topbar{flex-wrap:wrap}</style>
 </head>
 <body>
@@ -437,7 +439,8 @@ function renderTimeChart(id,daily,series){
     const values=series.map(item=>Number(row[item.field]||0));
     const tip=[row.label,...series.map((item,index)=>`${values[index]} ${item.label}`)].join(' · ');
     const bars=series.map((item,index)=>`<span class="bar ${item.className}" style="height:${values[index]?Math.max(2,values[index]/max*100):0}%"></span>`).join('');
-    return `<button type="button" class="day" aria-label="${tip}" data-tip="${tip}">${bars}</button>`;
+    const dateLabel=formatBucketLabel(row.day,row.day);
+    return `<button type="button" class="day" aria-label="${tip}" data-tip="${tip}">${bars}<span class="day-date" aria-hidden="true">${dateLabel}</span></button>`;
   }).join('');
   let companion=document.getElementById(`${id}-data`);
   if(!companion){companion=document.createElement('div');companion.id=`${id}-data`;chart.after(companion);}
@@ -446,6 +449,10 @@ function renderTimeChart(id,daily,series){
   chart.querySelectorAll('.day').forEach(button=>{
     const describe=()=>{companion.querySelector('.chart-detail').textContent=button.dataset.tip;};
     button.addEventListener('focus',describe);button.addEventListener('pointerenter',describe);button.addEventListener('click',describe);
+    button.addEventListener('keydown',event=>{
+      const target=event.key==='ArrowRight'?button.nextElementSibling:event.key==='ArrowLeft'?button.previousElementSibling:null;
+      if(target){event.preventDefault();target.focus();}
+    });
   });
 }
 

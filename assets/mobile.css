@@ -1,0 +1,32 @@
+/* Shared mobile basics; each app owns its navigation and layout. */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { min-height: 100dvh; }
+:where(h1, h2, h3, p, button, label) { overflow-wrap: anywhere; }
+button, input, select, textarea, summary { touch-action: manipulation; }
+button, summary { min-height: 44px; }
+:root input:not([type="checkbox"]):not([type="radio"]),
+:root select, :root textarea {
+  font-size: 1rem;
+  min-height: 44px;
+  min-width: 0;
+  max-width: 100%;
+}
+:root select:not([multiple]):not([size]) {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-inline-end: 2.25rem;
+  background-image: url("chevron-down.svg");
+  background-repeat: no-repeat;
+  background-size: 20px;
+  background-position: right .6rem center;
+}
+@media (forced-colors: active) {
+  :root select:not([multiple]):not([size]) { appearance: auto; background-image: none; }
+}
+:where(button, a, input, select, textarea, summary):focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}

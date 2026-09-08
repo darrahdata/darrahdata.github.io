@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#141717">
   <meta name="description" content="A personal reading shelf for books, progress, and the ideas worth keeping.">
   <title>Bookmarked · darrahdata</title>
@@ -10,6 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../assets/all-apps.css">
+  <link rel="stylesheet" href="../assets/mobile.css">
+  <link rel="stylesheet" href="mobile.css">
   <script defer src="lucide.min.js"></script>
   <script defer src="core.js"></script>
   <script defer src="app.js"></script>
@@ -17,18 +20,21 @@
 <body>
   <a class="skip" href="#main">Skip to books</a>
   <aside class="sidebar">
-    <a href="../" class="parent-brand">darrah<span>data</span></a>
+    <nav class="all-apps-nav" aria-label="Site"><a href="../" class="all-apps-link"><span class="all-apps-symbol" aria-hidden="true">&larr;</span> All apps</a></nav>
     <a class="brand" href="./"><i data-lucide="book-open" aria-hidden="true"></i><span>Bookmarked<span class="brand-caption">Your personal library</span></span></a>
     <nav aria-label="Library">
       <button data-view="books" class="nav-item active"><i data-lucide="library" aria-hidden="true"></i>My bookshelf <span id="nav-count">6</span></button>
       <button data-view="highlights" class="nav-item"><i data-lucide="highlighter" aria-hidden="true"></i>Highlights <span id="highlight-count">0</span></button>
     </nav>
-    <div class="sidebar-bottom">
+    <details class="sidebar-bottom">
+      <summary>Library tools</summary>
+      <div class="library-tools">
       <button class="nav-item" id="import-open"><i data-lucide="upload" aria-hidden="true"></i>Import highlights</button>
       <button class="nav-item" id="backup"><i data-lucide="download" aria-hidden="true"></i>Back up library</button>
       <button class="nav-item" id="restore"><i data-lucide="archive-restore" aria-hidden="true"></i>Restore backup</button>
       <p class="storage-note"><span class="status-dot"></span>Saved on this browser</p>
-    </div>
+      </div>
+    </details>
   </aside>
   <main id="main">
     <header class="topbar"><span class="breadcrumb">Library <span>/</span> <span id="breadcrumb">My bookshelf</span></span><button class="primary" id="add-open"><i data-lucide="plus" aria-hidden="true"></i>Add book</button></header>

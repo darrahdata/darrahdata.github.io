@@ -43,3 +43,6 @@ label{display:block;font-size:.95rem;margin-bottom:.6rem}.password-row{display:f
 #unlock-status{font-size:.9rem;color:var(--accent);margin:.6rem 0;min-height:1.5rem}.privacy-note{font-size:.875rem;color:var(--muted);padding-top:1.25rem;border-top:1px solid var(--line);margin-bottom:0}
 .footer-note{text-align:center;font-size:.875rem;color:var(--muted);margin:1.7rem 0 1rem}.home-link{display:block;text-align:center;font-size:.9rem;color:var(--accent);padding:.5rem}
 @media(max-width:420px){.gate{padding-top:1.5rem}.gate-card{padding:1.7rem 1.4rem}}
+.gate{max-width:calc(100% - max(20px,env(safe-area-inset-left)) - max(20px,env(safe-area-inset-right)));padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom))}
+.home-link{min-height:44px}h1{font-size:4rem;letter-spacing:0}
+@media(max-width:420px){h1{font-size:3rem}}

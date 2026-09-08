@@ -1,0 +1,10 @@
+html, body, #root, .app-shell { height: auto; }
+body { overflow: visible; }
+.app-shell, .onboarding-shell { min-height: 100dvh; }
+.app-main:not(.onboarding-main) { height: auto; overflow: visible; padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+.app-main { min-width: 0; }
+.app-main, .app-header { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+@media (max-width: 760px) {
+  .app-main { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+  .bottom-nav { left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right)); }
+}
