@@ -19,6 +19,7 @@ button,select{min-height:44px}
 .hero-days{margin:.5rem 0 1.4rem}
 .choices{grid-template-columns:1fr 1fr;align-items:start;gap:1.2rem;margin:1.5rem 0}
 .choices fieldset{min-width:0}
+.choices fieldset:first-child{grid-column:1/-1}
 .select{min-width:0;font-family:system-ui,sans-serif;font-size:1rem;min-height:50px;border-radius:8px}
 .field-description{font-size:.875rem;line-height:1.6;color:var(--muted);margin:.65rem 0 0}
 .drawer{margin-top:0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none}

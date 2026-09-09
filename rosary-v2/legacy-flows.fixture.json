@@ -1,0 +1,194 @@
+[
+  {
+    "mystery": "joyful",
+    "style": "one",
+    "firstSaturday": false,
+    "sha256": "85f3761fa67f5b6ba4142b5a50f0654b35110e22170a55674c3e8dcbc8fb78a0"
+  },
+  {
+    "mystery": "joyful",
+    "style": "one",
+    "firstSaturday": true,
+    "sha256": "85f3761fa67f5b6ba4142b5a50f0654b35110e22170a55674c3e8dcbc8fb78a0"
+  },
+  {
+    "mystery": "joyful",
+    "style": "five",
+    "firstSaturday": false,
+    "sha256": "c65d1fb31e65f2981eb69f7ab7305cf5ce04453612e1e541256c02da68e961c8"
+  },
+  {
+    "mystery": "joyful",
+    "style": "five",
+    "firstSaturday": true,
+    "sha256": "c65d1fb31e65f2981eb69f7ab7305cf5ce04453612e1e541256c02da68e961c8"
+  },
+  {
+    "mystery": "joyful",
+    "style": "darrah",
+    "firstSaturday": false,
+    "sha256": "f2f057e2e42a104ccb94de3b4cd5de37972e18923faaa10263b7bc96b48bcf3d"
+  },
+  {
+    "mystery": "joyful",
+    "style": "darrah",
+    "firstSaturday": true,
+    "sha256": "f2f057e2e42a104ccb94de3b4cd5de37972e18923faaa10263b7bc96b48bcf3d"
+  },
+  {
+    "mystery": "joyful",
+    "style": "dominican",
+    "firstSaturday": false,
+    "sha256": "e1daa391786f27bc7883d6aa76d48f0b8ffd396bc8e649e4085ec5e720384779"
+  },
+  {
+    "mystery": "joyful",
+    "style": "dominican",
+    "firstSaturday": true,
+    "sha256": "884ffa6a7e5ab83efeccb475cf0c506983ae8aee0a97013f7bf9db62d88d2e35"
+  },
+  {
+    "mystery": "sorrowful",
+    "style": "one",
+    "firstSaturday": false,
+    "sha256": "c9a1f43db9bd17d8b208b9e1611fab1ca6b2b20815d4e1c7fd05f0b49130a859"
+  },
+  {
+    "mystery": "sorrowful",
+    "style": "one",
+    "firstSaturday": true,
+    "sha256": "c9a1f43db9bd17d8b208b9e1611fab1ca6b2b20815d4e1c7fd05f0b49130a859"
+  },
+  {
+    "mystery": "sorrowful",
+    "style": "five",
+    "firstSaturday": false,
+    "sha256": "b985650976f12d51e942d39d81fec2e4f4a5547a7ec8f0b58efb6f8ef0838101"
+  },
+  {
+    "mystery": "sorrowful",
+    "style": "five",
+    "firstSaturday": true,
+    "sha256": "b985650976f12d51e942d39d81fec2e4f4a5547a7ec8f0b58efb6f8ef0838101"
+  },
+  {
+    "mystery": "sorrowful",
+    "style": "darrah",
+    "firstSaturday": false,
+    "sha256": "17f194cd09a1c5f17e96770e4a781080e2ae96fe3e91614c827aabd4158ff215"
+  },
+  {
+    "mystery": "sorrowful",
+    "style": "darrah",
+    "firstSaturday": true,
+    "sha256": "17f194cd09a1c5f17e96770e4a781080e2ae96fe3e91614c827aabd4158ff215"
+  },
+  {
+    "mystery": "sorrowful",
+    "style": "dominican",
+    "firstSaturday": false,
+    "sha256": "006aff45e6e6568e9de8f80b23428217d9a27869eefd0f77860d363ca81e3d44"
+  },
+  {
+    "mystery": "sorrowful",
+    "style": "dominican",
+    "firstSaturday": true,
+    "sha256": "adc2ce8f5df550dfa93498d4188aa2b0cb6f59832d902d0ddc5c5361955631eb"
+  },
+  {
+    "mystery": "glorious",
+    "style": "one",
+    "firstSaturday": false,
+    "sha256": "ca43755c5b6f1a96f0e92fceed9014449b1ffc98e85edd64afc239f4c2b83912"
+  },
+  {
+    "mystery": "glorious",
+    "style": "one",
+    "firstSaturday": true,
+    "sha256": "ca43755c5b6f1a96f0e92fceed9014449b1ffc98e85edd64afc239f4c2b83912"
+  },
+  {
+    "mystery": "glorious",
+    "style": "five",
+    "firstSaturday": false,
+    "sha256": "6fa284d71857e83fb817a0c0525446d8b897f01ff94e1f3509ebbc0f9e6f8c22"
+  },
+  {
+    "mystery": "glorious",
+    "style": "five",
+    "firstSaturday": true,
+    "sha256": "6fa284d71857e83fb817a0c0525446d8b897f01ff94e1f3509ebbc0f9e6f8c22"
+  },
+  {
+    "mystery": "glorious",
+    "style": "darrah",
+    "firstSaturday": false,
+    "sha256": "01435e1b61340128e3378a430c6b35d64e06a6737b8d33eecd0fe27e05e98995"
+  },
+  {
+    "mystery": "glorious",
+    "style": "darrah",
+    "firstSaturday": true,
+    "sha256": "01435e1b61340128e3378a430c6b35d64e06a6737b8d33eecd0fe27e05e98995"
+  },
+  {
+    "mystery": "glorious",
+    "style": "dominican",
+    "firstSaturday": false,
+    "sha256": "8a1f459f06653f411b8e06137c537df16a25f021cf5122e224bacb3de67e7b16"
+  },
+  {
+    "mystery": "glorious",
+    "style": "dominican",
+    "firstSaturday": true,
+    "sha256": "6063a96bad47c06451495b43ffbd23b5cd1061f361aae772109d6f079a46f16f"
+  },
+  {
+    "mystery": "luminous",
+    "style": "one",
+    "firstSaturday": false,
+    "sha256": "d4a8a7ee2843017a3c282dc69a857ee362ffcee94baf9137be891d1ed3d9fc88"
+  },
+  {
+    "mystery": "luminous",
+    "style": "one",
+    "firstSaturday": true,
+    "sha256": "d4a8a7ee2843017a3c282dc69a857ee362ffcee94baf9137be891d1ed3d9fc88"
+  },
+  {
+    "mystery": "luminous",
+    "style": "five",
+    "firstSaturday": false,
+    "sha256": "e266b82c1318935efe363dac0cc383b9f7116ab59b8190ec9596851f891e139a"
+  },
+  {
+    "mystery": "luminous",
+    "style": "five",
+    "firstSaturday": true,
+    "sha256": "e266b82c1318935efe363dac0cc383b9f7116ab59b8190ec9596851f891e139a"
+  },
+  {
+    "mystery": "luminous",
+    "style": "darrah",
+    "firstSaturday": false,
+    "sha256": "032be024d2ec7c1e6436ffd4bfd59f1b5cf2c70466be6ef1e1f16a04540aa500"
+  },
+  {
+    "mystery": "luminous",
+    "style": "darrah",
+    "firstSaturday": true,
+    "sha256": "032be024d2ec7c1e6436ffd4bfd59f1b5cf2c70466be6ef1e1f16a04540aa500"
+  },
+  {
+    "mystery": "luminous",
+    "style": "dominican",
+    "firstSaturday": false,
+    "sha256": "a962bd2c67334e1e420057d8346c68d2d88237312db2f05e3822d41e822235ee"
+  },
+  {
+    "mystery": "luminous",
+    "style": "dominican",
+    "firstSaturday": true,
+    "sha256": "18911d8821c8f9e4597b7ac0ba6c82e96b8d50abe3b7fe86892780a6eb63589e"
+  }
+]

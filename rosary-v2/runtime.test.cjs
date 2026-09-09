@@ -27,7 +27,7 @@ test('all modes rebuild their current flow and resume without a start event',asy
   const result=await page.evaluate(()=>{
     const events=[];trackUsage=(event)=>events.push(event);
     const starts=[];
-    for(const mystery of Object.keys(MYSTERIES))for(const style of ['one','five','darrah','dominican'])starts.push(()=>{selectMystery(mystery);selectStyle(style);startRosary();});
+    for(const mystery of Object.keys(MYSTERIES))for(const prayerStyle of ['standard','dominican'])for(const style of ['one','five','darrah'])starts.push(()=>{selectMystery(mystery);selectPrayerStyle(prayerStyle);selectStyle(style);startRosary();});
     for(const key of Object.keys(PRAYERS))starts.push(()=>startCommonPrayer(key));
     for(const key of Object.keys(CHAPLETS))starts.push(()=>startChaplet(key));
     for(const key of Object.keys(MYSTERIES))for(const index of ['all','0','4'])starts.push(()=>startMysteryStudy(`${key}:${index}`));
@@ -103,17 +103,18 @@ test('mobile dialog traps focus, restores inert state, and closes on desktop res
   assert.equal(await page.evaluate(()=>!document.querySelector('main').inert),true);
 }));
 
-test('first Saturday variant survives reload; corrected openings and triple audio use existing prayers',async()=>fixture(async page=>{
+test('first Saturday variant survives reload; Standard family opening uses three Hail Marys',async()=>fixture(async page=>{
   assert.equal(await page.evaluate(()=>{
     if(!isFirstSaturday(new Date(2026,7,1))||isFirstSaturday(new Date(2026,7,8))||isFirstSaturday(new Date(2026,7,2)))return false;
     if(buildDominicanBeads('joyful',true).some(bead=>bead.name==='After the Rosary'))return false;
+    selectPrayerStyle('standard');
     for(const style of ['one','five']){
       selectStyle(style);startRosary();
       if(state.beads[0].text!==CHAPLET_PRAYERS.signOfCross.text||state.beads.at(-1).text!==CHAPLET_PRAYERS.signOfCross.text)return false;
     }
     selectStyle('darrah');startRosary();
-    const triple=state.beads.find(bead=>bead.name==='Hail Mary · 3x');
-    if(triple.spokenText!==Array(3).fill(dominicanRolePrayer(DOMINICAN_PRAYERS.hailMary,true).text).join('\n\n'))return false;
+    const opening=state.beads.filter(bead=>bead.group==='opening'&&bead.name==='Hail Mary');
+    if(opening.length!==3||opening.some(bead=>bead.text!==PRAYERS.hailMary.text))return false;
     selectStyle('dominican');startRosary();state.firstSaturday=true;state.startedAt=new Date(2026,7,1).getTime();state.index=4;state.intention='Across reload';persistSession();return true;
   }),true);
   await page.reload();
@@ -125,15 +126,16 @@ test('first Saturday variant survives reload; corrected openings and triple audi
 
 test('legacy one/five sessions resume at the same prayer and migrate only once',async()=>fixture(async page=>{
   assert.equal(await page.evaluate(()=>{
+    selectPrayerStyle('standard');
     for(const style of ['one','five'])for(const version of [undefined,1]){
       selectStyle(style);startRosary();state.index=state.beads.findIndex(bead=>bead.name==="Apostles' Creed");persistSession();
       const legacy=JSON.parse(localStorage.getItem('rosary-v2-session'));
-      if(legacy.version!==2)return false;
+      if(legacy.version!==3)return false;
       legacy.index--;if(version===undefined)delete legacy.version;else legacy.version=version;
       localStorage.setItem('rosary-v2-session',JSON.stringify(legacy));showSetup();
       if(!$('resume-label').textContent.endsWith('Prayer 2'))return false;
       resumeSavedSession();
-      if(state.beads[state.index].name!=="Apostles' Creed"||JSON.parse(localStorage.getItem('rosary-v2-session')).version!==2)return false;
+      if(state.beads[state.index].name!=="Apostles' Creed"||JSON.parse(localStorage.getItem('rosary-v2-session')).version!==3)return false;
       showSetup();resumeSavedSession();if(state.index!==1)return false;
     }
     const starts=[()=>{selectStyle('darrah');startRosary();},()=>{selectStyle('dominican');startRosary();},()=>{selectStyle('one');startCommonPrayer('apostlesCreed');},()=>{selectStyle('five');startChaplet('divineMercy');},()=>startMysteryStudy('joyful:all')];
