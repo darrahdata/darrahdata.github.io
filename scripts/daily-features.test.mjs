@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import vm from 'node:vm';
+import * as challengeCore from '../assets/home/challenge-core.mjs';
 import { spawnSync } from 'node:child_process';
 import { localDateKey, dailyIndex, dailyItem, watchLocalDay } from '../assets/daily-cycle.mjs';
 import { chooseChallenge, freshAttempt, restoreAttempt, answerQuestion, advanceQuestion, scoreAttempt, loadAttempt, saveAttempt, renderRound } from '../assets/home/challenge-core.mjs';
@@ -37,11 +39,11 @@ test('midnight and resume recalculate the date, without duplicate changes or lea
  stop();assert.equal(events.size,0);now=day(6);callback();assert.equal(changes.length,4);
 });
 
-test('12 daily challenges have 36 valid questions and live app paths',()=>{
- assert.equal(sets.length,12);assert.equal(new Set(sets.map(s=>s.id)).size,12);
- const ids=new Set();for(const set of sets){assert.equal(set.questions.length,3);for(const q of set.questions){assert.ok(!ids.has(q.id));ids.add(q.id);assert.equal(q.options.length,3);assert.equal(new Set(q.options).size,3);assert.ok(Number.isInteger(q.answer)&&q.answer>=0&&q.answer<3);assert.ok(q.explanation&&q.prompt);const u=new URL(q.learnUrl);assert.equal(u.origin,'https://darrahdata.github.io');assert.ok(fs.existsSync(new URL('..'+u.pathname+'index.html',import.meta.url)));}}
- assert.equal(ids.size,36);assert.equal(new Set(sets.map((_,i)=>chooseChallenge(sets,day(i)).item.id)).size,12);
- assert.equal(chooseChallenge(sets,day(12)).item.id,sets[0].id);
+test('30 mixed daily challenges contain 90 valid questions and lesson paths',()=>{
+ assert.equal(sets.length,30);assert.equal(new Set(sets.map(s=>s.id)).size,30);
+ const ids=new Set();for(const set of sets){assert.equal(set.questions.length,3);assert.deepEqual(set.questions.map(q=>q.appId).sort(),['ave-maria','baby-playbook','tiny-signs']);for(const q of set.questions){assert.ok(!ids.has(q.id));ids.add(q.id);assert.equal(q.options.length,3);assert.equal(new Set(q.options).size,3);assert.ok(Number.isInteger(q.answer)&&q.answer>=0&&q.answer<3);assert.ok(q.explanation&&q.prompt);const u=new URL(q.learnUrl);assert.equal(u.origin,'https://darrahdata.github.io');assert.ok(fs.existsSync(new URL('..'+u.pathname+'index.html',import.meta.url)));}}
+ assert.equal(ids.size,90);assert.equal(new Set(sets.map((_,i)=>chooseChallenge(sets,day(i)).item.id)).size,30);
+ assert.equal(chooseChallenge(sets,day(30)).item.id,sets[0].id);
 });
 
 test('answers lock in once, steps cannot be skipped, and completion scores correctly',()=>{
@@ -70,4 +72,61 @@ test('question rendering escapes content and the challenge exists only on the co
  const html=renderRound(freshAttempt(daily),daily.item);assert.ok(!html.includes('<img'));assert.match(html,/&lt;img/);
  const home=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');assert.match(home,/id="daily-challenge"/);
  for(const app of ['tiny-signs/dev.html','baby-playbook/index.html','rosary-v2/index.html','books/index.html'])assert.ok(!fs.readFileSync(new URL('../'+app,import.meta.url),'utf8').includes('daily-challenge.mjs'));
+});
+
+test('mixed rounds rotate the starting app and retain a full no-repeat question cycle',()=>{
+ assert.deepEqual(sets.slice(0,3).map(set=>set.questions[0].appId),['ave-maria','tiny-signs','baby-playbook']);
+ const kinds=new Set(sets.flatMap(set=>set.questions.map(q=>q.kind)));
+ for(const kind of ['Name that prayer','Complete the prayer','Name that sign','Mystery trivia','What would you do?'])assert.ok(kinds.has(kind),kind);
+ const links=challengeCore.renderAppLinks(sets[0],'ave-maria');
+ assert.equal((links.match(/<a /g)||[]).length,3);assert.equal((links.match(/aria-current=/g)||[]).length,1);
+});
+
+test('prayer excerpts and video questions render accessible clues with appropriate credits',()=>{
+ const questions=sets.flatMap(set=>set.questions),videos=questions.filter(q=>q.media);
+ const media=JSON.parse(fs.readFileSync(new URL('../tiny-signs/src/data/media.json',import.meta.url)));
+ assert.equal(videos.length,10);
+ for(const q of questions){
+  assert.ok(q.appName&&q.appUrl&&q.kind);
+  if(['Name that prayer','Complete the prayer'].includes(q.kind))assert.ok(q.clue.split(/\s+/).length<=25);
+  if(!q.media)continue;
+  const signId=new URL(q.learnUrl).hash.split('/').at(-1);
+  assert.equal(q.media.src,'/tiny-signs/'+media[signId].src);
+  assert.equal(q.media.poster,'/tiny-signs/'+media[signId].poster);
+  assert.equal(q.media.sourceUrl,media[signId].sourceUrl);
+  for(const path of [q.media.src,q.media.poster])assert.ok(fs.existsSync(new URL('..'+path,import.meta.url)),path);
+  const set={...sets[0],questions:[q,...sets[0].questions.slice(1)]};
+  const daily={item:set,dateKey:'2026-09-08'},attempt=freshAttempt(daily),html=renderRound(attempt,set);
+  assert.match(html,/aria-label="Mystery sign demonstration"/);assert.match(html,/Half speed/);assert.match(html,/Read a movement clue/);assert.match(html,/CC BY-NC-SA 4.0/);
+  assert.ok(!html.includes(q.media.sourceUrl),'do not link the named source until the answer is revealed');assert.ok(!html.includes('autoplay'));
+  const answered=answerQuestion(attempt,set,q.answer);assert.ok(renderRound(answered,set).includes(q.media.sourceUrl));
+ }
+ const q=questions.find(q=>q.kind==='Name that prayer'),set={...sets[0],questions:[q,...sets[0].questions.slice(1)]};
+ assert.match(renderRound(freshAttempt({item:set,dateKey:'2026-09-08'}),set),/<blockquote class="challenge-quote">/);
+});
+
+async function challengeRuntime({failLoad=false,stored=null}={}){
+ const nodes=new Map(),events={},saves=[];let playCount=0,pauseCount=0;
+ const video={currentTime:8,playbackRate:1,pause(){pauseCount++;},play(){playCount++;return Promise.resolve();}};
+ const node=id=>{if(!nodes.has(id))nodes.set(id,{innerHTML:'',textContent:'',hidden:true,setAttribute(){},focus(){},replaceChildren(value){this.textContent=value;},addEventListener:(type,fn)=>events[id+':'+type]=fn});return nodes.get(id);};
+ const root=node('daily-challenge');root.querySelectorAll=selector=>selector==='video'&&node('challenge-round').innerHTML.includes('<video')?[video]:[];
+ root.querySelector=selector=>selector==='video'?root.querySelectorAll('video')[0]||null:selector==='.challenge-media-error'?node('media-error'):null;
+ const sandbox={...challengeCore,document:{getElementById:node},localStorage:{getItem:()=>stored,setItem:(key,value)=>{stored=value;saves.push(value);}},fetch:async()=>({ok:!failLoad,json:async()=>structuredClone(sets)}),URL,Date,Number,Boolean,Array,console,watchLocalDay:callback=>callback(day(1))};
+ const script=fs.readFileSync(new URL('../assets/home/daily-challenge.mjs',import.meta.url),'utf8').replace(/^import .*;\n/gm,'').replace('import.meta.url',JSON.stringify('https://darrahdata.github.io/assets/home/daily-challenge.mjs')).replace(/start\(\);\s*$/,'globalThis.started = start();');
+ vm.createContext(sandbox);vm.runInContext(script,sandbox);await sandbox.started;
+ const click=(selector,data={})=>events['daily-challenge:click']({target:{closest:key=>key===selector?{dataset:data}:null}});
+ return {nodes,events,video,saves,click,get plays(){return playCount;},get pauses(){return pauseCount;}};
+}
+
+test('live event handlers wire replay, half speed, media fallback, answer feedback and all three apps',async()=>{
+ const app=await challengeRuntime();assert.match(app.nodes.get('challenge-round').innerHTML,/<video/);
+ app.click('[data-replay]');assert.equal(app.video.currentTime,0);assert.equal(app.plays,1);
+ app.events['daily-challenge:change']({target:{matches:selector=>selector==='[data-speed]',value:'0.5'}});assert.equal(app.video.playbackRate,0.5);
+ app.events['daily-challenge:error']({target:{tagName:'VIDEO'}});assert.equal(app.nodes.get('media-error').hidden,false);
+ const today=chooseChallenge(sets,day(1)).item;
+ for(const q of today.questions){app.click('[data-answer]',{answer:String(q.answer)});assert.ok(app.nodes.get('challenge-round').innerHTML.includes('Find it in '+q.appName));app.click('[data-next]');}
+ assert.ok(app.pauses>0,'outgoing video is paused');assert.match(app.nodes.get('challenge-round').innerHTML,/3 out of 3 correct/);
+ for(const name of ['Ave Maria','Tiny Signs','Baby Playbook'])assert.ok(app.nodes.get('challenge-round').innerHTML.includes(name));
+ const restored=await challengeRuntime({stored:app.saves.at(-1)});assert.match(restored.nodes.get('challenge-round').innerHTML,/3 out of 3 correct/);
+ const failed=await challengeRuntime({failLoad:true});assert.match(failed.nodes.get('challenge-round').innerHTML,/couldn’t load/);assert.ok(failed.events['challenge-retry:click']);
 });

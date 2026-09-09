@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/home/home.css">
-  <link rel="stylesheet" href="assets/home/daily-challenge.css">
-  <script type="module" src="assets/home/daily-challenge.mjs"></script>
+  <link rel="stylesheet" href="assets/home/daily-challenge.css?v=2">
+  <script type="module" src="assets/home/daily-challenge.mjs?v=2"></script>
 </head>
 <body>
   <a class="skip-link" href="#apps">Skip to apps</a>
@@ -36,8 +36,8 @@
           <div class="challenge-topline"><span aria-hidden="true">✦</span><time id="challenge-date">Today</time></div>
           <h2 id="challenge-heading">Daily Challenge</h2>
           <p>A little curiosity, every day.</p>
-          <a id="challenge-app" href="#family">Prayer, signs &amp; family life</a>
-          <p class="challenge-topic" id="challenge-topic">Three questions from one of your apps.</p>
+          <div class="challenge-apps" id="challenge-apps" aria-label="Apps in today’s challenge"><a class="challenge-app-tag" href="rosary-v2/">Ave Maria</a><a class="challenge-app-tag" href="tiny-signs/">Tiny Signs</a><a class="challenge-app-tag" href="baby-playbook/">Baby Playbook</a></div>
+          <p class="challenge-topic" id="challenge-topic">One prayer, one sign, one family discovery.</p>
           <div class="challenge-progress" id="challenge-progress" role="img" aria-label="Three questions to explore"><span></span><span></span><span></span></div>
           <p class="challenge-status" id="challenge-status">Three questions · about a minute</p>
           <p class="challenge-save-note" id="challenge-save-note">Changes at local midnight. Progress stays in this browser.</p>

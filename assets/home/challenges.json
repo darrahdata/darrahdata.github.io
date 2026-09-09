@@ -1,541 +1,1802 @@
 [
   {
-    "id": "ave-rosary-basics",
-    "appId": "ave-maria",
-    "appName": "Ave Maria",
-    "appUrl": "https://darrahdata.github.io/rosary-v2/",
-    "title": "The Rosary, step by step",
+    "id": "mixed-discovery-01",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
     "questions": [
       {
-        "id": "ave-decade",
-        "prompt": "How many Hail Marys are in a traditional Rosary decade?",
+        "id": "ave-name-our-father",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Name that prayer",
+        "prompt": "Which prayer asks for daily bread?",
         "options": [
-          "Ten",
-          "Five",
-          "Twelve"
+          "Our Father",
+          "Hail Mary",
+          "Glory Be"
         ],
         "answer": 0,
-        "explanation": "A traditional decade contains ten Hail Marys while you meditate on one mystery. Ave Maria also offers shorter family forms.",
-        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+        "explanation": "These words come from the Our Father, which also asks for forgiveness and deliverance from evil.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "Give us this day our daily bread;"
       },
       {
-        "id": "ave-mystery",
-        "prompt": "In the Rosary, what is a mystery?",
+        "id": "tiny-movement-diaper",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Spot the movement",
+        "prompt": "At both sides of the lower waist, the index and middle fingers tap against each thumb twice. Which sign fits?",
         "options": [
-          "A prayer kept secret from others",
-          "An event in the life of Jesus or Mary to contemplate",
-          "The number of beads remaining"
+          "Bath",
+          "Diaper",
+          "Shoes"
         ],
         "answer": 1,
-        "explanation": "A mystery gives your reflection a focus, such as the Annunciation or the Resurrection. It is not a riddle to solve.",
-        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+        "explanation": "Diaper uses matching modified-3 handshapes at the lower waist. The paired taps resemble fastening the tabs.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/diaper"
       },
       {
-        "id": "ave-solo",
-        "prompt": "When praying alone, how should you use the app's Leader and Response parts?",
+        "id": "baby-bible-moment",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "What would you do?",
+        "prompt": "Your baby loses interest halfway through a short Bible story. What next?",
+        "clue": "He was enjoying your voice but now turns away and wants a change.",
         "options": [
-          "Read only Leader",
-          "Read only Response",
-          "You may read both parts"
+          "Keep reading the remaining pages so the prayer routine has a clear finish.",
+          "Switch immediately to a more animated story to regain his attention.",
+          "Finish the small moment and try another story during a calmer awake time."
         ],
         "answer": 2,
-        "explanation": "Leader and Response divide the words for a group. When you pray alone, you may say both.",
-        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
-      }
-    ]
-  },
-  {
-    "id": "tiny-starters",
-    "appId": "tiny-signs",
-    "appName": "Tiny Signs",
-    "appUrl": "https://darrahdata.github.io/tiny-signs/",
-    "title": "Three first signs",
-    "questions": [
-      {
-        "id": "tiny-milk-movement",
-        "prompt": "In the Milk lesson, what moves while you close and relax your hand?",
-        "options": [
-          "Your whole forearm pumps up and down",
-          "The hand closes while the forearm stays still",
-          "Both arms swing outward"
-        ],
-        "answer": 1,
-        "explanation": "Start with a curved hand, close it into a fist, then relax. Keep the movement in the hand.",
-        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/milk"
-      },
-      {
-        "id": "tiny-more-contact",
-        "prompt": "For the More sign taught in Tiny Signs, what meets?",
-        "options": [
-          "The two gathered groups of fingertips",
-          "The palms in a clap",
-          "The backs of the hands"
-        ],
-        "answer": 0,
-        "explanation": "Gather each hand's fingertips to its thumb. Bring those two fingertip groups together in front of your chest.",
-        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/more"
-      },
-      {
-        "id": "tiny-all-done",
-        "prompt": "In the All done lesson, how do your open palms turn?",
-        "options": [
-          "From forward to facing each other",
-          "From up to down near your waist",
-          "From facing you to facing forward"
-        ],
-        "answer": 2,
-        "explanation": "Keep both hands open at chest height and turn the wrists outward together. Your arms do not need to wave.",
-        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/all-done"
-      }
-    ]
-  },
-  {
-    "id": "baby-first-faith",
-    "appId": "baby-playbook",
-    "appName": "Baby Playbook",
-    "appUrl": "https://darrahdata.github.io/baby-playbook/",
-    "title": "Beginning Catholic family life",
-    "questions": [
-      {
-        "id": "baby-baptism-parish",
-        "prompt": "Before finalizing godparent arrangements, who should confirm sponsor eligibility and required forms?",
-        "options": [
-          "The person taking the family photos",
-          "The app's checklist automatically",
-          "Your parish"
-        ],
-        "answer": 2,
-        "explanation": "The Faith plan asks you to confirm preparation and godparent eligibility with your parish. Save its specific instructions.",
-        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
-      },
-      {
-        "id": "baby-daily-blessing",
-        "prompt": "Who can offer the simple daily child blessing described in the Playbook?",
-        "options": [
-          "A parent",
-          "Only a priest at church",
-          "Only the godparents on the Baptism anniversary"
-        ],
-        "answer": 0,
-        "explanation": "The USCCB blessing is a family practice a parent can offer, including before bed: 'May God bless you.'",
-        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
-      },
-      {
-        "id": "baby-parent-example",
-        "prompt": "Which action most directly models forgiveness for your child?",
-        "options": [
-          "Asking your child to recite a rule about forgiveness",
-          "Acknowledging your own mistake, apologizing, and making it right",
-          "Waiting until your child can explain forgiveness"
-        ],
-        "answer": 1,
-        "explanation": "The Playbook starts with the adults' example. Your child can see what an apology and repair look like in ordinary life.",
+        "explanation": "An infant’s Bible moment can be short and responsive. You are making Scripture familiar; there is no lesson he must finish.",
         "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
       }
     ]
   },
   {
-    "id": "ave-joyful",
-    "appId": "ave-maria",
-    "appName": "Ave Maria",
-    "appUrl": "https://darrahdata.github.io/rosary-v2/",
-    "title": "The Joyful Mysteries",
+    "id": "mixed-discovery-02",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
     "questions": [
       {
-        "id": "ave-annunciation",
-        "prompt": "In the Annunciation reflection, who brings the announcement to Mary?",
+        "id": "tiny-video-milk",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Name that sign",
+        "prompt": "Which sign is shown in this clip?",
+        "clue": "Watch the hand open and close.",
         "options": [
-          "The Angel Gabriel",
-          "Elizabeth",
-          "Saint Joseph"
+          "Milk",
+          "Drink",
+          "More"
         ],
         "answer": 0,
-        "explanation": "The first Joyful Mystery recalls Gabriel announcing that Mary would become the Mother of God.",
+        "explanation": "This is Milk: the curved hand closes into a fist and relaxes again. The movement comes from the hand, with the forearm staying quiet.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/milk",
+        "media": {
+          "src": "/tiny-signs/media/milk.mp4",
+          "poster": "/tiny-signs/media/milk.jpg",
+          "credit": "ASL Signbank (2026) · CC BY-NC-SA 4.0",
+          "sourceUrl": "https://aslsignbank.com/dictionary/gloss/506.html"
+        }
+      },
+      {
+        "id": "baby-small-bedtime-blessing",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Build a habit",
+        "prompt": "What makes a bedtime blessing easier to keep?",
+        "clue": "You want prayer to remain part of family life during busy early weeks.",
+        "options": [
+          "Reserve the blessing for evenings when both parents finish care together.",
+          "Choose a different prayer each night so the routine stays interesting.",
+          "Use a short blessing that either parent can offer during bedtime care."
+        ],
+        "answer": 2,
+        "explanation": "A small, familiar blessing fits ordinary care. Parents can offer it together or take turns.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      },
+      {
+        "id": "ave-complete-our-father",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Complete the prayer",
+        "prompt": "In Ave Maria's Our Father, which word comes next?",
+        "options": [
+          "the Temple",
+          "heaven",
+          "Jerusalem"
+        ],
+        "answer": 1,
+        "explanation": "The line asks for God's will to be done on earth as it is in heaven.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "Thy kingdom come; Thy will be done on earth as it is in"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-03",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "baby-godparents-journey",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Family trivia",
+        "prompt": "Beyond the Baptism day, what is a godparent’s continuing role?",
+        "options": [
+          "Help the child grow in the Catholic faith through lasting support.",
+          "Take primary responsibility for teaching faith in place of the parents.",
+          "Organize the child’s Baptism anniversary celebrations each year."
+        ],
+        "answer": 0,
+        "explanation": "Think about prayer, presence, and support over time when choosing godparents. Confirm sponsor eligibility with your parish.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      },
+      {
+        "id": "ave-mystery-annunciation",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "Which mystery recalls Gabriel announcing that Mary would become the Mother of God?",
+        "options": [
+          "The Annunciation",
+          "The Presentation",
+          "The Visitation"
+        ],
+        "answer": 0,
+        "explanation": "The Annunciation is the first Joyful Mystery. Ave Maria's reflection highlights Mary's humility.",
         "learnUrl": "https://darrahdata.github.io/rosary-v2/"
       },
       {
-        "id": "ave-visitation",
-        "prompt": "Whom does Mary visit in the second Joyful Mystery?",
+        "id": "tiny-moment-hurt",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "In the moment",
+        "prompt": "Your child points to a sore knee after a tumble. As you comfort them, which sign can name the discomfort?",
+        "options": [
+          "Cold",
+          "More",
+          "Hurt"
+        ],
+        "answer": 2,
+        "explanation": "Hurt uses two index fingertips moving toward each other with small motions near the relevant area. Continue responding to the child’s cues while you model it.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/hurt"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-04",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "ave-faith-thursday",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Faith trivia",
+        "prompt": "Which mysteries does Ave Maria suggest for Thursday?",
+        "options": [
+          "The Luminous Mysteries",
+          "The Joyful Mysteries",
+          "The Sorrowful Mysteries"
+        ],
+        "answer": 0,
+        "explanation": "The app pairs Thursday with the Luminous Mysteries. You can also choose another set for your prayer.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      },
+      {
+        "id": "tiny-movement-help",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Spot the movement",
+        "prompt": "A thumb-up fist rests on an open, upward-facing palm. Both hands lift together without separating. Which sign is it?",
+        "options": [
+          "Up",
+          "More",
+          "Help"
+        ],
+        "answer": 2,
+        "explanation": "Help keeps the fist and supporting palm connected as they rise. Lifting only the fist leaves out the coordinated two-hand movement.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/help"
+      },
+      {
+        "id": "baby-baptism-first-call",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Spot the better plan",
+        "prompt": "You hope to arrange your baby’s Baptism. What comes first?",
+        "clue": "Relatives are asking about dates, but you have not spoken with the parish.",
+        "options": [
+          "Choose a date with relatives, then ask the parish to reserve it.",
+          "Ask the parish about preparation, timing, and required documents.",
+          "Ask another family what they needed and begin with that checklist."
+        ],
+        "answer": 1,
+        "explanation": "Start with your own parish’s requirements before fixing the family arrangements. Preparation and scheduling can vary.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-05",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "tiny-video-mom",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Name that sign",
+        "prompt": "Watch the clip. Which family sign do you recognize?",
+        "clue": "Notice where the thumb meets the face.",
+        "options": [
+          "Dad",
+          "Mom",
+          "Grandma"
+        ],
+        "answer": 1,
+        "explanation": "This is Mom: the thumb of an open hand touches or comes close to the chin. Dad uses a similar handshape at the forehead.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/mom",
+        "media": {
+          "src": "/tiny-signs/media/mom.mp4",
+          "poster": "/tiny-signs/media/mom.jpg",
+          "credit": "ASL Signbank (2026) · CC BY-NC-SA 4.0",
+          "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1590.html"
+        }
+      },
+      {
+        "id": "baby-mass-care-break",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "What would you do?",
+        "prompt": "Your baby needs feeding and comfort during Mass. What is the practical plan?",
+        "options": [
+          "Meet the need, use a settling space if helpful, and rejoin worship when you can.",
+          "Let the parent holding him decide in the moment while the other stays seated.",
+          "Treat the care break as the end of this week’s family visit to church."
+        ],
+        "answer": 0,
+        "explanation": "Plan for real care needs as part of going to Mass. Your baby’s quietness is not a measure of faith.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      },
+      {
+        "id": "ave-name-hail-mary",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Name that prayer",
+        "prompt": "Which prayer contains this request for Mary's intercession?",
+        "options": [
+          "Act of Contrition",
+          "Hail Mary",
+          "Memorare"
+        ],
+        "answer": 1,
+        "explanation": "This line belongs to the Hail Mary. The request continues with prayer for us now and at the hour of our death.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "Holy Mary, Mother of God, pray for us sinners,"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-06",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "baby-grace-at-the-table",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Build a habit",
+        "prompt": "How can your baby join the family’s prayer before meals?",
+        "options": [
+          "Begin participating once able to say the whole prayer with the family.",
+          "Be present while adults pray, with a simple invitation to join as skills grow.",
+          "Start with a separate prayer lesson before joining grace at the table."
+        ],
+        "answer": 1,
+        "explanation": "Adults can model a brief prayer now. Later, invite an “Amen” or something to thank God for.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      },
+      {
+        "id": "ave-complete-hail-mary",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Complete the prayer",
+        "prompt": "Complete this line from the Hail Mary.",
+        "options": [
+          "Joseph",
+          "John",
+          "Jesus"
+        ],
+        "answer": 2,
+        "explanation": "The Hail Mary names Jesus as the blessed fruit of Mary's womb.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "Blessed art thou among women, and blessed is the fruit of thy womb,"
+      },
+      {
+        "id": "tiny-moment-thank-you",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "In the moment",
+        "prompt": "Your child hands you a toy. Which sign could you model to express gratitude?",
+        "options": [
+          "Thank you",
+          "Please",
+          "Help"
+        ],
+        "answer": 0,
+        "explanation": "Thank you moves a straight, fingers-together hand forward from the chin toward the person. Pair it with a warm response when your child shares something.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/thank-you"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-07",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "ave-mystery-visitation",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "In the Visitation, whom does Mary visit?",
         "options": [
           "Martha",
           "Elizabeth",
           "Mary Magdalene"
         ],
         "answer": 1,
-        "explanation": "The Visitation focuses on Mary visiting Elizabeth. The app connects this mystery with charity toward your neighbor.",
+        "explanation": "The second Joyful Mystery recalls Mary's visit to Elizabeth and her loving service.",
         "learnUrl": "https://darrahdata.github.io/rosary-v2/"
       },
       {
-        "id": "ave-nativity",
-        "prompt": "Which Joyful Mystery reflects on Jesus' birth at Bethlehem?",
+        "id": "tiny-movement-water",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Spot the movement",
+        "prompt": "The index, middle, and ring fingers are extended; the thumb holds the little finger down. The index-finger side taps near the chin. Which sign fits?",
         "options": [
-          "The Presentation",
-          "The Finding in the Temple",
-          "The Nativity"
-        ],
-        "answer": 2,
-        "explanation": "The Nativity is the third Joyful Mystery. Its reflection centers on the Infant Jesus in the manger.",
-        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
-      }
-    ]
-  },
-  {
-    "id": "tiny-people-help",
-    "appId": "tiny-signs",
-    "appName": "Tiny Signs",
-    "appUrl": "https://darrahdata.github.io/tiny-signs/",
-    "title": "People and helping",
-    "questions": [
-      {
-        "id": "tiny-mom-location",
-        "prompt": "For Mom, where does the thumb of your open hand touch or come close?",
-        "options": [
-          "Your forehead",
-          "Your chin",
-          "Your chest"
-        ],
-        "answer": 1,
-        "explanation": "In the Mom lesson, the open hand's thumb comes to the chin. Dad uses the forehead.",
-        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/mom"
-      },
-      {
-        "id": "tiny-dad-location",
-        "prompt": "Which handshape and location match Dad in Tiny Signs?",
-        "options": [
-          "An open hand with the thumb near the forehead",
-          "A closed fist beside the cheek",
-          "An open hand with the thumb near the chin"
+          "Water",
+          "Drink",
+          "Milk"
         ],
         "answer": 0,
-        "explanation": "Spread the fingers comfortably and bring your thumb to your forehead. Use a small, clear contact.",
-        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/dad"
-      },
-      {
-        "id": "tiny-help-movement",
-        "prompt": "For Help, a thumb-up fist rests on your other palm. What happens next?",
-        "options": [
-          "The fist lifts away from the palm",
-          "The supporting hand turns palm-down",
-          "Both connected hands lift together"
-        ],
-        "answer": 2,
-        "explanation": "The supporting palm faces up. Keep the hands touching as you lift them together.",
-        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/help"
-      }
-    ]
-  },
-  {
-    "id": "baby-handoff",
-    "appId": "baby-playbook",
-    "appName": "Baby Playbook",
-    "appUrl": "https://darrahdata.github.io/baby-playbook/",
-    "title": "Sharing the work",
-    "questions": [
-      {
-        "id": "baby-handoff-share",
-        "prompt": "After saving a handoff, how do you get that snapshot to the other parent?",
-        "options": [
-          "It automatically syncs to their phone",
-          "Refresh the page on both phones",
-          "Use Copy saved handoff, then share the copied text"
-        ],
-        "answer": 2,
-        "explanation": "The current Playbook saves details in this browser. Copying provides text you can send or otherwise share yourself.",
-        "learnUrl": "https://darrahdata.github.io/baby-playbook/#handoff"
-      },
-      {
-        "id": "baby-handoff-detail",
-        "prompt": "Which entry makes the next parent's handoff most useful?",
-        "options": [
-          "The actual last event time and a brief relevant note",
-          "Only the time you hope tomorrow's event will happen",
-          "A general daily average with no recent details"
-        ],
-        "answer": 0,
-        "explanation": "The handoff has separate last-feed, last-diaper, and last-sleep times, plus notes about what helped and what comes next.",
-        "learnUrl": "https://darrahdata.github.io/baby-playbook/#handoff"
-      },
-      {
-        "id": "baby-whole-job",
-        "prompt": "What does the Playbook mean by 'Own the whole job'?",
-        "options": [
-          "Wait for the other parent to assign every small step",
-          "Agree on practical care, settling, and who gets the next rest block",
-          "Take responsibility only for recording the handoff"
-        ],
-        "answer": 1,
-        "explanation": "A useful shift agreement includes the practical work and protecting rest. The app also reminds you to support the recovering parent.",
-        "learnUrl": "https://darrahdata.github.io/baby-playbook/#handoff"
-      }
-    ]
-  },
-  {
-    "id": "ave-luminous",
-    "appId": "ave-maria",
-    "appName": "Ave Maria",
-    "appUrl": "https://darrahdata.github.io/rosary-v2/",
-    "title": "The Luminous Mysteries",
-    "questions": [
-      {
-        "id": "ave-jordan",
-        "prompt": "Which event opens the Luminous Mysteries?",
-        "options": [
-          "Jesus' Baptism in the Jordan",
-          "Jesus' birth in Bethlehem",
-          "The Resurrection"
-        ],
-        "answer": 0,
-        "explanation": "The first Luminous Mystery is the Baptism in the Jordan, followed by the Wedding at Cana.",
-        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
-      },
-      {
-        "id": "ave-cana",
-        "prompt": "Which Luminous Mystery includes Mary's instruction to do whatever Jesus tells the servants?",
-        "options": [
-          "The Transfiguration",
-          "The Wedding at Cana",
-          "The Proclamation of the Kingdom"
-        ],
-        "answer": 1,
-        "explanation": "The Cana reflection connects Mary's words to trust in her intercession and attention to Jesus.",
-        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
-      },
-      {
-        "id": "ave-eucharist",
-        "prompt": "Which event is the fifth Luminous Mystery?",
-        "options": [
-          "The Finding in the Temple",
-          "The Ascension",
-          "The Institution of the Eucharist"
-        ],
-        "answer": 2,
-        "explanation": "This final Luminous Mystery reflects on Jesus giving himself in the Eucharist.",
-        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
-      }
-    ]
-  },
-  {
-    "id": "tiny-routines",
-    "appId": "tiny-signs",
-    "appName": "Tiny Signs",
-    "appUrl": "https://darrahdata.github.io/tiny-signs/",
-    "title": "Signs for daily routines",
-    "questions": [
-      {
-        "id": "tiny-sleep-shape",
-        "prompt": "In the Sleep lesson, how does the hand change as it lowers past the face?",
-        "options": [
-          "It stays in a tight fist",
-          "The open fingers gather to the thumb",
-          "It changes from a fist to two pointing fingers"
-        ],
-        "answer": 1,
-        "explanation": "Begin with an open hand facing you, then lower it while gathering the fingertips to the thumb. Finish with a flattened O, not a tight fist.",
-        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/sleep"
-      },
-      {
-        "id": "tiny-diaper-place",
-        "prompt": "Where are both hands placed for the Diaper sign taught in the app?",
-        "options": [
-          "At the two sides of your lower waist",
-          "Above the forehead",
-          "At the center of the upper chest"
-        ],
-        "answer": 0,
-        "explanation": "Both hands tap the index and middle fingers to their thumbs near the sides of the waist, like fastening diaper tabs.",
-        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/diaper"
-      },
-      {
-        "id": "tiny-eat-destination",
-        "prompt": "For Eat, where do the gathered fingertips move?",
-        "options": [
-          "To the forehead",
-          "To the shoulder",
-          "To the mouth"
-        ],
-        "answer": 2,
-        "explanation": "Gather your fingertips and thumb together, then bring them to the mouth in one small movement.",
-        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/eat"
-      }
-    ]
-  },
-  {
-    "id": "baby-character",
-    "appId": "baby-playbook",
-    "appName": "Baby Playbook",
-    "appUrl": "https://darrahdata.github.io/baby-playbook/",
-    "title": "Character through practice",
-    "questions": [
-      {
-        "id": "baby-toddler-boundary",
-        "prompt": "For a toddler learning a limit, which response matches the Playbook?",
-        "options": [
-          "Repeat a long explanation until they agree",
-          "Change the limit whenever they protest",
-          "Use a few calm words, follow through, and show what they can do"
-        ],
-        "answer": 2,
-        "explanation": "The Playbook recommends clear, consistent limits and an example of the acceptable action. Toddlers are still learning self-control.",
-        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
-      },
-      {
-        "id": "baby-small-job",
-        "prompt": "Which is the Playbook's example of a manageable toddler helping job?",
-        "options": [
-          "Put one toy in a basket together",
-          "Sort and organize every toy independently",
-          "Take over the whole cleanup without help"
-        ],
-        "answer": 0,
-        "explanation": "Start with a small, safe contribution. Work alongside your child and let them do the part they can.",
-        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
-      },
-      {
-        "id": "baby-effort",
-        "prompt": "Your toddler tries a manageable block-building challenge. Which response best matches 'try again' practice?",
-        "options": [
-          "Immediately rebuild it for them every time",
-          "Notice the effort and offer enough help to continue",
-          "Require them to finish before taking any break"
-        ],
-        "answer": 1,
-        "explanation": "The aim is practice with support: allow an attempt, give a useful hint, and recognize effort. A break is allowed when frustration grows.",
-        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
-      }
-    ]
-  },
-  {
-    "id": "ave-everyday-prayers",
-    "appId": "ave-maria",
-    "appName": "Ave Maria",
-    "appUrl": "https://darrahdata.github.io/rosary-v2/",
-    "title": "Understanding familiar prayers",
-    "questions": [
-      {
-        "id": "ave-hail-mary-request",
-        "prompt": "In the Hail Mary, what do we ask Mary to do for us?",
-        "options": [
-          "Pray for us sinners",
-          "Give us our daily bread",
-          "Send forth the Holy Spirit"
-        ],
-        "answer": 0,
-        "explanation": "The prayer asks the Mother of God to pray for us now and at the hour of our death.",
-        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
-      },
-      {
-        "id": "ave-our-father-forgive",
-        "prompt": "In the Our Father, our request for forgiveness is paired with what action toward others?",
-        "options": [
-          "Remembering the day's mystery",
-          "Forgiving those who trespass against us",
-          "Choosing the next Rosary decade"
-        ],
-        "answer": 1,
-        "explanation": "The prayer connects asking for God's forgiveness with forgiving others.",
-        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
-      },
-      {
-        "id": "ave-meal-prayer",
-        "prompt": "Which common prayer in Ave Maria begins by asking God to bless us and the gifts we are about to receive?",
-        "options": [
-          "The Memorare",
-          "The Guardian Angel Prayer",
-          "Grace Before Meals"
-        ],
-        "answer": 2,
-        "explanation": "Grace Before Meals gives thanks for God's gifts before eating. You can find it in the app's Common prayers list.",
-        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
-      }
-    ]
-  },
-  {
-    "id": "tiny-everyday-words",
-    "appId": "tiny-signs",
-    "appName": "Tiny Signs",
-    "appUrl": "https://darrahdata.github.io/tiny-signs/",
-    "title": "Books and mealtime words",
-    "questions": [
-      {
-        "id": "tiny-water-fingers",
-        "prompt": "Which fingers are extended for the Water handshape taught in Tiny Signs?",
-        "options": [
-          "Thumb and little finger",
-          "Index, middle, and ring fingers",
-          "Index finger only"
-        ],
-        "answer": 1,
-        "explanation": "Extend the index, middle, and ring fingers while the thumb holds the little finger down. The hand taps near the chin.",
+        "explanation": "Water uses this three-finger handshape beside the chin. The location and handshape distinguish it from the cup-shaped hand used for Drink.",
         "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/water"
       },
       {
-        "id": "tiny-book-edges",
-        "prompt": "When opening your hands for Book, which edges stay together?",
+        "id": "baby-joseph-small-service",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Family trivia",
+        "prompt": "Which family action connects naturally with Saint Joseph caring for Jesus and Mary?",
         "options": [
-          "The little-finger edges",
-          "The thumb tips only",
-          "The wrists with fingers pointing down"
+          "Helping with a useful task for someone in the family.",
+          "Learning the names of every person in the Holy Family.",
+          "Choosing a favorite picture for the family prayer corner."
         ],
         "answer": 0,
-        "explanation": "Start palm to palm, then open the palms upward like book covers while keeping the little-finger edges connected.",
-        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/book"
-      },
-      {
-        "id": "tiny-drink-shape",
-        "prompt": "Which movement matches Drink in the app?",
-        "options": [
-          "Tap a straight index finger beside the chin",
-          "Close a curved hand into a fist at chest height",
-          "Arc a C-shaped hand toward the mouth like tipping a cup"
-        ],
-        "answer": 2,
-        "explanation": "Keep the imaginary-cup shape as the hand moves toward the mouth. This differs from Milk's opening and closing movement.",
-        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/drink"
+        "explanation": "A saint story can lead into one small act of service. The connection here is caring for the people entrusted to you.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
       }
     ]
   },
   {
-    "id": "baby-family-habits",
-    "appId": "baby-playbook",
-    "appName": "Baby Playbook",
-    "appUrl": "https://darrahdata.github.io/baby-playbook/",
-    "title": "Faith in ordinary moments",
+    "id": "mixed-discovery-08",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
     "questions": [
       {
-        "id": "baby-mass-team",
-        "prompt": "Before leaving for Mass with your baby, what does the Playbook suggest agreeing on?",
+        "id": "tiny-video-dad",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Name that sign",
+        "prompt": "Which family sign matches this demonstration?",
+        "clue": "The location on the face is the key.",
         "options": [
-          "A score for how quietly the baby sits",
-          "Who will avoid all care interruptions",
-          "Who carries the bag and handles changes or a settling break"
+          "Mom",
+          "Grandpa",
+          "Dad"
         ],
         "answer": 2,
-        "explanation": "A small plan helps both parents share the practical work. Prepare for ordinary care needs while participating in family worship.",
-        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+        "explanation": "This is Dad: an open hand brings its thumb to the forehead. The forehead location distinguishes it from Mom at the chin.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/dad",
+        "media": {
+          "src": "/tiny-signs/media/dad.mp4",
+          "poster": "/tiny-signs/media/dad.jpg",
+          "credit": "ASL Signbank (2026) · CC BY-NC-SA 4.0",
+          "sourceUrl": "https://aslsignbank.com/dictionary/gloss/764.html"
+        }
       },
       {
-        "id": "baby-scripture-moment",
-        "prompt": "How does the Playbook suggest beginning a Bible story with an infant?",
+        "id": "baby-sunday-ready-bag",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Spot the better plan",
+        "prompt": "How can you make Sunday departure less rushed?",
+        "clue": "Last week each parent thought the other had packed the changing supplies.",
         "options": [
-          "Use a calm, awake moment and keep it short",
-          "Finish a full chapter regardless of their attention",
-          "Wait until they can answer questions about the story"
+          "Divide supplies between two bags and have each parent choose what to bring.",
+          "Leave extra time to gather whichever supplies you notice on Sunday morning.",
+          "Check the bag the night before and name who carries it and handles changes."
         ],
-        "answer": 0,
-        "explanation": "Read with a warm voice and simple words. End when your baby needs a different activity; this is shared family time.",
+        "answer": 2,
+        "explanation": "A checked bag and agreed roles remove a preventable decision at the door. Include changing supplies, feeding supplies, and an age-appropriate quiet book.",
         "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
       },
       {
-        "id": "baby-gratitude-habit",
-        "prompt": "Which practice fits the Playbook's way of introducing gratitude?",
+        "id": "ave-faith-opening-virtues",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Faith trivia",
+        "prompt": "In the app's standard Rosary opening, the three Hail Marys are offered for which virtues?",
         "options": [
-          "Ask the toddler for a perfect spoken thank-you every time",
-          "Model a specific thank-you and invite a word, sign, or wave",
-          "Delay family gratitude until the child can memorize a prayer"
+          "Prudence, justice, and courage",
+          "Faith, hope, and charity",
+          "Patience, humility, and gratitude"
         ],
         "answer": 1,
-        "explanation": "Start by demonstrating gratitude yourself. Invite participation in a form your child can manage.",
+        "explanation": "The opening identifies the three Hail Marys with faith, hope, and charity before the mysteries begin.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-09",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "baby-newborn-and-resilience",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "What would you do?",
+        "prompt": "How does a parent pursue resilience during the newborn months?",
+        "clue": "Your newborn cries while you are talking about teaching him to handle challenges.",
+        "options": [
+          "Respond to the need and save behavior expectations for later development.",
+          "Introduce a short, regular waiting exercise before ordinary comfort.",
+          "Keep the response identical each time so he learns one dependable routine."
+        ],
+        "answer": 0,
+        "explanation": "Newborn crying communicates needs rather than defiance. Steady care comes first; manageable play and later responsibilities provide other ways to practice skills.",
         "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      },
+      {
+        "id": "ave-name-glory-be",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Name that prayer",
+        "prompt": "Name the short prayer that includes these words.",
+        "options": [
+          "Our Father",
+          "Grace Before Meals",
+          "Glory Be"
+        ],
+        "answer": 2,
+        "explanation": "The Glory Be praises the Father, Son, and Holy Spirit. This line follows that opening praise.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "as it was in the beginning, is now, and ever shall be,"
+      },
+      {
+        "id": "tiny-moment-ball",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "In the moment",
+        "prompt": "You are about to roll a round, bouncy toy across the floor. Which sign names the object you are sharing?",
+        "options": [
+          "Book",
+          "Ball",
+          "Cup"
+        ],
+        "answer": 1,
+        "explanation": "Ball uses two curved hands facing each other to outline a round shape. The fingertips approach, separate slightly, and meet again.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/ball"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-10",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "ave-complete-glory-be",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Complete the prayer",
+        "prompt": "Which words complete this opening of the Glory Be?",
+        "options": [
+          "Holy Spirit",
+          "heavenly host",
+          "communion of saints"
+        ],
+        "answer": 0,
+        "explanation": "The prayer names the Father, Son, and Holy Spirit.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "Glory be to the Father, and to the Son, and to the"
+      },
+      {
+        "id": "tiny-movement-banana",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Spot the movement",
+        "prompt": "One index finger stays upright while the other hand makes small peeling motions downward around its tip. Which food is being signed?",
+        "options": [
+          "Apple",
+          "Banana",
+          "Orange"
+        ],
+        "answer": 1,
+        "explanation": "Banana uses an upright supporting index finger and a peeling movement from the other hand. Keep the supporting finger still as the other hand moves.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/banana"
+      },
+      {
+        "id": "baby-virtue-grownups-first",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Build a habit",
+        "prompt": "Your family chooses patience as this week’s virtue. Where should practice begin?",
+        "options": [
+          "With a longer explanation of patience whenever the child gets frustrated.",
+          "With a daily question asking the child to name an example of patience.",
+          "With one visible act of patience by the adults each day."
+        ],
+        "answer": 2,
+        "explanation": "Give your child an example they can see in ordinary family life. Adults practice the character they hope to teach.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-11",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "tiny-video-all-done",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Name that sign",
+        "prompt": "What does the sign in this clip mean?",
+        "clue": "Watch the direction the palms turn.",
+        "options": [
+          "All done",
+          "More",
+          "Help"
+        ],
+        "answer": 0,
+        "explanation": "This is All done: both open hands turn from palms facing in to palms facing forward. It can mark the end of a meal, bath, or game.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/all-done",
+        "media": {
+          "src": "/tiny-signs/media/all-done.mp4",
+          "poster": "/tiny-signs/media/all-done.jpg",
+          "credit": "ASL Signbank (2026) · CC BY-NC-SA 4.0",
+          "sourceUrl": "https://aslsignbank.com/dictionary/gloss/456.html"
+        }
+      },
+      {
+        "id": "baby-baptism-anniversary",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Family trivia",
+        "prompt": "What is a simple way to keep a child’s Baptism part of family life?",
+        "options": [
+          "Plan another large gathering every year to match the original celebration.",
+          "Mark its anniversary with prayer and tell the story as the child grows.",
+          "Save the story until the child is preparing for a later sacrament."
+        ],
+        "answer": 1,
+        "explanation": "Save the date, parish, godparents, and a photo. A brief anniversary prayer keeps the milestone familiar without needing a large event.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      },
+      {
+        "id": "ave-mystery-nativity",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "Where does Ave Maria's Nativity reflection place the Infant Jesus?",
+        "options": [
+          "In the Temple at Jerusalem",
+          "Beside the River Jordan",
+          "In a manger at Bethlehem"
+        ],
+        "answer": 2,
+        "explanation": "The Nativity is the third Joyful Mystery, reflecting on Jesus' birth at Bethlehem.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-12",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "baby-parents-safety-correction",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Spot the better plan",
+        "prompt": "You notice that your partner’s instruction creates a safety problem. What takes priority?",
+        "options": [
+          "Calmly stop and correct it now, then talk through the disagreement afterward.",
+          "Keep the instruction consistent for now and revise the family rule privately.",
+          "Ask your child to pause while both parents debate the instruction together."
+        ],
+        "answer": 0,
+        "explanation": "Parental agreement must allow safety corrections. Ordinary disagreements can be discussed privately without leaving an unsafe instruction in place.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#care/le-cadre"
+      },
+      {
+        "id": "ave-faith-contrition-resolve",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Faith trivia",
+        "prompt": "In Ave Maria's Act of Contrition, what does the person resolve to do with God's grace?",
+        "options": [
+          "Choose a mystery and count the beads",
+          "Name the day's gifts before a meal",
+          "Confess sins, do penance, and amend their life"
+        ],
+        "answer": 2,
+        "explanation": "The prayer joins sorrow for sin with a resolve to change one's actions.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      },
+      {
+        "id": "tiny-moment-dog",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "In the moment",
+        "prompt": "On a walk, your child notices a barking animal on a leash. Which sign names it?",
+        "options": [
+          "Cat",
+          "Horse",
+          "Dog"
+        ],
+        "answer": 2,
+        "explanation": "Dog can be signed by patting the thigh with an open hand, as taught in Tiny Signs. Other ASL variants use a finger snap.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/dog"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-13",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "ave-name-fatima",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Name that prayer",
+        "prompt": "Which prayer includes this appeal for mercy?",
+        "options": [
+          "Fatima Prayer",
+          "Guardian Angel Prayer",
+          "Hail, Holy Queen"
+        ],
+        "answer": 0,
+        "explanation": "The Fatima Prayer asks Jesus for forgiveness and mercy. Ave Maria includes it after the decades in its standard Rosary sequence.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "lead all souls to Heaven, especially those in most need of Thy mercy."
+      },
+      {
+        "id": "tiny-movement-apple",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Spot the movement",
+        "prompt": "A bent index-finger knuckle lightly touches the cheek while the wrist twists a little. Which fruit is this?",
+        "options": [
+          "Banana",
+          "Orange",
+          "Apple"
+        ],
+        "answer": 2,
+        "explanation": "Apple uses the projecting knuckle of a bent index finger at the cheek. A small wrist twist completes the sign.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/apple"
+      },
+      {
+        "id": "baby-block-tower-help",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "What would you do?",
+        "prompt": "Your toddler wants to stack a block but keeps missing. What help fits the goal?",
+        "options": [
+          "Finish the tower together this time and choose a harder task tomorrow.",
+          "Give a small hint or steady the base, then let him make the next attempt.",
+          "Repeat the instructions from the beginning each time the block falls."
+        ],
+        "answer": 1,
+        "explanation": "Choose a challenge he can manage with a little support. Letting him attempt the useful part keeps him involved in the work.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-14",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "tiny-video-sleep",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Name that sign",
+        "prompt": "Which routine does this sign name?",
+        "clue": "Notice the hand lowering as the fingertips gather.",
+        "options": [
+          "Bath",
+          "Sleep",
+          "Eat"
+        ],
+        "answer": 1,
+        "explanation": "This is Sleep: an open hand lowers from the upper face while the fingertips gather toward the thumb. The final shape is a flattened O rather than a tight fist.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/sleep",
+        "media": {
+          "src": "/tiny-signs/media/sleep.mp4",
+          "poster": "/tiny-signs/media/sleep.jpg",
+          "credit": "ASL Signbank (2026) · CC BY-NC-SA 4.0",
+          "sourceUrl": "https://aslsignbank.com/dictionary/gloss/709.html"
+        }
+      },
+      {
+        "id": "baby-tiny-turns",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Build a habit",
+        "prompt": "Which activity makes waiting practice manageable for a toddler?",
+        "options": [
+          "Watching an adult finish a whole game before taking a first turn.",
+          "Short turns rolling a ball together, with help when needed.",
+          "Keeping the same turn length every day to measure improvement."
+        ],
+        "answer": 1,
+        "explanation": "Brief, supported turns give practice without turning the game into a test. Stop before frustration takes over.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      },
+      {
+        "id": "ave-complete-guardian-angel",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Complete the prayer",
+        "prompt": "In the Guardian Angel Prayer, which word follows this line?",
+        "options": [
+          "door",
+          "side",
+          "home"
+        ],
+        "answer": 1,
+        "explanation": "The prayer asks the guardian angel to remain at our side, to light and guard, rule and guide.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "ever this day be at my"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-15",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "baby-new-caregiver-rules",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Spot the better plan",
+        "prompt": "A grandparent will care for your toddler tomorrow. How should you prepare for consistent limits?",
+        "options": [
+          "Describe every behavior you hope to improve so nothing is left uncertain.",
+          "Ask the grandparent to observe your routine first and infer the main rules.",
+          "Explain a few clear rules, the words you use, and the safe alternatives."
+        ],
+        "answer": 2,
+        "explanation": "A small set of clear expectations is easier to share and follow. Include what the child can do instead of only what to stop.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#care/dads-job"
+      },
+      {
+        "id": "ave-mystery-presentation",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "Who presents Jesus in the Temple in the fourth Joyful Mystery?",
+        "options": [
+          "Mary and Joseph",
+          "Peter and John",
+          "Elizabeth and Zechariah"
+        ],
+        "answer": 0,
+        "explanation": "The Presentation recalls Mary and Joseph bringing Jesus to the Temple in obedience to God's law.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      },
+      {
+        "id": "tiny-moment-bath",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "In the moment",
+        "prompt": "The tub and towel are ready for the evening washing routine. Which sign can introduce the activity?",
+        "options": [
+          "Bath",
+          "Sleep",
+          "Diaper"
+        ],
+        "answer": 0,
+        "explanation": "Bath moves two loose fists a short distance up and down in front of the upper chest. Model it during setup, then continue the routine.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/bath"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-16",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "ave-name-hail-holy-queen",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Name that prayer",
+        "prompt": "Which Marian prayer contains this line?",
+        "options": [
+          "Hail Mary",
+          "Hail, Holy Queen",
+          "The Angelus"
+        ],
+        "answer": 1,
+        "explanation": "This line comes from Hail, Holy Queen, a closing prayer in Ave Maria's Rosary.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "To thee do we cry, poor banished children of Eve."
+      },
+      {
+        "id": "tiny-movement-please",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Spot the movement",
+        "prompt": "A flat hand with fingers together makes a small circle over the center of the chest. Which sign is it?",
+        "options": [
+          "Please",
+          "Thank you",
+          "Help"
+        ],
+        "answer": 0,
+        "explanation": "Please uses a flat hand circling on the chest. Model it naturally when asking for something, without requiring a child to perform it.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/please"
+      },
+      {
+        "id": "baby-hitting-clear-limit",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "What would you do?",
+        "prompt": "Your toddler raises a hand to hit during a game. What should your response include?",
+        "options": [
+          "A question about why hitting feels tempting before changing the game.",
+          "Several choices about what the game’s rule should be from now on.",
+          "A short limit, preventing the hit, and showing a safe action instead."
+        ],
+        "answer": 2,
+        "explanation": "Keep the boundary clear and follow through calmly: “I won’t let you hit.” Stay close and show what to do instead.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-17",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "tiny-video-more",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Name that sign",
+        "prompt": "Which sign do these two hands make?",
+        "clue": "Look closely at the points of contact.",
+        "options": [
+          "All done",
+          "Ball",
+          "More"
+        ],
+        "answer": 2,
+        "explanation": "This is More: the fingertips gather to each thumb, then the two fingertip groups meet. The gathered fingertips make contact rather than the whole palms clapping.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/more",
+        "media": {
+          "src": "/tiny-signs/media/more.mp4",
+          "poster": "/tiny-signs/media/more.jpg",
+          "credit": "ASL Signbank (2026) · CC BY-NC-SA 4.0",
+          "sourceUrl": "https://aslsignbank.com/dictionary/gloss/508.html"
+        }
+      },
+      {
+        "id": "baby-specific-thanks",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Build a habit",
+        "prompt": "Your toddler brings you your shoes. Which response models gratitude most clearly?",
+        "options": [
+          "“Thank you for bringing my shoes. That helped me.”",
+          "“Good job! You’re always such a good helper.”",
+          "“Now tell me which polite word we use when someone helps.”"
+        ],
+        "answer": 0,
+        "explanation": "A specific thank-you connects gratitude to the actual contribution. Model the words before expecting your child to use them.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      },
+      {
+        "id": "ave-complete-st-michael",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Complete the prayer",
+        "prompt": "Which word completes this request to Saint Michael?",
+        "options": [
+          "silence",
+          "exile",
+          "battle"
+        ],
+        "answer": 2,
+        "explanation": "The prayer calls on Saint Michael for protection against evil.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "Saint Michael the Archangel, defend us in"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-18",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "baby-own-the-bag",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Spot the better plan",
+        "prompt": "You agree to own the diaper bag. What does that include?",
+        "options": [
+          "Packing the supplies once your partner gives you the current list.",
+          "Checking, packing, carrying, and restocking it without waiting for reminders.",
+          "Carrying it on outings while your partner keeps track of what is missing."
+        ],
+        "answer": 1,
+        "explanation": "Owning a task includes noticing and preparing, as well as doing it. Make the full responsibility explicit between you.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#care/dads-job"
+      },
+      {
+        "id": "ave-mystery-finding-temple",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "In the Finding in the Temple reflection, how long do Mary and Joseph seek Jesus?",
+        "options": [
+          "One day",
+          "Three days",
+          "Seven days"
+        ],
+        "answer": 1,
+        "explanation": "The fifth Joyful Mystery recalls their three-day search and the joy of finding Jesus in his Father's house.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      },
+      {
+        "id": "tiny-moment-hat",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "In the moment",
+        "prompt": "Before going outside, you show your child the clothing item that sits on top of their head. Which sign names it?",
+        "options": [
+          "Coat",
+          "Hat",
+          "Shoes"
+        ],
+        "answer": 1,
+        "explanation": "Hat uses a flat, palm-down hand to pat the top of the head lightly. Show the real item as you model the sign.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/hat"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-19",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "ave-name-come-holy-spirit",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Name that prayer",
+        "prompt": "Which prayer asks for love to be kindled in the faithful?",
+        "options": [
+          "Glory Be",
+          "Apostles' Creed",
+          "Come, Holy Spirit"
+        ],
+        "answer": 2,
+        "explanation": "Come, Holy Spirit asks the Spirit to fill the faithful and renew the earth. Find it in Common prayers.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "fill the hearts of Thy faithful and kindle in them the fire of Thy love."
+      },
+      {
+        "id": "tiny-movement-shoes",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Spot the movement",
+        "prompt": "Two fists sit side by side with thumbs pointing upward. Their sides tap together twice near the lower chest. What does this name?",
+        "options": [
+          "Socks",
+          "Shoes",
+          "Coat"
+        ],
+        "answer": 1,
+        "explanation": "Shoes uses two side-by-side fists tapping at their sides. Keep the thumbs up and the movement small.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/shoes"
+      },
+      {
+        "id": "baby-repair-the-toy",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "What would you do?",
+        "prompt": "Your child takes a toy another child was using. What is a useful repair step?",
+        "options": [
+          "Ask for a clear apology first, then work out what happens to the toy.",
+          "Help return the toy and model the words for making things right.",
+          "Move both children to a fresh activity and discuss the toy later."
+        ],
+        "answer": 1,
+        "explanation": "Responsibility includes a concrete action that repairs the problem. Help with the words without making the apology a performance.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-20",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "tiny-video-eat",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Name that sign",
+        "prompt": "Which everyday action is shown here?",
+        "clue": "Follow the gathered fingertips.",
+        "options": [
+          "Eat",
+          "Drink",
+          "Water"
+        ],
+        "answer": 0,
+        "explanation": "This is Eat: the fingertips gather to the thumb and move to the mouth. The compact handshape helps distinguish it from the C hand used for Drink.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/eat",
+        "media": {
+          "src": "/tiny-signs/media/eat.mp4",
+          "poster": "/tiny-signs/media/eat.jpg",
+          "credit": "ASL Signbank (2026) · CC BY-NC-SA 4.0",
+          "sourceUrl": "https://aslsignbank.com/dictionary/gloss/399.html"
+        }
+      },
+      {
+        "id": "baby-questions-for-appointment",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Build a habit",
+        "prompt": "Small questions come up between routine appointments. What keeps them from getting lost?",
+        "options": [
+          "Write them in one shared list as they occur and bring it to the visit.",
+          "Keep separate mental lists and compare them in the waiting room.",
+          "Choose the single most memorable question on the morning of the visit."
+        ],
+        "answer": 0,
+        "explanation": "Capture useful questions when they arise so both parents can contribute. Urgent concerns need prompt care rather than waiting on a routine list.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#care/health-and-milestones"
+      },
+      {
+        "id": "ave-mystery-agony-garden",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "Which garden is named in the first Sorrowful Mystery?",
+        "options": [
+          "Eden",
+          "The garden near the empty tomb",
+          "Gethsemane"
+        ],
+        "answer": 2,
+        "explanation": "The Agony in the Garden recalls Jesus praying in Gethsemane and accepting the Father's will.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-21",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "baby-handoff-useful-snapshot",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Spot the better plan",
+        "prompt": "What makes a handoff useful to the next parent?",
+        "clue": "You are changing shifts after a busy evening.",
+        "options": [
+          "The recent feed, diaper, and sleep, plus what helped and what comes next.",
+          "A complete account of the evening in the order each event happened.",
+          "A description of how the evening felt, leaving practical details for questions."
+        ],
+        "answer": 0,
+        "explanation": "Give the next parent the information needed to continue care. A short, current snapshot is easier to use than a long narrative.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#handoff"
+      },
+      {
+        "id": "ave-name-act-of-contrition",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Name that prayer",
+        "prompt": "Which prayer expresses sorrow using these words?",
+        "options": [
+          "Act of Contrition",
+          "Grace Before Meals",
+          "Prayer to St. Michael"
+        ],
+        "answer": 0,
+        "explanation": "The Act of Contrition expresses sorrow for sin and a resolve to amend one's life.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "I am heartily sorry for having offended Thee"
+      },
+      {
+        "id": "tiny-moment-fish",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "In the moment",
+        "prompt": "At the aquarium, a small animal with fins swims past the glass. Which sign connects to what your child sees?",
+        "options": [
+          "Bird",
+          "Duck",
+          "Fish"
+        ],
+        "answer": 2,
+        "explanation": "Fish uses one flat hand moving forward while wiggling from side to side. The sideways-facing palm and flowing movement suggest swimming.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/fish"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-22",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "ave-mystery-carrying-cross",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "Which virtue does Ave Maria pair with the Carrying of the Cross?",
+        "options": [
+          "Patience",
+          "Humility",
+          "Hope"
+        ],
+        "answer": 0,
+        "explanation": "The app's reflection names patience while contemplating Jesus carrying the Cross to Calvary.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      },
+      {
+        "id": "tiny-movement-bird",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Spot the movement",
+        "prompt": "Beside the mouth, the thumb and index finger open and close like a small beak while the other fingers stay folded. Which animal is it?",
+        "options": [
+          "Cat",
+          "Fish",
+          "Bird"
+        ],
+        "answer": 2,
+        "explanation": "Bird opens and closes the thumb and index finger beside the mouth. The other fingers remain folded.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/bird"
+      },
+      {
+        "id": "baby-parent-mistake",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "What would you do?",
+        "prompt": "You spoke sharply to your partner in front of your child. How can you model accountability?",
+        "options": [
+          "Discuss it privately and rely on a calmer tone for the rest of the day.",
+          "Explain the stressful circumstances so your child understands the reaction.",
+          "Acknowledge the mistake, apologize, and show a better response."
+        ],
+        "answer": 2,
+        "explanation": "Children can see adults take responsibility and begin again. A clear apology plus changed action makes repair visible.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#faith"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-23",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "tiny-video-drink",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Name that sign",
+        "prompt": "Which action matches the clip?",
+        "clue": "Notice the curved hand and its short arc.",
+        "options": [
+          "Eat",
+          "Drink",
+          "Milk"
+        ],
+        "answer": 1,
+        "explanation": "This is Drink: a C hand moves toward the mouth as if tipping a cup. Keep the curved handshape throughout the small movement.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/drink",
+        "media": {
+          "src": "/tiny-signs/media/drink.mp4",
+          "poster": "/tiny-signs/media/drink.jpg",
+          "credit": "ASL Signbank (2026) · CC BY-NC-SA 4.0",
+          "sourceUrl": "https://aslsignbank.com/dictionary/gloss/119.html"
+        }
+      },
+      {
+        "id": "baby-dad-hospital-bag",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Build a habit",
+        "prompt": "The baby’s and your partner’s hospital bags are packed. What practical step is easy to overlook?",
+        "options": [
+          "Adding more newborn outfits to cover every possible length of stay.",
+          "Waiting to pack your things until the hospital confirms what is available.",
+          "Packing your own clothes, toiletries, snacks, and chargers."
+        ],
+        "answer": 2,
+        "explanation": "Prepare your own essentials too. That lets you stay present without needing a last-minute supply trip.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#care/before-he-arrives"
+      },
+      {
+        "id": "ave-name-grace-before-meals",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Name that prayer",
+        "prompt": "Which family prayer begins with these words?",
+        "options": [
+          "The Angelus",
+          "Grace Before Meals",
+          "Guardian Angel Prayer"
+        ],
+        "answer": 1,
+        "explanation": "Grace Before Meals asks God to bless us and the gifts we are about to receive.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "Bless us, O Lord, and these Thy gifts,"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-24",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "baby-night-shift-agreement",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Spot the better plan",
+        "prompt": "Which night-shift agreement is the clearest?",
+        "options": [
+          "Agree that the more rested parent will decide who takes each waking.",
+          "Name who is on duty, the stretch covered, and the care each parent owns.",
+          "Split the number of tasks equally and choose their timing during the night."
+        ],
+        "answer": 1,
+        "explanation": "Agree on responsibilities before everyone is tired. Fit the arrangement around the baby’s feeding plan and both parents’ rest.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#handoff"
+      },
+      {
+        "id": "ave-mystery-resurrection",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "Which mystery comes first in the Glorious Mysteries?",
+        "options": [
+          "The Ascension",
+          "The Resurrection",
+          "The Coronation"
+        ],
+        "answer": 1,
+        "explanation": "The Glorious Mysteries begin with Jesus rising from the dead, followed by the Ascension.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      },
+      {
+        "id": "tiny-moment-flower",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "In the moment",
+        "prompt": "Your child stops to notice colorful petals on a stem in the garden. Which sign names what caught their attention?",
+        "options": [
+          "Flower",
+          "Tree",
+          "Sun"
+        ],
+        "answer": 0,
+        "explanation": "Flower gathers the fingertips toward the thumb beside the nose, then moves the hand from one side of the nose to the other. Connect the sign to the plant you are noticing together.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/flower"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-25",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "ave-name-guardian-angel",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Name that prayer",
+        "prompt": "Which prayer contains this rhyming request?",
+        "options": [
+          "Memorare",
+          "Glory Be",
+          "Guardian Angel Prayer"
+        ],
+        "answer": 2,
+        "explanation": "The Guardian Angel Prayer asks the angel to stay at our side and guide us.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "to light and guard, to rule and guide."
+      },
+      {
+        "id": "tiny-movement-tree",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Spot the movement",
+        "prompt": "One elbow rests on the other hand. The forearm stays upright while the spread hand twists like moving branches. Which sign fits?",
+        "options": [
+          "Tree",
+          "Flower",
+          "Wind"
+        ],
+        "answer": 0,
+        "explanation": "Tree uses an upright forearm supported at the elbow, with the open hand twisting above it. The arm and spread fingers suggest a trunk and branches.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/tree"
+      },
+      {
+        "id": "baby-greeting-with-skills",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "What would you do?",
+        "prompt": "Your toddler is shy when greeting a visitor. How can you keep teaching manners?",
+        "options": [
+          "Greet the visitor yourself and invite a wave, sign, or word he can manage.",
+          "Wait quietly until he says hello before you begin the adult conversation.",
+          "Save greeting practice for when he can use all four polite words reliably."
+        ],
+        "answer": 0,
+        "explanation": "Model the greeting and match the invitation to his communication skills. Manners take practice and do not require adult-level performance.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#care/le-cadre"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-26",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "tiny-video-book",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Name that sign",
+        "prompt": "Which object does this sign represent?",
+        "clue": "Watch how the palms open while the little-finger edges stay together.",
+        "options": [
+          "Ball",
+          "Open",
+          "Book"
+        ],
+        "answer": 2,
+        "explanation": "This is Book: flat hands start palm to palm and open upward while their little-finger edges stay together. The motion resembles opening its covers.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/book",
+        "media": {
+          "src": "/tiny-signs/media/book.mp4",
+          "poster": "/tiny-signs/media/book.jpg",
+          "credit": "ASL Signbank (2026) · CC BY-NC-SA 4.0",
+          "sourceUrl": "https://aslsignbank.com/dictionary/gloss/418.html"
+        }
+      },
+      {
+        "id": "baby-dressing-responsibility",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Build a habit",
+        "prompt": "Your toddler can do one step of getting dressed, but it takes longer. How can you practice responsibility?",
+        "options": [
+          "Allow extra time and let him do that step, helping with the rest.",
+          "Do the whole task on weekdays and wait for him to manage it independently.",
+          "Ask him to complete the full routine each time so the responsibility is clear."
+        ],
+        "answer": 0,
+        "explanation": "Give him a real part he can manage. Keep helping where needed while making room for practice.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#care/patience-and-independence"
+      },
+      {
+        "id": "ave-mystery-assumption",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "Which mystery contemplates Mary being taken body and soul into heaven?",
+        "options": [
+          "The Ascension",
+          "The Coronation",
+          "The Assumption"
+        ],
+        "answer": 2,
+        "explanation": "The Assumption concerns Mary being taken into heaven. The Ascension concerns Jesus ascending into heaven.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-27",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "baby-visitor-plan",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "Spot the better plan",
+        "prompt": "Relatives want to visit during the first week at home. What is the best preparation?",
+        "options": [
+          "Accept tentative plans now and settle the length of each visit on arrival.",
+          "Have each parent handle their own relatives using their own preferences.",
+          "Agree together on who visits, when, and for how long before answering."
+        ],
+        "answer": 2,
+        "explanation": "A shared plan lets both parents give the same answer. It also reduces decisions and negotiation during the first days at home.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#care/before-he-arrives"
+      },
+      {
+        "id": "ave-name-memorare",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Name that prayer",
+        "prompt": "Which prayer begins with this appeal to Mary?",
+        "options": [
+          "Memorare",
+          "Hail, Holy Queen",
+          "Hail Mary"
+        ],
+        "answer": 0,
+        "explanation": "The Memorare asks for Mary's intercession with confidence in her help. The app includes its full traditional text.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/",
+        "clue": "Remember, O most gracious Virgin Mary, that never was it known"
+      },
+      {
+        "id": "tiny-moment-rain",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "In the moment",
+        "prompt": "Through the window, you watch drops fall from the clouds and splash into puddles. Which weather sign fits?",
+        "options": [
+          "Snow",
+          "Rain",
+          "Wind"
+        ],
+        "answer": 1,
+        "explanation": "Rain lowers both hands in short, repeated movements with the fingers spread and slightly bent. Both palms face down.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/rain"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-28",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "ave-mystery-cana",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "At which event does Mary tell the servants to do whatever Jesus tells them?",
+        "options": [
+          "The Wedding at Cana",
+          "The Presentation",
+          "The Baptism in the Jordan"
+        ],
+        "answer": 0,
+        "explanation": "The second Luminous Mystery is the Wedding at Cana. Its reflection focuses on trust in Mary's intercession.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      },
+      {
+        "id": "tiny-movement-hot",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Spot the movement",
+        "prompt": "A loose claw-shaped hand starts near the mouth, then moves away and turns outward. Which temperature sign is this?",
+        "options": [
+          "Cold",
+          "Hot",
+          "Wet"
+        ],
+        "answer": 1,
+        "explanation": "Hot begins with a curved hand near the mouth and moves outward with a turn. The starting palm faces toward you.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/hot"
+      },
+      {
+        "id": "baby-practical-care-for-partner",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "What would you do?",
+        "prompt": "Your partner is settled feeding the baby and has no drink or meal within reach. What help fits best?",
+        "options": [
+          "Wait until the feed ends so you can decide together which job matters most.",
+          "Bring food and water, then handle the nearby household job you already own.",
+          "Offer several possible tasks and ask your partner to assign them to you."
+        ],
+        "answer": 1,
+        "explanation": "Notice the practical need and complete a useful task. Support includes preparation and follow-through, not only availability when asked.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#care/her-recovery"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-29",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "tiny-video-cat",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "Name that sign",
+        "prompt": "Which animal is signed in this clip?",
+        "clue": "Notice the small outward movement beside the cheek.",
+        "options": [
+          "Cat",
+          "Dog",
+          "Bird"
+        ],
+        "answer": 0,
+        "explanation": "This is Cat: the thumb and index finger pinch and move outward beside the mouth. The movement suggests tracing a whisker.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/cat",
+        "media": {
+          "src": "/tiny-signs/media/cat.mp4",
+          "poster": "/tiny-signs/media/cat.jpg",
+          "credit": "ASL Signbank (2026) · CC BY-NC-SA 4.0",
+          "sourceUrl": "https://aslsignbank.com/dictionary/gloss/1040.html"
+        }
+      },
+      {
+        "id": "baby-new-food-invitation",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "What would you do?",
+        "prompt": "Your toddler declines a suitable food he has not tried before. What is a useful next step?",
+        "options": [
+          "Ask for one taste each time so the meal always includes a new experience.",
+          "Keep the invitation optional and offer the food again another day.",
+          "Remove it from the family rotation until he requests it himself."
+        ],
+        "answer": 1,
+        "explanation": "Offer variety without required bites. A refusal today does not need to become either a contest or a permanent decision.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#care/solids-and-food"
+      },
+      {
+        "id": "ave-mystery-transfiguration",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "Which three apostles are named in Ave Maria's Transfiguration reflection?",
+        "options": [
+          "Peter, Andrew, and Thomas",
+          "Peter, James, and John",
+          "Matthew, Philip, and Bartholomew"
+        ],
+        "answer": 1,
+        "explanation": "The fourth Luminous Mystery recalls Jesus being transfigured in glory before Peter, James, and John.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      }
+    ]
+  },
+  {
+    "id": "mixed-discovery-30",
+    "appId": "mixed",
+    "appName": "Your three apps",
+    "appUrl": "https://darrahdata.github.io/#apps",
+    "title": "One question from each app.",
+    "questions": [
+      {
+        "id": "baby-exploring-nearby",
+        "appId": "baby-playbook",
+        "appName": "Baby Playbook",
+        "appUrl": "https://darrahdata.github.io/baby-playbook/",
+        "kind": "What would you do?",
+        "prompt": "Your baby is content exploring a toy on a safe floor space beside you. What should you do?",
+        "options": [
+          "Introduce another toy whenever he repeats the same action several times.",
+          "Turn the play into a short lesson with a sequence for him to complete.",
+          "Stay attentive, let him lead for a while, and respond when he seeks you."
+        ],
+        "answer": 2,
+        "explanation": "Make room for his own exploring alongside shared play. Stay available; a chance to try does not require isolation.",
+        "learnUrl": "https://darrahdata.github.io/baby-playbook/#care/patience-and-independence"
+      },
+      {
+        "id": "ave-mystery-eucharist",
+        "appId": "ave-maria",
+        "appName": "Ave Maria",
+        "appUrl": "https://darrahdata.github.io/rosary-v2/",
+        "kind": "Mystery trivia",
+        "prompt": "Which event is the fifth Luminous Mystery?",
+        "options": [
+          "The Finding in the Temple",
+          "The Descent of the Holy Spirit",
+          "The Institution of the Eucharist"
+        ],
+        "answer": 2,
+        "explanation": "The final Luminous Mystery reflects on Jesus giving himself to us in the Eucharist.",
+        "learnUrl": "https://darrahdata.github.io/rosary-v2/"
+      },
+      {
+        "id": "tiny-moment-cold",
+        "appId": "tiny-signs",
+        "appName": "Tiny Signs",
+        "appUrl": "https://darrahdata.github.io/tiny-signs/",
+        "kind": "In the moment",
+        "prompt": "Outside, the air is chilly and you pull your jacket closer while shivering. Which sign describes that feeling?",
+        "options": [
+          "Hot",
+          "Wet",
+          "Cold"
+        ],
+        "answer": 2,
+        "explanation": "Cold uses two loose fists facing each other in front of the chest. A slight shaking movement resembles shivering.",
+        "learnUrl": "https://darrahdata.github.io/tiny-signs/#/learn/cold"
       }
     ]
   }
