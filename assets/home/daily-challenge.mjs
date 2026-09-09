@@ -2,6 +2,9 @@ import { watchLocalDay } from '../daily-cycle.mjs';
 import { chooseChallenge, loadAttempt, saveAttempt, answerQuestion, advanceQuestion, renderRound, scoreAttempt, renderAppLinks } from './challenge-core.mjs?v=2';
 
 const root = document.getElementById('daily-challenge');
+root.addEventListener('toggle', event => {
+  if (event.target === root && !root.open) root.querySelectorAll('video').forEach(video => video.pause());
+});
 const storage = { getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value) };
 let daily, attempt, cannotSave = false, changingDay = false;
 

@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/home/home.css">
-  <link rel="stylesheet" href="assets/home/daily-challenge.css?v=2">
-  <script type="module" src="assets/home/daily-challenge.mjs?v=2"></script>
+  <link rel="stylesheet" href="assets/home/daily-challenge.css?v=3">
+  <script type="module" src="assets/home/daily-challenge.mjs?v=3"></script>
 </head>
 <body>
   <a class="skip-link" href="#apps">Skip to apps</a>
@@ -29,22 +29,26 @@
     <main id="apps" tabindex="-1">
       <div class="collection-heading">
         <h2>A small collection, made with care.</h2>
-        <nav class="categories" aria-label="App categories"><a href="#prayer">Prayer</a><a href="#family">Family</a><a href="#data">Data</a></nav>
+        <nav class="categories" aria-label="App categories"><a href="#prayer">Prayer</a><a href="#family">Family</a><a href="#daily-challenge">Daily Challenge</a></nav>
       </div>
-      <section class="daily-challenge" id="daily-challenge" aria-labelledby="challenge-heading">
+      <details class="daily-challenge" id="daily-challenge" aria-labelledby="challenge-heading">
+        <summary class="challenge-summary">
+          <div><h2 id="challenge-heading">Daily Challenge</h2><p id="challenge-status">Three questions · about a minute</p></div>
+          <span class="challenge-toggle"><span class="challenge-open-label">Open challenge</span><span class="challenge-close-label">Close challenge</span><span class="challenge-chevron" aria-hidden="true">⌄</span></span>
+        </summary>
+        <div class="challenge-body">
         <div class="challenge-intro">
           <div class="challenge-topline"><span aria-hidden="true">✦</span><time id="challenge-date">Today</time></div>
-          <h2 id="challenge-heading">Daily Challenge</h2>
           <p>A little curiosity, every day.</p>
           <div class="challenge-apps" id="challenge-apps" aria-label="Apps in today’s challenge"><a class="challenge-app-tag" href="rosary-v2/">Ave Maria</a><a class="challenge-app-tag" href="tiny-signs/">Tiny Signs</a><a class="challenge-app-tag" href="baby-playbook/">Baby Playbook</a></div>
           <p class="challenge-topic" id="challenge-topic">One prayer, one sign, one family discovery.</p>
           <div class="challenge-progress" id="challenge-progress" role="img" aria-label="Three questions to explore"><span></span><span></span><span></span></div>
-          <p class="challenge-status" id="challenge-status">Three questions · about a minute</p>
           <p class="challenge-save-note" id="challenge-save-note">Changes at local midnight. Progress stays in this browser.</p>
         </div>
         <div class="challenge-round" id="challenge-round"><p>Getting today’s challenge ready…</p><noscript>Enable JavaScript to answer today’s three questions.</noscript></div>
         <p class="challenge-live" id="challenge-new-day" role="status"></p>
-      </section>
+        </div>
+      </details>
       <div class="featured">
         <a class="app prayer tile-link" id="prayer" href="rosary-v2/" aria-labelledby="ave-title">
           <div class="app-copy">
@@ -77,14 +81,6 @@
             <p>Your reading shelf, with book summaries, manual progress, and the passages worth keeping.</p>
           </a>
         </div>
-      </section>
-      <section id="data" aria-labelledby="data-heading">
-        <a class="data-section tile-link" href="model_usage/" aria-labelledby="data-heading">
-        <div class="data-copy"><p class="eyebrow">Data / Everyday utility</p><h2 id="data-heading">Model Usage <span class="tile-arrow" aria-hidden="true">&rarr;</span></h2>
-          <p>Keep token usage and model costs in view, with cached inputs, running totals, and a 30-day cost chart.</p>
-        </div>
-        <img src="assets/home/model-usage.jpg" width="960" height="600" alt="Model Usage dashboard with token totals, a cost summary, and a daily cost chart." loading="lazy">
-        </a>
       </section>
     </main>
     <footer><p>John Darrah <span aria-hidden="true">/</span> Built with care.</p>

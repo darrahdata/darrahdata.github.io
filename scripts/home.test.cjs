@@ -42,8 +42,8 @@ test('homepage is responsive, accessible by keyboard, and links to existing apps
     assert.equal(await page.locator('.skip-link').evaluate(el => el === document.activeElement), true);
     await page.keyboard.press('Enter');
     assert.equal(await page.locator('main').evaluate(el => el === document.activeElement), true);
-    await page.getByRole('link', { name: 'Data', exact: true }).click();
-    assert.equal(new URL(page.url()).hash, '#data');
+    await page.getByRole('link', { name: 'Daily Challenge', exact: true }).click();
+    assert.equal(new URL(page.url()).hash, '#daily-challenge');
     await page.goto('http://127.0.0.1:8080/');
     await page.locator('.tile-link').filter({has: page.locator('#ave-title')}).locator('img').click();
     assert.equal(new URL(page.url()).pathname, '/rosary-v2/');
