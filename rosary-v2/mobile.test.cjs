@@ -21,9 +21,8 @@ test('responsive reading, safe navigation, preferences, resume and menu', async 
       assert.equal(await page.evaluate(() => innerWidth), width);
       await page.screenshot({path:`${output}/setup-${width}.png`,fullPage:true});
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-      await page.locator('#learning-guide summary').click();
-      await page.locator('#guided-mode').check();
       await page.getByText('Reading preferences',{exact:true}).click();
+      await page.locator('#guided-mode').check();
       await page.locator('#reading-size').selectOption('extra');
       await page.locator('#start-btn').click();
       const initial = await page.locator('#dock-progress').textContent();
