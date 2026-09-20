@@ -209,7 +209,7 @@ struct GridView: View {
             HStack {
                 Image(systemName: "square.grid.3x3.fill").foregroundStyle(.blue)
                 Text("Gridlet").font(.title2.bold())
-                Text("0.3.0").font(.caption).foregroundStyle(.secondary)
+                Text("0.3.1").font(.caption).foregroundStyle(.secondary)
                 Spacer()
                 Button { model.closeGrid?() } label: { Image(systemName: "xmark") }.buttonStyle(.plain).accessibilityLabel("Close grid")
             }
@@ -285,6 +285,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         panel.titleVisibility = .hidden
         panel.titlebarAppearsTransparent = true
         panel.isFloatingPanel = true
+        panel.hidesOnDeactivate = false
         panel.level = .floating
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         panel.isReleasedWhenClosed = false
