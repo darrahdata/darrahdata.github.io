@@ -8,6 +8,10 @@ Open `dist/Gridlet.app`. Click **Accessibility…**, add Gridlet to System Setti
 
 Press **Command–Shift–D** from any app to show the grid centered on the active window’s display, then drag to place the window. Press the shortcut again to hide the grid. Gridlet must be running. If another app has already registered the shortcut, Gridlet displays a warning and remains available from the menu bar.
 
+The header shows the selected app and its window title (for a browser, usually the active tab’s title). It updates while the panel is open, so you can click a different window and see the new target. Layout controls stay disabled until Accessibility access is available and a movable window is selected. A custom selection applies when you release the mouse; the status line reports the result.
+
+If Accessibility is already enabled but the grid stays locked after an update, remove the old Gridlet entry from Accessibility and add the current app again. The **Show app** button reveals the exact running copy. This can happen because these beta builds are locally signed.
+
 ## Build
 
 Run `zsh build.sh` with Apple’s Swift command-line tools installed. The local app is ad-hoc signed, not notarized for distribution. Rebuilding may require granting Accessibility permission again.

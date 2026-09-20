@@ -1,1 +1,2 @@
 e6daa99bb4fcbe8bcdb7d152619ed18855d54f039c173bb34581327ca8c4fe78  Gridlet-0.2.0-macOS.zip
+d14c6965fa205b78d33385f1fa9815b5b20837fe8031b683a04b181aab91ab7d  Gridlet-0.3.0-macOS.zip

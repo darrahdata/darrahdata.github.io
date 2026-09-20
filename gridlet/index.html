@@ -18,8 +18,8 @@
         <h1 id="title">Gridlet<span class="dot">.</span></h1>
         <p class="headline">Your windows,<br>right where you want them.</p>
         <p class="description">Press <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>D</kbd>, drag across the grid, and give your window its own piece of the screen.</p>
-        <a class="download" href="downloads/Gridlet-0.2.0-macOS.zip" download>Download for Mac <span aria-hidden="true">↓</span></a>
-        <p class="meta">Free beta · v0.2.0 · macOS 13+<br>Apple silicon &amp; Intel</p>
+        <a class="download" href="downloads/Gridlet-0.3.0-macOS.zip" download>Download for Mac <span aria-hidden="true">↓</span></a>
+        <p class="meta">Free beta · v0.3.0 · macOS 13+<br>Apple silicon &amp; Intel</p>
         <p class="beta">This beta is not notarized by Apple. macOS may block its first launch. Read the <a href="#setup">setup notes</a> before installing.</p>
       </div>
       <figure class="preview">
@@ -41,7 +41,7 @@
     </section>
     <section class="features" aria-label="What Gridlet does">
       <div><span class="number">01</span><h2>One shortcut away</h2><p>Command–Shift–D opens the grid over your active window’s display. Press it again to tuck it away.</p></div>
-      <div><span class="number">02</span><h2>Your kind of layout</h2><p>Drag a custom region, or pick a half, third, or full-screen preset. Undo restores your last placement.</p></div>
+      <div><span class="number">02</span><h2>Your kind of layout</h2><p>See the selected app and window title, then drag a custom region or pick a preset. Undo restores your last placement.</p></div>
       <div><span class="number">03</span><h2>Room on every display</h2><p>Choose a connected display and place your window there. Gridlet leaves space for your Dock and menu bar.</p></div>
     </section>
     <section id="setup" class="setup" aria-labelledby="setup-title">
@@ -49,13 +49,13 @@
       <ol>
         <li><h3>Download and move to Applications</h3><p>Unzip the download, then drag Gridlet into your Applications folder and open it.</p></li>
         <li><h3>Check the beta’s first-launch notice</h3><p>This release has a local signature, not an Apple Developer ID signature or notarization. If macOS blocks it, review Apple’s <a href="https://support.apple.com/en-us/102445">guide to opening Mac apps safely</a>. Only open software you trust.</p></li>
-        <li><h3>Enable Accessibility</h3><p>Click <strong>Accessibility…</strong> in Gridlet. In System Settings → Privacy &amp; Security → Accessibility, add Gridlet and turn it on.</p></li>
+        <li><h3>Enable Accessibility</h3><p>Click <strong>Accessibility…</strong> in Gridlet. In System Settings → Privacy &amp; Security → Accessibility, add Gridlet and turn it on. Layout controls unlock automatically. If an older copy is already enabled but the grid stays locked, remove that entry and add the current app; the <strong>Show app</strong> button reveals it.</p></li>
         <li><h3>Pick a window. Pick a place.</h3><p>Click the window you want to arrange, press <strong>Command–Shift–D</strong>, and drag across the grid. The menu bar grid icon works too.</p></li>
       </ol>
     </section>
     <section class="notes" aria-label="Release notes and privacy">
       <div><h2>A small, early release</h2><p>Some apps enforce a minimum window size. Exit macOS full-screen mode before arranging windows. If another utility already uses Command–Shift–D, Gridlet will show a shortcut warning.</p><p>There are no saved layouts or automatic updates yet. Intel and older macOS versions are included as build targets; testing so far is on an Apple silicon Mac.</p></div>
-      <div><h2>Your desktop stays yours</h2><p>Gridlet does not collect analytics, record your screen, or send data over the network. Its Accessibility access is used to read and change window position and size.</p><p><a href="downloads/SHA256SUMS.txt">Download checksum</a> · <a href="https://github.com/darrahdata/darrahdata.github.io/issues">Report an issue</a></p></div>
+      <div><h2>Your desktop stays yours</h2><p>Gridlet does not collect analytics, record your screen, or send data over the network. Its Accessibility access is used to identify the selected app and window title, and read and change window position and size.</p><p><a href="downloads/SHA256SUMS.txt">Download checksum</a> · <a href="https://github.com/darrahdata/darrahdata.github.io/issues">Report an issue</a></p></div>
     </section>
   </main>
   <footer><a href="/">← More from darrahdata</a><p>Made by John Darrah. Inspired by grid-based window management.</p></footer>
