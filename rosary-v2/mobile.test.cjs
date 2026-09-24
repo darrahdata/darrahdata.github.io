@@ -7,6 +7,52 @@ const url = 'http://127.0.0.1:8080/rosary-v2/';
 const output = '/tmp/rosary-review';
 fs.mkdirSync(output, {recursive:true});
 
+test('Sacred Heart novena uses the prayer layout and mobile menu without clipping', async () => {
+  const browser = await chromium.launch({headless:true, ...(process.env.PLAYWRIGHT_CHROME_CHANNEL ? {channel:process.env.PLAYWRIGHT_CHROME_CHANNEL} : {})});
+  const errors=[];
+  try {
+    for(const [width,height] of [[320,700],[390,844],[1280,900]]) {
+      const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
+      const page=await context.newPage();
+      page.on('pageerror',error=>errors.push(error.message));
+      await page.goto(url);
+      await page.evaluate(()=>document.fonts.ready);
+      await page.locator('details[aria-label="Common prayers"] summary').click();
+      await page.locator('#common-prayer-select').selectOption('sacredHeartNovena');
+      await page.getByRole('button',{name:'Open prayer',exact:true}).click();
+      assert.equal(await page.locator('#prayer-name').textContent(),'First Petition');
+      assert.equal(await page.locator('#dock-progress').textContent(),'Prayer 1 of 17');
+      await page.screenshot({path:`${output}/sacred-heart-${width}.png`,fullPage:true});
+      for(let index=0;index<17;index++) {
+        assert.equal(await page.locator('#progress-count').textContent(),`Prayer ${index+1} of 17`);
+        await page.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));
+        assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+        if(width<=560)assert.ok(await page.evaluate(()=>$('prayer-text').getBoundingClientRect().bottom<$('mobile-prayer-dock').getBoundingClientRect().top));
+        await page.keyboard.press('ArrowRight');
+      }
+      assert.ok(await page.locator('#screen-complete').isVisible());
+      await page.getByRole('button',{name:'Pray again',exact:true}).click();
+      if(width<=560) {
+        await page.locator('#mobile-menu-btn').click();
+        await page.locator('#mobile-common-prayer-select').selectOption('sacredHeartNovena');
+        await page.getByRole('button',{name:'Open selected prayer'}).click();
+        assert.ok(await page.locator('#mobile-menu-sheet').isHidden());
+        await page.mouse.click(width-4,200);
+        assert.equal(await page.locator('#prayer-name').textContent(),'Our Father');
+        await page.mouse.click(4,200);
+        assert.equal(await page.locator('#prayer-name').textContent(),'First Petition');
+      }
+      await page.keyboard.press('ArrowRight');
+      await page.reload();
+      await page.locator('#resume-btn').click();
+      assert.equal(await page.locator('#prayer-name').textContent(),'Our Father');
+      assert.equal(await page.locator('#dock-progress').textContent(),'Prayer 2 of 17');
+      await context.close();
+    }
+    assert.deepEqual(errors,[]);
+  } finally {await browser.close();}
+});
+
 test('responsive reading, safe navigation, preferences, resume and menu', async () => {
   const browser = await chromium.launch({headless:true, ...(process.env.PLAYWRIGHT_CHROME_CHANNEL ? {channel:process.env.PLAYWRIGHT_CHROME_CHANNEL} : {})});
   const errors = [], analytics = [];

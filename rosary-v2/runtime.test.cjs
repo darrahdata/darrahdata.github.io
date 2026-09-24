@@ -41,6 +41,48 @@ test('all modes rebuild their current flow and resume without a start event',asy
   assert.ok(result.length>30);assert.ok(result.every(Boolean));
 }));
 
+test('Sacred Heart novena keeps all 17 prayers in order with read-aloud, resume and restart',async()=>fixture(async page=>{
+  const result=await page.evaluate(()=>{
+    const spoken=[];window.SpeechSynthesisUtterance=class {constructor(text){this.text=text;}};
+    Object.defineProperty(window,'speechSynthesis',{configurable:true,value:{getVoices:()=>[],speak:u=>spoken.push(u),cancel:()=>{}}});
+    startCommonPrayer('sacredHeartNovena');
+    const names=state.beads.map(bead=>bead.name);
+    const texts=state.beads.map(bead=>bead.text);
+    const groups=state.beads.filter(bead=>bead.groupStart).map(bead=>bead.name);
+    toggleReadAloud();
+    const narration=[];
+    for(let i=0;i<state.beads.length;i++){
+      narration.push(spoken.at(-1).text.includes(state.beads[i].text));
+      if(i<state.beads.length-1)nextBead();
+    }
+    prevBead();showSetup();resumeSavedSession();
+    const resumed=state.index===15&&state.beads.length===17&&$('prayer-name').textContent==='O Sacred Heart of Jesus';
+    nextBead();nextBead();
+    const completed=screenIs('complete')&&localStorage.getItem('rosary-v2-session')===null;
+    restartCurrentSession();
+    return {names,texts,groups,narration,resumed,completed,restarted:state.index===0&&state.beads.length===17,
+      repeated:['ourFather','hailMary','gloryBe'].map(key=>texts.filter(text=>text===PRAYERS[key].text).length),
+      selectors:['common-prayer-select','mobile-common-prayer-select'].map(id=>$(id).querySelectorAll('option[value="sacredHeartNovena"]').length)};
+  });
+  assert.deepEqual(result.names,[
+    'First Petition','Our Father','Hail Mary','Glory Be','Act of Trust',
+    'Second Petition','Our Father','Hail Mary','Glory Be','Act of Trust',
+    'Third Petition','Our Father','Hail Mary','Glory Be','Act of Trust',
+    'O Sacred Heart of Jesus','St. Joseph'
+  ]);
+  assert.equal(result.texts[0],'O my Jesus, You have said:\n“Truly I say to you, ask and you will receive, seek and you will find, knock and it will be opened to you.”\nBehold, I knock, I seek, and I ask for the grace of [state your intention].');
+  assert.equal(result.texts[5],'O my Jesus, You have said:\n“Truly I say to you, if you ask anything of the Father in My name, He will give it to you.”\nBehold, in Your name, I ask the Father for the grace of [state your intention].');
+  assert.equal(result.texts[10],'O my Jesus, You have said:\n“Truly I say to you, heaven and earth will pass away, but My words will not pass away.”\nEncouraged by Your infallible words, I now ask for the grace of [state your intention].');
+  for(const index of [4,9,14])assert.equal(result.texts[index],'Sacred Heart of Jesus, I place all my trust in You.');
+  assert.equal(result.texts[15],'O Sacred Heart of Jesus, for whom it is impossible not to have compassion on the afflicted, have pity on us miserable sinners and grant us the grace which we ask of You, through the Sorrowful and Immaculate Heart of Mary, Your tender Mother and ours.');
+  assert.equal(result.texts[16],'St. Joseph, foster father of Jesus, pray for us.');
+  assert.deepEqual(result.groups,['Second Petition','Third Petition','O Sacred Heart of Jesus']);
+  assert.deepEqual(result.repeated,[3,3,3]);
+  assert.deepEqual(result.selectors,[1,1]);
+  assert.ok(result.narration.every(Boolean));
+  assert.ok(result.resumed&&result.completed&&result.restarted);
+}));
+
 test('invalid saves are rejected, positions clamped, completion tolerates storage failure',async()=>fixture(async page=>{
   assert.equal(await page.evaluate(()=>{
     startRosary();const valid=JSON.parse(localStorage.getItem('rosary-v2-session'));
@@ -140,7 +182,10 @@ test('legacy one/five sessions resume at the same prayer and migrate only once',
     }
     const starts=[()=>{selectStyle('darrah');startRosary();},()=>{selectStyle('dominican');startRosary();},()=>{selectStyle('one');startCommonPrayer('apostlesCreed');},()=>{selectStyle('five');startChaplet('divineMercy');},()=>startMysteryStudy('joyful:all')];
     for(const start of starts){
-      start();const legacy=JSON.parse(localStorage.getItem('rosary-v2-session'));delete legacy.version;
+      start();const legacy=JSON.parse(localStorage.getItem('rosary-v2-session'));
+      // Older saves encoded Dominican in style, before style and length were separated.
+      if(legacy.prayerStyle==='dominican')legacy.style='dominican';
+      delete legacy.version;delete legacy.prayerStyle;delete legacy.flowVersion;
       localStorage.setItem('rosary-v2-session',JSON.stringify(legacy));resumeSavedSession();if(state.index!==0)return false;
     }
     return true;
