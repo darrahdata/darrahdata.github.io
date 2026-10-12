@@ -5,23 +5,23 @@ const base=process.env.OCIA_URL||'http://127.0.0.1:8080/ocia/';
 const engine=process.env.OCIA_BROWSER==='webkit'?webkit:chromium;
 const options=engine===chromium?{channel:'chrome'}:{};
 async function browserTest(run){const browser=await engine.launch(options);try{await run(browser);}finally{await browser.close();}}
-async function open(page){await page.goto(base);await page.getByRole('button',{name:'Pray together',exact:true}).waitFor();}
+async function open(page){await page.goto(base);await page.getByRole('button',{name:'Pray Together',exact:true}).waitFor();}
 async function openClass(page){
   await page.getByRole('button',{name:'My Class',exact:true}).click();
-  const prepare=page.getByRole('button',{name:'Prepare a class',exact:true});
+  const prepare=page.getByRole('button',{name:'Prepare a Class',exact:true});
   if(await prepare.isVisible())await prepare.click();
 }
 async function saveClass(page,name){
   const title=await page.locator('#class-title').inputValue();
-  await page.getByRole('button',{name:'Save set',exact:true}).click();
+  await page.getByRole('button',{name:'Save Set',exact:true}).click();
   await page.locator('#saved-set-name').waitFor();
-  assert.equal(await page.locator('#dialog-title').textContent(),'Save your class set');
-  if(title.trim())assert.equal(await page.getByRole('textbox',{name:'Set name',exact:true}).inputValue(),title.trim());
+  assert.equal(await page.locator('#dialog-title').textContent(),'Save Your Class Set');
+  if(title.trim())assert.equal(await page.getByRole('textbox',{name:'Set Name',exact:true}).inputValue(),title.trim());
   if(name!==undefined)await page.locator('#saved-set-name').fill(name);
-  await page.getByRole('dialog').getByRole('button',{name:'Save set',exact:true}).click();
-  await page.getByRole('heading',{name:'Class saved — ready to share',exact:true}).waitFor();
+  await page.getByRole('dialog').getByRole('button',{name:'Save Set',exact:true}).click();
+  await page.getByRole('heading',{name:'Class Saved — Ready to Share',exact:true}).waitFor();
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')));
-  assert.equal(await page.locator('.share-caption').textContent(),`${saved.title} · ${saved.ids.length} pages`);
+  assert.equal(await page.locator('.share-caption').textContent(),`${saved.title} · ${saved.ids.length} Pages`);
   assert.equal(await page.locator('.qr svg').count(),1);
   const link=await page.locator('#share-url').inputValue();
   assert.deepEqual(JSON.parse(Buffer.from(new URL(link).hash.slice(7),'base64url').toString('utf8')),[1,saved.title,saved.ids]);
@@ -36,32 +36,33 @@ test('mobile and desktop navigation, all mystery sets, long creed and safe botto
     const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
     const page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(error.message));
     await open(page);await noOverflow(page);
+    for(const name of ['Daily Prayer','Other Prayers'])assert.equal(await page.getByRole('heading',{name,exact:true}).isVisible(),true);
     await page.getByRole('button',{name:'Mysteries',exact:true}).click();
     for(const name of ['Joyful','Luminous','Sorrowful','Glorious']){
       await page.locator('.chapter').filter({hasText:name}).click();
       assert.equal(await page.locator('.prayer-row').count(),5);
-      await page.getByRole('button',{name:'Reflect on all five',exact:true}).click();
+      await page.getByRole('button',{name:'Reflect on All Five',exact:true}).click();
       for(let i=0;i<5;i++){
         await page.locator('.mystery-image').evaluate(img=>img.decode());
         assert.ok(await page.locator('.mystery-image').evaluate(img=>img.naturalWidth>0));
         await noOverflow(page);
         await page.getByRole('button',{name:i===4?'Finish':'Next',exact:true}).click();
       }
-      assert.equal(await page.locator('h1').textContent(),'A moment to be still.');
-      await page.getByRole('button',{name:'Return to library',exact:true}).click();
-      await page.getByRole('button',{name:'All mysteries',exact:true}).click();
+      assert.equal(await page.locator('h1').textContent(),'A Moment to Be Still.');
+      await page.getByRole('button',{name:'Return to Library',exact:true}).click();
+      await page.getByRole('button',{name:'All Mysteries',exact:true}).click();
     }
     await page.getByRole('button',{name:'Prayers',exact:true}).click();
     await page.locator('[data-action="read-item"][data-id="niceneCreed"]').click();
-    await page.getByRole('button',{name:'Reading settings',exact:true}).click();
+    await page.getByRole('button',{name:'Reading Settings',exact:true}).click();
     await page.locator('#text-size').selectOption('1.75');await page.keyboard.press('Escape');
     await page.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));await noOverflow(page);
     assert.ok(await page.evaluate(()=>document.querySelector('#prayer-text').getBoundingClientRect().bottom<document.querySelector('.reader-dock').getBoundingClientRect().top));
     await page.setViewportSize({width:height,height:width});await noOverflow(page);
-    await page.getByRole('button',{name:'Close prayer and save place',exact:true}).click();
+    await page.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).click();
     await page.getByRole('button',{name:'The Mass',exact:true}).click();
     assert.equal(await page.locator('.mass-section').count(),4);
-    await page.getByText('Profession of faith',{exact:true}).click();await noOverflow(page);
+    await page.getByText('Profession of Faith',{exact:true}).click();await noOverflow(page);
     assert.match(await page.locator('.notice').textContent(),/not a complete worship aid/);
     assert.deepEqual(errors,[]);await context.close();
   }
@@ -71,19 +72,19 @@ test('instructor ordering, immutable shared links, reading, resume and completio
   const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});await open(page);
   await openClass(page);
   await page.locator('#class-title').fill('María’s OCIA class');await page.locator('#starter').selectOption('opening');
-  await page.getByRole('button',{name:'Add prayer or mystery',exact:true}).click();
+  await page.getByRole('button',{name:'Add Prayer or Mystery',exact:true}).click();
   await page.locator('#picker-search').fill('Annunciation');
   await page.locator('#picker-results button').click();
   await page.getByRole('button',{name:'Close',exact:true}).click();
-  await page.getByRole('button',{name:'Move The Annunciation earlier',exact:true}).click();
+  await page.getByRole('button',{name:'Move The Annunciation Earlier',exact:true}).click();
   await page.getByRole('combobox',{name:'Repetitions of Our Father',exact:true}).selectOption('2');
   assert.equal(await page.locator('.step').count(),6);
-  assert.match(await page.locator('.builder-tools').textContent(),/7 \/ 32 pages/);
+  assert.match(await page.locator('.builder-tools').textContent(),/7 \/ 32 Pages/);
   await saveClass(page);
   await page.reload();await page.getByRole('button',{name:'My Class',exact:true}).click();
   assert.equal(await page.locator('#class-title').inputValue(),'María’s OCIA class');
   await saveClass(page);assert.equal(await page.locator('.saved-row').count(),1);
-  await page.getByRole('button',{name:'Share / QR code',exact:true}).click();
+  await page.getByRole('button',{name:'Share / QR Code',exact:true}).click();
   const link=await page.locator('#share-url').inputValue();assert.ok(link.includes('#class='));
   assert.equal(await page.locator('.qr svg').count(),1);
   await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>document.activeElement.dataset.action),'share');
@@ -98,14 +99,14 @@ test('instructor ordering, immutable shared links, reading, resume and completio
   await learner.getByRole('button',{name:'Contents',exact:true}).click();
   await learner.locator('[data-action="jump"][data-index="4"]').click();
   assert.equal(await learner.locator('#reader-title').textContent(),'Glory Be');
-  await learner.getByRole('button',{name:'Close prayer and save place',exact:true}).click();
+  await learner.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).click();
   await learner.reload();await learner.getByRole('button',{name:'Continue',exact:true}).click();
   assert.equal(await learner.locator('#reader-title').textContent(),'Glory Be');
   await learner.getByRole('button',{name:'Next',exact:true}).click();
   assert.equal(await learner.locator('#reader-title').textContent(),'The Annunciation');
   await learner.getByRole('button',{name:'Next',exact:true}).click();
   await learner.getByRole('button',{name:'Finish',exact:true}).click();
-  assert.equal(await learner.locator('h1').textContent(),'A moment to be still.');
+  assert.equal(await learner.locator('h1').textContent(),'A Moment to Be Still.');
   await learner.close();await page.close();
 }));
 
@@ -113,7 +114,7 @@ test('class repetition counts keep one row, persist, share and read every prayer
   const page=await browser.newPage({viewport:{width:320,height:700},reducedMotion:'reduce'});await open(page);await openClass(page);
   const draftIds=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')).ids);
   await page.locator('#class-title').fill('A decade together');
-  await page.getByRole('button',{name:'Add prayer or mystery',exact:true}).click();
+  await page.getByRole('button',{name:'Add Prayer or Mystery',exact:true}).click();
   assert.equal(await page.getByRole('combobox',{name:'Repetitions',exact:true}).inputValue(),'1');
   for(const [id,name,count] of [['ourFather','Our Father',1],['hailMary','Hail Mary',10],['gloryBe','Glory Be',1]]){
     await page.locator('#picker-count').selectOption(String(count));
@@ -127,7 +128,7 @@ test('class repetition counts keep one row, persist, share and read every prayer
   assert.equal(await page.locator('.step').count(),3);
   assert.equal(await page.getByRole('combobox',{name:'Repetitions of Hail Mary',exact:true}).inputValue(),'10');
   assert.equal(await page.getByRole('button',{name:/^Repeat /}).count(),0);
-  assert.match(await page.locator('.builder-tools').textContent(),/12 \/ 32 pages/);
+  assert.match(await page.locator('.builder-tools').textContent(),/12 \/ 32 Pages/);
   await noOverflow(page);
   await page.getByRole('combobox',{name:'Repetitions of Hail Mary',exact:true}).selectOption('2');
   assert.deepEqual(await draftIds(),['ourFather','hailMary','hailMary','gloryBe']);
@@ -135,7 +136,7 @@ test('class repetition counts keep one row, persist, share and read every prayer
   assert.equal(await page.getByRole('combobox',{name:'Repetitions of Hail Mary',exact:true}).inputValue(),'2');
   await page.getByRole('combobox',{name:'Repetitions of Hail Mary',exact:true}).selectOption('10');
   await saveClass(page);
-  await page.getByRole('button',{name:'Share / QR code',exact:true}).click();
+  await page.getByRole('button',{name:'Share / QR Code',exact:true}).click();
   const link=await page.locator('#share-url').inputValue();
   const payload=JSON.parse(Buffer.from(new URL(link).hash.slice(7),'base64url').toString('utf8'));
   assert.deepEqual(payload,[1,'A decade together',expected]);
@@ -149,13 +150,13 @@ test('class repetition counts keep one row, persist, share and read every prayer
     await page.getByRole('button',{name:i===expected.length-1?'Finish':'Next',exact:true}).click();
   }
   assert.deepEqual(titles,['Our Father',...Array(10).fill('Hail Mary'),'Glory Be']);
-  assert.equal(await page.locator('h1').textContent(),'A moment to be still.');
-  await page.getByRole('button',{name:'Return to library',exact:true}).click();
-  await page.getByRole('button',{name:'Move Hail Mary earlier',exact:true}).click();
+  assert.equal(await page.locator('h1').textContent(),'A Moment to Be Still.');
+  await page.getByRole('button',{name:'Return to Library',exact:true}).click();
+  await page.getByRole('button',{name:'Move Hail Mary Earlier',exact:true}).click();
   assert.deepEqual(await draftIds(),[...Array(10).fill('hailMary'),'ourFather','gloryBe']);
   assert.equal(await page.locator('.step').count(),3);
-  assert.equal(await page.getByRole('button',{name:'Move Hail Mary earlier',exact:true}).isDisabled(),true);
-  await page.getByRole('button',{name:'Move Hail Mary later',exact:true}).click();
+  assert.equal(await page.getByRole('button',{name:'Move Hail Mary Earlier',exact:true}).isDisabled(),true);
+  await page.getByRole('button',{name:'Move Hail Mary Later',exact:true}).click();
   assert.deepEqual(await draftIds(),expected);
   await page.getByRole('button',{name:'Remove Hail Mary',exact:true}).click();
   assert.deepEqual(await draftIds(),['ourFather','gloryBe']);
@@ -164,7 +165,7 @@ test('class repetition counts keep one row, persist, share and read every prayer
   assert.deepEqual(await draftIds(),expected);
   assert.equal(await page.getByRole('combobox',{name:'Repetitions of Hail Mary',exact:true}).inputValue(),'10');
   await page.getByRole('combobox',{name:'Repetitions of Hail Mary',exact:true}).selectOption('1');
-  await page.getByRole('button',{name:'Add prayer or mystery',exact:true}).click();
+  await page.getByRole('button',{name:'Add Prayer or Mystery',exact:true}).click();
   await page.locator('#picker-search').fill('Our Father');
   await page.locator('#picker-results [data-action="add"][data-id="ourFather"]').click();
   await page.getByRole('button',{name:'Close',exact:true}).click();
@@ -184,7 +185,7 @@ test('saved QR sharing preserves the current draft and downloads a PNG before an
   const tenHailMarys=Array(10).fill('hailMary');
   const expected=['joyful-1','ourFather',...tenHailMarys,'gloryBe','fatima'];
   await page.locator('#class-title').fill(title);
-  await page.getByRole('button',{name:'Add prayer or mystery',exact:true}).click();
+  await page.getByRole('button',{name:'Add Prayer or Mystery',exact:true}).click();
   for(const [id,name,count] of [['joyful-1','Annunciation',1],['ourFather','Our Father',1],['hailMary','Hail Mary',10],['gloryBe','Glory Be',1],['fatima','Fatima',1]]){
     await page.locator('#picker-count').selectOption(String(count));
     await page.locator('#picker-search').fill(name);
@@ -193,8 +194,8 @@ test('saved QR sharing preserves the current draft and downloads a PNG before an
   await page.getByRole('button',{name:'Close',exact:true}).click();
   const savedLink=await saveClass(page);
   assert.deepEqual(JSON.parse(Buffer.from(new URL(savedLink).hash.slice(7),'base64url').toString('utf8')),[1,title,expected]);
-  await page.getByRole('button',{name:'New set',exact:true}).click();
-  await page.getByRole('button',{name:'Start new set',exact:true}).click();
+  await page.getByRole('button',{name:'New Set',exact:true}).click();
+  await page.getByRole('button',{name:'Start New Set',exact:true}).click();
   await page.locator('#class-title').fill('An unfinished class');
   await page.locator('#starter').selectOption('opening');
   const currentDraft=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')));
@@ -206,11 +207,11 @@ test('saved QR sharing preserves the current draft and downloads a PNG before an
     const savedShare=page.getByRole('button',{name:`Share QR for ${title}`,exact:true});
     assert.equal(await savedShare.textContent(),'Share QR');
     await savedShare.click();
-    assert.equal(await page.locator('#dialog-title').textContent(),'Share this class');
-    assert.equal(await page.locator('.share-caption').textContent(),`${title} · 14 pages`);
+    assert.equal(await page.locator('#dialog-title').textContent(),'Share This Class');
+    assert.equal(await page.locator('.share-caption').textContent(),`${title} · 14 Pages`);
     assert.equal(await page.locator('.qr svg').count(),1);
     assert.equal(await page.locator('#share-url').inputValue(),savedLink);
-    assert.equal(await page.getByRole('button',{name:'Copy link',exact:true}).isVisible(),true);
+    assert.equal(await page.getByRole('button',{name:'Copy Link',exact:true}).isVisible(),true);
     assert.equal(await page.getByRole('button',{name:'Print',exact:true}).isVisible(),true);
     await noOverflow(page);
     if(!reload){
@@ -250,7 +251,7 @@ test('repetitions respect the 32-page limit on narrow and desktop screens',()=>b
     assert.deepEqual(await counts('Repetitions of Our Father'),[1,2]);
     assert.deepEqual(await counts('Repetitions of Hail Mary'),Array.from({length:31},(_,i)=>i+1));
     await noOverflow(page);
-    await page.getByRole('button',{name:'Add prayer or mystery',exact:true}).click();
+    await page.getByRole('button',{name:'Add Prayer or Mystery',exact:true}).click();
     assert.deepEqual(await counts('Repetitions'),[1]);
     await page.locator('#picker-search').fill('Glory Be');
     await page.locator('#picker-results [data-action="add"][data-id="gloryBe"]').click();
@@ -264,7 +265,7 @@ test('repetitions respect the 32-page limit on narrow and desktop screens',()=>b
     assert.equal((await draftIds()).length,32);
     await page.getByRole('combobox',{name:'Repetitions of Hail Mary',exact:true}).selectOption('28');
     assert.equal((await draftIds()).length,30);
-    await page.getByRole('button',{name:'Add prayer or mystery',exact:true}).click();
+    await page.getByRole('button',{name:'Add Prayer or Mystery',exact:true}).click();
     assert.deepEqual(await counts('Repetitions'),[1,2]);
     await page.locator('#picker-count').selectOption('2');
     await page.locator('#picker-search').fill('Glory Be');
@@ -291,7 +292,7 @@ test('separated repetitions stay distinct and merge only when moved together',()
   assert.equal(await hailMaryCounts.nth(1).inputValue(),'3');
   await hailMaryCounts.nth(1).selectOption('4');
   assert.deepEqual(await draftIds(),['hailMary','hailMary','ourFather',...Array(4).fill('hailMary'),'gloryBe']);
-  await page.getByRole('button',{name:'Move Hail Mary earlier',exact:true}).nth(1).click();
+  await page.getByRole('button',{name:'Move Hail Mary Earlier',exact:true}).nth(1).click();
   assert.deepEqual(await draftIds(),[...Array(6).fill('hailMary'),'ourFather','gloryBe']);
   assert.equal(await page.locator('.step').count(),3);
   assert.equal(await page.getByRole('combobox',{name:'Repetitions of Hail Mary',exact:true}).inputValue(),'6');
@@ -303,7 +304,7 @@ test('separated repetitions stay distinct and merge only when moved together',()
 test('invalid links, hostile titles, modal focus and keyboard navigation are safe',()=>browserTest(async browser=>{
   const page=await browser.newPage({viewport:{width:390,height:844}});
   await page.goto(base+'#class=broken');await page.getByRole('dialog').waitFor();
-  assert.match(await page.locator('#dialog-title').textContent(),/could not open/);
+  assert.match(await page.locator('#dialog-title').textContent(),/Could Not Open/);
   await page.keyboard.press('Escape');await openClass(page);
   await page.locator('#class-title').fill('<img src=x onerror=alert(1)>');await page.locator('#starter').selectOption('opening');
   await page.getByRole('button',{name:'Preview',exact:true}).click();
@@ -322,11 +323,11 @@ test('invalid links, hostile titles, modal focus and keyboard navigation are saf
 test('blocked storage does not prevent praying or sharing',()=>browserTest(async browser=>{
   const page=await browser.newPage();
   await page.addInitScript(()=>{Storage.prototype.getItem=()=>{throw Error('blocked');};Storage.prototype.setItem=()=>{throw Error('blocked');};});
-  await open(page);await page.getByRole('button',{name:'Pray together',exact:true}).click();
+  await open(page);await page.getByRole('button',{name:'Pray Together',exact:true}).click();
   await page.getByRole('button',{name:'Next',exact:true}).click();assert.equal(await page.locator('#reader-title').textContent(),'Our Father');
-  await page.getByRole('button',{name:'Close prayer and save place',exact:true}).click();
+  await page.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).click();
   await openClass(page);await page.locator('#starter').selectOption('opening');
-  await page.getByRole('button',{name:'Share / QR code',exact:true}).click();assert.equal(await page.locator('.qr svg').count(),1);await page.close();
+  await page.getByRole('button',{name:'Share / QR Code',exact:true}).click();assert.equal(await page.locator('.qr svg').count(),1);await page.close();
 }));
 
 test('read-aloud stops on navigation and stale callbacks cannot affect the current prayer',()=>browserTest(async browser=>{
@@ -335,16 +336,16 @@ test('read-aloud stops on navigation and stale callbacks cannot affect the curre
     window.spoken=[];window.SpeechSynthesisUtterance=class{constructor(text){this.text=text;}};
     Object.defineProperty(window,'speechSynthesis',{configurable:true,value:{getVoices:()=>[],speak:value=>window.spoken.push(value),cancel:()=>{}}});
   });
-  await open(page);await page.getByRole('button',{name:'Pray together',exact:true}).click();
-  await page.getByRole('button',{name:'Read aloud',exact:true}).click();
+  await open(page);await page.getByRole('button',{name:'Pray Together',exact:true}).click();
+  await page.getByRole('button',{name:'Read Aloud',exact:true}).click();
   assert.match(await page.evaluate(()=>spoken[0].text),/In the name of the Father/);
   await page.getByRole('button',{name:'Next',exact:true}).click();
-  await page.getByRole('button',{name:'Read aloud',exact:true}).click();
+  await page.getByRole('button',{name:'Read Aloud',exact:true}).click();
   await page.evaluate(()=>{spoken[0].onend();spoken[0].onerror();});
   assert.equal(await page.locator('#audio-button').getAttribute('aria-pressed'),'true');
   assert.equal(await page.locator('#reader-title').textContent(),'Our Father');
-  await page.getByRole('button',{name:'Close prayer and save place',exact:true}).click();
-  await page.evaluate(()=>spoken[1].onend());assert.ok(await page.getByRole('button',{name:'Pray together',exact:true}).isVisible());await page.close();
+  await page.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).click();
+  await page.evaluate(()=>spoken[1].onend());assert.ok(await page.getByRole('button',{name:'Pray Together',exact:true}).isVisible());await page.close();
 }));
 
 test('students browse without editing controls; saved sets use a date or chosen name',()=>browserTest(async browser=>{
@@ -353,13 +354,13 @@ test('students browse without editing controls; saved sets use a date or chosen 
   assert.equal(await page.locator('[data-action="add"]').count(),0);
   await page.locator('[data-action="read-item"][data-id="cross"] svg').click();
   assert.equal(await page.locator('#reader-title').textContent(),'Sign of the Cross');
-  await page.getByRole('button',{name:'Close prayer and save place',exact:true}).click();
+  await page.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).click();
   await page.getByRole('button',{name:'Mysteries',exact:true}).click();
   await page.locator('.chapter').first().click();
   assert.equal(await page.locator('[data-action="add"], [data-action="add-mysteries"]').count(),0);
   await page.getByRole('button',{name:'My Class',exact:true}).click();
   assert.equal(await page.locator('#class-title').count(),0);
-  await page.getByRole('button',{name:'Prepare a class',exact:true}).click();
+  await page.getByRole('button',{name:'Prepare a Class',exact:true}).click();
   const first=await page.locator('#class-title').inputValue();assert.match(first,/^[A-Za-z]+ \d{1,2}, \d{4}$/);
   await page.reload();await openClass(page);
   assert.equal(await page.locator('#class-title').inputValue(),first);
@@ -371,8 +372,8 @@ test('students browse without editing controls; saved sets use a date or chosen 
   assert.equal(await page.locator('.saved-row').count(),1);
   await page.reload();await openClass(page);
   assert.equal(await page.locator('#class-title').inputValue(),'Tuesday OCIA');
-  await page.getByRole('button',{name:'Save set',exact:true}).click();
-  assert.equal(await page.getByRole('textbox',{name:'Set name',exact:true}).inputValue(),'Tuesday OCIA');
+  await page.getByRole('button',{name:'Save Set',exact:true}).click();
+  assert.equal(await page.getByRole('textbox',{name:'Set Name',exact:true}).inputValue(),'Tuesday OCIA');
   await page.locator('#saved-set-name').fill('Cancelled name');await noOverflow(page);
   await page.getByRole('button',{name:'Cancel',exact:true}).click();
   assert.equal(await page.locator('#class-title').inputValue(),'Tuesday OCIA');
@@ -381,11 +382,11 @@ test('students browse without editing controls; saved sets use a date or chosen 
   assert.equal(await page.locator('.saved-row').count(),1);
   await saveClass(page);
   assert.equal(await page.locator('.saved-row').count(),1);
-  await page.getByRole('button',{name:'New set',exact:true}).click();
-  await page.getByRole('button',{name:'Start new set',exact:true}).click();
+  await page.getByRole('button',{name:'New Set',exact:true}).click();
+  await page.getByRole('button',{name:'Start New Set',exact:true}).click();
   assert.match(await page.locator('#class-title').inputValue(),/^[A-Za-z]+ \d{1,2}, \d{4}$/);
   assert.match(await page.locator('.saved-row').textContent(),/Tuesday OCIA/);
-  await page.getByRole('button',{name:'Class overview',exact:true}).click();
+  await page.getByRole('button',{name:'Class Overview',exact:true}).click();
   await page.reload();await page.getByRole('button',{name:'My Class',exact:true}).click();
   assert.equal(await page.locator('#class-title').count(),0);await page.close();
 }));
@@ -395,7 +396,7 @@ test('Mass guide starts collapsed, opens inline, changes only the chosen form, a
   await page.getByRole('button',{name:'The Mass',exact:true}).click();
   assert.equal(await page.locator('.mass-part').count(),14);
   assert.equal(await page.locator('.mass-part[open]').count(),0);
-  await page.getByRole('link',{name:'3. We give thanks',exact:true}).click();
+  await page.getByRole('link',{name:'3. We Give Thanks',exact:true}).click();
   assert.equal(new URL(page.url()).hash,'#mass-offer');
   assert.equal(await page.locator('button[data-view="mass"]').getAttribute('aria-current'),'page');
   assert.equal(await page.getByRole('link',{name:/Official Mass guide/}).count(),0);

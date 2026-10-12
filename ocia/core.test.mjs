@@ -33,6 +33,23 @@ test('invalid links, unknown prayers and excessive payloads are rejected',()=>{
   assert.throws(()=>encodeSet({...valid,ids:[]},catalog));
 });
 
+test('optional class creators round-trip without changing existing class links',()=>{
+  const legacy={version:1,title:'10/13/2026 OCIA',ids:['joyful-1','ourFather',...Array(10).fill('hailMary'),'gloryBe','fatima']};
+  const previous=Buffer.from(JSON.stringify([1,legacy.title,legacy.ids])).toString('base64url');
+  assert.equal(encodeSet(legacy,catalog),previous);
+  assert.deepEqual(decodeSet(previous,catalog),legacy);
+  assert.equal(encodeSet({...legacy,createdBy:'   '},catalog),previous);
+  const credited={...legacy,createdBy:'María & John'};
+  assert.deepEqual(decodeSet(encodeSet({...credited,createdBy:'  María & John  '},catalog),catalog),credited);
+  assert.notEqual(encodeSet(credited,catalog),previous);
+  assert.deepEqual(validateSet(credited,catalog),credited);
+  for(const createdBy of [null,1,{},'x'.repeat(81)]){
+    assert.throws(()=>validateSet({...legacy,createdBy},catalog));
+    const invalid=Buffer.from(JSON.stringify([1,legacy.title,legacy.ids,createdBy])).toString('base64url');
+    assert.throws(()=>decodeSet(invalid,catalog));
+  }
+});
+
 test('class data stays in the URL fragment and works beneath a GitHub Pages path',()=>{
   const url=new URL(shareURL({version:1,title:'Class',ids:['cross']},catalog,'https://darrahdata.github.io/ocia/?old=1#anything'));
   assert.equal(url.pathname,'/ocia/');assert.equal(url.search,'');
