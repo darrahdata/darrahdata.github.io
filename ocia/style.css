@@ -17,7 +17,7 @@ body:has(dialog[open]){overflow:hidden}
 /* Follow browser text size and iOS Dynamic Type without app-level overrides. */
 :root{font-size:100%}
 @supports(font:-apple-system-body){@media(hover:none){:root{font:-apple-system-body;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}}
-.mystery-reading .reader-title{color:var(--gold)}.prayer-reading .reader-title{color:var(--sage);font-style:italic}.prayer-role{color:var(--gold)}
+.prayer-role{color:var(--gold)}
 /* Keep native WebKit selects at the same readable touch size as other controls. */
 select{-webkit-appearance:none;appearance:none;padding-right:2.25rem;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d9c58c' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .65rem center;background-size:16px}.step-controls .step-count{padding-right:1.7rem}
 /* Keep prayer text and the next tap within reach on phones. */
@@ -64,7 +64,9 @@ q.prayer-words{quotes:"“" "”" "‘" "’"}.prayer-role-leader{color:var(--go
 .reader-mode main:has(.mystery-reading){min-height:100dvh;display:flex;flex-direction:column;padding-bottom:calc(var(--dock-height) + env(safe-area-inset-bottom) + 1rem)}
 .reader-mode main:has(.mystery-reading)>.reader-header,.reader-mode main:has(.mystery-reading)>.reader-progress{flex-shrink:0}
 .mystery-reading{display:flex;flex-direction:column;flex:1}
-.mystery-reading .reader-title{font-family:"Lora",Georgia,serif;font-size:1.35rem;font-weight:500;line-height:1.3;margin:.25rem 0 .7rem}
+.prayer-reading{display:flow-root}
+.prayer-reading .reader-title,.mystery-reading .reader-title{font-family:"Lora",Georgia,serif;font-size:1.35rem;line-height:1.3;font-weight:500;font-style:normal;color:#e0e0e0;margin:.25rem 0 .7rem}
+.prayer-reading .reader-title:has(+.repeat-progress){margin-bottom:.35rem}
 .mystery-scripture{font-size:1.05rem;line-height:1.65;margin:0 0 .75rem}
 .mystery-scripture cite{font-size:.875rem;line-height:1.5;margin-top:.35rem}
 .mystery-image{position:relative;flex:1;min-height:160px;margin:0}
