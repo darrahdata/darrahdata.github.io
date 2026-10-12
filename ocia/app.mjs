@@ -63,8 +63,8 @@ function renderPrayers() {
     <div id="prayer-groups" class="prayer-groups">${prayerGroups(state.query)}</div>${mysteryLibrary()}`;
 }
 function mysteryLibrary() {
-  return `<section id="mysteries" class="mystery-library" aria-labelledby="mysteries-heading"><header class="section-heading"><h2 id="mysteries-heading" tabindex="-1">Mysteries of the Rosary</h2><p>Twenty key scenes from the life of Jesus Christ and the Virgin Mary to contemplate while reciting the prayers of the Rosary.</p></header>
-    <ul class="chapter-list">${mysterySets.map(set=>`<li><button type="button" class="chapter" data-action="mystery-set" data-id="${set.key}"><img src="${set.image}" alt="" loading="lazy" width="76" height="96"><span><strong>${set.name}</strong><span class="theme">${escape(set.theme)}</span><small>Usually Prayed: ${escape(set.days)} · 5 Mysteries</small></span>${icon('chevron-right')}</button></li>`).join('')}</ul>
+  return `<section id="mysteries" class="mystery-library" aria-labelledby="mysteries-heading"><header class="section-heading"><h2 id="mysteries-heading" tabindex="-1">Mysteries of the Rosary</h2><p>Twenty key scenes from the life of Jesus Christ and the Virgin Mary to contemplate while reciting the prayers of the Rosary. Each set has five mysteries.</p></header>
+    <ul class="chapter-list">${mysterySets.map(set=>`<li><button type="button" class="chapter" data-action="mystery-set" data-id="${set.key}"><img src="${set.image}" alt="" loading="lazy" width="76" height="96"><span><strong>${set.name}</strong><span class="theme">${escape(set.theme)}</span><small>Usually Prayed: ${escape(set.days)}</small></span>${icon('chevron-right')}</button></li>`).join('')}</ul>
     <p class="source-note">These are customary days; your group may choose any mystery.</p></section>`;
 }
 function renderMysteries() {
