@@ -7,9 +7,9 @@ const classSet=(title,ids=['ourFather','hailMary'],createdBy)=>({version:1,title
 const linkFor=set=>base+'#class='+Buffer.from(JSON.stringify([1,set.title,set.ids,...(set.createdBy?[set.createdBy]:[])])).toString('base64url');
 async function run(check){const browser=await engine.launch(engine===chromium?{channel:'chrome'}:{});try{await check(browser);}finally{await browser.close();}}
 async function phone(browser){return browser.newPage({viewport:{width:320,height:568},isMobile:true,hasTouch:true,reducedMotion:'reduce'});}
-async function ready(page){await page.locator('[data-action="essentials"]').waitFor();}
+async function ready(page){await page.getByRole('heading',{name:'How to Use',exact:true}).waitFor();}
 async function seed(page,sets=[],draft=null,builderOpen=false){
-  await page.goto(base);await ready(page);
+  await page.goto(base,{waitUntil:'domcontentloaded'});await ready(page);
   await page.evaluate(({sets,draft,builderOpen})=>{
     localStorage.setItem('ocia-sets',JSON.stringify(sets));
     if(draft)localStorage.setItem('ocia-draft',JSON.stringify(draft));
@@ -137,6 +137,11 @@ test('stale empty saved entries and invalid links do not break or alter valid im
   assert.deepEqual(saved[0].set,set);assert.deepEqual(saved[1],empty);
   await page.goto(base+'#class=broken');await page.getByRole('dialog').waitFor();
   assert.match(await page.locator('#dialog-title').textContent(),/Could Not Open/);
+  assert.deepEqual(await stored(page,'sets'),saved);
+  await page.getByRole('dialog').getByRole('button',{name:'Browse Prayers',exact:true}).tap();
+  assert.equal(await page.getByRole('dialog').count(),0);
+  assert.equal(await page.getByRole('button',{name:'Prayers',exact:true}).getAttribute('aria-current'),'page');
+  assert.equal(await page.getByRole('heading',{name:'Begin With Essentials',exact:true}).isVisible(),true);
   assert.deepEqual(await stored(page,'sets'),saved);
   await page.close();
 }));

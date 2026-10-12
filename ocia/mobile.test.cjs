@@ -60,7 +60,7 @@ test('phone class links show readable first content, count all ten prayers, and 
 }));
 
 test('phone class preparation keeps picker and QR dismissal within tap reach',()=>run(async browser=>{
-  const page=await phone(browser);await page.goto(base);await page.getByRole('button',{name:'My Prayers',exact:true}).tap();
+  const page=await phone(browser);await page.goto(base,{waitUntil:'domcontentloaded'});await page.getByRole('heading',{name:'How to Use',exact:true}).waitFor();await page.getByRole('button',{name:'My Prayers',exact:true}).tap();
   await page.getByRole('button',{name:'Create Prayer Set',exact:true}).tap();
   await page.getByRole('button',{name:'Add Prayer or Mystery',exact:true}).tap();
   assert.notEqual(await page.evaluate(()=>document.activeElement.id),'picker-search','Touch users can browse without opening the keyboard automatically');
@@ -83,7 +83,7 @@ test('phone class preparation keeps picker and QR dismissal within tap reach',()
 }));
 
 test('200 percent text stays on a narrow phone with usable navigation',()=>run(async browser=>{
-  const page=await phone(browser);await page.goto(base);await page.locator('[data-action=essentials]').waitFor();
+  const page=await phone(browser);await page.goto(base,{waitUntil:'domcontentloaded'});await page.getByRole('heading',{name:'How to Use',exact:true}).waitFor();await page.getByRole('button',{name:'Prayers',exact:true}).tap();await page.locator('[data-action=essentials]').waitFor();
   await page.addStyleTag({content:':root{font-size:200%}'});await page.evaluate(()=>document.fonts.ready);
   await fits(page);
   for(const button of await page.locator('.primary-nav button').all()){

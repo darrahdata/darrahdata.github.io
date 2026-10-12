@@ -9,7 +9,7 @@ async function fits(page){assert.deepEqual(await page.evaluate(()=>({viewport:in
 function payload(link){return JSON.parse(Buffer.from(new URL(link).hash.slice(7),'base64url').toString('utf8'));}
 async function prepare(page){
   await page.goto(base,{waitUntil:'domcontentloaded'});
-  await page.getByRole('button',{name:'Pray Together',exact:true}).waitFor();
+  await page.getByRole('heading',{name:'How to Use',exact:true}).waitFor();
   await page.getByRole('button',{name:'My Prayers',exact:true}).tap();
   const button=page.getByRole('button',{name:'Create Prayer Set',exact:true});
   if(await button.isVisible())await button.tap();
