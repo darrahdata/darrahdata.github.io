@@ -299,24 +299,31 @@ function share(set=state.builder,saved=false) {
   let url;
   try{set=validateSet(set,catalog);url=shareURL(set,catalog,location.href);}catch(error){notify(error.message);return;}
   const qr=qrcode(0,'M');qr.addData(url);qr.make();
-  state.share={title:set.title,url,svg:qr.createSvgTag({cellSize:4,margin:16,scalable:true})};
+  state.share={title:set.title,url,canvas:qrCanvas(qr)};
   const local=/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
-  showDialog('share',saved?'Prayer Set Saved — Ready to Share':'Share This Prayer Set',`<p class="share-caption">${escape(set.title)} · ${set.ids.length} Pages</p>${setMetadata(set,'p','share-creator')}<p class="share-instruction">Scan this code to open and save the prayer set on your phone.</p><div class="qr" role="img" aria-label="QR Code for ${escape(set.title)}">${state.share.svg}</div>
+  showDialog('share',saved?'Prayer Set Saved — Ready to Share':'Share This Prayer Set',`<p class="share-caption">${escape(set.title)} · ${set.ids.length} Pages</p><div class="qr" role="img" aria-label="QR Code for ${escape(set.title)}"></div>${setMetadata(set,'p','share-creator')}<p class="share-instruction">Scan this code to open and save the prayer set on your phone.</p>
     ${local?'<p class="notice">Local preview: this link and QR code work on this computer only. A published address is required before sharing with your group.</p>':''}
     <div class="share-url"><label class="field-label" for="share-url">Prayer Set Link</label><input id="share-url" readonly value="${escape(url)}"></div>
     <div class="inline-actions">${action('download-qr','Download QR','download','class="primary"')}${action('copy-link','Copy Link','link')}${action('print-qr','Print','printer')}${navigator.share?action('native-share','Share Link','share-2'):''}</div>
     <p class="privacy">No account needed. Each person moves through the pages on their own. Keep the same QR for this exact prayer set; create a new one after edits.</p><p class="print-only">${escape(url)}</p>`);
+  dialog.querySelector('.qr').append(state.share.canvas);
   dialog.querySelector('[data-action="close-dialog"]').focus({preventScroll:true});
 }
+function qrCanvas(qr) {
+  const count=qr.getModuleCount(),border=4,modulePixels=Math.ceil(1200/(count+border*2));
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=(count+border*2)*modulePixels;
+  canvas.setAttribute('aria-hidden','true');
+  const context=canvas.getContext('2d');
+  // Draw opaque pixels so page themes cannot recolor the white background or modules.
+  context.fillStyle='#fff';context.fillRect(0,0,canvas.width,canvas.height);
+  context.fillStyle='#000';
+  for(let row=0;row<count;row++)for(let column=0;column<count;column++){
+    if(qr.isDark(row,column))context.fillRect((column+border)*modulePixels,(row+border)*modulePixels,modulePixels,modulePixels);
+  }
+  return canvas;
+}
 async function qrImage(share) {
-  const svgURL=URL.createObjectURL(new Blob([share.svg],{type:'image/svg+xml'}));
-  try{
-    const image=new Image();image.src=svgURL;await image.decode();
-    const canvas=document.createElement('canvas');canvas.width=canvas.height=1200;
-    const context=canvas.getContext('2d');context.imageSmoothingEnabled=false;
-    context.fillStyle='#fff';context.fillRect(0,0,1200,1200);context.drawImage(image,0,0,1200,1200);
-    return await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('QR image could not be created.')),'image/png'));
-  }finally{URL.revokeObjectURL(svgURL);}
+  return await new Promise((resolve,reject)=>share.canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('QR image could not be created.')),'image/png'));
 }
 function loadShared() {
   if(!location.hash.startsWith('#class='))return false;

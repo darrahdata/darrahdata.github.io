@@ -73,3 +73,7 @@ q.prayer-words{quotes:"“" "”" "‘" "’"}.prayer-role-leader{color:var(--go
 .mystery-image img{position:absolute;inset:0;width:100%;height:100%;max-height:none;object-fit:contain}
 
 @media(max-width:350px){.prayer-reading .reader-title,.mystery-reading .reader-title{font-size:1.5rem}}
+
+/* Keep scanning contrast independent of the app theme or forced system colors. */
+.qr{width:min(100%,340px);background:#fff;color:#000;color-scheme:only light;forced-color-adjust:none}.qr canvas{display:block;width:100%;height:auto;background:#fff;filter:none!important;opacity:1!important;color-scheme:only light;forced-color-adjust:none}
+@media print{.qr{width:300px}}

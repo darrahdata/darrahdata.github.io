@@ -31,7 +31,7 @@ async function saveClass(page,name){
   await page.getByRole('heading',{name:'Prayer Set Saved — Ready to Share',exact:true}).waitFor();
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')));
   assert.equal(await page.locator('.share-caption').textContent(),`${saved.title} · ${saved.ids.length} Pages`);
-  assert.equal(await page.locator('.qr svg').count(),1);
+  assert.equal(await page.locator('.qr canvas').count(),1);
   const link=await page.locator('#share-url').inputValue();
   const expected=[1,saved.title,saved.ids];
   if(saved.updatedAt)expected.push(saved.createdBy||'',saved.createdAt||'',saved.updatedAt);
@@ -123,7 +123,7 @@ test('instructor ordering, immutable shared links, reading, resume and completio
   await saveClass(page);assert.equal(await page.locator('.saved-row').count(),1);
   await page.getByRole('button',{name:'Share / QR Code',exact:true}).click();
   const link=await page.locator('#share-url').inputValue();assert.ok(link.includes('#class='));
-  assert.equal(await page.locator('.qr svg').count(),1);
+  assert.equal(await page.locator('.qr canvas').count(),1);
   await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>document.activeElement.dataset.action),'share');
   await page.locator('#class-title').fill('Changed later');
   const learner=await browser.newPage({viewport:{width:320,height:700},reducedMotion:'reduce'});
@@ -337,7 +337,21 @@ test('saved QR sharing preserves the current draft and downloads a PNG before an
     await savedShare.click();
     assert.equal(await page.locator('#dialog-title').textContent(),'Share This Prayer Set');
     assert.equal(await page.locator('.share-caption').textContent(),`${title} · 14 Pages`);
-    assert.equal(await page.locator('.qr svg').count(),1);
+    assert.equal(await page.locator('.qr canvas').count(),1);
+    const qrColors=()=>page.locator('.qr').evaluate(el=>{
+      const canvas=el.querySelector('canvas'),data=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;
+      let black=null;for(let i=0;i<data.length;i+=4)if(data[i]===0&&data[i+1]===0&&data[i+2]===0){black=Array.from(data.slice(i,i+4));break;}
+      return {background:getComputedStyle(el).backgroundColor,white:Array.from(data.slice(0,4)),black};
+    });
+    const expectedColors={background:'rgb(255, 255, 255)',white:[255,255,255,255],black:[0,0,0,255]};
+    assert.deepEqual(await qrColors(),expectedColors);
+    if(await page.evaluate(()=>CSS.supports('forced-color-adjust','none')))assert.equal(await page.locator('.qr').evaluate(el=>getComputedStyle(el).forcedColorAdjust),'none');
+    await page.emulateMedia({forcedColors:'active'});
+    if(await page.evaluate(()=>matchMedia('(forced-colors: active)').matches))assert.deepEqual(await qrColors(),expectedColors,'Forced colors must preserve a black QR on an opaque white background');
+    await page.emulateMedia({forcedColors:'none'});
+    const recolored=await page.addStyleTag({content:'.qr{background:#0d110e!important}.qr svg rect{fill:#0d110e!important}'});
+    assert.deepEqual(await qrColors(),{...expectedColors,background:'rgb(13, 17, 14)'},'Recoloring page backgrounds and inline SVG must not darken the QR raster’s opaque white pixels');
+    await recolored.evaluate(el=>el.remove());
     assert.equal(await page.locator('#share-url').inputValue(),savedLink);
     assert.equal(await page.getByRole('button',{name:'Copy Link',exact:true}).isVisible(),true);
     assert.equal(await page.getByRole('button',{name:'Print',exact:true}).isVisible(),true);
@@ -354,6 +368,34 @@ test('saved QR sharing preserves the current draft and downloads a PNG before an
       assert.deepEqual(png.subarray(0,8),Buffer.from([137,80,78,71,13,10,26,10]));
       assert.ok(png.readUInt32BE(16)>=512,'The QR image should have enough resolution to share');
       assert.equal(png.readUInt32BE(16),png.readUInt32BE(20),'The QR image should be square');
+      const pixels=await page.evaluate(async encoded=>{
+        const image=new Image();image.src='data:image/png;base64,'+encoded;await image.decode();
+        const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;
+        const context=canvas.getContext('2d');context.drawImage(image,0,0);
+        const {data}=context.getImageData(0,0,canvas.width,canvas.height);
+        let transparent=0,colored=0,black=0,white=0,minX=canvas.width,minY=canvas.height,maxX=-1,maxY=-1;
+        for(let i=0;i<data.length;i+=4){
+          if(data[i+3]!==255)transparent++;
+          if(data[i]===0&&data[i+1]===0&&data[i+2]===0){
+            black++;const x=(i/4)%canvas.width,y=Math.floor(i/4/canvas.width);minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x);maxY=Math.max(maxY,y);
+          }else if(data[i]===255&&data[i+1]===255&&data[i+2]===255)white++;
+          else colored++;
+        }
+        let finderRun=0;
+        if(black>0)for(let x=minX;x<canvas.width;x++){
+          const i=(minY*canvas.width+x)*4;
+          if(data[i]!==0||data[i+1]!==0||data[i+2]!==0)break;
+          finderRun++;
+        }
+        return {width:canvas.width,height:canvas.height,transparent,colored,black,white,finderRun,borders:[minX,minY,canvas.width-maxX-1,canvas.height-maxY-1]};
+      },png.toString('base64'));
+      assert.equal(pixels.transparent,0,'Every downloaded QR pixel must be fully opaque');
+      assert.equal(pixels.colored,0,'Downloaded QR pixels must be pure black or pure white without blurred gray edges');
+      assert.ok(pixels.black>0&&pixels.white>0,'The image must contain both the code and its white background');
+      const modulePixels=pixels.finderRun/7;
+      assert.equal(Number.isInteger(modulePixels),true,'Every QR module must use whole pixels');
+      assert.ok(modulePixels>0&&Number.isInteger(pixels.width/modulePixels),'The raster dimensions must match the seven-module finder pattern’s pixel grid');
+      assert.ok(pixels.borders.every(border=>border>=4*modulePixels),'A white quiet zone at least four modules wide must surround the code');
     }
     await page.keyboard.press('Escape');
     await page.getByRole('dialog').waitFor({state:'hidden'});
@@ -456,7 +498,7 @@ test('blocked storage does not prevent praying or sharing',()=>browserTest(async
   await page.getByRole('button',{name:'Next',exact:true}).click();assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
   await page.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).click();
   await openClass(page);await page.locator('#starter').selectOption('opening');
-  await page.getByRole('button',{name:'Share / QR Code',exact:true}).click();assert.equal(await page.locator('.qr svg').count(),1);await page.close();
+  await page.getByRole('button',{name:'Share / QR Code',exact:true}).click();assert.equal(await page.locator('.qr canvas').count(),1);await page.close();
 }));
 
 test('reader keyboard navigation preserves Space scrolling and focused button activation',()=>browserTest(async browser=>{
