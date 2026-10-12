@@ -7,8 +7,10 @@ import {encodeSet,decodeSet,validateSet,shareURL,moveStep,groupSteps,setStepCoun
 const data=JSON.parse(fs.readFileSync(new URL('./prayers.json',import.meta.url)));
 const catalog=createCatalog(data);
 
-test('the Fatima Prayer has a single opening invocation',()=>{
-  assert.equal(catalog.get('fatima').text,'O my Jesus, forgive us our sins, lead all souls to heaven, especially those in most need of Thy mercy. Amen.');
+test('the Fatima Prayer has the corrected wording and one complete Everyone part',()=>{
+  const text='O my Jesus, forgive us our sins, save us from the fires of hell; lead all souls to heaven, especially those who are in most need of Your mercy. Amen.';
+  assert.equal(catalog.get('fatima').text,text);
+  assert.deepEqual(catalog.get('fatima').parts,[{role:'Everyone',text}]);
 });
 
 test('the library preserves every prayer and all twenty mystery texts',()=>{
@@ -21,13 +23,16 @@ test('the library preserves every prayer and all twenty mystery texts',()=>{
   }
 });
 
-test('all class prayers provide Leader and Response turns without changing their words',()=>{
+test('prayer participation parts preserve every word and retain Leader and Response outside Fatima',()=>{
   const prayers=[...catalog.values()].filter(item=>item.kind==='prayer');
   const normalized=text=>text.replace(/\s+/g,' ').trim();
   assert.equal(prayers.length,14);
   for(const item of prayers){
-    assert.ok(item.parts.length>=2,item.id);
-    assert.deepEqual([...new Set(item.parts.map(part=>part.role))],['Leader','Response'],item.id);
+    if(item.id==='fatima')assert.deepEqual(item.parts,[{role:'Everyone',text:item.text}]);
+    else{
+      assert.ok(item.parts.length>=2,item.id);
+      assert.deepEqual([...new Set(item.parts.map(part=>part.role))],['Leader','Response'],item.id);
+    }
     assert.ok(item.parts.every(part=>part.text.length>0),item.id);
     const original=item.id==='hailHolyQueen'?item.text.replace(/\b[VR]\.\s*/g,''):item.text;
     assert.equal(normalized(item.parts.map(part=>part.text).join(' ')),normalized(original),item.id);

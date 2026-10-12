@@ -1,6 +1,6 @@
 import {qrcode} from './vendor/qrcode.mjs';
-import {MAX_STEPS,defaultClassTitle,validateSet,encodeSet,decodeSet,shareURL,groupSteps,setStepCount,moveStepGroup} from './core.mjs?v=20261012-simple-reading';
-import {createCatalog,mysterySets,massSections} from './content.mjs?v=20261012-simple-reading';
+import {MAX_STEPS,defaultClassTitle,validateSet,encodeSet,decodeSet,shareURL,groupSteps,setStepCount,moveStepGroup} from './core.mjs?v=20261012-prayer-opening';
+import {createCatalog,mysterySets,massSections} from './content.mjs?v=20261012-prayer-opening';
 
 const $ = id => document.getElementById(id);
 const main = $('main'), dialog = $('dialog');
@@ -39,12 +39,12 @@ function hydrate() {
   state.builderOpen=readStore('builder-open',false)===true;
   if(!validStoredSet(draft))persistDraft();
   const resume=readStore('resume',null);
-  if(resume && validStoredSet(resume.set)?.ids.length && Number.isInteger(resume.index) && resume.index>=0)state.resume={set:validStoredSet(resume.set),index:Math.min(resume.index,resume.set.ids.length-1)};
+  if(resume && validStoredSet(resume.set)?.ids.length && Number.isInteger(resume.index) && resume.index>=-1)state.resume={set:validStoredSet(resume.set),index:Math.min(resume.index,resume.set.ids.length-1),withIntro:resume.withIntro===true||resume.index===-1};
 }
 function icons() {window.lucide?.createIcons();}
 function sectionHeading(title,description) {return `<header class="section-heading"><h1>${escape(title)}</h1>${description?`<p>${escape(description)}</p>`:''}</header>`;}
 function row(item) {return `<li class="prayer-row"><button type="button" class="prayer-open" data-action="read-item" data-id="${item.id}"><span><strong>${escape(item.name)}</strong><span>${escape(item.kind==='mystery'?`Mystery ${item.order} · ${item.desire}`:item.summary)}</span></span>${icon('chevron-right')}</button></li>`;}
-function resumeMarkup() {return state.resume?`<section class="intro-action"><div><span class="eyebrow">Continue Where You Left Off</span><h2>${escape(state.resume.set.title)}</h2><p>${state.resume.index+1} of ${state.resume.set.ids.length} · ${escape(catalog.get(state.resume.set.ids[state.resume.index]).name)}</p></div>${action('resume','Continue','arrow-right','class="secondary"')}</section>`:'';}
+function resumeMarkup() {return state.resume?`<section class="intro-action"><div><span class="eyebrow">Continue Where You Left Off</span><h2>${escape(state.resume.set.title)}</h2><p>${state.resume.index<0?'Ready to Begin':`${state.resume.index+1} of ${state.resume.set.ids.length} · ${escape(catalog.get(state.resume.set.ids[state.resume.index]).name)}`}</p></div>${action('resume','Continue','arrow-right','class="secondary"')}</section>`:'';}
 function prayerGroups(query='') {
   const matches=[...catalog.values()].filter(item=>item.kind==='prayer'&&`${item.name} ${item.summary}`.toLowerCase().includes(query.toLowerCase()));
   return matches.length?['Essentials','Creeds','Daily Prayer','Other Prayers'].map(group=>{
@@ -54,7 +54,7 @@ function prayerGroups(query='') {
 }
 function renderPrayers() {
   main.innerHTML=`<section class="intro-action"><div><h1>Begin With Essentials</h1><p>Sign of the Cross · Our Father · Hail Mary · Glory Be</p></div>${action('essentials','Pray Together','arrow-right','class="primary"')}</section>${resumeMarkup()}
-    <label class="search-label" for="prayer-search">Find a Prayer</label><input id="prayer-search" type="search" placeholder="Prayer Name" value="${escape(state.query)}" autocomplete="off">
+    <input id="prayer-search" type="search" aria-label="Find a Prayer" placeholder="Find a Prayer" value="${escape(state.query)}" autocomplete="off">
     <div id="prayer-groups" class="prayer-groups">${prayerGroups(state.query)}</div>`;
 }
 function renderMysteries() {
@@ -110,17 +110,16 @@ function metadataDate(value) {
   return date.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
 }
 function dateFields(prefix) {
-  return [['createdAt','created-at','Date Created'],['updatedAt','updated-at','Last Updated']].map(([key,suffix,label])=>{
+  return [['createdAt','created-at','Date Created']].map(([key,suffix,label])=>{
     const id=`${prefix}-${suffix}`;
-    return state.builder[key]?`<div class="created-date-field ${key==='updatedAt'?'updated-date-field':''}"><label class="field-label" for="${id}">${label}</label><input id="${id}" value="${escape(metadataDate(state.builder[key]))}" readonly></div>`:'';
+    return state.builder[key]?`<div class="created-date-field"><label class="field-label" for="${id}">${label}</label><input id="${id}" value="${escape(metadataDate(state.builder[key]))}" readonly></div>`:'';
   }).join('');
 }
 function setMetadata(set,element='span',className='class-creator') {
   const parts=[];
   if(set.createdBy)parts.push(`<span class="creator-name">Created By ${escape(set.createdBy)}</span>`);
   if(set.createdAt)parts.push(`<time class="creation-date" datetime="${escape(set.createdAt)}">Date Created: ${escape(metadataDate(set.createdAt))}</time>`);
-  if(set.updatedAt)parts.push(`<time class="updated-date" datetime="${escape(set.updatedAt)}">Last Updated: ${escape(metadataDate(set.updatedAt))}</time>`);
-  return parts.length?`<${element} class="${className} set-metadata">${parts.join('<span class="metadata-separator" aria-hidden="true"> · </span>')}</${element}>`:'';
+  return parts.length?`<${element} class="${className} set-metadata">${parts.join('')}</${element}>`:'';
 }
 function stepMarkup({id,start,count},index,groups) {
   const item=catalog.get(id);
@@ -148,7 +147,7 @@ function renderClass() {
       <ol class="step-list">${groupSteps(state.builder.ids).map(stepMarkup).join('')}</ol>${state.builder.ids.length?'':'<p class="empty">Your prayer set is empty. Choose a prayer or mystery to begin.</p>'}
       <div class="builder-footer">${action('preview','Preview','play',`${state.builder.ids.length?'':'disabled'}`)}${action('share','Share / QR Code','qr-code',`class="primary" ${state.builder.ids.length?'':'disabled'}`)}</div>
       <div class="inline-actions">${action('save','Save Prayer Set','save',`${state.builder.ids.length?'':'disabled'}`)}${action('new','New Prayer Set','file-plus')}</div>
-      <p class="privacy">${storageOK?'Your draft is saved on this device.':'Saving is unavailable on this device.'} A shared link contains the prayer set name, prayer order, creator name if entered, and recorded creation and update dates. Anyone with the link can open it; no account is needed. Leave private intentions out of the name.</p></section>
+      <p class="privacy">${storageOK?'Your draft is saved on this device.':'Saving is unavailable on this device.'} A shared link contains the prayer set’s details and order. Anyone with the link can open it; no account is needed. Leave private intentions out of the name.</p></section>
     <aside><label class="field-label" for="starter">Add a Starter Sequence</label><select id="starter"><option value="">Choose a Sequence</option><option value="opening">Opening Prayers</option>${mysterySets.map(set=>`<option value="${set.key}">Five ${set.name} Mysteries</option>`).join('')}</select>
       ${savedClasses()}
       <p class="privacy">Edits produce a new share link and QR code. An older link always opens its original prayer set.</p>
@@ -157,7 +156,7 @@ function renderClass() {
 function renderHelp() {
   const steps=[
     ['Open Your Prayer Set','Scan the QR code or open the link from your group. The prayer set opens and saves in My Prayers on this device.'],
-    ['Follow Along','Read your Leader or Response part. Tap Next with the group, or Contents to find the current prayer.'],
+    ['Follow Along','Follow the Leader, Response, or Everyone labels. Tap Next with the group, or Contents to find the current prayer.'],
     ['Find a Prayer','Use Prayers for individual prayers, Mysteries for the mystery titles, and The Mass for the Mass prayers and responses.'],
     ['Create a Prayer Set','In My Prayers, choose Create Prayer Set. Add prayers, choose repetitions such as ×10, and save with a name. Saving shows a QR code to share.'],
     ['Adjust Text Size','Use your phone or browser’s text-size settings. The app follows those settings; scroll to read the whole prayer.']
@@ -230,30 +229,35 @@ function addItem(id,count=1) {
   if(dialog.open&&dialog.dataset.kind==='picker')renderPickerItems($('picker-search').value);
   notify(`${catalog.get(id).name}${count>1?` ×${count}`:''} added to My Prayers.`);
 }
-function startReader(set,index=0) {
+function startReader(set,index=0,withIntro=false) {
   clearNotice();set=validateSet(set,catalog);if(!set.ids.length)return;
-  state.reader={set,index:Math.min(Math.max(0,index),set.ids.length-1),complete:false};
+  state.reader={set,index:Math.min(Math.max(withIntro?-1:0,index),set.ids.length-1),withIntro,complete:false};
   rememberPlace();render();focusMain();
 }
-function rememberPlace() {state.resume={set:state.reader.set,index:state.reader.index};writeStore('resume',state.resume);}
+function rememberPlace() {state.resume={set:state.reader.set,index:state.reader.index,withIntro:state.reader.withIntro};writeStore('resume',state.resume);}
 function renderReader() {
   const {set,index,complete}=state.reader;
-  if(complete){main.innerHTML=`<section class="complete">${icon('book-open')}<span class="eyebrow">${escape(set.title)}</span>${setMetadata(set)}<h1>Prayer Complete</h1><p>${set.ids.length===1?'You’ve completed this prayer.':'You’ve completed these prayers.'}</p><div class="inline-actions">${action('again','Pray Again','rotate-ccw','class="primary"')}${action('exit','Done','arrow-left')}</div>${action('contents','Review Prayer Set','list','class="secondary"')}</section>`;return;}
+  if(complete){main.innerHTML=`<section class="complete">${icon('book-open')}<h1>Prayer Complete</h1><p>${set.ids.length===1?'You’ve completed this prayer.':'You’ve completed these prayers.'}</p><div class="inline-actions">${action('again','Pray Again','rotate-ccw','class="primary"')}${action('exit','Done','arrow-left')}</div>${action('contents','Review Prayer Set','list','class="secondary"')}</section>`;return;}
+  const toolbar=`<header class="reader-header reader-toolbar">${action('contents','Contents','list')}${iconButton('exit','Close Prayer and Save Place','x')}</header>`;
+  if(index===-1){
+    main.innerHTML=`${toolbar}<section class="reader-intro" aria-labelledby="reader-title"><h1 class="reader-title session-name" id="reader-title">${escape(set.title)}</h1>${setMetadata(set)}${action('begin-prayer','Begin Prayer','arrow-right','class="primary"')}</section>`;
+    return;
+  }
   const item=catalog.get(set.ids[index]);
   const repetition=groupSteps(set.ids).find(group=>index>=group.start&&index<group.start+group.count);
-  main.innerHTML=`<header class="reader-header"><span class="session-title"><span class="session-name">${escape(set.title)}</span>${setMetadata(set)}</span>${iconButton('exit','Close Prayer and Save Place','x')}</header>
-    <div class="reader-progress"><span>${index+1} of ${set.ids.length}</span>${action('contents','Contents','list')}</div>
+  main.innerHTML=`${toolbar}
+    <div class="reader-progress"><span>${index+1} of ${set.ids.length}</span></div>
     <div class="reader-progress"><progress value="${index+1}" max="${set.ids.length}" aria-label="Prayer Set Progress">${index+1} of ${set.ids.length}</progress></div>
     <article aria-labelledby="reader-title" class="${item.kind==='mystery'?'mystery-reading':'prayer-reading'}">
     <h1 class="reader-title" id="reader-title">${escape(item.readerTitle||item.name)}</h1>
-    ${repetition.count>1?`<p class="repeat-progress">${item.kind==='mystery'?'Mystery':'Prayer'} ${index-repetition.start+1} of ${repetition.count}</p>`:''}
-    ${item.kind==='prayer'?`<div class="prayer-text" id="prayer-text">${item.parts.map(part=>`<p data-role="${part.role.toLowerCase()}"><span class="prayer-role prayer-role-${part.role.toLowerCase()}">${escape(part.role)}:</span> ${spokenMarkup(part.text)}</p>`).join('')}</div>`:''}</article>
-    <footer class="reader-dock"><div class="dock-inner">${action('previous','Previous','chevron-left',index===0?'disabled':'')}<span class="count">${index+1} / ${set.ids.length}</span>${action('next',index===set.ids.length-1?'Finish':'Next','chevron-right','class="primary"')}</div></footer>`;
+    ${repetition.count>1?`<p class="repeat-progress">${index-repetition.start+1} of ${repetition.count}</p>`:''}
+    ${item.kind==='prayer'?`<div class="prayer-text" id="prayer-text">${item.parts.map(part=>`<p data-role="${part.role.toLowerCase()}"><span class="prayer-role prayer-role-${part.role.toLowerCase()}">${escape(part.role)}:</span> ${spokenMarkup(part.text)}</p>`).join('')}</div>`:`<figure class="mystery-image"><img src="${escape(item.image)}" alt="${escape(item.name)}" decoding="async"></figure>`}</article>
+    <footer class="reader-dock"><div class="dock-inner">${action('previous','Previous','chevron-left',index===0&&!state.reader.withIntro?'disabled':'')}<span class="count">${index+1} / ${set.ids.length}</span>${action('next',index===set.ids.length-1?'Finish':'Next','chevron-right','class="primary"')}</div></footer>`;
 }
 function turn(delta) {
   if(!state.reader||state.reader.complete||dialog.open)return;
   const next=state.reader.index+delta;
-  if(next<0)return;
+  if(next<(state.reader.withIntro?-1:0))return;
 
   if(next>=state.reader.set.ids.length){state.reader.complete=true;state.resume=null;writeStore('resume',null);}
   else {state.reader.index=next;rememberPlace();}
@@ -311,7 +315,7 @@ function loadShared() {
     const sameSet=matchesSet(state.resume?.set,set);
     state.view='class';
     state.classOverview=true;
-    startReader(set,sameSet?state.resume.index:0);
+    startReader(set,sameSet?state.resume.index:-1,true);
     saveSharedClass(set);return true;
   }
   catch(error){state.reader=null;render();showDialog('bad-link','This Prayer Set Link Could Not Open',`<p>${escape(error.message)}</p><div class="builder-footer">${action('browse-prayers','Browse Prayers','book-open','class="primary"')}</div>`);return true;}
@@ -325,7 +329,7 @@ async function handleAction(button) {
   }
   if(key==='read-item'&&catalog.has(id))startReader({version:1,title:catalog.get(id).name,ids:[id]});
   if(key==='essentials')startReader({version:1,title:'The Essential Prayers',ids:['cross','ourFather','hailMary','gloryBe']});
-  if(key==='resume'&&state.resume)startReader(state.resume.set,state.resume.index);
+  if(key==='resume'&&state.resume)startReader(state.resume.set,state.resume.index,state.resume.withIntro);
   if(key==='add'&&state.view==='class'&&dialog.open&&dialog.dataset.kind==='picker')addItem(id,Number($('picker-count').value));
   if(key==='mystery-set'){state.mystery=id;render();focusMain();}
   if(key==='all-mysteries'){state.mystery=null;render();focusMain();}
@@ -352,7 +356,7 @@ async function handleAction(button) {
   }
   if(key==='read-saved'){
     const entry=state.saved.find(entry=>entry.id===id);if(!entry)return;
-    startReader(entry.set,matchesSet(state.resume?.set,entry.set)?state.resume.index:0);
+    startReader(entry.set,matchesSet(state.resume?.set,entry.set)?state.resume.index:-1,true);
   }
   if(key==='delete-saved'){
     const entry=state.saved.find(entry=>entry.id===id);if(!entry)return;
@@ -363,7 +367,7 @@ async function handleAction(button) {
     state.saved=state.saved.filter(entry=>entry.id!==id);if(state.savedId===id)state.savedId=null;
     writeStore('sets',state.saved);render();notify('Saved prayer set removed. Your current draft is unchanged.');
   }
-  if(key==='preview')startReader(state.builder);
+  if(key==='preview')startReader(state.builder,-1,true);
   if(key==='share')share();
   if(key==='share-saved'){
     const entry=state.saved.find(entry=>entry.id===id);
@@ -384,10 +388,11 @@ async function handleAction(button) {
   if(key==='native-share')try{await navigator.share({title:state.share.title,url:state.share.url});}catch(error){if(error.name!=='AbortError')notify('Sharing is unavailable. Use Copy Link instead.');}
   if(key==='exit')navigate(state.view);
   if(key==='next')turn(1);
+  if(key==='begin-prayer'&&state.reader?.index===-1)turn(1);
   if(key==='previous')turn(-1);
-  if(key==='again')startReader(state.reader.set);
+  if(key==='again')startReader(state.reader.set,state.reader.withIntro?-1:0,state.reader.withIntro);
   if(key==='contents')contents();
-  if(key==='jump'&&Number.isInteger(index)&&index>=0&&index<state.reader.set.ids.length){dialog.close();startReader(state.reader.set,index);}
+  if(key==='jump'&&Number.isInteger(index)&&index>=0&&index<state.reader.set.ids.length){dialog.close();startReader(state.reader.set,index,state.reader.withIntro);}
 }
 document.addEventListener('click',event=>{
   const button=event.target.closest('button');if(!button||button.disabled||!catalog)return;
@@ -439,7 +444,7 @@ window.addEventListener('hashchange',event=>{
 });
 
 async function init() {
-  const response=await fetch('./prayers.json?v=20261012-simple-reading');if(!response.ok)throw new Error('Prayer library could not load.');
+  const response=await fetch('./prayers.json?v=20261012-prayer-opening');if(!response.ok)throw new Error('Prayer library could not load.');
   catalog=createCatalog(await response.json());hydrate();
   if(!loadShared())render();
 }

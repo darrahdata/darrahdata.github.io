@@ -43,11 +43,11 @@ const prayerTurnStarts = {
   graceBeforeMeals:['Amen.'],
   guardianAngel:['ever this day be at my side'],
   stMichael:['May God rebuke him'],
-  actOfContrition:['I firmly resolve'],
-  fatima:['lead all souls to heaven']
+  actOfContrition:['I firmly resolve']
 };
 
 function createPrayerParts(id,text) {
+  if(id==='fatima')return [{role:'Everyone',text}];
   const starts=[0];
   for(const marker of prayerTurnStarts[id]) {
     const start=text.indexOf(marker,starts.at(-1)+1);
@@ -79,4 +79,4 @@ export function createCatalog(data) {
   return catalog;
 }
 
-export {massSections} from './mass.mjs?v=20261012-simple-reading';
+export {massSections} from './mass.mjs?v=20261012-prayer-opening';

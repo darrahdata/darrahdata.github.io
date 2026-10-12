@@ -29,12 +29,18 @@ test('phone class links show readable first content, count all ten prayers, and 
   for(const [width,height] of [[320,568],[375,667],[390,844],[430,932],[667,375],[844,390]]){
     const page=await phone(browser,width,height);const errors=[];page.on('pageerror',e=>errors.push(e.message));
     await page.goto(classURL);await page.locator('#reader-title').waitFor();await page.evaluate(()=>document.fonts.ready);
+    assert.equal(await page.locator('#reader-title').textContent(),'10/13/2026 OCIA');
+    await page.getByRole('button',{name:'Begin Prayer',exact:true}).tap();
     assert.equal(await page.locator('#reader-title').textContent(),'The First Joyful Mystery: The Annunciation of the Lord.');
-    assert.equal(await page.locator('.mystery-image, #prayer-text, .desire, .reading-help, .reader-topline').count(),0);
+    assert.equal(await page.locator('#prayer-text, .desire, .reading-help, .reader-topline, .session-name, .set-metadata').count(),0);
+    assert.equal(await page.locator('.mystery-image img').count(),1);
     await fits(page);await tapTargets(page);
     assert.ok(await page.evaluate(()=>{const title=document.querySelector('#reader-title');return title.getBoundingClientRect().top+parseFloat(getComputedStyle(title).lineHeight)<=document.querySelector('.reader-dock').getBoundingClientRect().top+1;}),'The first line of the mystery title is visible above the phone navigation');
     await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));
     assert.ok(await page.evaluate(()=>document.querySelector('#reader-title').getBoundingClientRect().bottom<document.querySelector('.reader-dock').getBoundingClientRect().top),'The full mystery title can be read above navigation');
+    await page.locator('.mystery-image img').scrollIntoViewIfNeeded();
+    await page.waitForFunction(()=>{const image=document.querySelector('.mystery-image img');return image.complete&&image.naturalWidth>0;});
+    await fits(page);
     await page.getByRole('button',{name:'Next',exact:true}).tap();
     assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
     assert.ok(await page.evaluate(()=>{const text=document.querySelector('#prayer-text');return text.getBoundingClientRect().top+parseFloat(getComputedStyle(text).lineHeight)<=document.querySelector('.reader-dock').getBoundingClientRect().top+1;}),'The first line of the prayer is visible above the phone navigation');
@@ -42,14 +48,14 @@ test('phone class links show readable first content, count all ten prayers, and 
     await page.getByRole('button',{name:'Next',exact:true}).tap();
     for(let repeat=1;repeat<=10;repeat++){
       assert.equal(await page.locator('#reader-title').textContent(),'Hail Mary');
-      assert.equal(await page.locator('.repeat-progress').textContent(),`Prayer ${repeat} of 10`);
-      if(repeat===5){await page.reload();await page.locator('#reader-title').waitFor();assert.equal(await page.locator('.repeat-progress').textContent(),'Prayer 5 of 10');}
+      assert.equal(await page.locator('.repeat-progress').textContent(),`${repeat} of 10`);
+      if(repeat===5){await page.reload();await page.locator('#reader-title').waitFor();assert.equal(await page.locator('.repeat-progress').textContent(),'5 of 10');}
       await page.getByRole('button',{name:'Next',exact:true}).tap();
     }
     assert.equal(await page.locator('#reader-title').textContent(),'Glory Be');
     assert.equal(await page.locator('.repeat-progress').count(),0);
     await page.getByRole('button',{name:'Previous',exact:true}).tap();
-    assert.equal(await page.locator('.repeat-progress').textContent(),'Prayer 10 of 10');
+    assert.equal(await page.locator('.repeat-progress').textContent(),'10 of 10');
     await page.setViewportSize({width:height,height:width});await fits(page);
     await page.addStyleTag({content:':root{font-size:175%}'});await fits(page);
     await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));

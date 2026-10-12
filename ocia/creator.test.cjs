@@ -17,6 +17,17 @@ async function prepare(page){
 }
 async function savedSets(page){return page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-sets')||'[]'));}
 async function closeDialog(page){await page.getByRole('dialog').getByRole('button',{name:'Close',exact:true}).tap();}
+async function noUpdatedUI(page){
+  assert.equal(await page.locator('#class-updated-at, #saved-set-updated-at, .updated-date').count(),0);
+  assert.doesNotMatch(await page.locator('body').innerText(),/Last Updated/);
+}
+async function beginPrayer(page,setTitle,firstPrayer){
+  assert.equal(await page.locator('#reader-title').textContent(),setTitle);
+  await page.getByRole('button',{name:'Begin Prayer',exact:true}).tap();
+  assert.equal(await page.locator('#reader-title').textContent(),firstPrayer);
+  assert.equal(await page.locator('#main').locator('.session-name, .class-creator, .creation-date').count(),0,'Prayer pages show only the current prayer, without the set name or attribution');
+  await noUpdatedUI(page);
+}
 async function save(page,creator){
   await page.getByRole('button',{name:'Save Prayer Set',exact:true}).tap();
   await page.locator('#saved-set-creator').waitFor();
@@ -46,7 +57,9 @@ test('Created By is optional and blank values preserve legacy class links exactl
   assert.equal((await savedSets(learner))[0].set.createdAt,undefined);
   assert.equal(draft.createdAt,undefined);
   assert.equal(draft.updatedAt,undefined);
-  await fits(learner);await page.close();await learner.close();
+  await noUpdatedUI(learner);await fits(learner);
+  await beginPrayer(learner,'Optional Creator','Sign of the Cross');
+  await page.close();await learner.close();
 }));
 
 test('creator attribution persists, auto-saves for learners, and edited links retain their original creators',()=>run(async browser=>{
@@ -87,7 +100,8 @@ test('creator attribution persists, auto-saves for learners, and edited links re
   const received=await savedSets(learner);
   assert.equal(received.length,2,'Changing only the creator makes a distinct saved class snapshot');
   assert.deepEqual(received.map(entry=>entry.set.createdBy).sort(),['María & John','OCIA Team']);
-  await fits(learner);await page.close();await learner.close();
+  await fits(learner);await beginPrayer(learner,'Tuesday OCIA','Sign of the Cross');
+  await page.close();await learner.close();
 }));
 
 test('hostile creator names stay literal text in the editor, QR dialog, reader, and saved class',()=>run(async browser=>{
@@ -104,6 +118,7 @@ test('hostile creator names stay literal text in the editor, QR dialog, reader, 
   assert.equal(await learner.locator('.class-creator .creator-name').textContent(),'Created By '+hostile);
   assert.equal(await learner.locator('.class-creator img').count(),0);
   assert.equal(await learner.evaluate(()=>window.creatorInjected),undefined);await fits(learner);
+  await beginPrayer(learner,'Literal Creator','Sign of the Cross');
   await learner.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).tap();
   await learner.getByRole('button',{name:'My Prayers',exact:true}).tap();
   assert.ok((await learner.locator('.saved-row').textContent()).includes('Created By '+hostile));
@@ -121,7 +136,7 @@ test('new prayer sets keep their creation date separate from name and creator th
   assert.equal(new Date(createdAt).toISOString(),createdAt);
   assert.ok(Date.parse(createdAt)>=before&&Date.parse(createdAt)<=Date.now(),'A new set records its real creation time');
   assert.equal(draft.updatedAt,createdAt);
-  assert.notEqual(await page.locator('#class-updated-at').getAttribute('readonly'),null);
+  await noUpdatedUI(page);
   const dateText=await page.evaluate(value=>new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric'}).format(new Date(value)),createdAt);
   assert.equal(await page.locator('#class-created-at').inputValue(),dateText);
   assert.notEqual(await page.locator('#class-created-at').getAttribute('readonly'),null);
@@ -131,7 +146,7 @@ test('new prayer sets keep their creation date separate from name and creator th
   assert.equal(await page.locator('#saved-set-name').inputValue(),'Evening Prayers');
   assert.equal(await page.locator('#saved-set-created-at').inputValue(),dateText);
   assert.notEqual(await page.locator('#saved-set-created-at').getAttribute('readonly'),null);
-  assert.notEqual(await page.locator('#saved-set-updated-at').getAttribute('readonly'),null);
+  await noUpdatedUI(page);
   await page.getByRole('dialog').getByRole('button',{name:'Save Prayer Set',exact:true}).tap();
   await page.getByRole('heading',{name:'Prayer Set Saved — Ready to Share',exact:true}).waitFor();
   const original=await page.locator('#share-url').inputValue();
@@ -140,11 +155,12 @@ test('new prayer sets keep their creation date separate from name and creator th
   assert.deepEqual(payload(original).slice(3),['John',createdAt,firstUpdated]);
   assert.equal(await page.locator('.share-creator .creator-name').textContent(),'Created By John');
   assert.equal(await page.locator('.share-creator time.creation-date').getAttribute('datetime'),createdAt);
-  assert.equal(await page.locator('.share-creator time.updated-date').getAttribute('datetime'),firstUpdated);
+  await noUpdatedUI(page);
   assert.equal(await page.locator('.share-creator time.creation-date').textContent(),`Date Created: ${dateText}`);
   await fits(page);await closeDialog(page);
   assert.equal((await savedSets(page))[0].set.createdAt,createdAt);
   assert.equal(await page.locator('.saved-row time.creation-date').getAttribute('datetime'),createdAt);
+  await noUpdatedUI(page);
   await page.reload();await page.getByRole('button',{name:'My Prayers',exact:true}).tap();
   assert.equal(await page.locator('#class-created-at').inputValue(),dateText);
   await page.getByRole('button',{name:'Share / QR Code',exact:true}).tap();
@@ -166,37 +182,49 @@ test('new prayer sets keep their creation date separate from name and creator th
   const newer=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')).createdAt);
   assert.ok(Date.parse(newer)>Date.parse(createdAt),'A new draft receives its own creation date');
   const learner=await phone(browser);await learner.goto(original);await learner.locator('#reader-title').waitFor();
-  assert.equal(await learner.locator('.session-name').textContent(),'Evening Prayers');
+  assert.equal(await learner.locator('#reader-title').textContent(),'Evening Prayers');
   assert.equal(await learner.locator('.class-creator .creator-name').textContent(),'Created By John');
   assert.equal(await learner.locator('.class-creator time.creation-date').getAttribute('datetime'),createdAt);
-  assert.equal(await learner.locator('.class-creator time.updated-date').getAttribute('datetime'),firstUpdated);
+  await noUpdatedUI(learner);
+  const introLines=await learner.locator('#reader-title, .class-creator .creator-name, .class-creator .creation-date').evaluateAll(elements=>elements.map(element=>({top:element.getBoundingClientRect().top,bottom:element.getBoundingClientRect().bottom})));
+  assert.equal(introLines.length,3);
+  assert.ok(introLines[0].bottom<=introLines[1].top&&introLines[1].bottom<=introLines[2].top,'Set name, creator and creation date occupy separate lines on the introduction');
   assert.equal((await savedSets(learner))[0].set.createdAt,createdAt);
   await learner.reload();await learner.locator('#reader-title').waitFor();
   assert.equal((await savedSets(learner)).length,1);
   assert.equal((await savedSets(learner))[0].set.createdAt,createdAt);
   assert.equal((await savedSets(learner))[0].set.updatedAt,firstUpdated,'Reading, importing and reloading preserve the shared update date');
-  await fits(learner);await learner.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).tap();
+  await fits(learner);await beginPrayer(learner,'Evening Prayers','Sign of the Cross');
+  await learner.getByRole('button',{name:'Next',exact:true}).tap();
+  assert.equal(await learner.locator('#reader-title').textContent(),'Come, Holy Spirit');
+  assert.equal(await learner.locator('#main').locator('.session-name, .class-creator, .creation-date').count(),0);
+  await learner.reload();await learner.locator('#reader-title').waitFor();
+  assert.equal(await learner.locator('#reader-title').textContent(),'Come, Holy Spirit','Reload resumes the current prayer after the introduction');
+  assert.equal(await learner.getByRole('button',{name:'Begin Prayer',exact:true}).count(),0);
+  assert.equal(await learner.locator('#main').locator('.session-name, .class-creator, .creation-date').count(),0);
+  await learner.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).tap();
   await learner.getByRole('button',{name:'My Prayers',exact:true}).tap();
   assert.equal(await learner.locator('.saved-row time.creation-date').getAttribute('datetime'),createdAt);
   await page.close();await learner.close();
 }));
 
 
-test('calendar-only creation and update dates display the same day across timezones and only edits change Last Updated',()=>run(async browser=>{
+test('calendar-only creation dates display the same day across timezones while update metadata stays hidden',()=>run(async browser=>{
   const set={version:1,title:'OCIA Class',ids:['joyful-1','ourFather',...Array(10).fill('hailMary'),'gloryBe','fatima'],createdBy:'Rhoda',createdAt:'2026-10-13',updatedAt:'2026-10-13'};
   for(const timezoneId of ['America/Los_Angeles','Pacific/Kiritimati']){
     const page=await phone(browser,{timezoneId});
     await page.addInitScript(value=>{if(!localStorage.getItem('ocia-draft'))localStorage.setItem('ocia-draft',JSON.stringify(value));},set);
     await prepare(page);
     assert.equal(await page.locator('#class-created-at').inputValue(),'October 13, 2026');
-    assert.equal(await page.locator('#class-updated-at').inputValue(),'October 13, 2026');
+    await noUpdatedUI(page);
     const original=await save(page);
     assert.deepEqual(payload(original),[1,'OCIA Class',set.ids,'Rhoda','2026-10-13','2026-10-13']);
     assert.equal(await page.locator('.share-creator time.creation-date').textContent(),'Date Created: October 13, 2026');
-    assert.equal(await page.locator('.share-creator time.updated-date').textContent(),'Last Updated: October 13, 2026');
+    await noUpdatedUI(page);
     await closeDialog(page);
     await page.getByRole('button',{name:'Preview',exact:true}).tap();
-    assert.equal(await page.locator('.class-creator time.updated-date').getAttribute('datetime'),'2026-10-13');
+    assert.equal(await page.locator('.class-creator time.creation-date').getAttribute('datetime'),'2026-10-13');
+    await beginPrayer(page,'OCIA Class','The First Joyful Mystery: The Annunciation of the Lord.');
     await page.getByRole('button',{name:'Next',exact:true}).tap();
     await page.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).tap();
     const viewed=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')));
@@ -213,7 +241,7 @@ test('calendar-only creation and update dates display the same day across timezo
   }
 }));
 
-test('editing a legacy prayer set adds Last Updated without inventing a creation date',()=>run(async browser=>{
+test('editing a legacy prayer set preserves hidden update metadata without inventing a creation date',()=>run(async browser=>{
   const page=await phone(browser);
   await page.addInitScript(()=>localStorage.setItem('ocia-draft',JSON.stringify({version:1,title:'Old Prayer Set',ids:['ourFather']})));
   await prepare(page);
@@ -223,10 +251,10 @@ test('editing a legacy prayer set adds Last Updated without inventing a creation
   assert.equal(edited.createdAt,undefined);
   assert.equal(new Date(edited.updatedAt).toISOString(),edited.updatedAt);
   assert.equal(await page.locator('#class-created-at').count(),0);
-  assert.equal(await page.locator('#class-updated-at').isVisible(),true);
+  await noUpdatedUI(page);
   const link=await save(page);
   assert.deepEqual(payload(link),[1,'Renamed Prayer Set',['ourFather'],'','',edited.updatedAt]);
   assert.equal(await page.locator('.share-creator time.creation-date').count(),0);
-  assert.equal(await page.locator('.share-creator time.updated-date').getAttribute('datetime'),edited.updatedAt);
+  await noUpdatedUI(page);
   await page.close();
 }));

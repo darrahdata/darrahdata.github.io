@@ -19,6 +19,16 @@ async function seed(page,sets=[],draft=null,builderOpen=false){
 }
 async function stored(page,key){return page.evaluate(key=>JSON.parse(localStorage.getItem('ocia-'+key)),key);}
 async function openShared(page,set){await page.goto(linkFor(set));await page.locator('#reader-title').waitFor();}
+async function beginPrayer(page,set,firstPrayer){
+  assert.equal(await page.locator('#reader-title').textContent(),set.title);
+  assert.equal((await stored(page,'resume')).index,-1);
+  assert.equal((await stored(page,'resume')).withIntro,true);
+  await page.getByRole('button',{name:'Begin Prayer',exact:true}).tap();
+  assert.equal(await page.locator('#reader-title').textContent(),firstPrayer);
+  assert.equal((await stored(page,'resume')).index,0);
+  assert.equal(await page.locator('.session-name, .class-creator').count(),0);
+  assert.doesNotMatch(await page.locator('body').innerText(),/Last Updated/);
+}
 async function overview(page){
   if(await page.locator('[data-action="exit"]').isVisible())await page.locator('[data-action="exit"]').tap();
   await page.getByRole('button',{name:'My Prayers',exact:true}).tap();
@@ -37,8 +47,13 @@ test('opening a shared class saves it once, preserves the draft, and reopens fro
   const imported=saved[0];assert.deepEqual(imported.set,set);assert.deepEqual(saved[1],existing);
   assert.deepEqual(await stored(page,'draft'),draft);
   assert.equal(await stored(page,'builder-open'),true);
+  assert.equal(await page.locator('#reader-title').textContent(),set.title);
+  await page.reload();await page.locator('#reader-title').waitFor();
+  await beginPrayer(page,set,'The First Joyful Mystery: The Annunciation of the Lord.');
   await page.getByRole('button',{name:'Next',exact:true}).tap();
   assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
+  assert.equal(await page.getByRole('button',{name:'Begin Prayer',exact:true}).count(),0);
+  assert.equal(await page.locator('.session-name, .class-creator').count(),0);
   await page.reload();await page.locator('#reader-title').waitFor();
   assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
   assert.deepEqual(await stored(page,'sets'),saved);
@@ -47,6 +62,9 @@ test('opening a shared class saves it once, preserves the draft, and reopens fro
   assert.equal(await page.locator('[data-action="read-saved"]').count(),2);
   await page.locator(`[data-action="read-saved"][data-id="${imported.id}"]`).tap();
   assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
+  await overview(page);
+  await page.locator('[data-action="read-saved"][data-id="existing-class"]').tap();
+  await beginPrayer(page,existing.set,'Sign of the Cross');
   await overview(page);
   await page.getByRole('button',{name:`Share QR for ${set.title}`,exact:true}).tap();
   assert.equal(await page.locator('#share-url').inputValue(),linkFor(set));
@@ -88,9 +106,10 @@ test('a full saved library keeps every snapshot, opens the new class, and saves 
   await seed(page,existing);
   const set=classSet('New Shared Class',['ourFather']);
   await openShared(page,set);
-  assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
+  assert.equal(await page.locator('#reader-title').textContent(),set.title);
   assert.match(await page.locator('#toast').textContent(),/20 saved prayer sets are full/);
   assert.deepEqual(await stored(page,'sets'),existing);
+  await beginPrayer(page,set,'Lord’s Prayer (Our Father)');
   await openShared(page,existing[0].set);
   assert.deepEqual(await stored(page,'sets'),existing);
   assert.equal(await page.locator('#toast').isVisible(),false);
@@ -113,10 +132,12 @@ test('unavailable storage never claims a shared class is saved or prevents readi
     Storage.prototype.setItem=function(key,value){if(key==='ocia-sets')throw new DOMException('Storage unavailable','QuotaExceededError');return write.call(this,key,value);};
   });
   await page.reload();await ready(page);
-  await openShared(page,classSet('Unsaved Shared Class'));
-  assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
+  const set=classSet('Unsaved Shared Class');
+  await openShared(page,set);
+  assert.equal(await page.locator('#reader-title').textContent(),set.title);
   assert.match(await page.locator('#toast').textContent(),/could not be saved on this device/);
   assert.deepEqual(await stored(page,'sets'),[existing]);
+  await beginPrayer(page,set,'Lord’s Prayer (Our Father)');
   await page.getByRole('button',{name:'Next',exact:true}).tap();
   assert.equal(await page.locator('#reader-title').textContent(),'Hail Mary');
   await overview(page);
@@ -132,7 +153,7 @@ test('stale empty saved entries and invalid links do not break or alter valid im
   await seed(page,[empty]);
   const set=classSet('Valid Class',['hailMary']);
   await openShared(page,set);
-  assert.equal(await page.locator('#reader-title').textContent(),'Hail Mary');
+  await beginPrayer(page,set,'Hail Mary');
   const saved=await stored(page,'sets');assert.equal(saved.length,2);
   assert.deepEqual(saved[0].set,set);assert.deepEqual(saved[1],empty);
   await page.goto(base+'#class=broken');await page.getByRole('dialog').waitFor();
