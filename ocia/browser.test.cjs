@@ -570,27 +570,35 @@ test('prayer readers show the correct Everyone, Leader and Response parts on a p
   await page.close();
 }));
 
-test('How to Use is the first tab and default landing with working first steps on a phone',()=>browserTest(async browser=>{
+test('How to Use explains each current tab with working shortcuts on a phone',()=>browserTest(async browser=>{
   const page=await browser.newPage({viewport:{width:320,height:568},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
   await page.goto(base,{waitUntil:'domcontentloaded'});await landingReady(page);
   assert.deepEqual(await page.locator('.primary-nav button span').allTextContents(),['How to Use','Prayers','My Prayers','The Mass']);
   assert.equal(await page.getByRole('button',{name:'How to Use',exact:true}).getAttribute('aria-current'),'page');
-  for(const name of ['Open Your Prayer Set','Follow Along','Find a Prayer','Create a Prayer Set','Adjust Text Size'])assert.equal(await page.getByRole('heading',{name,exact:true}).isVisible(),true);
+  assert.deepEqual(await page.locator('.help-guide h2').allTextContents(),['Prayers','My Prayers','The Mass']);
   const help=await page.locator('main').textContent();
-  assert.match(help,/Use Prayers for individual prayers and Mysteries of the Rosary\./);
-  for(const instruction of [/Use your phone or browser’s text-size settings/,/Follow the Leader, Response, or Everyone labels\./,/Tap Next with the group/,/choose repetitions/,/opens and saves in My Prayers on this device/])assert.match(help,instruction);
+  for(const instruction of [/Mysteries of the Rosary/,/join in for Response or Everyone/,/Tap the right side of a prayer/,/Begin Prayer/,/choose repeats such as ×10/,/saves it on this device/,/Scroll through the Mass in order/,/four section links/])assert.match(help,instruction);
+  assert.doesNotMatch(help,/Adjust Text Size|text-size settings/);
   await noOverflow(page);
-  await page.getByRole('button',{name:'Browse Prayers',exact:true}).tap();
+  await page.getByRole('button',{name:'Open Prayers',exact:true}).tap();
   assert.equal(await page.getByRole('button',{name:'Prayers',exact:true}).getAttribute('aria-current'),'page');
   assert.equal(await page.locator('h1').textContent(),'Begin With Essentials');
   assert.equal(await page.getByRole('heading',{name:'Questions You Can Ask Here',exact:true}).count(),0);
   assert.equal(await page.getByRole('heading',{name:'A Place to Begin.',exact:true}).count(),0);
   assert.equal(await page.getByRole('button',{name:'Pray Together',exact:true}).isVisible(),true);
   await page.getByRole('button',{name:'How to Use',exact:true}).tap();
+  await page.getByRole('button',{name:'Open My Prayers',exact:true}).tap();
+  assert.equal(await page.getByRole('heading',{name:'Saved Prayer Sets',exact:true}).isVisible(),true);
   await page.getByRole('button',{name:'Create Prayer Set',exact:true}).tap();
   assert.equal(await page.getByRole('button',{name:'My Prayers',exact:true}).getAttribute('aria-current'),'page');
   assert.equal(await page.getByRole('textbox',{name:'Prayer Set Name',exact:true}).isVisible(),true);
   assert.equal(await page.getByRole('button',{name:'Add Prayer or Mystery',exact:true}).isVisible(),true);
+  await noOverflow(page);
+  await page.getByRole('button',{name:'How to Use',exact:true}).tap();
+  await page.getByRole('button',{name:'Open The Mass',exact:true}).tap();
+  assert.equal(await page.getByRole('button',{name:'The Mass',exact:true}).getAttribute('aria-current'),'page');
+  assert.equal(await page.locator('.mass-index a').count(),4);
+  assert.equal(await page.getByRole('heading',{name:'Introductory Rites',exact:true}).isVisible(),true);
   await noOverflow(page);await page.close();
 }));
 

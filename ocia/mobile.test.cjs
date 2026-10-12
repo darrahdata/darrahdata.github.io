@@ -14,6 +14,13 @@ async function beads(page,current){
   assert.equal(await page.locator('.repeat-beads').getAttribute('aria-hidden'),'true');
   assert.deepEqual(await page.locator('.repeat-beads .prayer-bead').evaluateAll(elements=>elements.map(el=>({done:el.classList.contains('done'),current:el.classList.contains('current')}))),Array.from({length:10},(_,index)=>({done:index<current-1,current:index===current-1})));
 }
+async function readingPoint(page,selector,side){
+  const element=page.locator(selector);
+  await element.scrollIntoViewIfNeeded();
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+  return element.evaluate((el,side)=>{const r=el.getBoundingClientRect();const dock=document.querySelector('.reader-dock').getBoundingClientRect();return {x:r.left+r.width*(side==='left'?.25:.75),y:Math.max(r.top+4,Math.min(r.top+r.height/2,dock.top-12))};},side);
+}
+async function tapReading(page,selector,side){const point=await readingPoint(page,selector,side);await page.touchscreen.tap(point.x,point.y);}
 async function tapTargets(page,root='main'){
   const small=await page.locator(root).locator('button,input,select,summary').evaluateAll(elements=>elements.filter(el=>el.getClientRects().length).filter(el=>{const r=el.getBoundingClientRect();return r.width<47.5||r.height<47.5;}).map(el=>el.getAttribute('aria-label')||el.textContent));
   assert.deepEqual(small,[],'Touch controls should be at least 48px');
@@ -198,4 +205,93 @@ test('mystery pages fit complete scripture and uncropped artwork on phones and s
     }
     assert.deepEqual(errors,[]);await page.close();
   }
+}));
+
+test('reader side taps turn mystery text and artwork, blank prayer space and repeated beads without double-turning controls',()=>run(async browser=>{
+  const page=await phone(browser,390,844);
+  const readingIds=['joyful-1','cross','hailMary','hailMary','hailMary','gloryBe'];
+  const link=base+'#class='+Buffer.from(JSON.stringify([1,'Tap Through Prayer',readingIds])).toString('base64url');
+  await page.goto(link);await page.getByRole('button',{name:'Begin Prayer',exact:true}).waitFor();
+  await page.locator('#reader-title').tap();
+  assert.equal(await page.locator('#reader-title').textContent(),'Tap Through Prayer','The opening pane remains button-only');
+  await page.getByRole('button',{name:'Begin Prayer',exact:true}).tap();
+  await tapReading(page,'.mystery-scripture','right');
+  assert.equal(await page.locator('#reader-title').textContent(),'Sign of the Cross');
+  await tapReading(page,'#reader-title','left');
+  assert.equal(await page.locator('#reader-title').textContent(),'The First Joyful Mystery: The Annunciation of the Lord.');
+  await tapReading(page,'.mystery-image img','right');
+  assert.equal(await page.locator('#reader-title').textContent(),'Sign of the Cross');
+  const blank=await page.evaluate(()=>{const article=document.querySelector('article').getBoundingClientRect();const dock=document.querySelector('.reader-dock').getBoundingClientRect();return {x:innerWidth*.8,y:(article.bottom+dock.top)/2,height:dock.top-article.bottom};});
+  assert.ok(blank.height>20,'The short prayer leaves blank reading space above the dock');
+  await page.touchscreen.tap(blank.x,blank.y);
+  async function repetition(current){
+    assert.equal(await page.locator('#reader-title').textContent(),'Hail Mary');
+    assert.equal(await page.locator('.repeat-progress').textContent(),`${current} of 3`);
+    assert.equal(await page.locator('.prayer-bead').count(),3);
+    assert.equal(await page.locator('.prayer-bead.done').count(),current-1);
+    assert.equal(await page.locator('.prayer-bead.current').evaluate(el=>[...el.parentElement.children].indexOf(el)),current-1);
+  }
+  await repetition(1);
+  await tapReading(page,'#prayer-text','right');await repetition(2);
+  await tapReading(page,'#prayer-text','right');await repetition(3);
+  await tapReading(page,'#prayer-text','left');await repetition(2);
+  await page.getByRole('button',{name:'Next',exact:true}).tap();await repetition(3);
+  await page.getByRole('button',{name:'Previous',exact:true}).tap();await repetition(2);
+  await page.getByRole('button',{name:'Contents',exact:true}).tap();
+  await page.locator('#dialog-title').tap();
+  assert.equal(await page.locator('dialog').evaluate(el=>el.open),true);
+  await page.getByRole('dialog').getByRole('button',{name:'Close',exact:true}).tap();await repetition(2);
+  await page.getByRole('button',{name:'Contents',exact:true}).tap();
+  await page.locator('[data-action="jump"][data-index="0"]').tap();
+  await tapReading(page,'#reader-title','left');
+  assert.equal(await page.locator('#reader-title').textContent(),'Tap Through Prayer','Left from the first custom prayer returns to its opening pane');
+  await page.close();
+  const desktop=await browser.newPage({viewport:{width:900,height:900},reducedMotion:'reduce'});
+  await desktop.goto(base);await desktop.getByRole('heading',{name:'How to Use',exact:true}).waitFor();
+  await desktop.getByRole('button',{name:'Prayers',exact:true}).click();
+  await desktop.locator('[data-action="read-item"][data-id="cross"]').click();
+  let point=await readingPoint(desktop,'#reader-title','left');await desktop.mouse.click(point.x,point.y);
+  assert.equal(await desktop.locator('#reader-title').textContent(),'Sign of the Cross','Left stays at the first individual prayer');
+  point=await readingPoint(desktop,'#reader-title','right');await desktop.mouse.click(point.x,point.y);
+  assert.equal(await desktop.locator('h1').textContent(),'Prayer Complete','Right finishes the last prayer');
+  await desktop.locator('h1').click();assert.equal(await desktop.locator('h1').textContent(),'Prayer Complete');
+  await desktop.close();
+}));
+
+test('reader side taps leave scrolling, dragging, selected text, long presses and multiple touches alone',()=>run(async browser=>{
+  const page=await phone(browser,390,844);
+  const link=base+'#class='+Buffer.from(JSON.stringify([1,'Read Without Accidental Turns',['niceneCreed','hailMary']])).toString('base64url');
+  await page.goto(link);await page.getByRole('button',{name:'Begin Prayer',exact:true}).tap();
+  const unchanged=async()=>assert.equal(await page.locator('#reader-title').textContent(),'Nicene Creed');
+  let point=await readingPoint(page,'#reader-title','right');
+  await page.mouse.move(point.x,point.y);await page.mouse.down();await page.waitForTimeout(450);await page.mouse.up();await unchanged();
+  point=await readingPoint(page,'#reader-title','right');
+  await page.mouse.move(point.x,point.y);await page.mouse.down();await page.mouse.move(point.x-80,point.y+40,{steps:8});await page.mouse.up();await unchanged();
+  await page.evaluate(()=>getSelection().removeAllRanges());
+  point=await readingPoint(page,'#reader-title','right');
+  await page.mouse.move(point.x,point.y);await page.mouse.down();
+  if(engine===webkit)await page.evaluate(()=>scrollTo(0,300));
+  else await page.mouse.wheel(0,300);
+  await page.waitForFunction(()=>scrollY>100);await page.mouse.up();await unchanged();
+  point=await readingPoint(page,'#reader-title','right');
+  await page.evaluate(()=>{const range=document.createRange();range.selectNodeContents(document.querySelector('#prayer-text .prayer-words'));const selection=getSelection();selection.removeAllRanges();selection.addRange(range);});
+  await page.touchscreen.tap(point.x,point.y);await unchanged();
+  await page.evaluate(()=>getSelection().removeAllRanges());
+  for(const mode of ['multiple','cancel','move-away-and-back']){
+    point=await readingPoint(page,'#reader-title','right');
+    await page.evaluate(({point,mode})=>{
+      const article=document.querySelector('article');
+      const fire=(target,type,id=81,primary=true,extra={})=>target.dispatchEvent(new PointerEvent(type,{bubbles:true,pointerId:id,pointerType:'touch',isPrimary:primary,button:0,buttons:type==='pointerup'?0:1,clientX:point.x,clientY:point.y,...extra}));
+      fire(article,'pointerdown');
+      if(mode==='multiple'){fire(document.body,'pointerdown',82,false);fire(document.body,'pointerup',82,false);}
+      if(mode==='cancel')fire(article,'pointercancel');
+      if(mode==='move-away-and-back'){fire(article,'pointermove',81,true,{clientX:point.x-50});fire(article,'pointermove');}
+      fire(article,'pointerup');
+      article.dispatchEvent(new MouseEvent('click',{bubbles:true,button:0,detail:1,clientX:point.x,clientY:point.y}));
+    },{point,mode});
+    await unchanged();
+  }
+  await tapReading(page,'#reader-title','right');
+  assert.equal(await page.locator('#reader-title').textContent(),'Hail Mary','A fresh ordinary tap still works after canceled gestures');
+  await page.close();
 }));

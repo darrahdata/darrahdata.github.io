@@ -158,16 +158,22 @@ function renderClass() {
     </aside></div>`;
 }
 function renderHelp() {
-  const steps=[
-    ['Open Your Prayer Set','Scan the QR code or open the link from your group. The prayer set opens and saves in My Prayers on this device.'],
-    ['Follow Along','Follow the Leader, Response, or Everyone labels. Tap Next with the group, or Contents to find the current prayer.'],
-    ['Find a Prayer','Use Prayers for individual prayers and Mysteries of the Rosary. Use The Mass for the Mass prayers and responses.'],
-    ['Create a Prayer Set','In My Prayers, choose Create Prayer Set. Add prayers, choose repetitions such as ×10, and save with a name. Saving shows a QR code to share.'],
-    ['Adjust Text Size','Use your phone or browser’s text-size settings. The app follows those settings; scroll to read the whole prayer.']
+  const tabs=[
+    {title:'Prayers',view:'prayers',glyph:'book-open',paragraphs:[
+      'Search for a prayer or tap a title to read it. Mysteries of the Rosary are here too, with Scripture and artwork.',
+      'Leader begins; join in for Response or Everyone. Tap the right side of a prayer to go forward, or the left side to go back. You can also use Next, Previous, or Contents.'
+    ]},
+    {title:'My Prayers',view:'class',glyph:'users',paragraphs:[
+      'Open saved prayer sets here. A shared link or QR code opens a set and saves it on this device; tap Begin Prayer to start.',
+      'To make a set, tap Create Prayer Set. Add prayers and mysteries, choose repeats such as ×10, then name and save it. Share QR lets you share it with others.'
+    ]},
+    {title:'The Mass',view:'mass',glyph:'church',paragraphs:[
+      'Scroll through the Mass in order, or use the four section links to find your place.',
+      'Leader shows the priest or reader’s words; Response shows the congregation’s words. Timing notes explain when a part is used.'
+    ]}
   ];
-  main.innerHTML=sectionHeading('How to Use','Read the prayers on your phone and follow along with your group.')+
-    `<section class="help-guide" aria-label="Getting Started"><ol class="help-steps">${steps.map(([title,description],index)=>`<li><span class="help-step-number" aria-hidden="true">${index+1}</span><div><h2>${escape(title)}</h2><p>${escape(description)}</p></div></li>`).join('')}</ol>
-    <div class="help-actions inline-actions"><button type="button" data-view="prayers" class="primary"><span class="button-content">${icon('book-open')}Browse Prayers</span></button>${action('prepare-class','Create Prayer Set','list-plus','class="secondary"')}</div></section>`;
+  main.innerHTML=sectionHeading('How to Use','Your prayer companion in your pocket.')+
+    `<section class="help-guide" aria-label="Using the Tabs"><ul class="help-tabs">${tabs.map(tab=>`<li><span class="help-tab-icon" aria-hidden="true">${icon(tab.glyph)}</span><div><h2>${escape(tab.title)}</h2>${tab.paragraphs.map(paragraph=>`<p>${escape(paragraph)}</p>`).join('')}<div class="help-actions inline-actions"><button type="button" data-view="${tab.view}" class="secondary"><span class="button-content">Open ${escape(tab.title)}${icon('arrow-right')}</span></button></div></div></li>`).join('')}</ul></section>`;
 }
 function render() {
   document.body.classList.toggle('reader-mode',!!state.reader);
@@ -433,6 +439,49 @@ document.addEventListener('change',event=>{
     if(ids.every(id=>catalog.has(id))&&addItems(ids)){render();notify('Sequence added to your prayer set.');}
   }
 });
+// Qualify an ordinary tap without taking over native scrolling, text selection or controls.
+let readingTap=null;
+const readingPointers=new Set();
+const readingSelection=()=>Boolean(window.getSelection()?.toString());
+function readingTapArea(event) {
+  if(!state.reader||state.reader.complete||state.reader.index<0||dialog.open||!(event.target instanceof Element))return null;
+  if(event.target.closest('button,a,input,textarea,select,summary,label,[role="button"],[role="link"],[contenteditable]:not([contenteditable="false"])'))return null;
+  const article=main.querySelector('article.prayer-reading,article.mystery-reading');
+  const dock=main.querySelector('.reader-dock');
+  if(!article||!dock||!(article.contains(event.target)||[main,document.body,document.documentElement].includes(event.target)))return null;
+  const bounds=main.getBoundingClientRect();
+  return event.clientX>=bounds.left&&event.clientX<=bounds.right&&event.clientY>=Math.max(0,article.getBoundingClientRect().top)&&event.clientY<dock.getBoundingClientRect().top?article:null;
+}
+document.addEventListener('pointerdown',event=>{
+  readingPointers.add(event.pointerId);readingTap=null;
+  if(readingPointers.size!==1||!event.isPrimary||event.button!==0||event.ctrlKey||event.metaKey||event.altKey||event.shiftKey||readingSelection())return;
+  const article=readingTapArea(event);if(!article)return;
+  readingTap={pointerId:event.pointerId,article,reader:state.reader,index:state.reader.index,x:event.clientX,y:event.clientY,scrollX,scrollY,started:performance.now(),released:false};
+},{passive:true});
+document.addEventListener('pointermove',event=>{
+  if(readingTap?.pointerId===event.pointerId&&Math.hypot(event.clientX-readingTap.x,event.clientY-readingTap.y)>10)readingTap=null;
+},{passive:true});
+document.addEventListener('pointerup',event=>{
+  readingPointers.delete(event.pointerId);
+  const tap=readingTap;
+  if(!tap||tap.pointerId!==event.pointerId)return;
+  if(readingPointers.size||performance.now()-tap.started>400||Math.hypot(event.clientX-tap.x,event.clientY-tap.y)>10||scrollX!==tap.scrollX||scrollY!==tap.scrollY||readingSelection()||readingTapArea(event)!==tap.article||state.reader!==tap.reader||state.reader.index!==tap.index){readingTap=null;return;}
+  tap.released=true;tap.releasedAt=performance.now();
+},{passive:true});
+document.addEventListener('pointercancel',event=>{readingPointers.delete(event.pointerId);readingTap=null;},{passive:true});
+// A body listener also makes blank reading space deliver clicks in mobile Safari.
+document.body.addEventListener('click',event=>{
+  const tap=readingTap;readingTap=null;
+  if(!tap?.released||event.button!==0||event.detail<1||event.ctrlKey||event.metaKey||event.altKey||event.shiftKey||performance.now()-tap.releasedAt>800||scrollX!==tap.scrollX||scrollY!==tap.scrollY||readingSelection()||readingTapArea(event)!==tap.article||state.reader!==tap.reader||state.reader.index!==tap.index)return;
+  const bounds=main.getBoundingClientRect();
+  turn(event.clientX<bounds.left+bounds.width/2?-1:1);
+});
+window.addEventListener('scroll',()=>{readingTap=null;},{capture:true,passive:true});
+document.addEventListener('contextmenu',()=>{readingTap=null;});
+document.addEventListener('dragstart',()=>{readingTap=null;});
+document.addEventListener('selectionchange',()=>{if(readingSelection())readingTap=null;});
+window.addEventListener('blur',()=>{readingPointers.clear();readingTap=null;});
+
 document.addEventListener('keydown',event=>{
   if(dialog.open||event.repeat||event.altKey||event.ctrlKey||event.metaKey||event.target.closest('input,textarea,select,button,a,summary,[contenteditable="true"]'))return;
   if(state.reader&&!state.reader.complete&&['ArrowLeft','ArrowRight',' '].includes(event.key)){event.preventDefault();turn(event.key==='ArrowLeft'?-1:1);}
