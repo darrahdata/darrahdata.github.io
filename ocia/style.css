@@ -24,7 +24,7 @@ select{-webkit-appearance:none;appearance:none;padding-right:2.25rem;background-
 .brand span{min-width:0;overflow-wrap:anywhere}.primary-nav button span{min-width:0;max-width:100%;overflow-wrap:anywhere}
 .button-content{max-width:100%;min-width:0;overflow-wrap:anywhere}.reader-progress{flex-wrap:wrap}.reader-progress>span{flex-shrink:0}.reader-progress button{margin-left:auto}.reader-progress button .button-content{white-space:nowrap}.dock-inner button{min-width:0;overflow-wrap:anywhere}.dock-inner .count{white-space:nowrap}
 .repeat-progress{color:var(--sage);font-size:.95rem;margin:0 0 1rem}.reader-title:has(+.repeat-progress){margin-bottom:.35rem}
-.dialog-heading{position:sticky;top:-1px;z-index:1;background:var(--surface);padding:.5rem 0}.dialog-heading h2{min-width:0}dialog{scroll-padding-top:6rem}
+.dialog-close-row{position:sticky;top:0;z-index:2;display:flex;justify-content:flex-end;height:48px;margin-bottom:-48px;pointer-events:none}.dialog-close-row button{width:48px;height:48px;pointer-events:auto;background:var(--surface)}.dialog-heading{position:static;display:block;min-height:48px;padding:0 64px 0 0;margin-bottom:1rem}.dialog-heading h2{min-width:0}dialog{scroll-padding-top:60px}
 @media(max-width:600px),(pointer:coarse){
   button,input,select{min-height:48px}.action-icon{width:48px;height:48px;flex-shrink:0}.quiet-link,.source-note a,.mass-index a,.mass-links a{min-height:48px}
   .primary-nav{padding-left:max(.75rem,env(safe-area-inset-left));padding-right:max(.75rem,env(safe-area-inset-right))}
@@ -65,9 +65,11 @@ q.prayer-words{quotes:"“" "”" "‘" "’"}.prayer-role-leader{color:var(--go
 .reader-mode main:has(.mystery-reading)>.reader-header,.reader-mode main:has(.mystery-reading)>.reader-progress{flex-shrink:0}
 .mystery-reading{display:flex;flex-direction:column;flex:1}
 .prayer-reading{display:flow-root}
-.prayer-reading .reader-title,.mystery-reading .reader-title{font-family:"Lora",Georgia,serif;font-size:1.35rem;line-height:1.3;font-weight:500;font-style:normal;color:#e0e0e0;margin:.25rem 0 .7rem}
+.prayer-reading .reader-title,.mystery-reading .reader-title{font-family:"Lora",Georgia,serif;font-size:1.6rem;line-height:1.3;font-weight:500;font-style:normal;letter-spacing:-.02em;color:#e0e0e0;margin:.25rem 0 1rem}
 .prayer-reading .reader-title:has(+.repeat-progress){margin-bottom:.35rem}
 .mystery-scripture{font-size:1.05rem;line-height:1.65;margin:0 0 .75rem}
 .mystery-scripture cite{font-size:.875rem;line-height:1.5;margin-top:.35rem}
 .mystery-image{position:relative;flex:1;min-height:160px;margin:0}
 .mystery-image img{position:absolute;inset:0;width:100%;height:100%;max-height:none;object-fit:contain}
+
+@media(max-width:350px){.prayer-reading .reader-title,.mystery-reading .reader-title{font-size:1.5rem}}

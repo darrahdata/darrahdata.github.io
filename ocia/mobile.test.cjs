@@ -104,6 +104,46 @@ test('phone class preparation keeps picker and QR dismissal within tap reach',()
   await fits(page);await tapTargets(page,'dialog');await closeStaysVisible(page);await page.close();
 }));
 
+test('200 percent text keeps save fields, the full QR and download reachable beneath a long dialog title',()=>run(async browser=>{
+  const page=await phone(browser,320,568);
+  await page.goto(base,{waitUntil:'domcontentloaded'});
+  await page.getByRole('heading',{name:'How to Use',exact:true}).waitFor();
+  await page.addStyleTag({content:':root{font-size:200%}'});
+  await page.evaluate(()=>document.fonts.ready);
+  const hittable=async(locator,label)=>assert.ok(await locator.evaluate(el=>{
+    const r=el.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
+    return r.top>=0&&r.bottom<=innerHeight&&x>=0&&x<=innerWidth&&el.contains(document.elementFromPoint(x,y));
+  }),`${label} must remain visible and receive a tap`);
+  const close=()=>page.getByRole('dialog').getByRole('button',{name:'Close',exact:true});
+  await page.getByRole('button',{name:'My Prayers',exact:true}).tap();
+  await page.getByRole('button',{name:'Create Prayer Set',exact:true}).tap();
+  await page.locator('#starter').selectOption('opening');
+  await page.getByRole('button',{name:'Save Prayer Set',exact:true}).tap();
+  const name=page.locator('#saved-set-name');await name.waitFor();
+  await hittable(name,'The focused prayer set name');await hittable(close(),'Close beside the save title');
+  await name.tap();await name.fill('Enlarged Text Prayer Set');
+  const save=page.getByRole('dialog').getByRole('button',{name:'Save Prayer Set',exact:true});
+  await save.scrollIntoViewIfNeeded();await hittable(save,'Save Prayer Set');await hittable(close(),'Close after scrolling the save form');
+  await save.tap();
+  await page.getByRole('heading',{name:'Prayer Set Saved — Ready to Share',exact:true}).waitFor();
+  await hittable(close(),'Close beside the saved title');
+  await page.locator('.qr').evaluate(el=>el.scrollIntoView({block:'center',behavior:'instant'}));
+  assert.ok(await page.locator('.qr').evaluate(el=>{
+    const r=el.getBoundingClientRect(),d=document.querySelector('dialog').getBoundingClientRect();
+    if(r.top<Math.max(0,d.top)||r.bottom>Math.min(innerHeight,d.bottom)||r.left<d.left||r.right>d.right)return false;
+    return [.05,.5,.95].every(x=>[.05,.5,.95].every(y=>el.contains(document.elementFromPoint(r.left+r.width*x,r.top+r.height*y))));
+  }),'The entire QR must fit on screen without being covered by the dialog title or Close');
+  await hittable(close(),'Close while viewing the QR');
+  const download=page.getByRole('button',{name:'Download QR',exact:true});
+  await download.scrollIntoViewIfNeeded();await hittable(download,'Download QR');await hittable(close(),'Close at the sharing actions');
+  const downloaded=page.waitForEvent('download');await download.tap();
+  const file=await downloaded;assert.equal(await file.failure(),null);assert.equal(file.suggestedFilename(),'enlarged-text-prayer-set-qr.png');
+  await fits(page);await close().tap();
+  assert.equal(await page.locator('dialog').evaluate(el=>el.open),false);
+  assert.equal(await page.locator('#class-title').inputValue(),'Enlarged Text Prayer Set');
+  await page.close();
+}));
+
 test('200 percent text stays on a narrow phone with usable navigation',()=>run(async browser=>{
   const page=await phone(browser);await page.goto(base,{waitUntil:'domcontentloaded'});await page.getByRole('heading',{name:'How to Use',exact:true}).waitFor();await page.getByRole('button',{name:'Prayers',exact:true}).tap();await page.locator('[data-action=essentials]').waitFor();
   await page.addStyleTag({content:':root{font-size:200%}'});await page.evaluate(()=>document.fonts.ready);

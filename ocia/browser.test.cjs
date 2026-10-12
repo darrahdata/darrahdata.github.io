@@ -459,6 +459,35 @@ test('blocked storage does not prevent praying or sharing',()=>browserTest(async
   await page.getByRole('button',{name:'Share / QR Code',exact:true}).click();assert.equal(await page.locator('.qr svg').count(),1);await page.close();
 }));
 
+test('reader keyboard navigation preserves Space scrolling and focused button activation',()=>browserTest(async browser=>{
+  const page=await browser.newPage({viewport:{width:390,height:600},reducedMotion:'reduce'});
+  const link=base+'#class='+Buffer.from(JSON.stringify([1,'Keyboard Reading',['niceneCreed','ourFather','gloryBe']])).toString('base64url');
+  await page.goto(link);await beginPrayerSet(page,'Keyboard Reading');
+  assert.equal(await page.locator('#reader-title').textContent(),'Nicene Creed');
+  assert.equal(await page.evaluate(()=>document.activeElement.id),'main');
+  await page.keyboard.press('Space');
+  await page.waitForFunction(()=>scrollY>100);
+  const scrolled=await page.evaluate(()=>new Promise(resolve=>{
+    let previous=scrollY,stable=0;
+    const frame=()=>{const current=scrollY;stable=current===previous?stable+1:0;previous=current;if(stable>=4)resolve(current);else requestAnimationFrame(frame);};
+    requestAnimationFrame(frame);
+  }));
+  assert.equal(await page.locator('#reader-title').textContent(),'Nicene Creed','Space scrolls the long prayer without advancing');
+  await page.keyboard.press('Shift+Space');
+  await page.waitForFunction(previous=>scrollY<previous-100,scrolled);
+  assert.equal(await page.locator('#reader-title').textContent(),'Nicene Creed','Shift+Space scrolls back without advancing');
+  await page.getByRole('button',{name:'Next',exact:true}).focus();
+  await page.keyboard.press('Space');
+  assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)','Space still activates the focused Next button once');
+  await page.keyboard.press('Shift+ArrowRight');
+  assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)','Modified arrow keys are left to the browser');
+  await page.keyboard.press('ArrowLeft');
+  assert.equal(await page.locator('#reader-title').textContent(),'Nicene Creed');
+  await page.keyboard.press('ArrowRight');
+  assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
+  await page.close();
+}));
+
 test('class readers follow browser text size, ignore old preferences and never use speech synthesis',()=>browserTest(async browser=>{
   const link=base+'#class='+Buffer.from(JSON.stringify([1,'Quiet Prayer Class',['cross','ourFather','fatima']])).toString('base64url');
   let defaultPrayerSize;

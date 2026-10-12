@@ -275,7 +275,7 @@ function turn(delta) {
 }
 function showDialog(kind,title,content) {
   returnFocus=document.activeElement;dialog.dataset.kind=kind;
-  $('dialog-content').innerHTML=`<div class="dialog-heading"><h2 id="dialog-title">${escape(title)}</h2>${iconButton('close-dialog','Close','x')}</div>${content}`;
+  $('dialog-content').innerHTML=`<div class="dialog-close-row">${iconButton('close-dialog','Close','x')}</div><div class="dialog-heading"><h2 id="dialog-title">${escape(title)}</h2></div>${content}`;
   icons();dialog.showModal();
 }
 function picker() {
@@ -483,8 +483,8 @@ document.addEventListener('selectionchange',()=>{if(readingSelection())readingTa
 window.addEventListener('blur',()=>{readingPointers.clear();readingTap=null;});
 
 document.addEventListener('keydown',event=>{
-  if(dialog.open||event.repeat||event.altKey||event.ctrlKey||event.metaKey||event.target.closest('input,textarea,select,button,a,summary,[contenteditable="true"]'))return;
-  if(state.reader&&!state.reader.complete&&['ArrowLeft','ArrowRight',' '].includes(event.key)){event.preventDefault();turn(event.key==='ArrowLeft'?-1:1);}
+  if(dialog.open||event.repeat||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey||event.target.closest('input,textarea,select,button,a,summary,[contenteditable="true"]'))return;
+  if(state.reader&&!state.reader.complete&&['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();turn(event.key==='ArrowLeft'?-1:1);}
 });
 dialog.addEventListener('close',()=>{
   if(dialog.dataset.kind==='bad-link'&&location.hash.startsWith('#class='))history.replaceState(null,'',location.pathname+location.search);
