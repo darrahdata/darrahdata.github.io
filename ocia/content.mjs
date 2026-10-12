@@ -5,6 +5,7 @@ export const sources = {
 };
 
 const prayerInfo = {
+  fatima:['Other prayers','A prayer asking Jesus for mercy.','You can include this prayer in your class set and choose how many times to repeat it.'],
   apostlesCreed:['Creeds','A concise profession of Christian faith.','A creed is a statement of belief. This is the creed commonly used at the beginning of the Rosary. It is distinct from the Nicene Creed.'],
   niceneCreed:['Creeds','The fuller creed familiar from Sunday Mass.','This creed expresses the faith shared by the Church. Your instructor can help explain unfamiliar language, including “consubstantial”: of the same substance or nature.'],
   ourFather:['Essentials',"The prayer Jesus taught his disciples.",'“Our Father” and “the Lord’s Prayer” name the same prayer. This is its devotional form; the sequence at Mass continues differently after “deliver us from evil.”'],
@@ -52,8 +53,8 @@ export const questions = [
   ['What should I do at Communion?','Ask your OCIA instructor about your situation before Mass. If you are not receiving Communion, you may remain in your place and pray. Do not assume enrollment in OCIA means you should receive Communion.']
 ];
 
-// Only brief responses and the existing prayer library are reproduced here.
-// Longer missing forms stay explicitly marked until an authorized parish source is supplied.
+// Includes brief responses, the existing prayer library, and user-supplied I confess wording.
+// Other longer missing forms stay explicitly marked until an authorized parish source is supplied.
 export const massSections = [
   {id:'gather',name:'We gather',formal:'Introductory Rites',summary:'The assembly comes together and prepares to pray.',items:[
     {id:'greeting',name:'Entrance & greeting',note:'Join the entrance song. After the Sign of the Cross, respond Amen. The greeting may vary; the assembly’s response remains the same.',responses:[
@@ -61,7 +62,11 @@ export const massSections = [
       {label:'In response to the greeting · Everyone',text:'And with your spirit.'}
     ]},
     {id:'penitential',name:'Penitential Act',note:'Only one form is used. Your parish may instead use a rite of blessing and sprinkling on appropriate occasions.',options:[
-      {id:'a',name:'Form A · I confess',pending:'The full I confess prayer is awaiting an authorized text source.',responses:[{label:'After the priest’s concluding prayer · Everyone',text:'Amen.'},{label:'Kyrie · Responses as led',text:'Lord, have mercy.\nChrist, have mercy.\nLord, have mercy.'}]},
+      {id:'a',name:'Form A · I confess',responses:[
+        {label:'Everyone · I confess',text:'I confess to the Almighty God and to you, my brothers and sisters, that I’ve greatly sinned in my thoughts and in my words, in what I’ve done and what I’ve failed to do, through my fault, through my fault, through my most grievous fault.\n(Tap your chest.)\nTherefore I ask the Blessed Mary, ever Virgin, and all the angels and saints to pray for me to the Lord our God. Amen.'},
+        {label:'After the priest’s concluding prayer · Everyone',text:'Amen.'},
+        {label:'Kyrie · Responses as led',text:'Lord, have mercy.\nChrist, have mercy.\nLord, have mercy.'}
+      ]},
       {id:'b',name:'Form B · Dialogue',pending:'The two dialogue responses are awaiting an authorized text source.',responses:[{label:'After the priest’s concluding prayer · Everyone',text:'Amen.'},{label:'Kyrie · Responses as led',text:'Lord, have mercy.\nChrist, have mercy.\nLord, have mercy.'}]},
       {id:'c',name:'Form C · Invocations',note:'The leader introduces each invocation. Follow the response that is given; invocations and language can vary.',responses:[{label:'Common English responses · Everyone',text:'Lord, have mercy.\nChrist, have mercy.\nLord, have mercy.'},{label:'After the priest’s concluding prayer · Everyone',text:'Amen.'}]},
       {id:'sprinkling',name:'Blessing & sprinkling',note:'The blessing, song, and other texts depend on the celebration. Follow the priest and cantor.',responses:[{label:'After the priest’s concluding prayer · Everyone',text:'Amen.'}]}

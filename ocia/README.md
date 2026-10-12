@@ -8,19 +8,19 @@ Serve the repository root with a static HTTP server, then open `/ocia/`. ES modu
 
 ## Included
 
-- Thirteen full-text prayers: the Sign of the Cross plus twelve copied unchanged from the existing Ave Maria library, including both creeds, Grace Before Meals, the Guardian Angel Prayer, and the Prayer to St. Michael.
+- Fourteen full-text prayers: the Sign of the Cross, the user-supplied Fatima Prayer, and twelve copied unchanged from the existing Ave Maria library, including both creeds, Grace Before Meals, the Guardian Angel Prayer, and the Prayer to St. Michael.
 - All twenty mysteries, grouped into four sets, with existing devotional artwork and meditations.
 - Read-aloud using available device voices; adjustable text; visible previous/next; contents; saved reading position.
-- A class builder: add, reorder, repeat, remove, save, and preview up to 32 pages; up to 20 saved sets per browser.
-- Student-first browsing: adding and organizing are available only in My Class, behind Prepare a class. New sets receive editable date-and-sequence names; the sequence is local to each browser.
+- A class builder: add, reorder, adjust repetitions of each prayer or mystery, remove, save, and preview up to 32 pages total; up to 20 saved sets per browser. Consecutive repeats appear as one group in the builder and as individual pages when reading or sharing. Repeat choices use the remaining page capacity, up to ×32 for a single group.
+- Student-first browsing: adding and organizing are available only in My Class, behind Prepare a class. Saving prompts for an editable set name; new sets default to the local date.
 - Versioned class links and locally generated QR codes; each participant advances independently.
-- A four-section Mass guide with sections expanded by default, selected alternatives, inline prayer texts, and brief assembly responses. The Universal Prayer includes its common response, not invented petitions. Longer missing forms are marked explicitly.
+- A four-section Mass guide with sections collapsed by default, selected alternatives, inline prayer texts, and brief assembly responses. Form A includes user-supplied I confess wording. The Universal Prayer includes its common response, not invented petitions. Longer missing forms are marked explicitly.
 
 ## Content Review Still Required
 
 **The Mass section is not a complete response library or approved worship aid.** It does not include every spoken response, the full range of rubrics, or texts for special celebrations. Do not advertise complete coverage.
 
-Before expanding the response library, obtain a parish-approved text source, establish the appropriate digital reproduction permissions, and have the OCIA leader or parish liturgist review the wording and contexts. Missing full forms remain labeled instead of supplying unlicensed or guessed text. Existing prayer wording copied from Ave Maria is not a new claim of liturgical approval or permission. The Mass presentation of the Our Father omits its devotional final Amen; the library version is unchanged.
+Before expanding the response library, obtain a parish-approved text source, establish the appropriate digital reproduction permissions, and have the OCIA leader or parish liturgist review the wording and contexts. Missing full forms remain labeled instead of supplying unlicensed or guessed text. The I confess wording and its “Tap your chest” cue were supplied by the user. Neither this wording nor existing prayer wording copied from Ave Maria is a new claim of liturgical approval or permission. The Mass presentation of the Our Father omits its devotional final Amen; the library version is unchanged.
 
 Sources reviewed:
 
