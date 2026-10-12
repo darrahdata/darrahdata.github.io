@@ -1,4 +1,4 @@
-# OCIA: Prayer & Learning
+# OCIA Prayer Companion
 
 A standalone OCIA classroom app at `/ocia/`, listed beside Ave Maria on the homepage. Ave Maria remains a separate app.
 

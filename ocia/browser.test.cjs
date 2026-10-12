@@ -349,7 +349,7 @@ test('read-aloud stops on navigation and stale callbacks cannot affect the curre
 
 test('students browse without editing controls; saved sets use a date or chosen name',()=>browserTest(async browser=>{
   const page=await browser.newPage({viewport:{width:320,height:700}});await open(page);
-  assert.equal(await page.locator('.brand').textContent(),'OCIA');
+  assert.equal(await page.locator('.brand').textContent(),'OCIA Prayer Companion');
   assert.equal(await page.locator('[data-action="add"]').count(),0);
   await page.locator('[data-action="read-item"][data-id="cross"] svg').click();
   assert.equal(await page.locator('#reader-title').textContent(),'Sign of the Cross');

@@ -19,7 +19,7 @@ test('homepage is responsive, accessible by keyboard, and links to existing apps
       assert.equal(await page.locator('main h1').count(), 0);
       assert.equal(await page.locator('h1').count(), 1);
       assert.ok(await page.locator('.tile-link').count() >= 6, 'active app tiles remain');
-      assert.equal(await page.locator('#ocia-title').textContent().then(text=>text.trim().replace(/\s*→$/, '')), 'OCIA');
+      assert.equal(await page.locator('#ocia-title').textContent().then(text=>text.trim().replace(/\s*→$/, '')), 'OCIA Prayer Companion');
       assert.equal(await page.locator('a[href*="for-nora"]').count(), 0, 'For Nora is archived, not featured');
       assert.equal(await page.locator('.tile-link a, .open-link').count(), 0);
       for (const tile of await page.locator('.tile-link').all()) {
@@ -52,7 +52,7 @@ test('homepage is responsive, accessible by keyboard, and links to existing apps
     await page.locator('a[href="ocia/"] img').click();
     await page.getByRole('button',{name:'Pray together',exact:true}).waitFor();
     assert.equal(new URL(page.url()).pathname, '/ocia/');
-    assert.equal(await page.locator('.brand').textContent(), 'OCIA');
+    assert.equal(await page.locator('.brand').textContent(), 'OCIA Prayer Companion');
     await page.goBack();
     await page.locator('.tile-link').filter({has: page.locator('#tiny-title')}).focus();
     await page.keyboard.press('Enter');
