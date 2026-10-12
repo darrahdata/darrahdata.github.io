@@ -30,7 +30,11 @@
     },
     "hailHolyQueen": {
       "name": "Hail, Holy Queen",
-      "text": "Hail, holy Queen, Mother of mercy, our life, our sweetness, and our hope. To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious Advocate, thine eyes of mercy toward us. And after this, our exile, show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. V. Pray for us, O holy Mother of God. R. That we may be made worthy of the promises of Christ."
+      "text": "Hail, Holy Queen, Mother of Mercy, Hail our life, our sweetness, and our hope! To thee do we cry, poor banished children of Eve; to thee do we send up our sighs, mourning and weeping in this valley of tears. Turn, then, most gracious Advocate, thine eyes of mercy toward us; and after this our exile show unto us the blessed fruit of thy womb, Jesus; O clement, O loving, O sweet Virgin Mary.\nQueen of the Most Holy Rosary, pray for us.\nThat we may be made worthy of the promises of Christ."
+    },
+    "rosaryCollect": {
+      "name": "Collect After the Rosary",
+      "text": "O God, whose only begotten Son, by his life, death, and resurrection, has purchased for us the rewards of eternal life, grant, we beseech thee, that meditating upon these mysteries of the most holy rosary of the Blessed Virgin Mary, we may imitate what they contain, and obtain what they promise; through the same Christ, our Lord. Amen.\nMay the divine assistance remain always with us.\nMay the souls of the faithful departed through the mercy of God rest in peace. Amen."
     },
     "graceBeforeMeals": {
       "name": "Grace Before Meals",

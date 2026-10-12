@@ -153,3 +153,49 @@ test('phone navigation keeps four equal tabs or a balanced two-by-two layout as 
   assert.deepEqual(errors,[],'Responsive navigation must not produce ResizeObserver loops or page errors');
   await page.close();
 }));
+
+test('mystery pages fit complete scripture and uncropped artwork on phones and scale accessibly',()=>run(async browser=>{
+  const source=require('node:fs').readFileSync(require('node:path').join(__dirname,'../rosary-v2/index.html'),'utf8');
+  const mysteries=[...source.matchAll(/\{type:'(First|Second|Third|Fourth|Fifth) (Joyful|Sorrowful|Luminous|Glorious) Mystery',name:'([^']+)',scripture:'([^']+)',citation:'([^']+)',image:'[^']+'\}/g)].map(([,ordinal,set,title,scripture,citation])=>({id:`${set.toLowerCase()}-${['First','Second','Third','Fourth','Fifth'].indexOf(ordinal)+1}`,title,scripture,citation}));
+  assert.equal(mysteries.length,20);
+  const link=base+'#class='+Buffer.from(JSON.stringify([1,'All Twenty Mysteries',mysteries.map(item=>item.id)])).toString('base64url');
+  let normalTextSizes;
+  for(const [width,height,size,fitWithoutScrolling] of [[375,667,100,true],[390,844,100,true],[430,932,100,true],[320,568,100,false],[667,375,100,false],[390,844,200,false]]){
+    const page=await phone(browser,width,height);const errors=[];page.on('pageerror',error=>errors.push(error.message));
+    await page.goto(link);await page.getByRole('button',{name:'Begin Prayer',exact:true}).waitFor();
+    if(size!==100){
+      const defaultRootSize=await page.evaluate(()=>parseFloat(getComputedStyle(document.documentElement).fontSize));
+      await page.addStyleTag({content:`:root{font-size:${defaultRootSize*size/100}px}`});
+    }
+    await page.getByRole('button',{name:'Begin Prayer',exact:true}).tap();await page.evaluate(()=>document.fonts.ready);
+    const textSizes=await page.locator('#reader-title, .mystery-scripture p, .mystery-scripture cite').evaluateAll(elements=>elements.map(el=>parseFloat(getComputedStyle(el).fontSize)));
+    if(width===390&&size===100)normalTextSizes=textSizes;
+    if(size===200)assert.ok(textSizes.every((value,index)=>value>=normalTextSizes[index]*1.95),'Titles, scripture and references grow with the user’s text size');
+    for(const [index,mystery] of mysteries.entries()){
+      const context=`${width}×${height} at ${size}%: ${mystery.title}`;
+      assert.equal(await page.locator('#reader-title').textContent(),mystery.title,context);
+      assert.equal(await page.locator('.mystery-scripture p').textContent(),mystery.scripture,context);
+      assert.equal(await page.locator('.mystery-scripture cite').textContent(),mystery.citation,context);
+      await page.waitForFunction(()=>{const image=document.querySelector('.mystery-image img');return image.complete&&image.naturalWidth>0&&image.naturalHeight>0;});
+      await fits(page);
+      const image=await page.locator('.mystery-image img').evaluate(el=>{const r=el.getBoundingClientRect();return {height:r.height,width:r.width,fit:getComputedStyle(el).objectFit};});
+      assert.ok(image.height>=159.5&&image.width>0,`${context}: artwork retains a useful minimum size`);
+      assert.equal(image.fit,'contain',`${context}: the whole image is shown without cropping`);
+      if(fitWithoutScrolling){
+        assert.equal(await page.evaluate(()=>scrollY),0,`${context}: no scrolling is required`);
+        const bounds=await page.evaluate(()=>{const dock=document.querySelector('.reader-dock').getBoundingClientRect();return [...document.querySelectorAll('#reader-title, .mystery-scripture p, .mystery-scripture cite, .mystery-image img')].map(el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,dockTop:dock.top};});});
+        assert.ok(bounds.every(rect=>rect.top>=0&&rect.bottom<=rect.dockTop+1),`${context}: the complete title, scripture, reference and artwork fit above the controls`);
+      }else{
+        for(const selector of ['#reader-title','.mystery-scripture p','.mystery-scripture cite','.mystery-image img']){
+          const content=page.locator(selector);
+          await content.evaluate(el=>el.scrollIntoView({block:'start'}));
+          assert.ok(await content.evaluate(el=>{const r=el.getBoundingClientRect();return r.top>=-1&&r.top<document.querySelector('.reader-dock').getBoundingClientRect().top;}),`${context}: the beginning of ${selector} is reachable`);
+          await content.evaluate(el=>{const bottom=el.getBoundingClientRect().bottom;const dock=document.querySelector('.reader-dock').getBoundingClientRect().top;scrollTo(0,scrollY+bottom-dock+8);});
+          assert.ok(await content.evaluate(el=>{const r=el.getBoundingClientRect();return r.bottom>0&&r.bottom<=document.querySelector('.reader-dock').getBoundingClientRect().top+1;}),`${context}: the end of ${selector} is reachable above the controls`);
+        }
+      }
+      if(index<mysteries.length-1)await page.getByRole('button',{name:'Next',exact:true}).tap();
+    }
+    assert.deepEqual(errors,[]);await page.close();
+  }
+}));

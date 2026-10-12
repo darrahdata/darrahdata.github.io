@@ -506,8 +506,8 @@ test('class readers follow browser text size, ignore old preferences and never u
   }
 }));
 
-test('prayer readers show Leader and Response or a single Everyone part for Fatima on a phone',()=>browserTest(async browser=>{
-  const prayerIds=['cross','apostlesCreed','niceneCreed','ourFather','hailMary','gloryBe','gloria','comeHolySpirit','hailHolyQueen','graceBeforeMeals','guardianAngel','stMichael','actOfContrition','fatima'];
+test('prayer readers show the correct Everyone, Leader and Response parts on a phone',()=>browserTest(async browser=>{
+  const prayerIds=['cross','apostlesCreed','niceneCreed','ourFather','hailMary','gloryBe','gloria','comeHolySpirit','hailHolyQueen','rosaryCollect','graceBeforeMeals','guardianAngel','stMichael','actOfContrition','fatima'];
   const splitPrayers={
     ourFather:[
       'Our Father, who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven.',
@@ -525,6 +525,7 @@ test('prayer readers show Leader and Response or a single Everyone part for Fati
   for(const [index,id] of prayerIds.entries()){
     const roles=await page.locator('#prayer-text .prayer-role').allTextContents();
     if(id==='fatima')assert.deepEqual(roles,['Everyone:']);
+    else if(['hailHolyQueen','rosaryCollect'].includes(id))assert.deepEqual(roles,['Everyone:','Leader:','Response:']);
     else{
       assert.equal(roles[0],'Leader:',`${id} starts with the leader`);
       assert.ok(roles.includes('Response:'),`${id} provides the response`);
@@ -538,6 +539,8 @@ test('prayer readers show Leader and Response or a single Everyone part for Fati
       assert.deepEqual(words,['O my Jesus, forgive us our sins, save us from the fires of hell; lead all souls to heaven, especially those who are in most need of Your mercy. Amen.']);
       assert.equal(await page.locator('#prayer-text q.prayer-words').count(),1,'Everyone reads the complete prayer together');
     }
+    if(id==='hailHolyQueen')assert.deepEqual(words.slice(1),['Queen of the Most Holy Rosary, pray for us.','That we may be made worthy of the promises of Christ.']);
+    if(id==='rosaryCollect')assert.deepEqual(words.slice(1),['May the divine assistance remain always with us.','May the souls of the faithful departed through the mercy of God rest in peace. Amen.']);
     if(splitPrayers[id]){
       assert.deepEqual(roles,['Leader:','Response:']);
       assert.deepEqual(words,splitPrayers[id]);
@@ -552,7 +555,7 @@ test('prayer readers show Leader and Response or a single Everyone part for Fati
   assert.equal(await page.locator('h1').textContent(),'Prayer Complete');
   assert.equal(await page.getByText('You’ve completed these prayers.',{exact:true}).isVisible(),true);
   await page.getByRole('button',{name:'Review Prayer Set',exact:true}).tap();
-  assert.equal(await page.locator('[data-action=jump]').count(),14);
+  assert.equal(await page.locator('[data-action=jump]').count(),prayerIds.length);
   await page.getByRole('button',{name:'Close',exact:true}).tap();
   await page.getByRole('button',{name:'Pray Again',exact:true}).tap();
   await beginPrayerSet(page,'Class Responses');

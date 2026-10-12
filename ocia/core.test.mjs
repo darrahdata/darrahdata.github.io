@@ -23,28 +23,46 @@ test('the library preserves every prayer and all twenty mystery texts',()=>{
   }
 });
 
-test('prayer participation parts preserve every word and retain Leader and Response outside Fatima',()=>{
+test('prayer participation parts preserve every word and each prayer’s reading roles',()=>{
   const prayers=[...catalog.values()].filter(item=>item.kind==='prayer');
   const normalized=text=>text.replace(/\s+/g,' ').trim();
-  assert.equal(prayers.length,14);
+  assert.equal(prayers.length,15);
   for(const item of prayers){
     if(item.id==='fatima')assert.deepEqual(item.parts,[{role:'Everyone',text:item.text}]);
+    else if(['hailHolyQueen','rosaryCollect'].includes(item.id))assert.deepEqual(item.parts.map(part=>part.role),['Everyone','Leader','Response'],item.id);
     else{
       assert.ok(item.parts.length>=2,item.id);
       assert.deepEqual([...new Set(item.parts.map(part=>part.role))],['Leader','Response'],item.id);
     }
     assert.ok(item.parts.every(part=>part.text.length>0),item.id);
-    const original=item.id==='hailHolyQueen'?item.text.replace(/\b[VR]\.\s*/g,''):item.text;
-    assert.equal(normalized(item.parts.map(part=>part.text).join(' ')),normalized(original),item.id);
+    assert.equal(normalized(item.parts.map(part=>part.text).join(' ')),normalized(item.text),item.id);
   }
-  const queen=catalog.get('hailHolyQueen');
-  assert.equal(queen.parts.length,4);
-  assert.deepEqual(queen.parts.slice(-2),[
-    {role:'Leader',text:'Pray for us, O holy Mother of God.'},
-    {role:'Response',text:'That we may be made worthy of the promises of Christ.'}
-  ]);
-  assert.ok(queen.parts.every(part=>!/^\s*[VR]\./.test(part.text)));
-  assert.match(queen.text,/V\. Pray for us/);
+});
+
+test('Rosary closing prayers match the requested wording and Everyone, Leader and Response turns',()=>{
+  const expected={
+    hailHolyQueen:{name:'Hail, Holy Queen',parts:[
+      {role:'Everyone',text:'Hail, Holy Queen, Mother of Mercy, Hail our life, our sweetness, and our hope! To thee do we cry, poor banished children of Eve; to thee do we send up our sighs, mourning and weeping in this valley of tears. Turn, then, most gracious Advocate, thine eyes of mercy toward us; and after this our exile show unto us the blessed fruit of thy womb, Jesus; O clement, O loving, O sweet Virgin Mary.'},
+      {role:'Leader',text:'Queen of the Most Holy Rosary, pray for us.'},
+      {role:'Response',text:'That we may be made worthy of the promises of Christ.'}
+    ]},
+    rosaryCollect:{name:'Collect After the Rosary',parts:[
+      {role:'Everyone',text:'O God, whose only begotten Son, by his life, death, and resurrection, has purchased for us the rewards of eternal life, grant, we beseech thee, that meditating upon these mysteries of the most holy rosary of the Blessed Virgin Mary, we may imitate what they contain, and obtain what they promise; through the same Christ, our Lord. Amen.'},
+      {role:'Leader',text:'May the divine assistance remain always with us.'},
+      {role:'Response',text:'May the souls of the faithful departed through the mercy of God rest in peace. Amen.'}
+    ]}
+  };
+  for(const [id,{name,parts}] of Object.entries(expected)){
+    const item=catalog.get(id);
+    assert.equal(item.name,name);
+    assert.equal(item.kind,'prayer');
+    assert.equal(item.category,'Other Prayers');
+    assert.deepEqual(item.parts,parts);
+    assert.equal(item.text,parts.map(part=>part.text).join('\n'));
+    assert.equal([...catalog.values()].filter(prayer=>prayer.name===name).length,1);
+  }
+  const set={version:1,title:'Rosary Closing Prayers',ids:['hailHolyQueen','rosaryCollect']};
+  assert.deepEqual(decodeSet(encodeSet(set,catalog),catalog),set,'Both stable IDs can be selected and shared in order');
 });
 
 test('Our Father and Hail Mary use the requested class reading boundaries',()=>{

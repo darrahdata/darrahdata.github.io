@@ -16,6 +16,7 @@ const prayerInfo = {
   gloria:['Other Prayers','The longer hymn of praise used at Mass.','The Gloria is different from the short Glory Be. Whether it is included depends on the celebration and the liturgical season.'],
   comeHolySpirit:['Daily Prayer','An invitation to the Holy Spirit.','This prayer asks for the Holy Spirit’s presence and help.'],
   hailHolyQueen:['Other Prayers','A prayer often said at the end of the Rosary.','This prayer asks for Mary’s intercession. Your instructor can explain its traditional imagery and language.'],
+  rosaryCollect:['Other Prayers','A closing prayer after the Rosary.','Ask God to help us imitate the mysteries of the Rosary and receive what they promise.'],
   actOfContrition:['Essentials','A prayer expressing sorrow for sin.','This is one traditional form. Other approved forms are also used; the words your parish teaches may differ.'],
   graceBeforeMeals:['Daily Prayer','Giving thanks before a meal.','Grace is a prayer of thanksgiving. This traditional form is often used before eating.'],
   guardianAngel:['Daily Prayer','Asking your guardian angel for protection.','This short traditional prayer asks for guidance and protection throughout the day.'],
@@ -39,7 +40,8 @@ const prayerTurnStarts = {
   gloryBe:['as it was in the beginning'],
   gloria:['Lord Jesus Christ, Only Begotten Son'],
   comeHolySpirit:['Send forth Thy Spirit'],
-  hailHolyQueen:['Turn then, most gracious Advocate','V. Pray for us','R. That we may'],
+  hailHolyQueen:['Queen of the Most Holy Rosary','That we may be made worthy'],
+  rosaryCollect:['May the divine assistance','May the souls of the faithful departed'],
   graceBeforeMeals:['Amen.'],
   guardianAngel:['ever this day be at my side'],
   stMichael:['May God rebuke him'],
@@ -48,6 +50,7 @@ const prayerTurnStarts = {
 
 function createPrayerParts(id,text) {
   if(id==='fatima')return [{role:'Everyone',text}];
+  const roles=['hailHolyQueen','rosaryCollect'].includes(id)?['Everyone','Leader','Response']:null;
   const starts=[0];
   for(const marker of prayerTurnStarts[id]) {
     const start=text.indexOf(marker,starts.at(-1)+1);
@@ -55,7 +58,7 @@ function createPrayerParts(id,text) {
     starts.push(start);
   }
   return starts.map((start,index)=>({
-    role:index%2?'Response':'Leader',
+    role:roles?roles[index]:index%2?'Response':'Leader',
     text:text.slice(start,starts[index+1]).trim().replace(/^[VR]\.\s*/, '')
   }));
 }

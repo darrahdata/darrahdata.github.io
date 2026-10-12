@@ -1,6 +1,6 @@
 import {qrcode} from './vendor/qrcode.mjs';
 import {MAX_STEPS,defaultClassTitle,validateSet,encodeSet,decodeSet,shareURL,groupSteps,setStepCount,moveStepGroup} from './core.mjs?v=20261012-prayer-beads';
-import {createCatalog,mysterySets,massSections} from './content.mjs?v=20261012-prayer-beads';
+import {createCatalog,mysterySets,massSections} from './content.mjs?v=20261012-rosary-closing';
 
 const $ = id => document.getElementById(id);
 const main = $('main'), dialog = $('dialog');
@@ -448,7 +448,7 @@ window.addEventListener('hashchange',event=>{
 });
 
 async function init() {
-  const response=await fetch('./prayers.json?v=20261012-prayer-beads');if(!response.ok)throw new Error('Prayer library could not load.');
+  const response=await fetch('./prayers.json?v=20261012-rosary-closing');if(!response.ok)throw new Error('Prayer library could not load.');
   catalog=createCatalog(await response.json());hydrate();
   if(!loadShared())render();
 }
