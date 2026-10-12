@@ -13,7 +13,7 @@ Serve the repository root with a static HTTP server, then open `/ocia/`. ES modu
 - Read-aloud using available device voices; adjustable text; visible previous/next; contents; saved reading position.
 - A class builder: add, reorder, adjust repetitions of each prayer or mystery, remove, save, and preview up to 32 pages total; up to 20 saved sets per browser. Consecutive repeats appear as one group in the builder and as individual pages when reading or sharing. Repeat choices use the remaining page capacity, up to ×32 for a single group.
 - Student-first browsing: adding and organizing are available only in My Class, behind Prepare a class. Saving prompts for an editable set name; new sets default to the local date.
-- Versioned class links and locally generated QR codes; each participant advances independently.
+- Versioned class links and locally generated QR codes; each participant advances independently. Saving opens the QR code immediately, and each saved set has a Share QR button. Codes can be downloaded as PNG images or printed, and class links can be copied or shared.
 - A four-section Mass guide with sections collapsed by default, selected alternatives, inline prayer texts, and brief assembly responses. Form A includes user-supplied I confess wording. The Universal Prayer includes its common response, not invented petitions. Longer missing forms are marked explicitly.
 
 ## Content Review Still Required

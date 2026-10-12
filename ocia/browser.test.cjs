@@ -19,7 +19,15 @@ async function saveClass(page,name){
   if(title.trim())assert.equal(await page.getByRole('textbox',{name:'Set name',exact:true}).inputValue(),title.trim());
   if(name!==undefined)await page.locator('#saved-set-name').fill(name);
   await page.getByRole('dialog').getByRole('button',{name:'Save set',exact:true}).click();
-  await page.waitForFunction(()=>document.activeElement?.dataset.action==='save');
+  await page.getByRole('heading',{name:'Class saved — ready to share',exact:true}).waitFor();
+  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')));
+  assert.equal(await page.locator('.share-caption').textContent(),`${saved.title} · ${saved.ids.length} pages`);
+  assert.equal(await page.locator('.qr svg').count(),1);
+  const link=await page.locator('#share-url').inputValue();
+  assert.deepEqual(JSON.parse(Buffer.from(new URL(link).hash.slice(7),'base64url').toString('utf8')),[1,saved.title,saved.ids]);
+  await page.getByRole('dialog').getByRole('button',{name:'Close',exact:true}).click();
+  await page.waitForFunction(()=>document.activeElement?.dataset.action==='share');
+  return link;
 }
 async function noOverflow(page){assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No page should scroll horizontally');}
 
@@ -75,7 +83,7 @@ test('instructor ordering, immutable shared links, reading, resume and completio
   await page.reload();await page.getByRole('button',{name:'My Class',exact:true}).click();
   assert.equal(await page.locator('#class-title').inputValue(),'María’s OCIA class');
   await saveClass(page);assert.equal(await page.locator('.saved-row').count(),1);
-  await page.getByRole('button',{name:'Share class',exact:true}).click();
+  await page.getByRole('button',{name:'Share / QR code',exact:true}).click();
   const link=await page.locator('#share-url').inputValue();assert.ok(link.includes('#class='));
   assert.equal(await page.locator('.qr svg').count(),1);
   await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>document.activeElement.dataset.action),'share');
@@ -127,7 +135,7 @@ test('class repetition counts keep one row, persist, share and read every prayer
   assert.equal(await page.getByRole('combobox',{name:'Repetitions of Hail Mary',exact:true}).inputValue(),'2');
   await page.getByRole('combobox',{name:'Repetitions of Hail Mary',exact:true}).selectOption('10');
   await saveClass(page);
-  await page.getByRole('button',{name:'Share class',exact:true}).click();
+  await page.getByRole('button',{name:'Share / QR code',exact:true}).click();
   const link=await page.locator('#share-url').inputValue();
   const payload=JSON.parse(Buffer.from(new URL(link).hash.slice(7),'base64url').toString('utf8'));
   assert.deepEqual(payload,[1,'A decade together',expected]);
@@ -168,6 +176,65 @@ test('class repetition counts keep one row, persist, share and read every prayer
   assert.equal(await learner.locator('[data-action="jump"]').count(),12);
   assert.equal(await learner.locator('[data-action="jump"]').filter({hasText:'Hail Mary'}).count(),10);
   await noOverflow(learner);await learner.close();await page.close();
+}));
+
+test('saved QR sharing preserves the current draft and downloads a PNG before and after reload',()=>browserTest(async browser=>{
+  const page=await browser.newPage({viewport:{width:320,height:700},reducedMotion:'reduce'});await open(page);await openClass(page);
+  const title='10/13/2026 OCIA';
+  const tenHailMarys=Array(10).fill('hailMary');
+  const expected=['joyful-1','ourFather',...tenHailMarys,'gloryBe','fatima'];
+  await page.locator('#class-title').fill(title);
+  await page.getByRole('button',{name:'Add prayer or mystery',exact:true}).click();
+  for(const [id,name,count] of [['joyful-1','Annunciation',1],['ourFather','Our Father',1],['hailMary','Hail Mary',10],['gloryBe','Glory Be',1],['fatima','Fatima',1]]){
+    await page.locator('#picker-count').selectOption(String(count));
+    await page.locator('#picker-search').fill(name);
+    await page.locator(`#picker-results [data-action="add"][data-id="${id}"]`).click();
+  }
+  await page.getByRole('button',{name:'Close',exact:true}).click();
+  const savedLink=await saveClass(page);
+  assert.deepEqual(JSON.parse(Buffer.from(new URL(savedLink).hash.slice(7),'base64url').toString('utf8')),[1,title,expected]);
+  await page.getByRole('button',{name:'New set',exact:true}).click();
+  await page.getByRole('button',{name:'Start new set',exact:true}).click();
+  await page.locator('#class-title').fill('An unfinished class');
+  await page.locator('#starter').selectOption('opening');
+  const currentDraft=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')));
+  const savedSets=await page.evaluate(()=>localStorage.getItem('ocia-sets'));
+  assert.equal(currentDraft.savedId,null);
+  const currentSteps=await page.locator('.step').count();
+  for(const reload of [false,true]){
+    if(reload){await page.reload();await openClass(page);}
+    const savedShare=page.getByRole('button',{name:`Share QR for ${title}`,exact:true});
+    assert.equal(await savedShare.textContent(),'Share QR');
+    await savedShare.click();
+    assert.equal(await page.locator('#dialog-title').textContent(),'Share this class');
+    assert.equal(await page.locator('.share-caption').textContent(),`${title} · 14 pages`);
+    assert.equal(await page.locator('.qr svg').count(),1);
+    assert.equal(await page.locator('#share-url').inputValue(),savedLink);
+    assert.equal(await page.getByRole('button',{name:'Copy link',exact:true}).isVisible(),true);
+    assert.equal(await page.getByRole('button',{name:'Print',exact:true}).isVisible(),true);
+    await noOverflow(page);
+    if(!reload){
+      const downloadEvent=page.waitForEvent('download');
+      await page.getByRole('button',{name:'Download QR',exact:true}).click();
+      const download=await downloadEvent;
+      assert.equal(await download.failure(),null);
+      assert.equal(download.suggestedFilename(),'10-13-2026-ocia-qr.png');
+      const stream=await download.createReadStream();
+      const chunks=[];for await(const chunk of stream)chunks.push(chunk);
+      const png=Buffer.concat(chunks);
+      assert.deepEqual(png.subarray(0,8),Buffer.from([137,80,78,71,13,10,26,10]));
+      assert.ok(png.readUInt32BE(16)>=512,'The QR image should have enough resolution to share');
+      assert.equal(png.readUInt32BE(16),png.readUInt32BE(20),'The QR image should be square');
+    }
+    await page.keyboard.press('Escape');
+    await page.getByRole('dialog').waitFor({state:'hidden'});
+    assert.equal(await page.locator('#class-title').inputValue(),'An unfinished class');
+    assert.equal(await page.locator('.step').count(),currentSteps);
+    assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft'))),currentDraft);
+    assert.equal(await page.evaluate(()=>localStorage.getItem('ocia-sets')),savedSets);
+    await noOverflow(page);
+  }
+  await page.close();
 }));
 
 test('repetitions respect the 32-page limit on narrow and desktop screens',()=>browserTest(async browser=>{
@@ -259,7 +326,7 @@ test('blocked storage does not prevent praying or sharing',()=>browserTest(async
   await page.getByRole('button',{name:'Next',exact:true}).click();assert.equal(await page.locator('#reader-title').textContent(),'Our Father');
   await page.getByRole('button',{name:'Close prayer and save place',exact:true}).click();
   await openClass(page);await page.locator('#starter').selectOption('opening');
-  await page.getByRole('button',{name:'Share class',exact:true}).click();assert.equal(await page.locator('.qr svg').count(),1);await page.close();
+  await page.getByRole('button',{name:'Share / QR code',exact:true}).click();assert.equal(await page.locator('.qr svg').count(),1);await page.close();
 }));
 
 test('read-aloud stops on navigation and stale callbacks cannot affect the current prayer',()=>browserTest(async browser=>{

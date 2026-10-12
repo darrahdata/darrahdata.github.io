@@ -109,11 +109,11 @@ function renderClass() {
     `<div class="builder-layout"><section aria-label="Class builder"><label class="field-label" for="class-title">Class title</label><input id="class-title" maxlength="80" value="${escape(state.builder.title)}" autocomplete="off">
       <div class="builder-tools inline-actions">${action('picker','Add prayer or mystery','plus','class="secondary"')}<span class="eyebrow">${state.builder.ids.length} / ${MAX_STEPS} pages</span></div>
       <ol class="step-list">${groupSteps(state.builder.ids).map(stepMarkup).join('')}</ol>${state.builder.ids.length?'':'<p class="empty">Your class set is empty. Choose a prayer or mystery to begin.</p>'}
-      <div class="builder-footer">${action('preview','Preview','play',`${state.builder.ids.length?'':'disabled'}`)}${action('share','Share class','qr-code',`class="primary" ${state.builder.ids.length?'':'disabled'}`)}</div>
+      <div class="builder-footer">${action('preview','Preview','play',`${state.builder.ids.length?'':'disabled'}`)}${action('share','Share / QR code','qr-code',`class="primary" ${state.builder.ids.length?'':'disabled'}`)}</div>
       <div class="inline-actions">${action('save','Save set','save',`${state.builder.ids.length?'':'disabled'}`)}${action('new','New set','file-plus')}</div>
       <p class="privacy">${storageOK?'Your draft is saved on this device.':'Saving is unavailable on this device.'} A shared link contains the class title and its prayer order. Anyone with the link can open it; no account is needed. Leave private names and intentions out of the title.</p></section>
     <aside><label class="field-label" for="starter">Add a starter sequence</label><select id="starter"><option value="">Choose a sequence</option><option value="opening">Class opening prayers</option>${mysterySets.map(set=>`<option value="${set.key}">Five ${set.name} Mysteries</option>`).join('')}</select>
-      <section class="saved"><h2>Saved sets</h2>${state.saved.length?state.saved.map(entry=>`<div class="saved-row"><button type="button" data-action="load" data-id="${escape(entry.id)}">${escape(entry.set.title)}<small>${entry.set.ids.length} pages</small></button>${iconButton('delete-saved',`Delete ${entry.set.title}`,'trash-2',`data-id="${escape(entry.id)}"`)}</div>`).join(''):'<p class="privacy">No saved sets yet.</p>'}</section>
+      <section class="saved"><h2>Saved sets</h2>${state.saved.length?state.saved.map(entry=>`<div class="saved-row"><button type="button" data-action="load" data-id="${escape(entry.id)}">${escape(entry.set.title)}<small>${entry.set.ids.length} pages</small></button><div class="saved-actions">${action('share-saved','Share QR','qr-code',`class="secondary" data-id="${escape(entry.id)}" aria-label="${escape(`Share QR for ${entry.set.title}`)}"`)}${iconButton('delete-saved',`Delete ${entry.set.title}`,'trash-2',`data-id="${escape(entry.id)}"`)}</div></div>`).join(''):'<p class="privacy">No saved sets yet.</p>'}</section>
       <p class="privacy">Edits produce a new share link and QR code. An older link always opens its original set.</p>
     </aside></div>`;
 }
@@ -135,10 +135,10 @@ function saveClass(name) {
   state.builder.title=title;
   state.savedId ||= crypto.randomUUID();
   state.saved=[{id:state.savedId,set},...state.saved.filter(entry=>entry.id!==state.savedId)];
-  if(writeStore('sets',state.saved))notify('Class set saved on this device.');
-  persistDraft();dialog.close();render();
-  returnFocus=main.querySelector('[data-action="save"]');
-  returnFocus?.focus({preventScroll:true});
+  const saved=writeStore('sets',state.saved);
+  persistDraft();render();
+  share(set,saved);
+  returnFocus=main.querySelector('[data-action="share"]');
 }
 function addItems(ids) {
   if(state.builder.ids.length+ids.length>MAX_STEPS){notify(`A class set can contain up to ${MAX_STEPS} pages.`);return false;}
@@ -200,17 +200,28 @@ function renderPickerItems(query) {
 function contents() {
   showDialog('contents',state.reader.set.title,`<ol class="dialog-content-list">${state.reader.set.ids.map((id,index)=>`<li><button type="button" data-action="jump" data-index="${index}" ${index===state.reader.index?'aria-current="step"':''}><span>${index+1}. ${escape(catalog.get(id).name)}</span>${index===state.reader.index?icon('check'):''}</button></li>`).join('')}</ol>`);
 }
-function share() {
+function share(set=state.builder,saved=false) {
   let url;
-  try{url=shareURL(state.builder,catalog,location.href);}catch(error){notify(error.message);return;}
+  try{url=shareURL(set,catalog,location.href);}catch(error){notify(error.message);return;}
   const qr=qrcode(0,'M');qr.addData(url);qr.make();
-  state.share={url,svg:qr.createSvgTag({cellSize:4,margin:16,scalable:true})};
+  state.share={title:set.title,url,svg:qr.createSvgTag({cellSize:4,margin:16,scalable:true})};
   const local=/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
-  showDialog('share','Share this class',`<p class="share-caption">${escape(state.builder.title)} · ${state.builder.ids.length} pages</p><div class="qr" role="img" aria-label="QR code for ${escape(state.builder.title)}">${state.share.svg}</div>
+  showDialog('share',saved?'Class saved — ready to share':'Share this class',`<p class="share-caption">${escape(set.title)} · ${set.ids.length} pages</p><p class="share-instruction">Scan this code to open the class on any phone.</p><div class="qr" role="img" aria-label="QR code for ${escape(set.title)}">${state.share.svg}</div>
     ${local?'<p class="notice">Local preview: this link and QR code work on this computer only. A published address is required before sharing with the class.</p>':''}
     <div class="share-url"><label class="field-label" for="share-url">Read-only class link</label><input id="share-url" readonly value="${escape(url)}"></div>
-    <div class="inline-actions">${action('copy-link','Copy link','link','class="primary"')}${action('download-qr','Save QR','download')}${action('print-qr','Print','printer')}${navigator.share?action('native-share','Share','share-2'):''}</div>
+    <div class="inline-actions">${action('download-qr','Download QR','download','class="primary"')}${action('copy-link','Copy link','link')}${action('print-qr','Print','printer')}${navigator.share?action('native-share','Share link','share-2'):''}</div>
     <p class="privacy">No account needed. Each person moves through the pages on their own. Keep the same QR for this exact set; create a new one after edits.</p><p class="print-only">${escape(url)}</p>`);
+  dialog.querySelector('[data-action="close-dialog"]').focus({preventScroll:true});
+}
+async function qrImage(share) {
+  const svgURL=URL.createObjectURL(new Blob([share.svg],{type:'image/svg+xml'}));
+  try{
+    const image=new Image();image.src=svgURL;await image.decode();
+    const canvas=document.createElement('canvas');canvas.width=canvas.height=1200;
+    const context=canvas.getContext('2d');context.imageSmoothingEnabled=false;
+    context.fillStyle='#fff';context.fillRect(0,0,1200,1200);context.drawImage(image,0,0,1200,1200);
+    return await new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('QR image could not be created.')),'image/png'));
+  }finally{URL.revokeObjectURL(svgURL);}
 }
 function settings() {
   const voices='speechSynthesis'in window?speechSynthesis.getVoices().filter(voice=>/^en\b/i.test(voice.lang)):[];
@@ -287,14 +298,23 @@ async function handleAction(button) {
   }
   if(key==='preview')startReader(state.builder);
   if(key==='share')share();
+  if(key==='share-saved'){
+    const entry=state.saved.find(entry=>entry.id===id);
+    if(entry)share(entry.set);
+  }
   if(key==='copy-link'){
     try{await navigator.clipboard.writeText(state.share.url);notify('Class link copied.');}catch{$('share-url').focus();$('share-url').select();notify('Select and copy the highlighted link.');}
   }
   if(key==='download-qr'){
-    const url=URL.createObjectURL(new Blob([state.share.svg],{type:'image/svg+xml'}));const link=document.createElement('a');link.href=url;link.download='ocia-class-qr.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    const current=state.share;
+    try{
+      const url=URL.createObjectURL(await qrImage(current));const link=document.createElement('a');link.href=url;
+      link.download=`${current.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'ocia-class'}-qr.png`;
+      link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    }catch{notify('The QR image could not download. You can still scan the code, copy the link, or print it.');}
   }
   if(key==='print-qr')window.print();
-  if(key==='native-share')try{await navigator.share({title:state.builder.title,url:state.share.url});}catch(error){if(error.name!=='AbortError')notify('Sharing is unavailable. Use Copy link instead.');}
+  if(key==='native-share')try{await navigator.share({title:state.share.title,url:state.share.url});}catch(error){if(error.name!=='AbortError')notify('Sharing is unavailable. Use Copy link instead.');}
   if(key==='exit')navigate(state.view);
   if(key==='next')turn(1);
   if(key==='previous')turn(-1);
