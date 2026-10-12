@@ -7,24 +7,28 @@ const options=engine===chromium?{channel:'chrome'}:{};
 async function browserTest(run){const browser=await engine.launch(options);try{await run(browser);}finally{await browser.close();}}
 async function open(page){await page.goto(base);await page.getByRole('button',{name:'Pray Together',exact:true}).waitFor();}
 async function openClass(page){
-  await page.getByRole('button',{name:'My Class',exact:true}).click();
-  const prepare=page.getByRole('button',{name:'Prepare a Class',exact:true});
+  await page.getByRole('button',{name:'My Prayers',exact:true}).click();
+  const prepare=page.getByRole('button',{name:'Create Prayer Set',exact:true});
   if(await prepare.isVisible())await prepare.click();
 }
 async function saveClass(page,name){
   const title=await page.locator('#class-title').inputValue();
-  await page.getByRole('button',{name:'Save Set',exact:true}).click();
+  await page.getByRole('button',{name:'Save Prayer Set',exact:true}).click();
   await page.locator('#saved-set-name').waitFor();
-  assert.equal(await page.locator('#dialog-title').textContent(),'Save Your Class Set');
-  if(title.trim())assert.equal(await page.getByRole('textbox',{name:'Set Name',exact:true}).inputValue(),title.trim());
+  assert.equal(await page.locator('#dialog-title').textContent(),'Save Your Prayer Set');
+  if(title.trim())assert.equal(await page.getByRole('dialog').getByRole('textbox',{name:'Prayer Set Name',exact:true}).inputValue(),title.trim());
   if(name!==undefined)await page.locator('#saved-set-name').fill(name);
-  await page.getByRole('dialog').getByRole('button',{name:'Save Set',exact:true}).click();
-  await page.getByRole('heading',{name:'Class Saved — Ready to Share',exact:true}).waitFor();
+  await page.getByRole('dialog').getByRole('button',{name:'Save Prayer Set',exact:true}).click();
+  await page.getByRole('heading',{name:'Prayer Set Saved — Ready to Share',exact:true}).waitFor();
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')));
   assert.equal(await page.locator('.share-caption').textContent(),`${saved.title} · ${saved.ids.length} Pages`);
   assert.equal(await page.locator('.qr svg').count(),1);
   const link=await page.locator('#share-url').inputValue();
-  assert.deepEqual(JSON.parse(Buffer.from(new URL(link).hash.slice(7),'base64url').toString('utf8')),[1,saved.title,saved.ids]);
+  const expected=[1,saved.title,saved.ids];
+  if(saved.updatedAt)expected.push(saved.createdBy||'',saved.createdAt||'',saved.updatedAt);
+  else if(saved.createdAt)expected.push(saved.createdBy||'',saved.createdAt);
+  else if(saved.createdBy)expected.push(saved.createdBy);
+  assert.deepEqual(JSON.parse(Buffer.from(new URL(link).hash.slice(7),'base64url').toString('utf8')),expected);
   await page.getByRole('dialog').getByRole('button',{name:'Close',exact:true}).click();
   await page.waitForFunction(()=>document.activeElement?.dataset.action==='share');
   return link;
@@ -41,29 +45,34 @@ test('mobile and desktop navigation, all mystery sets, long creed and safe botto
     for(const name of ['Joyful','Luminous','Sorrowful','Glorious']){
       await page.locator('.chapter').filter({hasText:name}).click();
       assert.equal(await page.locator('.prayer-row').count(),5);
+      const mysteryNames=await page.locator('.prayer-row .prayer-open strong').allTextContents();
       await page.getByRole('button',{name:'Reflect on All Five',exact:true}).click();
       for(let i=0;i<5;i++){
-        await page.locator('.mystery-image').evaluate(img=>img.decode());
-        assert.ok(await page.locator('.mystery-image').evaluate(img=>img.naturalWidth>0));
+        const mysteryName=name==='Joyful'&&i===0?'The Annunciation of the Lord':mysteryNames[i];
+        assert.equal(await page.locator('#reader-title').textContent(),`The ${['First','Second','Third','Fourth','Fifth'][i]} ${name} Mystery: ${mysteryName}.`);
+        assert.equal(await page.locator('.mystery-image, #prayer-text, .desire, .reading-help, .reader-topline').count(),0,'Mystery pages show only the full mystery title');
         await noOverflow(page);
-        await page.getByRole('button',{name:i===4?'Finish':'Next',exact:true}).click();
+        await page.getByRole('button',{name:i===4?'Finish':'Next',exact:true}).click().catch(error=>{
+          error.message+=`\nMystery Reader: ${width}×${height}, ${name}, Page ${i+1} of 5`;
+          throw error;
+        });
       }
-      assert.equal(await page.locator('h1').textContent(),'A Moment to Be Still.');
-      await page.getByRole('button',{name:'Return to Library',exact:true}).click();
+      assert.equal(await page.locator('h1').textContent(),'Prayer Complete');
+      await page.getByRole('button',{name:'Done',exact:true}).click();
       await page.getByRole('button',{name:'All Mysteries',exact:true}).click();
     }
     await page.getByRole('button',{name:'Prayers',exact:true}).click();
     await page.locator('[data-action="read-item"][data-id="niceneCreed"]').click();
-    await page.getByRole('button',{name:'Reading Settings',exact:true}).click();
-    await page.locator('#text-size').selectOption('1.75');await page.keyboard.press('Escape');
+    await page.addStyleTag({content:':root{font-size:175%}'});
     await page.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));await noOverflow(page);
     assert.ok(await page.evaluate(()=>document.querySelector('#prayer-text').getBoundingClientRect().bottom<document.querySelector('.reader-dock').getBoundingClientRect().top));
     await page.setViewportSize({width:height,height:width});await noOverflow(page);
     await page.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).click();
     await page.getByRole('button',{name:'The Mass',exact:true}).click();
     assert.equal(await page.locator('.mass-section').count(),4);
-    await page.getByText('Profession of Faith',{exact:true}).click();await noOverflow(page);
-    assert.match(await page.locator('.notice').textContent(),/not a complete worship aid/);
+    const creed=page.getByRole('heading',{name:'Nicene Creed',exact:true});
+    await creed.scrollIntoViewIfNeeded();await noOverflow(page);
+    assert.ok(await creed.evaluate(el=>{const r=el.getBoundingClientRect();return el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));}),'Mass headings remain readable below navigation at enlarged text sizes');
     assert.deepEqual(errors,[]);await context.close();
   }
 }));
@@ -81,7 +90,7 @@ test('instructor ordering, immutable shared links, reading, resume and completio
   assert.equal(await page.locator('.step').count(),6);
   assert.match(await page.locator('.builder-tools').textContent(),/7 \/ 32 Pages/);
   await saveClass(page);
-  await page.reload();await page.getByRole('button',{name:'My Class',exact:true}).click();
+  await page.reload();await page.getByRole('button',{name:'My Prayers',exact:true}).click();
   assert.equal(await page.locator('#class-title').inputValue(),'María’s OCIA class');
   await saveClass(page);assert.equal(await page.locator('.saved-row').count(),1);
   await page.getByRole('button',{name:'Share / QR Code',exact:true}).click();
@@ -91,7 +100,7 @@ test('instructor ordering, immutable shared links, reading, resume and completio
   await page.locator('#class-title').fill('Changed later');
   const learner=await browser.newPage({viewport:{width:320,height:700},reducedMotion:'reduce'});
   await learner.goto(link);await learner.locator('#reader-title').waitFor();
-  assert.equal(await learner.locator('.session-title').textContent(),'María’s OCIA class');
+  assert.equal(await learner.locator('.session-name').textContent(),'María’s OCIA class');
   assert.equal(await learner.locator('#reader-title').textContent(),'Sign of the Cross');
   await learner.getByRole('button',{name:'Next',exact:true}).click();
   await learner.reload();await learner.locator('#reader-title').waitFor();
@@ -103,10 +112,10 @@ test('instructor ordering, immutable shared links, reading, resume and completio
   await learner.reload();await learner.getByRole('button',{name:'Continue',exact:true}).click();
   assert.equal(await learner.locator('#reader-title').textContent(),'Glory Be');
   await learner.getByRole('button',{name:'Next',exact:true}).click();
-  assert.equal(await learner.locator('#reader-title').textContent(),'The Annunciation');
+  assert.equal(await learner.locator('#reader-title').textContent(),'The First Joyful Mystery: The Annunciation of the Lord.');
   await learner.getByRole('button',{name:'Next',exact:true}).click();
   await learner.getByRole('button',{name:'Finish',exact:true}).click();
-  assert.equal(await learner.locator('h1').textContent(),'A Moment to Be Still.');
+  assert.equal(await learner.locator('h1').textContent(),'Prayer Complete');
   await learner.close();await page.close();
 }));
 
@@ -139,7 +148,10 @@ test('class repetition counts keep one row, persist, share and read every prayer
   await page.getByRole('button',{name:'Share / QR Code',exact:true}).click();
   const link=await page.locator('#share-url').inputValue();
   const payload=JSON.parse(Buffer.from(new URL(link).hash.slice(7),'base64url').toString('utf8'));
-  assert.deepEqual(payload,[1,'A decade together',expected]);
+  const createdAt=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')).createdAt);
+  assert.match(createdAt,/^\d{4}-\d{2}-\d{2}T/);
+  const updatedAt=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')).updatedAt);
+  assert.deepEqual(payload,[1,'A decade together',expected,'',createdAt,updatedAt]);
   await page.keyboard.press('Escape');
   await page.getByRole('button',{name:'Preview',exact:true}).click();
   const titles=[];
@@ -149,9 +161,9 @@ test('class repetition counts keep one row, persist, share and read every prayer
     await noOverflow(page);
     await page.getByRole('button',{name:i===expected.length-1?'Finish':'Next',exact:true}).click();
   }
-  assert.deepEqual(titles,['Our Father',...Array(10).fill('Hail Mary'),'Glory Be']);
-  assert.equal(await page.locator('h1').textContent(),'A Moment to Be Still.');
-  await page.getByRole('button',{name:'Return to Library',exact:true}).click();
+  assert.deepEqual(titles,['Lord’s Prayer (Our Father)',...Array(10).fill('Hail Mary'),'Glory Be']);
+  assert.equal(await page.locator('h1').textContent(),'Prayer Complete');
+  await page.getByRole('button',{name:'Done',exact:true}).click();
   await page.getByRole('button',{name:'Move Hail Mary Earlier',exact:true}).click();
   assert.deepEqual(await draftIds(),[...Array(10).fill('hailMary'),'ourFather','gloryBe']);
   assert.equal(await page.locator('.step').count(),3);
@@ -193,9 +205,12 @@ test('saved QR sharing preserves the current draft and downloads a PNG before an
   }
   await page.getByRole('button',{name:'Close',exact:true}).click();
   const savedLink=await saveClass(page);
-  assert.deepEqual(JSON.parse(Buffer.from(new URL(savedLink).hash.slice(7),'base64url').toString('utf8')),[1,title,expected]);
-  await page.getByRole('button',{name:'New Set',exact:true}).click();
-  await page.getByRole('button',{name:'Start New Set',exact:true}).click();
+  const createdAt=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')).createdAt);
+  assert.match(createdAt,/^\d{4}-\d{2}-\d{2}T/);
+  const updatedAt=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')).updatedAt);
+  assert.deepEqual(JSON.parse(Buffer.from(new URL(savedLink).hash.slice(7),'base64url').toString('utf8')),[1,title,expected,'',createdAt,updatedAt]);
+  await page.getByRole('button',{name:'New Prayer Set',exact:true}).click();
+  await page.getByRole('button',{name:'Start New Prayer Set',exact:true}).click();
   await page.locator('#class-title').fill('An unfinished class');
   await page.locator('#starter').selectOption('opening');
   const currentDraft=await page.evaluate(()=>JSON.parse(localStorage.getItem('ocia-draft')));
@@ -207,7 +222,7 @@ test('saved QR sharing preserves the current draft and downloads a PNG before an
     const savedShare=page.getByRole('button',{name:`Share QR for ${title}`,exact:true});
     assert.equal(await savedShare.textContent(),'Share QR');
     await savedShare.click();
-    assert.equal(await page.locator('#dialog-title').textContent(),'Share This Class');
+    assert.equal(await page.locator('#dialog-title').textContent(),'Share This Prayer Set');
     assert.equal(await page.locator('.share-caption').textContent(),`${title} · 14 Pages`);
     assert.equal(await page.locator('.qr svg').count(),1);
     assert.equal(await page.locator('#share-url').inputValue(),savedLink);
@@ -324,31 +339,135 @@ test('blocked storage does not prevent praying or sharing',()=>browserTest(async
   const page=await browser.newPage();
   await page.addInitScript(()=>{Storage.prototype.getItem=()=>{throw Error('blocked');};Storage.prototype.setItem=()=>{throw Error('blocked');};});
   await open(page);await page.getByRole('button',{name:'Pray Together',exact:true}).click();
-  await page.getByRole('button',{name:'Next',exact:true}).click();assert.equal(await page.locator('#reader-title').textContent(),'Our Father');
+  await page.getByRole('button',{name:'Next',exact:true}).click();assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
   await page.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).click();
   await openClass(page);await page.locator('#starter').selectOption('opening');
   await page.getByRole('button',{name:'Share / QR Code',exact:true}).click();assert.equal(await page.locator('.qr svg').count(),1);await page.close();
 }));
 
-test('read-aloud stops on navigation and stale callbacks cannot affect the current prayer',()=>browserTest(async browser=>{
-  const page=await browser.newPage();
-  await page.addInitScript(()=>{
-    window.spoken=[];window.SpeechSynthesisUtterance=class{constructor(text){this.text=text;}};
-    Object.defineProperty(window,'speechSynthesis',{configurable:true,value:{getVoices:()=>[],speak:value=>window.spoken.push(value),cancel:()=>{}}});
-  });
-  await open(page);await page.getByRole('button',{name:'Pray Together',exact:true}).click();
-  await page.getByRole('button',{name:'Read Aloud',exact:true}).click();
-  assert.match(await page.evaluate(()=>spoken[0].text),/In the name of the Father/);
-  await page.getByRole('button',{name:'Next',exact:true}).click();
-  await page.getByRole('button',{name:'Read Aloud',exact:true}).click();
-  await page.evaluate(()=>{spoken[0].onend();spoken[0].onerror();});
-  assert.equal(await page.locator('#audio-button').getAttribute('aria-pressed'),'true');
-  assert.equal(await page.locator('#reader-title').textContent(),'Our Father');
-  await page.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).click();
-  await page.evaluate(()=>spoken[1].onend());assert.ok(await page.getByRole('button',{name:'Pray Together',exact:true}).isVisible());await page.close();
+test('class readers follow browser text size, ignore old preferences and never use speech synthesis',()=>browserTest(async browser=>{
+  const link=base+'#class='+Buffer.from(JSON.stringify([1,'Quiet Prayer Class',['cross','ourFather','fatima']])).toString('base64url');
+  let defaultPrayerSize;
+  for(const oldPreferences of [null,{size:1.75,voice:'Previously Selected Voice'}]){
+    const page=await browser.newPage({viewport:{width:320,height:700},reducedMotion:'reduce'});
+    await page.addInitScript(preferences=>{
+      if(preferences)localStorage.setItem('ocia-preferences',JSON.stringify(preferences));
+      window.speechCalls=[];
+      window.SpeechSynthesisUtterance=class{constructor(){window.speechCalls.push('utterance');}};
+      Object.defineProperty(window,'speechSynthesis',{configurable:true,value:{
+        getVoices:()=>{window.speechCalls.push('getVoices');return [];},
+        speak:()=>window.speechCalls.push('speak'),
+        cancel:()=>window.speechCalls.push('cancel')
+      }});
+    },oldPreferences);
+    await page.goto(link);await page.locator('#reader-title').waitFor();
+    assert.equal(await page.getByRole('button',{name:/Read Aloud|Reading Settings/}).count(),0);
+    assert.equal(await page.locator('#audio-button, #text-size, #reading-voice').count(),0);
+    assert.equal(await page.locator('.reader-topline, .reading-help').count(),0,'The reader shows the prayer without category or explanatory notes');
+    assert.equal(await page.getByText('About This Prayer',{exact:true}).count(),0);
+    const prayerSize=await page.locator('#prayer-text').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
+    if(oldPreferences)assert.equal(prayerSize,defaultPrayerSize,'Old in-app text preferences must not override the reader');
+    else defaultPrayerSize=prayerSize;
+    const rootSize=await page.evaluate(()=>parseFloat(getComputedStyle(document.documentElement).fontSize));
+    await page.addStyleTag({content:`:root{font-size:${rootSize*2}px}`});
+    const enlargedSize=await page.locator('#prayer-text').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
+    assert.ok(enlargedSize>=prayerSize*1.95,'Prayer text must grow with the browser font setting');
+    await noOverflow(page);
+    await page.getByRole('button',{name:'Next',exact:true}).click();
+    assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
+    await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));
+    assert.ok(await page.evaluate(()=>document.querySelector('#prayer-text').getBoundingClientRect().bottom<document.querySelector('.reader-dock').getBoundingClientRect().top));
+    await page.getByRole('button',{name:'Contents',exact:true}).click();
+    assert.equal(await page.locator('#text-size, #reading-voice').count(),0);
+    await page.getByRole('button',{name:'Close',exact:true}).click();
+    await page.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).click();
+    assert.deepEqual(await page.evaluate(()=>window.speechCalls),[],'Available speech APIs must not be invoked, including on close');
+    await page.reload();await page.getByRole('button',{name:'Continue',exact:true}).click();
+    assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
+    assert.equal(await page.getByRole('button',{name:/Read Aloud|Reading Settings/}).count(),0);
+    assert.equal(await page.locator('#prayer-text').evaluate(el=>parseFloat(getComputedStyle(el).fontSize)),defaultPrayerSize);
+    assert.deepEqual(await page.evaluate(()=>window.speechCalls),[]);
+    await page.close();
+  }
 }));
 
-test('students browse without editing controls; saved sets use a date or chosen name',()=>browserTest(async browser=>{
+test('all prayers show leader and response parts with the requested Our Father and Hail Mary divisions on a phone',()=>browserTest(async browser=>{
+  const prayerIds=['cross','apostlesCreed','niceneCreed','ourFather','hailMary','gloryBe','gloria','comeHolySpirit','hailHolyQueen','graceBeforeMeals','guardianAngel','stMichael','actOfContrition','fatima'];
+  const splitPrayers={
+    ourFather:[
+      'Our Father, who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven.',
+      'Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen.'
+    ],
+    hailMary:[
+      'Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus.',
+      'Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.'
+    ]
+  };
+  const page=await browser.newPage({viewport:{width:320,height:568},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
+  const link=base+'#class='+Buffer.from(JSON.stringify([1,'Class Responses',prayerIds])).toString('base64url');
+  await page.goto(link);await page.locator('#reader-title').waitFor();
+  for(const [index,id] of prayerIds.entries()){
+    const roles=await page.locator('#prayer-text .prayer-role').allTextContents();
+    assert.equal(roles[0],'Leader:',`${id} starts with the leader`);
+    assert.ok(roles.includes('Response:'),`${id} provides the response`);
+    assert.ok(roles.every(role=>['Leader:','Response:'].includes(role)),`${id} uses clear participation labels`);
+    for(const label of await page.locator('#prayer-text .prayer-role').all())assert.equal(await label.isVisible(),true);
+    const words=await page.locator('#prayer-text .prayer-words').allTextContents();
+    assert.equal(words.length,roles.length);
+    assert.ok(words.every(text=>text.trim().length>0),`${id} has words for each part`);
+    if(splitPrayers[id]){
+      assert.deepEqual(roles,['Leader:','Response:']);
+      assert.deepEqual(words,splitPrayers[id]);
+    }
+    if(id==='ourFather')assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
+    assert.equal(await page.locator('.reader-topline, .reading-help, .mystery-image, .desire').count(),0);
+    await noOverflow(page);
+    await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));
+    assert.ok(await page.evaluate(()=>document.querySelector('#prayer-text').getBoundingClientRect().bottom<document.querySelector('.reader-dock').getBoundingClientRect().top),`${id} can be read fully above the navigation`);
+    await page.getByRole('button',{name:index===prayerIds.length-1?'Finish':'Next',exact:true}).tap();
+  }
+  assert.equal(await page.locator('h1').textContent(),'Prayer Complete');
+  assert.equal(await page.getByText('You’ve completed these prayers.',{exact:true}).isVisible(),true);
+  await page.getByRole('button',{name:'Review Prayer Set',exact:true}).tap();
+  assert.equal(await page.locator('[data-action=jump]').count(),14);
+  await page.getByRole('button',{name:'Close',exact:true}).tap();
+  await page.getByRole('button',{name:'Pray Again',exact:true}).tap();
+  assert.equal(await page.locator('#reader-title').textContent(),'Sign of the Cross');
+  await page.getByRole('button',{name:'Contents',exact:true}).tap();
+  await page.locator('[data-action=jump]').last().tap();
+  await page.getByRole('button',{name:'Finish',exact:true}).tap();
+  await page.getByRole('button',{name:'Done',exact:true}).tap();
+  assert.equal(await page.locator('#reader-title').count(),0);
+  assert.equal(await page.getByRole('button',{name:'How to Use',exact:true}).isVisible(),true);
+  await page.close();
+}));
+
+test('How to Use explains prayer sets and offers working first steps on a phone',()=>browserTest(async browser=>{
+  const page=await browser.newPage({viewport:{width:320,height:568},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
+  await open(page);
+  assert.equal(await page.locator('h1').textContent(),'Begin With Essentials');
+  assert.equal(await page.getByRole('heading',{name:'Questions You Can Ask Here',exact:true}).count(),0);
+  assert.equal(await page.getByRole('heading',{name:'A Place to Begin.',exact:true}).count(),0);
+  assert.deepEqual(await page.locator('.primary-nav button span').allTextContents(),['Prayers','My Prayers','Mysteries','The Mass','How to Use']);
+  await page.getByRole('button',{name:'How to Use',exact:true}).tap();
+  assert.equal(await page.getByRole('button',{name:'How to Use',exact:true}).getAttribute('aria-current'),'page');
+  await page.getByRole('heading',{name:'How to Use',exact:true}).waitFor();
+  for(const name of ['Open Your Prayer Set','Follow Along','Find a Prayer','Create a Prayer Set','Adjust Text Size'])assert.equal(await page.getByRole('heading',{name,exact:true}).isVisible(),true);
+  const help=await page.locator('main').textContent();
+  for(const instruction of [/Use your phone or browser’s text-size settings/,/Leader or Response part/,/Tap Next with the group/,/choose repetitions/,/opens and saves in My Prayers on this device/])assert.match(help,instruction);
+  await noOverflow(page);
+  await page.getByRole('button',{name:'Browse Prayers',exact:true}).tap();
+  assert.equal(await page.getByRole('button',{name:'Prayers',exact:true}).getAttribute('aria-current'),'page');
+  assert.equal(await page.getByRole('button',{name:'Pray Together',exact:true}).isVisible(),true);
+  await page.getByRole('button',{name:'How to Use',exact:true}).tap();
+  await page.getByRole('button',{name:'Create Prayer Set',exact:true}).tap();
+  assert.equal(await page.getByRole('button',{name:'My Prayers',exact:true}).getAttribute('aria-current'),'page');
+  assert.equal(await page.getByRole('textbox',{name:'Prayer Set Name',exact:true}).isVisible(),true);
+  assert.equal(await page.getByRole('button',{name:'Add Prayer or Mystery',exact:true}).isVisible(),true);
+  await noOverflow(page);await page.close();
+}));
+
+test('students browse without editing controls; saved sets use a simple default or chosen name',()=>browserTest(async browser=>{
   const page=await browser.newPage({viewport:{width:320,height:700}});await open(page);
   assert.equal(await page.locator('.brand').textContent(),'OCIA Prayer Companion');
   assert.equal(await page.locator('[data-action="add"]').count(),0);
@@ -358,10 +477,10 @@ test('students browse without editing controls; saved sets use a date or chosen 
   await page.getByRole('button',{name:'Mysteries',exact:true}).click();
   await page.locator('.chapter').first().click();
   assert.equal(await page.locator('[data-action="add"], [data-action="add-mysteries"]').count(),0);
-  await page.getByRole('button',{name:'My Class',exact:true}).click();
+  await page.getByRole('button',{name:'My Prayers',exact:true}).click();
   assert.equal(await page.locator('#class-title').count(),0);
-  await page.getByRole('button',{name:'Prepare a Class',exact:true}).click();
-  const first=await page.locator('#class-title').inputValue();assert.match(first,/^[A-Za-z]+ \d{1,2}, \d{4}$/);
+  await page.getByRole('button',{name:'Create Prayer Set',exact:true}).click();
+  const first=await page.locator('#class-title').inputValue();assert.equal(first,'My Prayer Set');
   await page.reload();await openClass(page);
   assert.equal(await page.locator('#class-title').inputValue(),first);
   await page.locator('#starter').selectOption('opening');
@@ -372,8 +491,8 @@ test('students browse without editing controls; saved sets use a date or chosen 
   assert.equal(await page.locator('.saved-row').count(),1);
   await page.reload();await openClass(page);
   assert.equal(await page.locator('#class-title').inputValue(),'Tuesday OCIA');
-  await page.getByRole('button',{name:'Save Set',exact:true}).click();
-  assert.equal(await page.getByRole('textbox',{name:'Set Name',exact:true}).inputValue(),'Tuesday OCIA');
+  await page.getByRole('button',{name:'Save Prayer Set',exact:true}).click();
+  assert.equal(await page.getByRole('dialog').getByRole('textbox',{name:'Prayer Set Name',exact:true}).inputValue(),'Tuesday OCIA');
   await page.locator('#saved-set-name').fill('Cancelled name');await noOverflow(page);
   await page.getByRole('button',{name:'Cancel',exact:true}).click();
   assert.equal(await page.locator('#class-title').inputValue(),'Tuesday OCIA');
@@ -382,54 +501,66 @@ test('students browse without editing controls; saved sets use a date or chosen 
   assert.equal(await page.locator('.saved-row').count(),1);
   await saveClass(page);
   assert.equal(await page.locator('.saved-row').count(),1);
-  await page.getByRole('button',{name:'New Set',exact:true}).click();
-  await page.getByRole('button',{name:'Start New Set',exact:true}).click();
-  assert.match(await page.locator('#class-title').inputValue(),/^[A-Za-z]+ \d{1,2}, \d{4}$/);
+  await page.getByRole('button',{name:'New Prayer Set',exact:true}).click();
+  await page.getByRole('button',{name:'Start New Prayer Set',exact:true}).click();
+  assert.equal(await page.locator('#class-title').inputValue(),'My Prayer Set');
   assert.match(await page.locator('.saved-row').textContent(),/Tuesday OCIA/);
-  await page.getByRole('button',{name:'Class Overview',exact:true}).click();
-  await page.reload();await page.getByRole('button',{name:'My Class',exact:true}).click();
+  await page.getByRole('button',{name:'All My Prayers',exact:true}).click();
+  await page.reload();await page.getByRole('button',{name:'My Prayers',exact:true}).click();
   assert.equal(await page.locator('#class-title').count(),0);await page.close();
 }));
 
-test('Mass guide starts collapsed, opens inline, changes only the chosen form, and fits small screens',()=>browserTest(async browser=>{
-  const page=await browser.newPage({viewport:{width:320,height:700}});await open(page);
-  await page.getByRole('button',{name:'The Mass',exact:true}).click();
-  assert.equal(await page.locator('.mass-part').count(),14);
-  assert.equal(await page.locator('.mass-part[open]').count(),0);
-  await page.getByRole('link',{name:'3. We Give Thanks',exact:true}).click();
+test('Mass guide shows a single visible form with priest cues and congregation responses on phones',()=>browserTest(async browser=>{
+  const page=await browser.newPage({viewport:{width:320,height:700},isMobile:true,hasTouch:true,reducedMotion:'reduce'});await open(page);
+  await page.getByRole('button',{name:'The Mass',exact:true}).tap();
+  assert.equal(await page.locator('h1').textContent(),'The Mass');
+  assert.equal(await page.locator('.mass-section').count(),4);
+  assert.equal(await page.locator('.mass-part').count(),25);
+  assert.equal(await page.locator('main details, main select').count(),0,'The Mass can be followed without opening dropdowns or choosing forms');
+  assert.equal(await page.locator('.mass-form').count(),25);
+  assert.equal(await page.locator('.mass-pending').count(),0,'The leaflet responses are complete');
+  for(const card of await page.locator('.mass-part').all()){
+    assert.ok((await card.locator('.mass-when').textContent()).trim().length>0,'Each Mass part explains when it is used');
+    if(!['mass-part-homily','mass-part-psalm'].includes(await card.getAttribute('id')))assert.equal(await card.locator('.mass-form').isVisible(),true);
+  }
+  for(const id of ['gloria','creed'])assert.equal(await page.locator(`#mass-part-${id} .mass-when`).textContent(),'On Certain Days');
+  assert.match(await page.locator('#mass-part-homily').textContent(),/no spoken response/i);
+  assert.equal(await page.locator('#mass-part-homily .mass-turn').count(),0);
+  await page.getByRole('link',{name:'3. Liturgy of the Eucharist',exact:true}).tap();
   assert.equal(new URL(page.url()).hash,'#mass-offer');
   assert.equal(await page.locator('button[data-view="mass"]').getAttribute('aria-current'),'page');
   assert.equal(await page.getByRole('link',{name:/Official Mass guide/}).count(),0);
-  assert.match(await page.locator('#mass-part-universal .mass-prayer').first().textContent(),/Lord, hear our prayer/);
-  assert.match(await page.locator('#mass-part-gloria .mass-prayer').textContent(),/Glory to God in the highest/);
-  assert.match(await page.locator('#mass-form-creed .mass-prayer').textContent(),/consubstantial/);
-  await page.locator('#mass-part-creed summary').click();
-  await page.locator('#mass-choice-creed').selectOption('apostles');
-  assert.match(await page.locator('#mass-form-creed .mass-prayer').textContent(),/communion of saints/);
-  assert.doesNotMatch(await page.locator('#mass-form-creed').textContent(),/consubstantial/);
-  assert.equal(await page.locator('#mass-part-creed').evaluate(el=>el.open),true);
-  assert.equal(await page.locator('#mass-part-gloria').evaluate(el=>el.open),false);
-  await page.locator('#mass-part-penitential summary').click();
-  assert.equal(await page.locator('#mass-form-penitential .mass-pending').count(),0);
-  assert.match(await page.locator('#mass-form-penitential .mass-prayer').first().innerText(),/I confess to the Almighty God/);
-  assert.match(await page.locator('#mass-form-penitential .mass-prayer').first().innerText(),/\(Tap your chest\.\)/);
-  assert.match(await page.locator('#mass-form-penitential .mass-prayer').first().innerText(),/Lord our God\. Amen\.$/);
-  assert.doesNotMatch(await page.locator('#mass-part-lords-prayer .mass-prayer').textContent(),/Amen\.$/);
-  for(const select of await page.locator('[data-mass-option]').all()){
-    const part=select.locator('..');
-    if(!await part.evaluate(el=>el.open))await part.locator('summary').click();
-    for(const value of await select.locator('option').evaluateAll(options=>options.map(option=>option.value))){
-      await select.selectOption(value);await noOverflow(page);
-    }
+  assert.match(await page.locator('#mass-part-universal [data-role=response] .mass-prayer').first().textContent(),/Hear our prayer/);
+  assert.match(await page.locator('#mass-part-gloria [data-role=response] .mass-prayer').textContent(),/Glory to God in the highest/);
+  assert.match(await page.locator('#mass-form-creed [data-role=response] .mass-prayer').textContent(),/consubstantial/);
+  assert.doesNotMatch(await page.locator('#mass-form-creed').textContent(),/communion of saints/,'Only the selected Nicene Creed is shown');
+  const confiteor=page.locator('#mass-form-penitential [data-role=response] .mass-prayer').first();
+  assert.match((await confiteor.innerText()).replace(/\s+/g,' '),/I confess to almighty God and to you, my brothers and sisters, that I have greatly sinned/);
+  assert.match((await confiteor.innerText()).replace(/\s+/g,' '),/and you, my brothers and sisters, to pray for me to the Lord our God\.$/);
+  assert.equal(await page.locator('#mass-form-penitential .prayer-direction').textContent(),'(Tap your chest.)');
+  assert.doesNotMatch((await page.locator('#mass-form-penitential q').allTextContents()).join(' '),/Tap your chest/,'Actions are separate from quoted spoken words');
+  assert.doesNotMatch(await page.locator('#mass-part-lords-prayer [data-role=response] .mass-prayer').first().textContent(),/Amen\.$/);
+  assert.match(await page.locator('#mass-part-lords-prayer [data-role=response] .mass-prayer').last().textContent(),/For the kingdom/);
+  for(const [id,text] of [['holy',/Holy, Holy, Holy Lord God of hosts/],['memorial',/We proclaim your Death, O Lord/],['lamb',/grant us peace/],['invitation',/Lord, I am not worthy/]])assert.match(await page.locator(`#mass-part-${id} [data-role=response] .mass-prayer`).textContent(),text);
+  assert.equal(await page.locator('#mass-part-peace .mass-turn[data-role=response]').count(),2,'The invitation to exchange peace has no invented verbal response');
+  for(const words of await page.locator('.mass-prayer').all())assert.ok((await words.textContent()).trim().length>0,'Every quoted turn has spoken words');
+  assert.ok(await page.locator('.mass-turn[data-role=leader] q.prayer-words').count()>0,'The actual priest cues are quoted');
+  assert.ok(await page.locator('.mass-turn[data-role=response] q.prayer-words').count()>0,'The congregation responses are quoted');
+  for(const role of ['leader','response']){
+    for(const label of await page.locator(`.mass-turn[data-role=${role}] .prayer-role-${role}`).all())assert.match(await label.textContent(),new RegExp(role==='leader'?'^Leader':'^Response'));
   }
-  await page.getByRole('button',{name:'Prayers',exact:true}).click();
-  assert.equal(await page.locator('details[open]').count(),0);
-  await page.getByRole('button',{name:'The Mass',exact:true}).click();
-  assert.equal(await page.locator('.mass-part[open]').count(),0);
-  await page.reload();
-  await page.getByRole('button',{name:'The Mass',exact:true}).click();
-  assert.equal(await page.locator('.mass-part[open]').count(),0);
-  await page.getByRole('button',{name:'Prayers',exact:true}).click();
-  await page.locator('[data-action="read-item"][data-id="ourFather"]').click();
+  assert.equal(await page.locator('.mass-cue q').count(),0,'Stage directions are not quoted as speech');
+  await noOverflow(page);
+  await page.addStyleTag({content:':root{font-size:175%}'});await noOverflow(page);
+  await page.locator('#mass-part-dismissal').scrollIntoViewIfNeeded();
+  assert.match(await page.locator('#mass-part-dismissal [data-role=response] .mass-prayer').textContent(),/Thanks be to God\./);
+  assert.doesNotMatch(await page.locator('#mass-part-dismissal').textContent(),/Double Alleluia/);
+  await page.getByRole('button',{name:'Prayers',exact:true}).tap();
+  await page.getByRole('button',{name:'The Mass',exact:true}).tap();
+  assert.equal(await page.locator('main details, main select').count(),0);
+  await page.reload();await page.getByRole('button',{name:'The Mass',exact:true}).tap();
+  assert.equal(await page.locator('main details, main select').count(),0);
+  await page.getByRole('button',{name:'Prayers',exact:true}).tap();
+  await page.locator('[data-action="read-item"][data-id="ourFather"]').tap();
   assert.match(await page.locator('#prayer-text').textContent(),/Amen\.$/);await page.close();
 }));

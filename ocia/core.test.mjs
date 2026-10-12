@@ -2,10 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createCatalog,mysterySets,massSections} from './content.mjs';
-import {encodeSet,decodeSet,validateSet,shareURL,moveStep,groupSteps,setStepCount,moveStepGroup,MAX_STEPS,defaultClassTitle} from './core.mjs';
+import {encodeSet,decodeSet,validateSet,shareURL,moveStep,groupSteps,setStepCount,moveStepGroup,MAX_STEPS,defaultClassTitle,DEFAULT_TITLE} from './core.mjs';
 
 const data=JSON.parse(fs.readFileSync(new URL('./prayers.json',import.meta.url)));
 const catalog=createCatalog(data);
+
+test('the Fatima Prayer has a single opening invocation',()=>{
+  assert.equal(catalog.get('fatima').text,'O my Jesus, forgive us our sins, lead all souls to heaven, especially those in most need of Thy mercy. Amen.');
+});
 
 test('the library preserves every prayer and all twenty mystery texts',()=>{
   for(const [id,item] of Object.entries(data.prayers))assert.equal(catalog.get(id).text,item.text);
@@ -15,6 +19,56 @@ test('the library preserves every prayer and all twenty mystery texts',()=>{
     assert.equal(item.text,data.mysteries[set.key].list[index][2]);
     assert.ok(fs.existsSync(new URL(item.image,import.meta.url)));
   }
+});
+
+test('all class prayers provide Leader and Response turns without changing their words',()=>{
+  const prayers=[...catalog.values()].filter(item=>item.kind==='prayer');
+  const normalized=text=>text.replace(/\s+/g,' ').trim();
+  assert.equal(prayers.length,14);
+  for(const item of prayers){
+    assert.ok(item.parts.length>=2,item.id);
+    assert.deepEqual([...new Set(item.parts.map(part=>part.role))],['Leader','Response'],item.id);
+    assert.ok(item.parts.every(part=>part.text.length>0),item.id);
+    const original=item.id==='hailHolyQueen'?item.text.replace(/\b[VR]\.\s*/g,''):item.text;
+    assert.equal(normalized(item.parts.map(part=>part.text).join(' ')),normalized(original),item.id);
+  }
+  const queen=catalog.get('hailHolyQueen');
+  assert.equal(queen.parts.length,4);
+  assert.deepEqual(queen.parts.slice(-2),[
+    {role:'Leader',text:'Pray for us, O holy Mother of God.'},
+    {role:'Response',text:'That we may be made worthy of the promises of Christ.'}
+  ]);
+  assert.ok(queen.parts.every(part=>!/^\s*[VR]\./.test(part.text)));
+  assert.match(queen.text,/V\. Pray for us/);
+});
+
+test('Our Father and Hail Mary use the requested class reading boundaries',()=>{
+  assert.equal(catalog.get('ourFather').readerTitle,'Lord’s Prayer (Our Father)');
+  assert.deepEqual(catalog.get('ourFather').parts,[
+    {role:'Leader',text:'Our Father, who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven.'},
+    {role:'Response',text:'Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen.'}
+  ]);
+  assert.deepEqual(catalog.get('hailMary').parts,[
+    {role:'Leader',text:'Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus.'},
+    {role:'Response',text:'Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.'}
+  ]);
+  assert.equal(catalog.get('fatima').parts.map(part=>part.text).join(' ').match(/O my Jesus/g).length,1);
+});
+
+test('all twenty mysteries have complete reader titles while library names stay unchanged',()=>{
+  const expectedNames={
+    joyful:['The Annunciation of the Lord','The Visitation','The Nativity','The Presentation','The Finding in the Temple'],
+    luminous:['The Baptism in the Jordan','The Wedding at Cana','The Proclamation of the Kingdom','The Transfiguration','The Institution of the Eucharist'],
+    sorrowful:['The Agony in the Garden','The Scourging at the Pillar','The Crowning with Thorns','The Carrying of the Cross','The Crucifixion'],
+    glorious:['The Resurrection','The Ascension','The Descent of the Holy Spirit','The Assumption','The Coronation']
+  };
+  const ordinals=['First','Second','Third','Fourth','Fifth'];
+  for(const set of mysterySets)for(let index=0;index<5;index++){
+    const item=catalog.get(`${set.key}-${index+1}`);
+    assert.equal(item.readerTitle,`The ${ordinals[index]} ${set.name} Mystery: ${expectedNames[set.key][index]}.`);
+    assert.equal(item.name,data.mysteries[set.key].list[index][0]);
+  }
+  assert.equal(catalog.get('joyful-1').readerTitle,'The First Joyful Mystery: The Annunciation of the Lord.');
 });
 
 test('shared sets round-trip Unicode, repetitions and order without changing older links',()=>{
@@ -47,6 +101,91 @@ test('optional class creators round-trip without changing existing class links',
     assert.throws(()=>validateSet({...legacy,createdBy},catalog));
     const invalid=Buffer.from(JSON.stringify([1,legacy.title,legacy.ids,createdBy])).toString('base64url');
     assert.throws(()=>decodeSet(invalid,catalog));
+  }
+});
+
+test('creation dates share separately from names and optional creators',()=>{
+  const original={version:1,title:'Tuesday Prayers',ids:['ourFather','hailMary'],createdAt:'2026-10-13T02:03:04.567Z'};
+  for(const createdBy of [undefined,'María & John']){
+    const dated=createdBy?{...original,createdBy}:original;
+    const encoded=encodeSet(dated,catalog);
+    assert.deepEqual(JSON.parse(Buffer.from(encoded,'base64url').toString('utf8')),[1,original.title,original.ids,createdBy||'',original.createdAt]);
+    assert.deepEqual(decodeSet(encoded,catalog),dated);
+    assert.deepEqual(validateSet(dated,catalog),dated);
+  }
+  assert.equal(encodeSet({...original,createdBy:'   '},catalog),encodeSet(original,catalog));
+  assert.equal(decodeSet(encodeSet({...original,title:'Renamed Prayers'},catalog),catalog).createdAt,original.createdAt);
+  assert.equal(validateSet({...original,createdAt:'2024-02-29T00:00:00.000Z'},catalog).createdAt,'2024-02-29T00:00:00.000Z');
+});
+
+test('legacy links remain byte-for-byte unchanged without invented creation dates',()=>{
+  for(const createdBy of [undefined,'OCIA Team']){
+    const legacy={version:1,title:'10/13/2026 OCIA',ids:['cross','ourFather']};
+    const payload=[1,legacy.title,legacy.ids];
+    if(createdBy){legacy.createdBy=createdBy;payload.push(createdBy);}
+    const oldLink=Buffer.from(JSON.stringify(payload)).toString('base64url');
+    assert.equal(encodeSet(legacy,catalog),oldLink);
+    assert.deepEqual(decodeSet(oldLink,catalog),legacy);
+    assert.equal(Object.hasOwn(validateSet(legacy,catalog),'createdAt'),false);
+    assert.equal(Object.hasOwn(decodeSet(oldLink,catalog),'createdAt'),false);
+  }
+});
+
+test('invalid creation dates are rejected in drafts and shared links',()=>{
+  const valid={version:1,title:'Prayer Set',ids:['cross']};
+  for(const createdAt of [null,0,{},[],new Date('2026-10-13T00:00:00.000Z'),'', 'not a date',
+    '2026-10-13T00:00:00Z','2026-10-13T00:00:00.000+00:00','2026-10-13T00:00:00.000Z ',
+    '2026-02-29T00:00:00.000Z','2026-02-30T00:00:00.000Z','2026-13-01T00:00:00.000Z',
+    '2026-10-13T24:00:00.000Z','2026-10-13T00:60:00.000Z','2026-10-13T00:00:60.000Z']){
+    assert.throws(()=>validateSet({...valid,createdAt},catalog));
+    if(!(createdAt instanceof Date)){
+      const invalid=Buffer.from(JSON.stringify([1,valid.title,valid.ids,'',createdAt])).toString('base64url');
+      assert.throws(()=>decodeSet(invalid,catalog));
+    }
+  }
+});
+
+test('creation and update calendar dates stay exact in shared metadata',()=>{
+  const set={version:1,title:'OCIA Class',ids:['joyful-1','ourFather',...Array(10).fill('hailMary'),'gloryBe','fatima'],createdBy:'Rhoda',createdAt:'2026-10-13',updatedAt:'2026-10-13'};
+  const encoded=encodeSet(set,catalog);
+  assert.deepEqual(JSON.parse(Buffer.from(encoded,'base64url').toString('utf8')),[1,set.title,set.ids,'Rhoda','2026-10-13','2026-10-13']);
+  assert.deepEqual(decodeSet(encoded,catalog),set,'Date-only metadata must not gain a timezone or invented time');
+  assert.deepEqual(validateSet(set,catalog),set);
+  const mixed={...set,updatedAt:'2026-10-14T04:05:06.789Z'};
+  assert.deepEqual(decodeSet(encodeSet(mixed,catalog),catalog),mixed);
+  const leap={...set,createdAt:'2024-02-29',updatedAt:'2024-02-29'};
+  assert.deepEqual(decodeSet(encodeSet(leap,catalog),catalog),leap);
+});
+
+test('update metadata preserves unknown creation dates and older five-field links',()=>{
+  const base={version:1,title:'Legacy Prayer Set',ids:['cross']};
+  for(const createdBy of [undefined,'OCIA Team']){
+    const updated={...base,...(createdBy?{createdBy}:{}),updatedAt:'2026-10-13'};
+    const encoded=encodeSet(updated,catalog);
+    assert.deepEqual(JSON.parse(Buffer.from(encoded,'base64url').toString('utf8')),[1,base.title,base.ids,createdBy||'','','2026-10-13']);
+    assert.deepEqual(decodeSet(encoded,catalog),updated);
+    assert.equal(Object.hasOwn(decodeSet(encoded,catalog),'createdAt'),false);
+  }
+  for(const createdAt of ['2026-10-13','2026-10-13T01:02:03.456Z']){
+    const older={...base,createdAt};
+    const link=Buffer.from(JSON.stringify([1,base.title,base.ids,'',createdAt])).toString('base64url');
+    assert.equal(encodeSet(older,catalog),link);
+    assert.deepEqual(decodeSet(link,catalog),older);
+    assert.equal(Object.hasOwn(decodeSet(link,catalog),'updatedAt'),false);
+  }
+});
+
+test('both metadata dates reject invalid calendar values and nonstring placeholders',()=>{
+  const base={version:1,title:'Dates',ids:['cross']};
+  const invalidDates=[null,0,false,{},[],'','2026-2-03','2026-02-3','2026-02-29','2024-02-30','2026-04-31','2026-00-01','2026-13-01','2026-10-00','2026-10-32','2026-10-13 ','2026/10/13','October 13, 2026'];
+  for(const field of ['createdAt','updatedAt'])for(const date of invalidDates)assert.throws(()=>validateSet({...base,[field]:date},catalog),`${field}: ${String(date)}`);
+  for(const date of invalidDates){
+    const link=Buffer.from(JSON.stringify([1,base.title,base.ids,'','2026-10-13',date])).toString('base64url');
+    assert.throws(()=>decodeSet(link,catalog));
+  }
+  for(const creationDate of [null,0,false,{},[]]){
+    const link=Buffer.from(JSON.stringify([1,base.title,base.ids,'',creationDate,'2026-10-13'])).toString('base64url');
+    assert.throws(()=>decodeSet(link,catalog),'Only the exact empty string is a missing-creation-date placeholder');
   }
 });
 
@@ -146,19 +285,25 @@ test('repeat changes enforce the 32-page total while permitting reductions and r
   assert.equal(ids.length,31);
 });
 
-test('default names use only the local calendar date',()=>{
-  const date=new Date(2026,9,12,23,59);
-  assert.equal(defaultClassTitle(date),'October 12, 2026');
-  assert.equal(defaultClassTitle(new Date(2026,9,13,0,1)),'October 13, 2026');
+test('default prayer set names are independent of creation dates',()=>{
+  assert.equal(DEFAULT_TITLE,'My Prayer Set');
+  assert.equal(defaultClassTitle(),'My Prayer Set');
+  assert.equal(validateSet({version:1,title:'   ',ids:['cross']},catalog).title,'My Prayer Set');
 });
 
-test('every Mass part has inline responses and alternatives resolve to real prayers',()=>{
+test('every Mass part has guidance and spoken responses resolve to real prayers',()=>{
   const ids=[];
   for(const section of massSections)for(const item of section.items){
     ids.push(item.id);
+    assert.ok(item.when?.trim(),`${item.name} explains when it is used`);
+    if(['homily','psalm'].includes(item.id)){
+      assert.ok(item.note?.trim(),`${item.name} explains how to follow along`);
+      assert.equal(item.responses?.length||0,0);
+      continue;
+    }
     for(const form of item.options||[item]){
       assert.ok(form.responses?.length,item.name);
-      for(const block of form.responses)assert.ok(block.text||catalog.has(block.prayer));
+      for(const block of form.responses)assert.ok(block.text||catalog.has(block.prayer)||block.cue?.text,`${item.name} contains spoken words or a real prayer`);
     }
   }
   assert.equal(new Set(ids).size,ids.length);

@@ -3,16 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="text-scale" content="scale">
   <meta name="theme-color" content="#0d110e">
-  <meta name="description" content="OCIA Prayer Companion: a beginner-friendly guide to prayer, the mysteries, and learning the Mass.">
+  <meta name="description" content="OCIA Prayer Companion: read prayers on your phone and follow along with your OCIA group.">
   <title>OCIA Prayer Companion</title>
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261012-mobile-classes">
+  <link rel="stylesheet" href="style.css?v=20261012-simple-reading">
   <script src="vendor/lucide.min.js" defer></script>
-  <script src="app.mjs?v=20261012-mobile-classes" type="module"></script>
+  <script src="app.mjs?v=20261012-simple-reading" type="module"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to Content</a>
@@ -21,14 +22,15 @@
     <div class="brand"><i data-lucide="church" aria-hidden="true"></i><span>OCIA Prayer Companion</span></div>
   </header>
   <nav class="primary-nav" id="primary-nav" aria-label="Main Sections">
-    <button type="button" data-view="prayers" aria-current="page"><i data-lucide="book-open" aria-hidden="true"></i><span>Prayers</span></button>
+    <button type="button" data-view="help" aria-current="page"><i data-lucide="circle-help" aria-hidden="true"></i><span>How to Use</span></button>
+    <button type="button" data-view="prayers"><i data-lucide="book-open" aria-hidden="true"></i><span>Prayers</span></button>
+    <button type="button" data-view="class"><i data-lucide="users" aria-hidden="true"></i><span>My Prayers</span></button>
     <button type="button" data-view="mysteries"><i data-lucide="sun" aria-hidden="true"></i><span>Mysteries</span></button>
     <button type="button" data-view="mass"><i data-lucide="church" aria-hidden="true"></i><span>The Mass</span></button>
-    <button type="button" data-view="class"><i data-lucide="users" aria-hidden="true"></i><span>My Class</span></button>
   </nav>
   <main id="main" tabindex="-1"><div class="loading" role="status">Opening Your Prayer Companion...</div></main>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
   <dialog id="dialog" aria-labelledby="dialog-title"><div id="dialog-content"></div></dialog>
-  <noscript><p class="notice">JavaScript is needed for class sets. <a href="https://www.usccb.org/how-to-pray-the-rosary">Read the USCCB Prayer Guide</a>.</p></noscript>
+  <noscript><p class="notice">JavaScript is needed for prayer sets. <a href="https://www.usccb.org/how-to-pray-the-rosary">Read the USCCB Prayer Guide</a>.</p></noscript>
 </body>
 </html>

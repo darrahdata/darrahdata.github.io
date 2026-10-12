@@ -1,6 +1,6 @@
 # OCIA Prayer Companion
 
-A standalone OCIA classroom app at `/ocia/`, listed beside Ave Maria on the homepage. Ave Maria remains a separate app.
+A standalone OCIA prayer app at `/ocia/` for attendees reading along on their phones when a projector is difficult to see. It is listed beside Ave Maria on the homepage; Ave Maria remains a separate app.
 
 ## Run
 
@@ -8,23 +8,30 @@ Serve the repository root with a static HTTP server, then open `/ocia/`. ES modu
 
 ## Included
 
-- Fourteen full-text prayers: the Sign of the Cross, the user-supplied Fatima Prayer, and twelve copied unchanged from the existing Ave Maria library, including both creeds, Grace Before Meals, the Guardian Angel Prayer, and the Prayer to St. Michael.
-- All twenty mysteries, grouped into four sets, with existing devotional artwork and meditations.
-- Read-aloud using available device voices; adjustable text; visible previous/next; contents; saved reading position.
-- Phone layouts keep the first meditation text visible, use larger touch controls, and adapt to landscape and enlarged text. Repeated prayers show a count such as “Prayer 1 of 10.” Dialog Close buttons remain available while scrolling; the prayer picker opens without automatically showing a phone keyboard.
+- Fourteen full-text prayers, arranged for a leader and group response: the Sign of the Cross, the user-supplied Fatima Prayer with its opening stated once, and twelve copied unchanged from the existing Ave Maria library, including both creeds, Grace Before Meals, the Guardian Angel Prayer, and the Prayer to St. Michael.
+- The Prayers tab opens directly with Begin With Essentials and the prayer library. The introductory slogan and question-and-answer section have been removed; instruction belongs with the OCIA leader.
+- All twenty mysteries, grouped into four sets with artwork thumbnails in the library. The Mysteries of the Rosary introduction describes the twenty scenes contemplated during the Rosary; each set explains its name and states its usual prayer days. A brief note clarifies that these days are customary. Source links remain documented here. Mystery reading pages display only the full numbered mystery title, without artwork, meditations, intentions, or explanatory text.
+- Reading follows device/browser text sizing with no in-app voice or text-size controls. Prayer pages show a sage italic title, gold Leader labels, sage Response labels, and quoted spoken words. Directions remain outside quotation marks; previous/next, contents, repetition counts, and saved reading position remain available.
+- Phone layouts use larger touch controls, and adapt to landscape and enlarged text. Repeated prayers show a count such as “Prayer 1 of 10.” Dialog Close buttons remain available while scrolling; the prayer picker opens without automatically showing a phone keyboard.
 - Use Title Case for interface headings, categories, navigation, and control labels (for example, “Other Prayers”); preserve sentence formatting in prayer text and explanatory prose.
-- A class builder: add, reorder, adjust repetitions of each prayer or mystery, remove, save, and preview up to 32 pages total; up to 20 saved sets per browser. Consecutive repeats appear as one group in the builder and as individual pages when reading or sharing. Repeat choices use the remaining page capacity, up to ×32 for a single group.
-- Student-first browsing: adding and organizing are available only in My Class, behind Prepare a class. Saving prompts for an editable set name; new sets default to the local date.
-- Opening a class QR code or shared link saves it in Saved Classes on that device, where students can reopen it directly. Identical links do not create duplicate entries, and importing does not replace a draft. Full or unavailable browser storage is reported without blocking the prayer reader.
-- Class sets can include an optional Created By name identifying the person who prepared the set. The name is shown with the saved class, reader, and share dialog, and travels in the class link. Blank names are omitted; original links keep the same format.
-- Versioned class links and locally generated QR codes; each participant advances independently. Saving opens the QR code immediately, and each saved set has a Share QR button. Codes can be downloaded as PNG images or printed, and class links can be copied or shared.
-- A four-section Mass guide with sections collapsed by default, selected alternatives, inline prayer texts, and brief assembly responses. Form A includes user-supplied I confess wording. The Universal Prayer includes its common response, not invented petitions. Longer missing forms are marked explicitly.
+- A prayer set builder: add, reorder, adjust repetitions of each prayer or mystery, remove, save, and preview up to 32 pages total; up to 20 saved prayer sets per browser. Consecutive repeats appear as one group in the builder and as individual pages when reading or sharing. Repeat choices use the remaining page capacity, up to ×32 for a single group.
+- Simple browsing: adding and organizing are available in My Prayers, behind Create Prayer Set. Saving prompts for an editable Prayer Set Name; new sets start with My Prayer Set, so a date does not need to be part of the name.
+- Opening a prayer set QR code or shared link saves it in Saved Prayer Sets on that device, ready to reopen directly. Identical links do not create duplicate entries, and importing does not replace a draft. Full or unavailable browser storage is reported without blocking the prayer reader.
+- Prayer sets can include an optional Created By name identifying the person who prepared the set. Newly created sets record automatic Date Created and Last Updated values, shown read-only in the builder and save form. All three metadata fields appear with saved prayer sets, in the reader, and in the share dialog, and travel in the shared link. Last Updated changes when the name, creator, prayer order, or repetition counts change; opening, loading, sharing, resuming, and saving without changes preserve it. Date Created remains unchanged. Legacy sets keep unknown dates absent, while subsequent edits record Last Updated without inventing a creation date. Existing names remain unchanged.
+- Versioned prayer set links and locally generated QR codes; each participant advances independently. Saving opens the QR code immediately, and each saved set has a Share QR button. Codes can be downloaded as PNG images or printed, and prayer set links can be copied or shared.
+- How to Use is the first tab and default start page, followed by Prayers, My Prayers, Mysteries, and The Mass. Its five short steps cover opening a shared prayer set, following the group, finding prayers, creating and sharing sets, and using device text-size settings. Browse Prayers and Create Prayer Set shortcuts lead directly into the app. Shared links still open the prayer reader immediately and save the set automatically; closing or finishing a shared set returns to My Prayers.
+- Completion says Prayer Complete, with a plain singular/plural confirmation and Pray Again, Done, and Review Prayer Set actions.
+- A four-section Mass guide uses the official names Introductory Rites, Liturgy of the Word, Liturgy of the Eucharist, and Concluding Rites. Its 25 open cards follow one continuous path from the user-supplied parish leaflet, without dropdowns or alternate-form controls. Timing badges identify regular parts and those used on certain days. Spoken leader cues and participant responses are quoted in distinct role colors; directions, including chest tapping, remain outside quotation marks.
 
-## Content Review Still Required
+## Mass Source and Scope
 
-**The Mass section is not a complete response library or approved worship aid.** It does not include every spoken response, the full range of rubrics, or texts for special celebrations. Do not advertise complete coverage.
+The spoken Mass text in `mass.mjs` comes from the user-supplied video of **St. Dominic’s Missal for The New Translation of The Mass**. The leaflet identifies excerpts from the English translation of *The Roman Missal*, © 2010 International Commission on English in the Liturgy Corporation, and compilation/layout © 2011 St. Dominic’s Catholic Church, San Francisco.
 
-Before expanding the response library, obtain a parish-approved text source, establish the appropriate digital reproduction permissions, and have the OCIA leader or parish liturgist review the wording and contexts. Missing full forms remain labeled instead of supplying unlicensed or guessed text. The I confess wording and its “Tap your chest” cue were supplied by the user. Neither this wording nor existing prayer wording copied from Ave Maria is a new claim of liturgical approval or permission. The Mass presentation of the Our Father omits its devotional final Amen; the library version is unchanged.
+The app follows one printed form at each branch: the first greeting, I Confess followed by the English Kyrie, the Nicene Creed, the first Mystery of Faith acclamation (“We proclaim…”), the simple blessing, and “Go forth, the Mass is ended.” Communion shows the minister’s “The Body of Christ” and an Amen explicitly labeled for communicants only. Other options printed in the leaflet are not added to the interface.
+
+The leaflet’s abbreviated priest prayers for deliverance and peace remain descriptive cues; their missing middle portions are not supplied from memory. Readings, the psalm response, the Collect, and other changing prayers are also described rather than invented. The Mass Our Father uses the leaflet’s wording without its devotional final Amen, followed by the printed doxology. The prayer-library version is unchanged. The Confiteor follows the leaflet, including its second “and you, my brothers and sisters,” with no Amen until the priest’s absolution.
+
+Brief timing and posture notes help attendees follow the sequence. The usual conditions for Gloria, the Creed, the second reading, and the homily were checked against Catholic sources below; those notes are explanatory guidance rather than a claim that all of them were printed in this leaflet. This is a companion to the supplied parish leaflet, not every possible Mass form or the variable texts for a particular celebration.
 
 Sources reviewed:
 
@@ -38,11 +45,11 @@ Sources reviewed:
 
 ## Sharing and Privacy
 
-The URL fragment contains a version, class title, ordered content IDs, and an optional creator name. It does not contain instructor credentials. No analytics are included. Anyone holding a link can read its contents and optional attribution; do not put private intentions in titles. Class links are not secret storage.
+The URL fragment contains a version, prayer set name, ordered content IDs, an optional creator name, an optional creation date, and an optional update date. Automatic timestamps use canonical UTC ISO strings and display as local dates. Explicit calendar dates use `YYYY-MM-DD` and display that calendar day without timezone conversion. Existing three-field, four-field, and five-field links stay unchanged; updated dates use a sixth field with empty placeholders for absent earlier metadata. Existing `#class=` links, storage keys, and catalog IDs remain compatible despite the friendlier interface names. The link does not contain instructor credentials. No analytics are included. Anyone holding a link can read its contents and optional metadata; do not put private intentions in titles. Prayer set links are not secret storage.
 
 Each shared URL is a snapshot of the title and order. Edits generate a different link and QR code. It is not a live room: participants do not automatically follow the instructor's page. Prayer wording is supplied by the app's catalog, so approved catalog corrections will apply to previously shared sets. Keep catalog IDs stable and add a new schema version for incompatible changes.
 
-Drafts, saved sets, and reading positions remain in this browser. They do not synchronize between devices; clearing browser data removes them. Clipboard, device voices, and browser storage may be unavailable; the app provides manual fallbacks. QR links created on localhost cannot be scanned from another device. Publish the app at its final HTTPS address before sharing with class.
+Drafts, saved prayer sets, and reading positions remain in this browser. They do not synchronize between devices; clearing browser data removes them. Clipboard and browser storage may be unavailable; the app provides manual fallbacks. QR links created on localhost cannot be scanned from another device. Publish the app at its final HTTPS address before sharing with a group.
 
 ## Tests
 
@@ -55,7 +62,7 @@ OCIA_BROWSER=webkit node --test ocia/browser.test.cjs ocia/mobile.test.cjs ocia/
 
 `OCIA_URL` overrides the local URL. Chromium tests use installed Chrome. WebKit needs its Playwright browser installed.
 
-The mobile tests use touch-enabled phone viewports, check the shared class at 320–430px and in landscape, tap through ten repeated Hail Marys, rotate and reload, scroll long dialogs, and verify navigation with text enlarged to 200%. They emulate browser layouts rather than physical phone keyboards or camera scanning.
+The mobile tests use touch-enabled phone viewports, check the shared prayer set at 320–430px and in landscape, tap through ten repeated Hail Marys, rotate and reload, scroll long dialogs, and verify navigation with enlarged browser text. Legacy app text-size and voice preferences are ignored. They emulate browser layouts rather than physical phone keyboards or camera scanning.
 
 ## Third-Party Assets
 
