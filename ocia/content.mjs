@@ -1,3 +1,5 @@
+import {scripturalMysterySets} from './mysteries.mjs?v=20261012-prayer-beads';
+
 export const sources = {
   mass:'https://www.usccb.org/prayer-and-worship/the-mass/order-of-mass',
   rosary:'https://www.usccb.org/how-to-pray-the-rosary',
@@ -26,8 +28,6 @@ export const mysterySets = [
   {key:'sorrowful',name:'Sorrowful',theme:'Jesus’ suffering and death for our salvation.',days:'Tuesday & Friday',image:'images/agony-in-the-garden.jpg'},
   {key:'glorious',name:'Glorious',theme:'The Resurrection, the gift of the Holy Spirit, and the heavenly glory of Jesus and Mary.',days:'Wednesday & Sunday',image:'images/resurrection.jpg'}
 ];
-
-const mysteryOrdinals = ['First','Second','Third','Fourth','Fifth'];
 
 // Devotional reading turns; the original prayer text stays intact for other views.
 const prayerTurnStarts = {
@@ -71,9 +71,8 @@ export function createCatalog(data) {
   catalog.get('ourFather').readerTitle='Lord’s Prayer (Our Father)';
   for (const set of mysterySets) data.mysteries[set.key].list.forEach(([name,desire,meditation,image],index) => {
     const id = `${set.key}-${index+1}`;
-    const readerName = id === 'joyful-1' ? 'The Annunciation of the Lord' : name;
-    const readerTitle = `The ${mysteryOrdinals[index]} ${set.name} Mystery: ${readerName}.`;
-    catalog.set(id,{id,name,readerTitle,kind:'mystery',category:`${set.name} Mysteries`,summary:set.theme,order:index+1,desire,text:meditation,image,
+    const {name:readerTitle,scripture,citation}=scripturalMysterySets[set.key][index];
+    catalog.set(id,{id,name,readerTitle,scripture,citation,kind:'mystery',category:`${set.name} Mysteries`,summary:set.theme,order:index+1,desire,text:meditation,image,
       explanation:'A mystery is something to contemplate, not a riddle to solve. Pause with this scene; you do not need to produce a particular feeling or have every answer.'});
   });
   return catalog;

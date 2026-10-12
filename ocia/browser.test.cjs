@@ -1,6 +1,8 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const {chromium,webkit}=require('playwright');
+const rosaryReference=require('node:fs').readFileSync(require('node:path').join(__dirname,'../rosary-v2/index.html'),'utf8');
+const canonicalMysteries=[...rosaryReference.matchAll(/\{type:'(?:First|Second|Third|Fourth|Fifth) (Joyful|Sorrowful|Luminous|Glorious) Mystery',name:'([^']+)',scripture:'([^']+)',citation:'([^']+)',image:'[^']+'\}/g)].map(([,set,title,scripture,citation])=>({set,title,scripture,citation}));
 const base=process.env.OCIA_URL||'http://127.0.0.1:8080/ocia/';
 const engine=process.env.OCIA_BROWSER==='webkit'?webkit:chromium;
 const options=engine===chromium?{channel:'chrome'}:{};
@@ -41,24 +43,38 @@ async function saveClass(page,name){
   return link;
 }
 async function noOverflow(page){assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'No page should scroll horizontally');}
+async function beads(page,total,current){
+  assert.equal(await page.locator('.repeat-beads').getAttribute('aria-hidden'),'true','The numeric count supplies the accessible progress');
+  const states=await page.locator('.repeat-beads .prayer-bead').evaluateAll(elements=>elements.map(el=>({done:el.classList.contains('done'),current:el.classList.contains('current')})));
+  assert.deepEqual(states,Array.from({length:total},(_,index)=>({done:index<current-1,current:index===current-1})));
+  assert.equal(await page.locator('.repeat-progress').textContent(),`${current} of ${total}`);
+}
 
 test('mobile and desktop navigation, all mystery sets, long creed and safe bottom dock',()=>browserTest(async browser=>{
+  assert.equal(canonicalMysteries.length,20,'The reference contains all twenty scriptural mysteries');
   for(const [width,height] of [[320,700],[360,780],[390,844],[430,932],[768,1024],[1280,900]]){
     const context=await browser.newContext({viewport:{width,height},reducedMotion:'reduce'});
     const page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(error.message));
     await open(page);await noOverflow(page);
     for(const name of ['Daily Prayer','Other Prayers'])assert.equal(await page.getByRole('heading',{name,exact:true}).isVisible(),true);
-    await page.getByRole('button',{name:'Mysteries',exact:true}).click();
+    assert.equal(await page.locator('.primary-nav').getByRole('button',{name:'Mysteries',exact:true}).count(),0);
+    assert.equal(await page.locator('.mystery-library').getByRole('heading',{name:'Mysteries of the Rosary',exact:true}).isVisible(),true);
     for(const name of ['Joyful','Luminous','Sorrowful','Glorious']){
       await page.locator('.chapter').filter({hasText:name}).click();
+      assert.equal(await page.getByRole('button',{name:'Prayers',exact:true}).getAttribute('aria-current'),'page');
       assert.equal(await page.locator('.prayer-row').count(),5);
-      const mysteryNames=await page.locator('.prayer-row .prayer-open strong').allTextContents();
+      const expectedMysteries=canonicalMysteries.filter(item=>item.set===name);
+      assert.equal(expectedMysteries.length,5);
       await page.getByRole('button',{name:'Reflect on All Five',exact:true}).click();
       for(let i=0;i<5;i++){
-        const mysteryName=name==='Joyful'&&i===0?'The Annunciation of the Lord':mysteryNames[i];
-        assert.equal(await page.locator('#reader-title').textContent(),`The ${['First','Second','Third','Fourth','Fifth'][i]} ${name} Mystery: ${mysteryName}.`);
-        assert.equal(await page.locator('#prayer-text, .desire, .reading-help, .reader-topline').count(),0,'Mystery pages show the artwork and full title without meditations');
+        const expected=expectedMysteries[i];
+        assert.equal(await page.locator('#reader-title').textContent(),expected.title);
+        assert.equal(await page.locator('.mystery-scripture p').textContent(),expected.scripture);
+        assert.equal(await page.locator('.mystery-scripture cite').textContent(),expected.citation);
+        assert.equal(await page.locator('.mystery-scripture').evaluate(el=>el.tagName),'BLOCKQUOTE');
+        assert.equal(await page.locator('#prayer-text, .desire, .reading-help, .reader-topline, .repeat-beads').count(),0,'Mystery pages show the source scripture and artwork without prayer beads or extra meditations');
         assert.equal(await page.locator('.mystery-image img').count(),1);
+        assert.ok(await page.evaluate(()=>document.querySelector('.mystery-scripture').getBoundingClientRect().bottom<=document.querySelector('.mystery-image').getBoundingClientRect().top),'Scripture precedes the artwork');
         await page.locator('.mystery-image img').scrollIntoViewIfNeeded();
         await page.waitForFunction(()=>{const image=document.querySelector('.mystery-image img');return image.complete&&image.naturalWidth>0;});
         await noOverflow(page);
@@ -70,6 +86,8 @@ test('mobile and desktop navigation, all mystery sets, long creed and safe botto
       assert.equal(await page.locator('h1').textContent(),'Prayer Complete');
       await page.getByRole('button',{name:'Done',exact:true}).click();
       await page.getByRole('button',{name:'All Mysteries',exact:true}).click();
+      assert.equal(await page.locator('.mystery-library .chapter').count(),4);
+      assert.equal(await page.getByRole('button',{name:'Prayers',exact:true}).getAttribute('aria-current'),'page');
     }
     await page.getByRole('button',{name:'Prayers',exact:true}).click();
     await page.locator('[data-action="read-item"][data-id="niceneCreed"]').click();
@@ -170,8 +188,8 @@ test('class repetition counts keep one row, persist, share and read every prayer
   for(let i=0;i<expected.length;i++){
     titles.push(await page.locator('#reader-title').textContent());
     assert.equal(await page.locator('.reader-progress > span').textContent(),`${i+1} of 12`);
-    if(expected[i]==='hailMary')assert.equal(await page.locator('.repeat-progress').textContent(),`${i} of 10`);
-    else assert.equal(await page.locator('.repeat-progress').count(),0,'Single prayers do not show a repetition count');
+    if(expected[i]==='hailMary')await beads(page,10,i);
+    else assert.equal(await page.locator('.repeat-progress, .repeat-beads').count(),0,'Single prayers do not show repetition progress');
     await noOverflow(page);
     await page.getByRole('button',{name:i===expected.length-1?'Finish':'Next',exact:true}).click();
   }
@@ -252,6 +270,38 @@ test('custom prayer sets open with separate title and creation details, then res
   await beginPrayerSet(page,set.title);
   assert.equal(await page.locator('#reader-title').textContent(),'The First Joyful Mystery: The Annunciation of the Lord.');
   await page.close();
+}));
+
+test('prayer beads follow consecutive runs, Contents and resume, and wrap 32 repetitions at enlarged text',()=>browserTest(async browser=>{
+  const page=await browser.newPage({viewport:{width:320,height:568},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
+  const ids=['hailMary','hailMary','ourFather','hailMary','hailMary','hailMary','joyful-1','joyful-1'];
+  const link=base+'#class='+Buffer.from(JSON.stringify([1,'Separate Prayer Runs',ids])).toString('base64url');
+  await page.goto(link);await beginPrayerSet(page,'Separate Prayer Runs');
+  await beads(page,2,1);
+  await page.getByRole('button',{name:'Next',exact:true}).tap();await beads(page,2,2);
+  await page.getByRole('button',{name:'Next',exact:true}).tap();
+  assert.equal(await page.locator('.repeat-beads, .repeat-progress').count(),0,'A single prayer breaks the bead sequence');
+  await page.getByRole('button',{name:'Next',exact:true}).tap();await beads(page,3,1);
+  await page.getByRole('button',{name:'Contents',exact:true}).tap();
+  await page.locator('[data-action="jump"][data-index="5"]').tap();await beads(page,3,3);
+  await page.reload();await page.locator('#reader-title').waitFor();await beads(page,3,3);
+  await page.getByRole('button',{name:'Previous',exact:true}).tap();await beads(page,3,2);
+  await page.getByRole('button',{name:'Next',exact:true}).tap();await beads(page,3,3);
+  await page.getByRole('button',{name:'Next',exact:true}).tap();
+  assert.equal(await page.locator('#reader-title').textContent(),'The First Joyful Mystery: The Annunciation of the Lord.');
+  assert.equal(await page.locator('.repeat-progress').textContent(),'1 of 2');
+  assert.equal(await page.locator('.repeat-beads').count(),0,'Repeated mystery pages never receive prayer beads');
+  const longest=base+'#class='+Buffer.from(JSON.stringify([1,'Thirty-Two Prayers',Array(32).fill('hailMary')])).toString('base64url');
+  await page.goto(longest);await beginPrayerSet(page,'Thirty-Two Prayers');
+  await page.addStyleTag({content:':root{font-size:200%}'});
+  await beads(page,32,1);await noOverflow(page);
+  const positions=await page.locator('.repeat-beads .prayer-bead').evaluateAll(elements=>elements.map(el=>{const r=el.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top};}));
+  assert.ok(positions.every(position=>position.left>=0&&position.right<=320),'Every bead stays within the phone width');
+  assert.ok(new Set(positions.map(position=>position.top)).size>1,'Long bead sequences wrap into readable rows');
+  await page.getByRole('button',{name:'Contents',exact:true}).tap();
+  await page.locator('[data-action="jump"][data-index="31"]').tap();await beads(page,32,32);
+  await page.getByRole('button',{name:'Previous',exact:true}).tap();await beads(page,32,31);
+  await noOverflow(page);await page.close();
 }));
 
 test('saved QR sharing preserves the current draft and downloads a PNG before and after reload',()=>browserTest(async browser=>{
@@ -520,10 +570,11 @@ test('prayer readers show Leader and Response or a single Everyone part for Fati
 test('How to Use is the first tab and default landing with working first steps on a phone',()=>browserTest(async browser=>{
   const page=await browser.newPage({viewport:{width:320,height:568},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
   await page.goto(base,{waitUntil:'domcontentloaded'});await landingReady(page);
-  assert.deepEqual(await page.locator('.primary-nav button span').allTextContents(),['How to Use','Prayers','My Prayers','Mysteries','The Mass']);
+  assert.deepEqual(await page.locator('.primary-nav button span').allTextContents(),['How to Use','Prayers','My Prayers','The Mass']);
   assert.equal(await page.getByRole('button',{name:'How to Use',exact:true}).getAttribute('aria-current'),'page');
   for(const name of ['Open Your Prayer Set','Follow Along','Find a Prayer','Create a Prayer Set','Adjust Text Size'])assert.equal(await page.getByRole('heading',{name,exact:true}).isVisible(),true);
   const help=await page.locator('main').textContent();
+  assert.match(help,/Use Prayers for individual prayers and Mysteries of the Rosary\./);
   for(const instruction of [/Use your phone or browser’s text-size settings/,/Follow the Leader, Response, or Everyone labels\./,/Tap Next with the group/,/choose repetitions/,/opens and saves in My Prayers on this device/])assert.match(help,instruction);
   await noOverflow(page);
   await page.getByRole('button',{name:'Browse Prayers',exact:true}).tap();
@@ -547,9 +598,12 @@ test('students browse without editing controls; saved sets use a simple default 
   await page.locator('[data-action="read-item"][data-id="cross"] svg').click();
   assert.equal(await page.locator('#reader-title').textContent(),'Sign of the Cross');
   await page.getByRole('button',{name:'Close Prayer and Save Place',exact:true}).click();
-  await page.getByRole('button',{name:'Mysteries',exact:true}).click();
-  await page.locator('.chapter').first().click();
+  await page.locator('.mystery-library .chapter').first().click();
+  assert.equal(await page.getByRole('button',{name:'Prayers',exact:true}).getAttribute('aria-current'),'page');
   assert.equal(await page.locator('[data-action="add"], [data-action="add-mysteries"]').count(),0);
+  await page.getByRole('button',{name:'Prayers',exact:true}).click();
+  assert.equal(await page.getByRole('heading',{name:'Begin With Essentials',exact:true}).isVisible(),true);
+  assert.equal(await page.locator('.mystery-library .chapter').count(),4,'The Prayers tab returns from a mystery group to the whole library');
   await page.getByRole('button',{name:'My Prayers',exact:true}).click();
   assert.equal(await page.locator('#class-title').count(),0);
   await page.getByRole('button',{name:'Create Prayer Set',exact:true}).click();

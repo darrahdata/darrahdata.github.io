@@ -60,20 +60,31 @@ test('Our Father and Hail Mary use the requested class reading boundaries',()=>{
   assert.equal(catalog.get('fatima').parts.map(part=>part.text).join(' ').match(/O my Jesus/g).length,1);
 });
 
-test('all twenty mysteries have complete reader titles while library names stay unchanged',()=>{
-  const expectedNames={
-    joyful:['The Annunciation of the Lord','The Visitation','The Nativity','The Presentation','The Finding in the Temple'],
-    luminous:['The Baptism in the Jordan','The Wedding at Cana','The Proclamation of the Kingdom','The Transfiguration','The Institution of the Eucharist'],
-    sorrowful:['The Agony in the Garden','The Scourging at the Pillar','The Crowning with Thorns','The Carrying of the Cross','The Crucifixion'],
-    glorious:['The Resurrection','The Ascension','The Descent of the Holy Spirit','The Assumption','The Coronation']
-  };
-  const ordinals=['First','Second','Third','Fourth','Fifth'];
-  for(const set of mysterySets)for(let index=0;index<5;index++){
-    const item=catalog.get(`${set.key}-${index+1}`);
-    assert.equal(item.readerTitle,`The ${ordinals[index]} ${set.name} Mystery: ${expectedNames[set.key][index]}.`);
-    assert.equal(item.name,data.mysteries[set.key].list[index][0]);
+test('all twenty mystery titles, Bible quotations and references match rosary-v2 verbatim',()=>{
+  const source=fs.readFileSync(new URL('../rosary-v2/index.html',import.meta.url),'utf8');
+  let checked=0;
+  for(const set of mysterySets){
+    const block=source.match(new RegExp(`const ${set.key.toUpperCase()}_SCRIPTURAL_MYSTERIES=\\[([\\s\\S]*?)\\n\\];`));
+    assert.ok(block,`${set.name} has a scriptural source array`);
+    const records=[...block[1].matchAll(/\{type:'[^']+',name:'([^']+)',scripture:'([^']+)',citation:'([^']+)',image:'([^']+)'\}/g)];
+    assert.equal(records.length,5,`${set.name} contains exactly five source mysteries`);
+    records.forEach(([,readerTitle,scripture,citation,image],index)=>{
+      const id=`${set.key}-${index+1}`;
+      const item=catalog.get(id);
+      assert.deepEqual({readerTitle:item.readerTitle,scripture:item.scripture,citation:item.citation},{readerTitle,scripture,citation},id);
+      assert.match(item.scripture,/^“.+”$/,`${id} retains its quotation marks`);
+      assert.equal(item.id,id);
+      assert.equal(item.name,data.mysteries[set.key].list[index][0]);
+      assert.equal(item.image,data.mysteries[set.key].list[index][3]);
+      assert.equal(item.image,image);
+      checked++;
+    });
   }
+  assert.equal(checked,20);
   assert.equal(catalog.get('joyful-1').readerTitle,'The First Joyful Mystery: The Annunciation of the Lord.');
+  assert.equal(catalog.get('joyful-2').readerTitle,'The Second Joyful Mystery: The Visitation of Mary to Elizabeth.');
+  assert.equal(catalog.get('joyful-2').scripture,'“My soul doth magnify the Lord, and my spirit hath rejoiced in God my Saviour.”');
+  assert.equal(catalog.get('joyful-2').citation,'(Luke 1:46-47)');
 });
 
 test('shared sets round-trip Unicode, repetitions and order without changing older links',()=>{

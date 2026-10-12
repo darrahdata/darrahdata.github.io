@@ -1,6 +1,6 @@
 import {qrcode} from './vendor/qrcode.mjs';
-import {MAX_STEPS,defaultClassTitle,validateSet,encodeSet,decodeSet,shareURL,groupSteps,setStepCount,moveStepGroup} from './core.mjs?v=20261012-prayer-opening';
-import {createCatalog,mysterySets,massSections} from './content.mjs?v=20261012-prayer-opening';
+import {MAX_STEPS,defaultClassTitle,validateSet,encodeSet,decodeSet,shareURL,groupSteps,setStepCount,moveStepGroup} from './core.mjs?v=20261012-prayer-beads';
+import {createCatalog,mysterySets,massSections} from './content.mjs?v=20261012-prayer-beads';
 
 const $ = id => document.getElementById(id);
 const main = $('main'), dialog = $('dialog');
@@ -8,7 +8,11 @@ const dockObserver=new ResizeObserver(entries=>{
   document.documentElement.style.setProperty('--dock-height',`${Math.ceil(entries[0].target.getBoundingClientRect().height)}px`);
 });
 const navObserver=new ResizeObserver(entries=>{
-  document.documentElement.style.setProperty('--nav-height',`${Math.ceil(entries[0].target.getBoundingClientRect().height)}px`);
+  const nav=entries[0].target;
+  const textSize=parseFloat(getComputedStyle(document.documentElement).fontSize);
+  const columns=entries[0].contentRect.width<textSize*16?'2':'4';
+  if(nav.style.getPropertyValue('--nav-columns')!==columns)requestAnimationFrame(()=>nav.style.setProperty('--nav-columns',columns));
+  document.documentElement.style.setProperty('--nav-height',`${Math.ceil(nav.getBoundingClientRect().height)}px`);
 });
 navObserver.observe($('primary-nav'));
 const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -53,22 +57,22 @@ function prayerGroups(query='') {
   }).join(''):'<p class="empty" role="status">No prayers found. Try a prayer name such as “Our Father.”</p>';
 }
 function renderPrayers() {
+  if(state.mystery){renderMysteries();return;}
   main.innerHTML=`<section class="intro-action"><div><h1>Begin With Essentials</h1><p>Sign of the Cross · Our Father · Hail Mary · Glory Be</p></div>${action('essentials','Pray Together','arrow-right','class="primary"')}</section>${resumeMarkup()}
     <input id="prayer-search" type="search" aria-label="Find a Prayer" placeholder="Find a Prayer" value="${escape(state.query)}" autocomplete="off">
-    <div id="prayer-groups" class="prayer-groups">${prayerGroups(state.query)}</div>`;
+    <div id="prayer-groups" class="prayer-groups">${prayerGroups(state.query)}</div>${mysteryLibrary()}`;
+}
+function mysteryLibrary() {
+  return `<section id="mysteries" class="mystery-library" aria-labelledby="mysteries-heading"><header class="section-heading"><h2 id="mysteries-heading" tabindex="-1">Mysteries of the Rosary</h2><p>Twenty key scenes from the life of Jesus Christ and the Virgin Mary to contemplate while reciting the prayers of the Rosary.</p></header>
+    <ul class="chapter-list">${mysterySets.map(set=>`<li><button type="button" class="chapter" data-action="mystery-set" data-id="${set.key}"><img src="${set.image}" alt="" loading="lazy" width="76" height="96"><span><strong>${set.name}</strong><span class="theme">${escape(set.theme)}</span><small>Usually Prayed: ${escape(set.days)} · 5 Mysteries</small></span>${icon('chevron-right')}</button></li>`).join('')}</ul>
+    <p class="source-note">These are customary days; your group may choose any mystery.</p></section>`;
 }
 function renderMysteries() {
-  if(state.mystery) {
-    const set=mysterySets.find(item=>item.key===state.mystery);
-    const items=[...catalog.values()].filter(item=>item.category===`${set.name} Mysteries`);
-    main.innerHTML=action('all-mysteries','All Mysteries','arrow-left','class="back-link"')+sectionHeading(`${set.name} Mysteries`,set.theme)+
-      `<div class="inline-actions">${action('reflect-set','Reflect on All Five','book-open','class="primary"')}</div><ul class="prayer-list">${items.map(item=>row(item)).join('')}</ul>
-      <p class="source-note">Usually Prayed: ${escape(set.days)}</p>`;
-  }else {
-    main.innerHTML=sectionHeading('Mysteries of the Rosary','Twenty key scenes from the life of Jesus Christ and the Virgin Mary to contemplate while reciting the prayers of the Rosary.')+
-      `<ul class="chapter-list">${mysterySets.map(set=>`<li><button type="button" class="chapter" data-action="mystery-set" data-id="${set.key}"><img src="${set.image}" alt="" loading="lazy" width="76" height="96"><span><strong>${set.name}</strong><span class="theme">${escape(set.theme)}</span><small>Usually Prayed: ${escape(set.days)} · 5 Mysteries</small></span>${icon('chevron-right')}</button></li>`).join('')}</ul>
-      <p class="source-note">These are customary days; your group may choose any mystery.</p>`;
-  }
+  const set=mysterySets.find(item=>item.key===state.mystery);
+  const items=[...catalog.values()].filter(item=>item.category===`${set.name} Mysteries`);
+  main.innerHTML=action('all-mysteries','All Mysteries','arrow-left','class="back-link"')+sectionHeading(`${set.name} Mysteries`,set.theme)+
+    `<div class="inline-actions">${action('reflect-set','Reflect on All Five','book-open','class="primary"')}</div><ul class="prayer-list">${items.map(item=>row(item)).join('')}</ul>
+    <p class="source-note">Usually Prayed: ${escape(set.days)}</p>`;
 }
 function spokenMarkup(text) {
   return text.split(/(?:^|\n)(\([^\n]*\))(?=\n|$)/).filter(part=>part.trim()).map(part=>{
@@ -157,7 +161,7 @@ function renderHelp() {
   const steps=[
     ['Open Your Prayer Set','Scan the QR code or open the link from your group. The prayer set opens and saves in My Prayers on this device.'],
     ['Follow Along','Follow the Leader, Response, or Everyone labels. Tap Next with the group, or Contents to find the current prayer.'],
-    ['Find a Prayer','Use Prayers for individual prayers, Mysteries for the mystery titles, and The Mass for the Mass prayers and responses.'],
+    ['Find a Prayer','Use Prayers for individual prayers and Mysteries of the Rosary. Use The Mass for the Mass prayers and responses.'],
     ['Create a Prayer Set','In My Prayers, choose Create Prayer Set. Add prayers, choose repetitions such as ×10, and save with a name. Saving shows a QR code to share.'],
     ['Adjust Text Size','Use your phone or browser’s text-size settings. The app follows those settings; scroll to read the whole prayer.']
   ];
@@ -169,14 +173,14 @@ function render() {
   document.body.classList.toggle('reader-mode',!!state.reader);
   document.querySelectorAll('#primary-nav [data-view]').forEach(el=>el.setAttribute('aria-current',el.dataset.view===state.view?'page':'false'));
   if(state.reader)renderReader();
-  else ({prayers:renderPrayers,mysteries:renderMysteries,mass:renderMass,class:renderClass,help:renderHelp}[state.view])();
+  else ({prayers:renderPrayers,mass:renderMass,class:renderClass,help:renderHelp}[state.view])();
   icons();
   dockObserver.disconnect();
   const dock=main.querySelector('.reader-dock');
   if(dock)dockObserver.observe(dock);
 }
 function focusMain() {main.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});}
-function navigate(view) {clearNotice();state.reader=null;state.view=view;state.query='';if(location.hash.startsWith('#class='))history.replaceState(null,'',location.pathname+location.search);render();focusMain();}
+function navigate(view,{keepPrayerGroup=false}={}) {clearNotice();state.reader=null;state.view=view;state.query='';if(view==='prayers'&&!keepPrayerGroup)state.mystery=null;if(location.hash.startsWith('#class='))history.replaceState(null,'',location.pathname+location.search);render();focusMain();}
 function persistDraft({edited=false}={}) {
   if(edited)state.builder.updatedAt=new Date().toISOString();
   writeStore('draft',{...state.builder,savedId:state.savedId});
@@ -250,8 +254,8 @@ function renderReader() {
     <div class="reader-progress"><progress value="${index+1}" max="${set.ids.length}" aria-label="Prayer Set Progress">${index+1} of ${set.ids.length}</progress></div>
     <article aria-labelledby="reader-title" class="${item.kind==='mystery'?'mystery-reading':'prayer-reading'}">
     <h1 class="reader-title" id="reader-title">${escape(item.readerTitle||item.name)}</h1>
-    ${repetition.count>1?`<p class="repeat-progress">${index-repetition.start+1} of ${repetition.count}</p>`:''}
-    ${item.kind==='prayer'?`<div class="prayer-text" id="prayer-text">${item.parts.map(part=>`<p data-role="${part.role.toLowerCase()}"><span class="prayer-role prayer-role-${part.role.toLowerCase()}">${escape(part.role)}:</span> ${spokenMarkup(part.text)}</p>`).join('')}</div>`:`<figure class="mystery-image"><img src="${escape(item.image)}" alt="${escape(item.name)}" decoding="async"></figure>`}</article>
+    ${repetition.count>1?`<p class="repeat-progress">${index-repetition.start+1} of ${repetition.count}</p>${item.kind==='prayer'?`<div class="repeat-beads" aria-hidden="true">${Array.from({length:repetition.count},(_,bead)=>`<span class="prayer-bead${bead===index-repetition.start?' current':bead<index-repetition.start?' done':''}"></span>`).join('')}</div>`:''}`:''}
+    ${item.kind==='prayer'?`<div class="prayer-text" id="prayer-text">${item.parts.map(part=>`<p data-role="${part.role.toLowerCase()}"><span class="prayer-role prayer-role-${part.role.toLowerCase()}">${escape(part.role)}:</span> ${spokenMarkup(part.text)}</p>`).join('')}</div>`:`<blockquote class="mystery-scripture"><p>${escape(item.scripture)}</p><cite>${escape(item.citation)}</cite></blockquote><figure class="mystery-image"><img src="${escape(item.image)}" alt="${escape(item.name)}" decoding="async"></figure>`}</article>
     <footer class="reader-dock"><div class="dock-inner">${action('previous','Previous','chevron-left',index===0&&!state.reader.withIntro?'disabled':'')}<span class="count">${index+1} / ${set.ids.length}</span>${action('next',index===set.ids.length-1?'Finish':'Next','chevron-right','class="primary"')}</div></footer>`;
 }
 function turn(delta) {
@@ -331,8 +335,8 @@ async function handleAction(button) {
   if(key==='essentials')startReader({version:1,title:'The Essential Prayers',ids:['cross','ourFather','hailMary','gloryBe']});
   if(key==='resume'&&state.resume)startReader(state.resume.set,state.resume.index,state.resume.withIntro);
   if(key==='add'&&state.view==='class'&&dialog.open&&dialog.dataset.kind==='picker')addItem(id,Number($('picker-count').value));
-  if(key==='mystery-set'){state.mystery=id;render();focusMain();}
-  if(key==='all-mysteries'){state.mystery=null;render();focusMain();}
+  if(key==='mystery-set'&&mysterySets.some(set=>set.key===id)){state.view='prayers';state.mystery=id;render();focusMain();}
+  if(key==='all-mysteries'){state.view='prayers';state.mystery=null;render();$('mysteries-heading').focus({preventScroll:true});$('mysteries').scrollIntoView({behavior:'instant',block:'start'});}
   if(key==='reflect-set')startReader({version:1,title:`The ${mysterySets.find(set=>set.key===state.mystery).name} Mysteries`,ids:Array.from({length:5},(_,i)=>`${state.mystery}-${i+1}`)});
   if(key==='picker')picker();
   if(['move-up','move-down','remove'].includes(key)&&Number.isInteger(index)&&index>=0&&index<state.builder.ids.length){
@@ -386,7 +390,7 @@ async function handleAction(button) {
   }
   if(key==='print-qr')window.print();
   if(key==='native-share')try{await navigator.share({title:state.share.title,url:state.share.url});}catch(error){if(error.name!=='AbortError')notify('Sharing is unavailable. Use Copy Link instead.');}
-  if(key==='exit')navigate(state.view);
+  if(key==='exit')navigate(state.view,{keepPrayerGroup:true});
   if(key==='next')turn(1);
   if(key==='begin-prayer'&&state.reader?.index===-1)turn(1);
   if(key==='previous')turn(-1);
@@ -444,7 +448,7 @@ window.addEventListener('hashchange',event=>{
 });
 
 async function init() {
-  const response=await fetch('./prayers.json?v=20261012-prayer-opening');if(!response.ok)throw new Error('Prayer library could not load.');
+  const response=await fetch('./prayers.json?v=20261012-prayer-beads');if(!response.ok)throw new Error('Prayer library could not load.');
   catalog=createCatalog(await response.json());hydrate();
   if(!loadShared())render();
 }
