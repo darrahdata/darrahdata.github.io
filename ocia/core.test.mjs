@@ -25,14 +25,15 @@ test('the library preserves every prayer and all twenty mystery texts',()=>{
 
 test('prayer participation parts preserve every word and each prayer’s reading roles',()=>{
   const prayers=[...catalog.values()].filter(item=>item.kind==='prayer');
+  const together=['cross','apostlesCreed','niceneCreed','gloria','comeHolySpirit','graceBeforeMeals','guardianAngel','stMichael','actOfContrition','fatima'];
   const normalized=text=>text.replace(/\s+/g,' ').trim();
   assert.equal(prayers.length,15);
   for(const item of prayers){
-    if(item.id==='fatima')assert.deepEqual(item.parts,[{role:'Everyone',text:item.text}]);
+    if(together.includes(item.id))assert.deepEqual(item.parts,[{role:'Everyone',text:item.text}],item.id);
     else if(['hailHolyQueen','rosaryCollect'].includes(item.id))assert.deepEqual(item.parts.map(part=>part.role),['Everyone','Leader','Response'],item.id);
     else{
-      assert.ok(item.parts.length>=2,item.id);
-      assert.deepEqual([...new Set(item.parts.map(part=>part.role))],['Leader','Response'],item.id);
+      assert.ok(['ourFather','hailMary','gloryBe'].includes(item.id),item.id);
+      assert.deepEqual(item.parts.map(part=>part.role),['Leader','Response'],item.id);
     }
     assert.ok(item.parts.every(part=>part.text.length>0),item.id);
     assert.equal(normalized(item.parts.map(part=>part.text).join(' ')),normalized(item.text),item.id);
@@ -65,7 +66,7 @@ test('Rosary closing prayers match the requested wording and Everyone, Leader an
   assert.deepEqual(decodeSet(encodeSet(set,catalog),catalog),set,'Both stable IDs can be selected and shared in order');
 });
 
-test('Our Father and Hail Mary use the requested class reading boundaries',()=>{
+test('Our Father, Hail Mary and Glory Be use the group Rosary reading boundaries',()=>{
   assert.equal(catalog.get('ourFather').readerTitle,'Lord’s Prayer (Our Father)');
   assert.deepEqual(catalog.get('ourFather').parts,[
     {role:'Leader',text:'Our Father, who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven.'},
@@ -74,6 +75,10 @@ test('Our Father and Hail Mary use the requested class reading boundaries',()=>{
   assert.deepEqual(catalog.get('hailMary').parts,[
     {role:'Leader',text:'Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus.'},
     {role:'Response',text:'Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.'}
+  ]);
+  assert.deepEqual(catalog.get('gloryBe').parts,[
+    {role:'Leader',text:'Glory be to the Father, and to the Son, and to the Holy Spirit,'},
+    {role:'Response',text:'as it was in the beginning, is now, and ever shall be, world without end. Amen.'}
   ]);
   assert.equal(catalog.get('fatima').parts.map(part=>part.text).join(' ').match(/O my Jesus/g).length,1);
 });

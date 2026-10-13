@@ -30,29 +30,22 @@ export const mysterySets = [
   {key:'glorious',name:'Glorious',theme:'The Resurrection, the gift of the Holy Spirit, and the heavenly glory of Jesus and Mary.',days:'Wednesday & Sunday',image:'images/resurrection.jpg'}
 ];
 
-// Devotional reading turns; the original prayer text stays intact for other views.
+// The group's Rosary reading turns, not Mass rubrics. Other library prayers
+// are recited together; do not invent a leader/response split for each prayer.
 const prayerTurnStarts = {
-  cross:['Amen.'],
-  apostlesCreed:['I believe in the Holy Spirit'],
-  niceneCreed:['I believe in the Holy Spirit'],
   ourFather:['Give us this day'],
   hailMary:['Holy Mary, Mother of God'],
   gloryBe:['as it was in the beginning'],
-  gloria:['Lord Jesus Christ, Only Begotten Son'],
-  comeHolySpirit:['Send forth Thy Spirit'],
   hailHolyQueen:['Queen of the Most Holy Rosary','That we may be made worthy'],
-  rosaryCollect:['May the divine assistance','May the souls of the faithful departed'],
-  graceBeforeMeals:['Amen.'],
-  guardianAngel:['ever this day be at my side'],
-  stMichael:['May God rebuke him'],
-  actOfContrition:['I firmly resolve']
+  rosaryCollect:['May the divine assistance','May the souls of the faithful departed']
 };
 
 function createPrayerParts(id,text) {
-  if(id==='fatima')return [{role:'Everyone',text}];
+  const markers=prayerTurnStarts[id];
+  if(!markers)return [{role:'Everyone',text}];
   const roles=['hailHolyQueen','rosaryCollect'].includes(id)?['Everyone','Leader','Response']:null;
   const starts=[0];
-  for(const marker of prayerTurnStarts[id]) {
+  for(const marker of markers) {
     const start=text.indexOf(marker,starts.at(-1)+1);
     if(start<0)throw new Error(`Missing devotional reading turn for ${id}: ${marker}`);
     starts.push(start);

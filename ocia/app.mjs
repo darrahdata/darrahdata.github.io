@@ -1,6 +1,6 @@
 import {qrcode} from './vendor/qrcode.mjs';
 import {MAX_STEPS,defaultClassTitle,validateSet,encodeSet,decodeSet,shareURL,groupSteps,setStepCount,moveStepGroup} from './core.mjs?v=20261012-prayer-beads';
-import {createCatalog,mysterySets,massSections} from './content.mjs?v=20261012-rosary-closing';
+import {createCatalog,mysterySets,massSections} from './content.mjs?v=20261013-prayer-roles';
 
 const $ = id => document.getElementById(id);
 const main = $('main'), dialog = $('dialog');

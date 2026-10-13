@@ -579,6 +579,9 @@ test('class readers follow browser text size, ignore old preferences and never u
 
 test('prayer readers show the correct Everyone, Leader and Response parts on a phone',()=>browserTest(async browser=>{
   const prayerIds=['cross','apostlesCreed','niceneCreed','ourFather','hailMary','gloryBe','gloria','comeHolySpirit','hailHolyQueen','rosaryCollect','graceBeforeMeals','guardianAngel','stMichael','actOfContrition','fatima'];
+  const everyonePrayers=['cross','apostlesCreed','niceneCreed','gloria','comeHolySpirit','graceBeforeMeals','guardianAngel','stMichael','actOfContrition','fatima'];
+  const libraryPrayers=require('./prayers.json').prayers;
+  const completeText=id=>id==='cross'?'In the name of the Father, and of the Son, and of the Holy Spirit. Amen.':libraryPrayers[id].text;
   const splitPrayers={
     ourFather:[
       'Our Father, who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven.',
@@ -587,6 +590,10 @@ test('prayer readers show the correct Everyone, Leader and Response parts on a p
     hailMary:[
       'Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus.',
       'Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.'
+    ],
+    gloryBe:[
+      'Glory be to the Father, and to the Son, and to the Holy Spirit,',
+      'as it was in the beginning, is now, and ever shall be, world without end. Amen.'
     ]
   };
   const page=await browser.newPage({viewport:{width:320,height:568},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
@@ -595,20 +602,21 @@ test('prayer readers show the correct Everyone, Leader and Response parts on a p
   await beginPrayerSet(page,'Class Responses');
   for(const [index,id] of prayerIds.entries()){
     const roles=await page.locator('#prayer-text .prayer-role').allTextContents();
-    if(id==='fatima')assert.deepEqual(roles,['Everyone:']);
+    if(everyonePrayers.includes(id))assert.deepEqual(roles,['Everyone:'],`${id} is recited together`);
     else if(['hailHolyQueen','rosaryCollect'].includes(id))assert.deepEqual(roles,['Everyone:','Leader:','Response:']);
-    else{
-      assert.equal(roles[0],'Leader:',`${id} starts with the leader`);
-      assert.ok(roles.includes('Response:'),`${id} provides the response`);
-      assert.ok(roles.every(role=>['Leader:','Response:'].includes(role)),`${id} uses clear participation labels`);
-    }
+    else assert.deepEqual(roles,['Leader:','Response:'],`${id} has its leader and response turns`);
     for(const label of await page.locator('#prayer-text .prayer-role').all())assert.equal(await label.isVisible(),true);
     const words=await page.locator('#prayer-text .prayer-words').allTextContents();
     assert.equal(words.length,roles.length);
     assert.ok(words.every(text=>text.trim().length>0),`${id} has words for each part`);
+    assert.equal(await page.locator('#prayer-text q.prayer-words').count(),roles.length,`${id} quotes each spoken part`);
+    assert.equal(await page.locator('#prayer-text q .prayer-role').count(),0,'Participation labels are outside the spoken quotation');
+    if(everyonePrayers.includes(id)){
+      assert.deepEqual(words,[completeText(id)],`${id} preserves the complete prayer for Everyone`);
+      assert.equal(await page.locator('#prayer-text q.prayer-words').count(),1,'Everyone reads the complete prayer together');
+    }
     if(id==='fatima'){
       assert.deepEqual(words,['O my Jesus, forgive us our sins, save us from the fires of hell; lead all souls to heaven, especially those who are in most need of Your mercy. Amen.']);
-      assert.equal(await page.locator('#prayer-text q.prayer-words').count(),1,'Everyone reads the complete prayer together');
     }
     if(id==='hailHolyQueen')assert.deepEqual(words.slice(1),['Queen of the Most Holy Rosary, pray for us.','That we may be made worthy of the promises of Christ.']);
     if(id==='rosaryCollect')assert.deepEqual(words.slice(1),['May the divine assistance remain always with us.','May the souls of the faithful departed through the mercy of God rest in peace. Amen.']);
@@ -618,6 +626,10 @@ test('prayer readers show the correct Everyone, Leader and Response parts on a p
     }
     if(id==='ourFather')assert.equal(await page.locator('#reader-title').textContent(),'Lord’s Prayer (Our Father)');
     assert.equal(await page.locator('.reader-topline, .reading-help, .mystery-image, .desire').count(),0);
+    await page.evaluate(async()=>{
+      await document.fonts.ready;
+      await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+    });
     await noOverflow(page);
     await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));
     assert.ok(await page.evaluate(()=>document.querySelector('#prayer-text').getBoundingClientRect().bottom<document.querySelector('.reader-dock').getBoundingClientRect().top),`${id} can be read fully above the navigation`);
