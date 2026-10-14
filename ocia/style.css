@@ -110,7 +110,7 @@ dialog[data-kind="picker"]{container-type:inline-size}
 .picker-feedback button{flex:0 1 auto;color:var(--sage)}
 @media(max-width:600px){.picker-footer{bottom:-1rem;margin:0 -1rem -1rem;padding:.75rem 1rem 1rem}}
 
-@container(max-width:18rem){
+@container(max-width:14rem){
   .picker-footer{position:static}
   .picker-step-count>span{grid-column:1/-1;grid-row:1}
   #picker-results [data-action="picker-less"]{grid-column:1;grid-row:2}
