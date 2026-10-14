@@ -148,7 +148,7 @@ function renderClass() {
     `<div class="builder-layout"><section aria-label="Prayer Set Builder"><label class="field-label" for="class-title">Prayer Set Name</label><input id="class-title" maxlength="80" value="${escape(state.builder.title)}" autocomplete="off">
       ${creatorField('class-creator')}<div id="class-date-fields">${dateFields('class')}</div>
       <div class="builder-tools inline-actions">${action('picker','Add Prayer or Mystery','plus','class="secondary"')}<span class="eyebrow">${state.builder.ids.length} / ${MAX_STEPS} Pages</span></div>
-      <ol class="step-list">${groupSteps(state.builder.ids).map(stepMarkup).join('')}</ol>${state.builder.ids.length?'':'<p class="empty">Your prayer set is empty. Choose a prayer or mystery to begin.</p>'}
+      <ol class="step-list" tabindex="-1" aria-label="Prayer Set Order">${groupSteps(state.builder.ids).map(stepMarkup).join('')}</ol>${state.builder.ids.length?'':'<p class="empty">Your prayer set is empty. Choose a prayer or mystery to begin.</p>'}
       <div class="builder-footer">${action('preview','Preview','play',`${state.builder.ids.length?'':'disabled'}`)}${action('share','Share / QR Code','qr-code',`class="primary" ${state.builder.ids.length?'':'disabled'}`)}</div>
       <div class="inline-actions">${action('save','Save Prayer Set','save',`${state.builder.ids.length?'':'disabled'}`)}${action('new','New Prayer Set','file-plus')}</div>
       <p class="privacy">${storageOK?'Your draft is saved on this device.':'Saving is unavailable on this device.'} A shared link contains the prayer set’s details and order. Anyone with the link can open it; no account is needed. Leave private intentions out of the name.</p></section>
@@ -165,7 +165,7 @@ function renderHelp() {
     ]},
     {title:'My Prayers',view:'class',glyph:'users',paragraphs:[
       'Open saved prayer sets here. A shared link or QR code opens a set and saves it on this device; tap Begin Prayer to start.',
-      'To make a set, tap Create Prayer Set. Add prayers and mysteries, choose repeats such as ×10, then name and save it. Share QR lets you share it with others.'
+      'To make a set, tap Create Prayer Set. Add prayers and mysteries in order; numbered badges show where you added them. Choose repeats such as ×10. Tap Review Set to check the order, then name and save it. Share QR lets you share it with others.'
     ]},
     {title:'The Mass',view:'mass',glyph:'church',paragraphs:[
       'Scroll through the Mass in order, or use the four section links to find your place.',
@@ -236,8 +236,13 @@ function addItems(ids) {
 function addItem(id,count=1) {
   if(!catalog.has(id)||!Number.isInteger(count)||count<1||count>MAX_STEPS||!addItems(Array(count).fill(id)))return;
   if(state.view==='class'&&!state.reader)render();
-  if(dialog.open&&dialog.dataset.kind==='picker')renderPickerItems($('picker-search').value);
-  notify(`${catalog.get(id).name}${count>1?` ×${count}`:''} added to My Prayers.`);
+  if(dialog.open&&dialog.dataset.kind==='picker'){
+    returnFocus=main.querySelector('[data-action="picker"]');
+    renderPickerItems($('picker-search').value);
+    const groups=groupSteps(state.builder.ids), position=groups.length, total=groups.at(-1).count;
+    $('picker-status').textContent=`Position ${position}: ${catalog.get(id).name}${total>1?` ×${total}`:''}.${state.builder.ids.length===MAX_STEPS?' Your set is full. Review it to make changes.':''}`;
+    dialog.querySelector(state.builder.ids.length===MAX_STEPS?'[data-action="review-set"]':`[data-action="add"][data-id="${id}"]`)?.focus({preventScroll:true});
+  }else notify(`${catalog.get(id).name}${count>1?` ×${count}`:''} added to My Prayers.`);
 }
 function startReader(set,index=0,withIntro=false) {
   clearNotice();set=validateSet(set,catalog);if(!set.ids.length)return;
@@ -279,18 +284,37 @@ function showDialog(kind,title,content) {
   icons();dialog.showModal();
 }
 function picker() {
-  showDialog('picker','Add to Your Prayer Set',`<label class="field-label" for="picker-search">Prayer or Mystery</label><input type="search" id="picker-search" placeholder="Search Prayers and Mysteries" autocomplete="off"><div class="picker-repetitions"><label class="field-label" for="picker-count">Repetitions</label><select id="picker-count">${countOptions(1,Math.max(1,MAX_STEPS-state.builder.ids.length))}</select></div><ul class="dialog-content-list" id="picker-results"></ul>`);
+  showDialog('picker','Add to Your Prayer Set',`<p class="picker-help">Tap to add. Numbers show the order in your set.</p><label class="sr-only" for="picker-search">Prayer or Mystery</label><input type="search" id="picker-search" placeholder="Search Prayers and Mysteries" autocomplete="off"><div class="picker-repetitions"><label class="field-label" for="picker-count">Repetitions</label><select id="picker-count">${countOptions(1,Math.max(1,MAX_STEPS-state.builder.ids.length))}</select></div><p id="picker-status" class="picker-status" role="status" aria-live="polite" aria-atomic="true"></p><ul class="dialog-content-list" id="picker-results"></ul><footer class="picker-footer"><span id="picker-summary"></span>${action('review-set','Review Set','','class="primary"')}</footer>`);
   renderPickerItems('');
+  if(state.builder.ids.length===MAX_STEPS)$('picker-status').textContent='Your set is full. Review it to remove a prayer or reduce repetitions.';
   if(!matchMedia('(pointer: coarse)').matches)$('picker-search').focus();
 }
 function renderPickerItems(query) {
+  const scrollTop=dialog.scrollTop;
+  const focusedId=document.activeElement?.closest('#picker-results [data-id]')?.dataset.id;
   const remaining=MAX_STEPS-state.builder.ids.length;
   const count=Number($('picker-count').value)||1;
   $('picker-count').innerHTML=countOptions(Math.min(count,Math.max(1,remaining)),Math.max(1,remaining));
   $('picker-count').disabled=remaining===0;
+  const selectedCount=Number($('picker-count').value);
+  const groups=groupSteps(state.builder.ids);
+  const positions=new Map();
+  groups.forEach((group,index)=>{
+    if(!positions.has(group.id))positions.set(group.id,[]);
+    positions.get(group.id).push({position:index+1,count:group.count});
+  });
   const items=[...catalog.values()].filter(item=>`${item.name} ${item.category}`.toLowerCase().includes(query.toLowerCase()));
-  $('picker-results').innerHTML=remaining===0?`<li class="empty">Your prayer set has ${MAX_STEPS} pages. Reduce a repetition count or remove an item to add more.</li>`:items.length?items.map(item=>`<li><button type="button" data-action="add" data-id="${item.id}"><span>${escape(item.name)}<small>${escape(item.category)}</small></span>${icon('plus')}</button></li>`).join(''):'<li class="empty">No matching prayers or mysteries.</li>';
+  $('picker-results').innerHTML=items.length?items.map(item=>{
+    const selected=positions.get(item.id)||[];
+    const label=`Add ${item.name}${selected.length?' Again':''} ×${selectedCount}`;
+    const selection=selected.length?`<span class="picker-selection" id="picker-selected-${item.id}"><span>In Your Set:</span>${selected.map(({position,count})=>`<span class="picker-position" aria-label="Position ${position}${count>1?`, ${count} Repetitions`:''}">${position}${count>1?` <span>×${count}</span>`:''}</span>`).join('')}</span>`:'';
+    return `<li><button type="button" data-action="add" data-id="${item.id}" class="picker-item${selected.length?' is-added':''}" aria-label="${escape(label)}" ${selected.length?`aria-describedby="picker-selected-${item.id}"`:''} ${remaining===0?'disabled':''}><span class="picker-label">${escape(item.name)}<small>${escape(item.category)}</small>${selection}</span><span class="picker-add">${icon('plus')}<span>${selected.length?'Add Again':'Add'}</span></span></button></li>`;
+  }).join(''):'<li class="empty">No matching prayers or mysteries.</li>';
+  $('picker-summary').textContent=`${groups.length} ${groups.length===1?'Item':'Items'} · ${state.builder.ids.length} / ${MAX_STEPS} Pages`;
+  dialog.querySelector('[data-action="review-set"]').disabled=groups.length===0;
   icons();
+  if(focusedId)dialog.querySelector(remaining===0?'[data-action="review-set"]':`[data-action="add"][data-id="${focusedId}"]`)?.focus({preventScroll:true});
+  dialog.scrollTop=scrollTop;
 }
 function contents() {
   showDialog('contents',state.reader.set.title,`<ol class="dialog-content-list">${state.reader.set.ids.map((id,index)=>`<li><button type="button" data-action="jump" data-index="${index}" ${index===state.reader.index?'aria-current="step"':''}><span>${index+1}. ${escape(catalog.get(id).name)}</span>${index===state.reader.index?icon('check'):''}</button></li>`).join('')}</ol>`);
@@ -340,6 +364,10 @@ function loadShared() {
 async function handleAction(button) {
   const {action:key,id}=button.dataset, index=Number(button.dataset.index);
   if(key==='close-dialog'){dialog.close();return;}
+  if(key==='review-set'&&dialog.dataset.kind==='picker'){
+    returnFocus=main.querySelector('.step-list');
+    dialog.close();returnFocus?.scrollIntoView({behavior:'instant',block:'start'});return;
+  }
   if(key==='browse-prayers'){dialog.close();navigate('prayers');return;}
   if(key==='prepare-class'||key==='class-overview'){
     state.view='class';state.classOverview=false;state.builderOpen=key==='prepare-class';writeStore('builder-open',state.builderOpen);render();focusMain();
@@ -432,6 +460,7 @@ document.addEventListener('submit',event=>{
   if(dialog.open&&dialog.dataset.kind==='save-set')saveClass($('saved-set-name').value,$('saved-set-creator').value);
 });
 document.addEventListener('change',event=>{
+  if(event.target.id==='picker-count')renderPickerItems($('picker-search').value);
   if(event.target.matches('[data-step-count]')&&state.view==='class'&&!state.reader){
     const start=Number(event.target.dataset.stepCount);
     try{
