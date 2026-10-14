@@ -78,21 +78,41 @@ q.prayer-words{quotes:"“" "”" "‘" "’"}.prayer-role-leader{color:var(--go
 .qr{width:min(100%,340px);background:#fff;color:#000;color-scheme:only light;forced-color-adjust:none}.qr canvas{display:block;width:100%;height:auto;background:#fff;filter:none!important;opacity:1!important;color-scheme:only light;forced-color-adjust:none}
 @media print{.qr{width:300px}}
 
-/* Show the draft's grouped order while choosing prayers. */
+/* Keep a step's order separate from the number of times it is prayed. */
+dialog[data-kind="picker"]{container-type:inline-size}
 .picker-help{color:var(--soft);font-size:.9rem;margin:0 0 1rem}
 .picker-repetitions{flex-wrap:wrap}
 .picker-status{color:var(--sage);font-size:.85rem;margin:.5rem 0;overflow-wrap:anywhere}
 .picker-status:empty{display:none}
 #picker-results .picker-item{padding:1rem .5rem;gap:.75rem;border-radius:0;min-width:0;flex-wrap:wrap}
-#picker-results .picker-item.is-added{background:#aebd920a}
 .picker-label{flex:1 1 10rem;min-width:0;overflow-wrap:anywhere}
 .picker-add{display:flex;flex:0 0 3.5rem;flex-direction:column;align-items:center;gap:.2rem;margin-left:auto;color:var(--sage);font-size:.75rem;text-align:center;line-height:1.3}
-.picker-selection{display:flex;align-items:center;flex-wrap:wrap;gap:.35rem;margin-top:.5rem;color:var(--sage);font-size:.78rem;line-height:1.5}
-.picker-position{display:inline-flex;flex:0 0 auto;align-items:center;gap:.3rem;white-space:nowrap;min-width:1.6rem;min-height:1.6rem;justify-content:center;border:1px solid var(--sage);border-radius:5px;padding:.1rem .4rem;font-weight:600;font-variant-numeric:tabular-nums}
-.picker-position>span{font-weight:400}
+#picker-results .is-added{padding:1rem 0;border-bottom:1px solid var(--line)}
+.picker-step{padding:1rem;background:var(--surface-raised);border:1px solid var(--line);border-radius:8px}
+.picker-step+.picker-step{margin-top:.75rem}
+.picker-step-number{display:block;color:var(--sage);font-size:.8rem;font-weight:600;margin-bottom:.25rem}
+.picker-step h3{font:600 1.1rem/1.4 system-ui,sans-serif;color:var(--text)}
+.picker-step>small{display:block;color:var(--muted);font-size:.8rem;overflow-wrap:anywhere}
+.picker-step-count{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;gap:.5rem;margin-top:.85rem}
+.picker-step-count>span{flex:1 1 5rem;text-align:center;font-size:.9rem;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.5}
+#picker-results .picker-step-count button{width:48px;min-width:48px;height:48px;min-height:48px;flex:0 0 48px;border:1px solid var(--line);padding:0;justify-content:center;background:var(--surface);border-radius:6px}
+#picker-results .picker-remove{width:auto;max-width:100%;min-height:48px;margin-top:.5rem;padding:.5rem 0;border:0;color:var(--muted);font-size:.8rem}
+.picker-remove .button-content{flex-wrap:wrap;justify-content:flex-start;text-align:left}
+#picker-results .picker-remove:hover{color:var(--danger)}
+#picker-results .picker-add-again{width:auto;max-width:100%;min-height:48px;margin-top:.4rem;padding:.5rem;border:0;justify-content:flex-start;gap:.5rem;color:var(--sage);font-size:.85rem}
 #picker-results .picker-item:disabled{opacity:1;cursor:default}
 #picker-results .picker-item:disabled .picker-add{visibility:hidden}
 .picker-footer{position:sticky;bottom:-1.25rem;z-index:1;background:var(--surface);margin:0 -1.25rem -1.25rem;padding:.75rem 1.25rem 1.25rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem}
 #picker-summary{flex:1 1 8rem;color:var(--soft);font-size:.8rem}
 .picker-footer button{flex:1 1 8rem;min-height:48px;padding:.7rem .6rem}
+.picker-feedback{flex:1 1 100%;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .75rem;padding-bottom:.6rem;border-bottom:1px solid var(--line)}
+#picker-removed{flex:1 1 10rem;font-size:.85rem;color:var(--sage);line-height:1.5;overflow-wrap:anywhere}
+.picker-feedback button{flex:0 1 auto;color:var(--sage)}
 @media(max-width:600px){.picker-footer{bottom:-1rem;margin:0 -1rem -1rem;padding:.75rem 1rem 1rem}}
+
+@container(max-width:18rem){
+  .picker-footer{position:static}
+  .picker-step-count>span{grid-column:1/-1;grid-row:1}
+  #picker-results [data-action="picker-less"]{grid-column:1;grid-row:2}
+  #picker-results [data-action="picker-more"]{grid-column:3;grid-row:2}
+}

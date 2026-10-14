@@ -660,7 +660,7 @@ test('How to Use explains each current tab with working shortcuts on a phone',()
   assert.equal(await page.getByRole('button',{name:'How to Use',exact:true}).getAttribute('aria-current'),'page');
   assert.deepEqual(await page.locator('.help-guide h2').allTextContents(),['Prayers','My Prayers','The Mass']);
   const help=await page.locator('main').textContent();
-  for(const instruction of [/Mysteries of the Rosary/,/join in for Response or Everyone/,/Tap the right side of a prayer/,/Begin Prayer/,/choose repeats such as ×10/i,/saves it on this device/,/Scroll through the Mass in order/,/four section links/])assert.match(help,instruction);
+  for(const instruction of [/Mysteries of the Rosary/,/join in for Response or Everyone/,/Tap the right side of a prayer/,/Begin Prayer/,/Pray 10 Times/i,/Remove Step/,/Undo/,/saves it on this device/,/Scroll through the Mass in order/,/four section links/])assert.match(help,instruction);
   assert.doesNotMatch(help,/Adjust Text Size|text-size settings/);
   await noOverflow(page);
   await page.getByRole('button',{name:'Open Prayers',exact:true}).tap();
